@@ -1,8 +1,8 @@
 
 /* =====================================================================
-   LINGROW ACADEMY — COURSE LAYER
+   LEOGROW — COURSE LAYER
    One course = units → short lessons. Every lesson is a mini version of
-   the classic Lingrow lesson (trail of zones, Leo, coins, bonus round),
+   the classic Leogrow lesson (trail of zones, Leo, coins, bonus round),
    built from the same exercise engine above.
    ===================================================================== */
 
@@ -1394,8 +1394,8 @@ mkUnit({id:"aa0",level:"A0",track:"adults",topic:"First Contact",title:"Nice to 
    {q:"He ___ married.",opts:["isn't","aren't","not"],correct:0},
   ],
   wordle:[["are","✅"],["from","🌍"],["name","🪪"],["fine","👍"]]},
- reading:{title:"At reception",emoji:"🏨",intro:"Read a short dialogue at a language school, then answer, translate and write about yourself.",storyTitle:"First Day at Lingrow School",label:"Dialogue",paras:[
-   "<b>First Day at Lingrow School</b>",
+ reading:{title:"At reception",emoji:"🏨",intro:"Read a short dialogue at a language school, then answer, translate and write about yourself.",storyTitle:"First Day at Leogrow School",label:"Dialogue",paras:[
+   "<b>First Day at Leogrow School</b>",
    "<b>Receptionist:</b> Good morning! Can I help you?<br><b>Tomasz:</b> Good morning. Yes, I'm a new student. My name is Tomasz Wiśniewski.",
    "<b>Receptionist:</b> Nice to meet you, Tomasz. How do you spell your surname?<br><b>Tomasz:</b> W-I-S-N-I-E-W-S-K-I.<br><b>Receptionist:</b> Thank you. And how old are you?<br><b>Tomasz:</b> I'm forty-one.",
    "<b>Receptionist:</b> What's your job?<br><b>Tomasz:</b> I'm an engineer. I work for a big company in Wrocław.<br><b>Receptionist:</b> Great. And what's your phone number?<br><b>Tomasz:</b> It's 604 718 220.",
@@ -2974,7 +2974,7 @@ function renderPlacement(){
 
 /* screen 1: home — pick Kids or Adults */
 function homeHtml(){
-  let h=`<div class="panel course-hero"><div class="hero-text">${zoneTag('LINGROW ACADEMY')}<h2 class="title">Who is learning today?</h2><p class="sub">Pick your section — each one has its own levels, lessons and style.</p></div>
+  let h=`<div class="panel course-hero"><div class="hero-text">${zoneTag('LEOGROW')}<h2 class="title">Who is learning today?</h2><p class="sub">Pick your section — each one has its own levels, lessons and style.</p></div>
     <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id), s=statsOf(ls);
@@ -3059,7 +3059,7 @@ const PL_UI={
  "Read the story.":"Przeczytaj historię.","True, False or Not given?":"Prawda, fałsz czy brak informacji?","True or False?":"Prawda czy fałsz?","True ✅":"Prawda ✅","False ❌":"Fałsz ❌","Not given ❔":"Brak informacji ❔",
  "Do the action, then click \"Done!\".":"Zrób ruch, potem kliknij „Gotowe!”.","Done! ✅":"Gotowe! ✅","Listen and choose":"Posłuchaj i wybierz","Listen and choose the same sentence.":"Posłuchaj i wybierz to samo zdanie.",
  "Which is correct?":"Co jest poprawne?","Write it in English ✍️":"Napisz po angielsku ✍️","Not sure where to start?":"Nie wiesz, od czego zacząć?",
- "Get the Lingrow app":"Pobierz aplikację Lingrow","Install":"Zainstaluj",
+ "Get the Leogrow app":"Pobierz aplikację Leogrow","Install":"Zainstaluj",
  "Words":"Słówka","Find it":"Znajdź","Spell it":"Literuj","Match":"Połącz","Balloon Pop":"Balony","Memory":"Memory","Mime & say":"Pokaż i powiedz","Listen":"Słuchanie","Build it":"Ułóż","Find the error":"Znajdź błąd","Fill it":"Uzupełnij","Quiz":"Quiz","Story":"Historyjka","Translation":"Tłumaczenie","Write the words":"Napisz słowa","Word quiz":"Quiz słówek","What does it mean?":"Co to znaczy?","All words":"Wszystkie słowa","Grammar test":"Test z gramatyki","Error hunt":"Polowanie na błędy","True or false?":"Prawda czy fałsz?","True/False/NG":"P/F/BI","Questions":"Pytania","Listening":"Słuchanie",
  "FIND IT!":"ZNAJDŹ!","SPELL IT":"LITERUJ","MATCH":"POŁĄCZ","BALLOON POP":"BALONY","ODD ONE OUT":"NIE PASUJE","BONUS":"BONUS","WHACK-A-LEO":"TRAF LEO","BUILD IT":"UŁÓŻ","READING":"CZYTANIE","READING CHECK":"SPRAWDŹ CZYTANIE","TRUE OR FALSE?":"PRAWDA CZY FAŁSZ?","TYPE IT":"WPISZ","GRAMMAR":"GRAMATYKA","MEMORY":"MEMORY","LISTEN":"SŁUCHANIE","TRANSLATION":"TŁUMACZENIE","WRITING":"PISANIE","QUIZ":"QUIZ","FILL IT":"UZUPEŁNIJ","ERROR HUNT":"POLOWANIE NA BŁĘDY",
 };

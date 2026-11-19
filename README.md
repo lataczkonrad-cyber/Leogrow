@@ -1,4 +1,4 @@
-# Leogrow (Lingrow Academy) — English A0 → C1 with Leo
+# Leogrow — English A0 → C1 with Leo
 
 - `site/` — the live website. Netlify publishes this folder automatically on every push to `main`.
 - `src/` — sources. Rebuild the site with:

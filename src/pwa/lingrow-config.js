@@ -1,4 +1,4 @@
-/* Lingrow Academy — connection settings for accounts and progress sync.
+/* Leogrow — connection settings for accounts and progress sync.
    Values from Supabase → Project Settings. Both are safe to be public. */
 window.LINGROW_CONFIG = window.LINGROW_CONFIG || {
   supabaseUrl: "https://dqksrcffgkngjbkkfhby.supabase.co",

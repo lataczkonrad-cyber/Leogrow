@@ -7,7 +7,7 @@ head='''<meta name="theme-color" content="#050a30">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Lingrow">
+<meta name="apple-mobile-web-app-title" content="Leogrow">
 <link rel="manifest" href="lingrow.webmanifest">
 <link rel="apple-touch-icon" href="lingrow-icon-180.png">
 <link rel="icon" type="image/png" href="lingrow-icon-192.png">
@@ -24,11 +24,11 @@ if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
   window.addEventListener('load',()=>navigator.serviceWorker.register('lingrow-sw.js').catch(()=>{}));
 }
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_installEvt=e;if(!activeLesson)renderCourse();});
-window.addEventListener('appinstalled',()=>{_installEvt=null;if(!activeLesson)renderCourse();_comboToastText('📲 Lingrow is on your home screen!');});
+window.addEventListener('appinstalled',()=>{_installEvt=null;if(!activeLesson)renderCourse();_comboToastText('📲 Leogrow is on your home screen!');});
 function installCard(){
   if(isStandalone()) return '';
-  if(_installEvt) return `<div class="install-card"><span>📲</span><div><b>Get the Lingrow app</b><p>Install it on your phone — it opens full-screen and works offline.</p></div><button class="btn btn-gold lesson-btn" onclick="installApp()">Install</button></div>`;
-  if(isIOS&&/^https?:$/.test(location.protocol)) return `<div class="install-card"><span>📲</span><div><b>Get the Lingrow app</b><p>Tap <b>Share</b> ⬆️ then <b>Add to Home Screen</b> — it opens full-screen and works offline.</p></div></div>`;
+  if(_installEvt) return `<div class="install-card"><span>📲</span><div><b>Get the Leogrow app</b><p>Install it on your phone — it opens full-screen and works offline.</p></div><button class="btn btn-gold lesson-btn" onclick="installApp()">Install</button></div>`;
+  if(isIOS&&/^https?:$/.test(location.protocol)) return `<div class="install-card"><span>📲</span><div><b>Get the Leogrow app</b><p>Tap <b>Share</b> ⬆️ then <b>Add to Home Screen</b> — it opens full-screen and works offline.</p></div></div>`;
   return '';
 }
 function installApp(){if(!_installEvt)return;_installEvt.prompt();_installEvt.userChoice.finally(()=>{_installEvt=null;renderCourse();});}

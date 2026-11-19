@@ -9,7 +9,7 @@ css_course=open(os.path.join(HERE,'course.css')).read()+"\nbody:not(.in-lesson) 
 course_js=open(os.path.join(HERE,'course.js')).read()
 
 head,rest=src.split('<body>',1)
-head=head.replace('<title>Lingrow Academy — Unit 3: Technology for All</title>','<title>Lingrow Academy — English A0–C1</title>')
+head=head.replace('<title>Leogrow — Unit 3: Technology for All</title>','<title>Leogrow — English A0–C1</title>')
 head=head.replace('</style>',css_course+'</style>',1)
 
 logo=re.search(r'<div class="brand-mark">\s*<img src="(data:image[^"]+)"',src).group(1)
@@ -19,9 +19,9 @@ body=f'''<body>
   <div class="topbar">
     <div class="brand">
       <div class="brand-mark">
-        <img src="{logo}" alt="Lingrow Academy">
+        <img src="{logo}" alt="Leogrow">
       </div>
-      <div class="brand-text">LINGROW ACADEMY</div>
+      <div class="brand-text">LEOGROW</div>
     </div>
     <div class="topbar-controls">
       <button class="back-course" onclick="showCourse()" title="Back to the course">🗺️ Course</button>

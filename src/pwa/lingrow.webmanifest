@@ -1,6 +1,6 @@
 {
-  "name": "Lingrow Academy",
-  "short_name": "Lingrow",
+  "name": "Leogrow",
+  "short_name": "Leogrow",
   "description": "Learn English from A0 to C1 with Leo — lessons, games, Wordle and the Fortune Wheel.",
   "start_url": "./lingrow-academy.html",
   "scope": "./",
