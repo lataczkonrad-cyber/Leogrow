@@ -29,7 +29,7 @@ VDIR = os.path.join(HERE, '..', 'src', 'voice')
 KEY = os.environ.get('ELEVEN_KEY', '').strip()
 VOICE = os.environ.get('ELEVEN_VOICE', '').strip()
 MODEL = os.environ.get('ELEVEN_MODEL', 'eleven_multilingual_v2')
-TAG = '-v5'        # bump when clips are remade, so browsers/CDN fetch the new files
+TAG = '-v6'        # bump when clips are remade, so browsers/CDN fetch the new files
 REDO = '--redo' in sys.argv
 FIX = '--fix' in sys.argv
 POLISH = '--polish' in sys.argv
@@ -45,7 +45,7 @@ PHRASE_SPEED = 0.85   # sentences a little calmer so no word gets swallowed
 GROUP_SETTINGS = {
     'win': {'stability': 0.3, 'style': 0.7, 'speed': 1.0},      # end of lesson: really excited
     'praise': {'stability': 0.45, 'style': 0.4, 'speed': 1.0},  # upbeat
-    'say': {'stability': 0.55, 'style': 0.15, 'speed': 0.95},   # reading the grey intro/instruction text: warm, clear
+    'intro': {'stability': 0.4, 'similarity_boost': 0.8, 'style': 0.3, 'speed': 1.0},  # lesson intro on the first page: relaxed, natural
 }
 
 
@@ -102,6 +102,9 @@ def is_phrase(t):
 
 def ok(t, path):
     sp, gap = measure(path)
+    if GROUP.get(t) == 'intro':   # natural reading: allow comma pauses, only reject odd gaps or a far-off pace
+        r = sp / expected(prep(t))
+        return 0.55 <= r <= 1.7 and gap <= 0.5
     r = sp / expected(prep(t))
     return 0.65 <= r <= 1.45 and gap <= 0.2
 

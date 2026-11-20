@@ -188,10 +188,10 @@ if os.path.exists(_lj) and os.path.exists(_li):
         LEO_CLIPS[_g]=[f for f in _fs if f and os.path.exists(os.path.join(_VDIR,f))]
 _lsay={}
 if os.path.exists(_lj) and os.path.exists(_li):
-    for _t in __import__('json').load(open(_lj)).get('say',[]):
+    for _t in __import__('json').load(open(_lj)).get('intro',[]):
         _f=_lidx.get(' '.join(_t.strip().lower().split()))
         if _f and os.path.exists(os.path.join(_VDIR,_f)): _lsay[_t]=_f
-    LEO_CLIPS.pop('say',None)
+    LEO_CLIPS.pop('intro',None)
 LEO_SAY={' '.join(k.strip().lower().split()):v for k,v in _lsay.items()}
 _LEO_JS=("const LEO_CLIPS="+__import__('json').dumps(LEO_CLIPS)+";const LEO_SAY="+__import__('json').dumps(LEO_SAY,ensure_ascii=False)+";let _leoLast='';window._leoTalking=false;\n"
  "function _leoPlay(f){const a=_vGet(f);if(_vAud&&_vAud!==a)_vAud.pause();_vAud=a;a.currentTime=0;window._voiceBusy=true;window._leoTalking=true;"
@@ -202,10 +202,10 @@ _LEO_JS=("const LEO_CLIPS="+__import__('json').dumps(LEO_CLIPS)+";const LEO_SAY=
  "if(!l||!l.length||Math.random()>prob||window._voiceBusy)return;let f=l[Math.floor(Math.random()*l.length)];"
  "if(f===_leoLast&&l.length>1)f=l[(l.indexOf(f)+1)%l.length];_leoLast=f;"
  "setTimeout(()=>{if(window._voiceBusy)return;_leoPlay(f);},delay||450);}catch(e){}}\n"
- # Leo reads the grey text under the title when a new step of the lesson opens
+ # Leo reads the grey intro text on the first page of a lesson (not the instructions on later steps)
  "function _leoKey(t){return String(t||'').replace(/\\(\\s*\\d+\\s*\\/\\s*\\d+\\s*\\)\\s*$/,'').trim()"
  ".replace(/^(Question|Pytanie|Word|Słowo)\\s*\\d+\\s*\\/\\s*\\d+\\s*[.\u2014\u2013-]?\\s*/,'').trim().toLowerCase().split(/\\s+/).join(' ');}\n"
- "function leoRead(){try{if(typeof soundOn!=='undefined'&&!soundOn)return;const e=document.querySelector('#lessonView .sub');if(!e)return;"
+ "function leoRead(){try{if(typeof soundOn!=='undefined'&&!soundOn)return;if(typeof zones==='undefined'||!zones[current]||zones[current].type!=='welcome'){if(window._leoTalking&&_vAud)_vAud.pause();return;}const e=document.querySelector('#lessonView .sub');if(!e)return;"
  "const f=LEO_SAY[_leoKey(e.textContent)];if(!f)return;window._leoTalking=true;"
  "setTimeout(()=>_leoPlay(f),250);}catch(e){}}\n")
 engine=engine.replace("function _ttsSpeak(t){",_LEO_JS+"function _ttsSpeak(t){",1)
