@@ -5067,6 +5067,10 @@ Object.assign(PL_UI,{
  "🧒 Kids":"🧒 Dzieci","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli","Welcome back.":"Witaj ponownie.","Ready for the next one?":"Gotowy na kolejną?","Let's keep going! 🚀":"Działamy dalej! 🚀",
 });
 
+/* tapping the Leogrow badge or name goes back home (stays on the same page, so /tester stays the tester home) */
+function goHome(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;nav();}
+(function(){const b=document.querySelector('.topbar .brand');if(b){b.setAttribute('role','link');b.title='Home';b.style.cursor='pointer';b.onclick=goHome;}})();
+
 initCloud();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
