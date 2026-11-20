@@ -29,11 +29,16 @@ VDIR = os.path.join(HERE, '..', 'src', 'voice')
 KEY = os.environ.get('ELEVEN_KEY', '').strip()
 VOICE = os.environ.get('ELEVEN_VOICE', '').strip()
 MODEL = os.environ.get('ELEVEN_MODEL', 'eleven_multilingual_v2')
-TAG = '-v7'        # bump when clips are remade, so browsers/CDN fetch the new files
+# Short lesson lines (1-3 words) go to a model that can be locked to English. The multilingual
+# model guesses the language from the text, and on one word it can guess wrong (e.g. 'pilot' is
+# also a Polish word, so it came out with a Polish accent).
+SHORT_MODEL = os.environ.get('ELEVEN_SHORT_MODEL', 'eleven_turbo_v2_5')
+TAG = '-v8'        # bump when clips are remade, so browsers/CDN fetch the new files
 REDO = '--redo' in sys.argv
 FIX = '--fix' in sys.argv
 POLISH = '--polish' in sys.argv
 LEO = '--leo' in sys.argv   # Leo's own lines (src/voice/leo_lines.json), usually in the owner's voice
+SHORT = '--short' in sys.argv   # remake only the 1-3 word lesson lines
 ONLY = next((a.split('=', 1)[1].split(',') for a in sys.argv if a.startswith('--only=')), None)  # --leo --only=win remakes one group
 if not POLISH and (not KEY or not VOICE):
     sys.exit('Set ELEVEN_KEY and ELEVEN_VOICE first.')
@@ -118,10 +123,17 @@ def score(t, speech, gap):
     return s
 
 
+def is_short(t):
+    return not LEO and len(t.split()) <= 3
+
+
 def tts(text, seed, speed, extra=None):
     url = f'https://api.elevenlabs.io/v1/text-to-speech/{VOICE}?output_format=mp3_44100_128'
-    body = json.dumps({'text': text, 'model_id': MODEL, 'seed': seed,
-                       'voice_settings': dict(SETTINGS, speed=speed, **(extra or {}))}).encode()
+    req_body = {'text': text, 'model_id': MODEL, 'seed': seed,
+                'voice_settings': dict(SETTINGS, speed=speed, **(extra or {}))}
+    if is_short(text):
+        req_body.update(model_id=SHORT_MODEL, language_code='en')
+    body = json.dumps(req_body).encode()
     req = urllib.request.Request(url, data=body, method='POST', headers={
         'xi-api-key': KEY, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
     for attempt in range(4):
@@ -198,7 +210,9 @@ if POLISH:
     save()
     sys.exit(f'Polished. {len(index)} clips.')
 
-if ONLY:
+if SHORT:
+    todo = [t for t in lines if is_short(t)]
+elif ONLY:
     todo = [t for t in lines if GROUP.get(t) in ONLY]
 elif REDO:
     todo = list(lines)
