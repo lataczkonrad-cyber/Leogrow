@@ -29,7 +29,7 @@ VDIR = os.path.join(HERE, '..', 'src', 'voice')
 KEY = os.environ.get('ELEVEN_KEY', '').strip()
 VOICE = os.environ.get('ELEVEN_VOICE', '').strip()
 MODEL = os.environ.get('ELEVEN_MODEL', 'eleven_multilingual_v2')
-TAG = '-v6'        # bump when clips are remade, so browsers/CDN fetch the new files
+TAG = '-v7'        # bump when clips are remade, so browsers/CDN fetch the new files
 REDO = '--redo' in sys.argv
 FIX = '--fix' in sys.argv
 POLISH = '--polish' in sys.argv
@@ -134,9 +134,24 @@ def tts(text, seed, speed, extra=None):
             raise RuntimeError(f'HTTP {e.code} {msg}')
 
 
+def speech_end(path):
+    """Seconds where the voice really ends. TTS voices often add a breath or sigh after the
+    last word: a long, quiet (about 30-45 dB under the peak), noisy tail. Everything after the
+    last frame within 28 dB of the peak is cut, keeping 60 ms so final consonants stay whole."""
+    x = pcm(path)
+    fr = x[:len(x) // 320 * 320].reshape(-1, 320)          # 20 ms frames at 16 kHz
+    db = 20 * np.log10(np.sqrt((fr ** 2).mean(1)) + 1e-9)
+    loud = np.where(db > db.max() - 28)[0]
+    if not len(loud):
+        return None
+    return (loud[-1] + 1) * 0.02 + 0.06
+
+
 def polish(src, dst):
-    """Trim silence, even loudness, soft edges, short lead-in and tail."""
-    af = ('silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.02,'
+    """Cut the trailing breath, trim silence, even loudness, soft edges, short lead-in and tail."""
+    end = speech_end(src)
+    cut = f'atrim=end={end:.3f},afade=t=out:st={max(end - 0.06, 0):.3f}:d=0.06,' if end else ''
+    af = (cut +'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.02,'
           'areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05,areverse,'
           'loudnorm=I=-16:TP=-1.5:LRA=11,'
           'afade=t=in:d=0.01,areverse,afade=t=in:d=0.04,areverse,'
