@@ -3443,3 +3443,28 @@ function leoWaveArm(rig){
 })();
 
 initCloud();
+
+/* --- Fit text inside cards: long sentences in big answer cards and long words on memory cards
+   shrink until they fit, so nothing spills over the edge on phone, tablet or PC. --- */
+(function(){
+  const SEL='.opt,.memory-front,.tile,.wd-cell,.cb-card,.flash-front,.flash-back,.lesson-chip,.btn';
+  function isTextual(el){const t=(el.textContent||'').trim();return t.length>3&&/[A-Za-zÀ-ž]/.test(t);}
+  function fit(el){
+    if(!el.isConnected)return;
+    el.style.fontSize='';
+    if(el.classList.contains('big-opt')&&isTextual(el))el.classList.add('big-txt');
+    let fs=parseFloat(getComputedStyle(el).fontSize),n=0;
+    while(n++<30&&fs>12&&(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1&&getComputedStyle(el).overflow!=='visible'&&el.clientHeight>0)){
+      fs-=1;el.style.fontSize=fs+'px';
+    }
+  }
+  function fitAll(root){(root||document).querySelectorAll(SEL).forEach(el=>{if(el.offsetWidth||el.closest('.memory-card'))fit(el);});}
+  window.fitText=fitAll;
+  let raf=0;const later=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>fitAll());};
+  document.addEventListener('DOMContentLoaded',()=>{
+    new MutationObserver(later).observe(document.body,{childList:true,subtree:true});
+    window.addEventListener('resize',later);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later);
+    later();
+  });
+})();

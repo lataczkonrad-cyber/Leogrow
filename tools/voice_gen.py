@@ -21,7 +21,7 @@ For smooth, natural clips every line is:
     a short lead-in and tail so phones don't swallow the first or last sound.
 Needs ffmpeg and numpy.
 """
-import hashlib, json, os, subprocess, sys, tempfile, time, urllib.request, urllib.error
+import hashlib, json, unicodedata, os, subprocess, sys, tempfile, time, urllib.request, urllib.error
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -29,17 +29,24 @@ VDIR = os.path.join(HERE, '..', 'src', 'voice')
 KEY = os.environ.get('ELEVEN_KEY', '').strip()
 VOICE = os.environ.get('ELEVEN_VOICE', '').strip()
 MODEL = os.environ.get('ELEVEN_MODEL', 'eleven_multilingual_v2')
-TAG = '-v4'        # bump when clips are remade, so browsers/CDN fetch the new files
+TAG = '-v5'        # bump when clips are remade, so browsers/CDN fetch the new files
 REDO = '--redo' in sys.argv
 FIX = '--fix' in sys.argv
 POLISH = '--polish' in sys.argv
 LEO = '--leo' in sys.argv   # Leo's own lines (src/voice/leo_lines.json), usually in the owner's voice
+ONLY = next((a.split('=', 1)[1].split(',') for a in sys.argv if a.startswith('--only=')), None)  # --leo --only=win remakes one group
 if not POLISH and (not KEY or not VOICE):
     sys.exit('Set ELEVEN_KEY and ELEVEN_VOICE first.')
 
 SETTINGS = {'stability': 0.6, 'similarity_boost': 0.85, 'style': 0.0,
             'use_speaker_boost': True, 'speed': 0.9}
 PHRASE_SPEED = 0.85   # sentences a little calmer so no word gets swallowed
+# Leo's groups: how each kind of line should sound (overrides SETTINGS)
+GROUP_SETTINGS = {
+    'win': {'stability': 0.3, 'style': 0.7, 'speed': 1.0},      # end of lesson: really excited
+    'praise': {'stability': 0.45, 'style': 0.4, 'speed': 1.0},  # upbeat
+    'say': {'stability': 0.55, 'style': 0.15, 'speed': 0.95},   # reading the grey intro/instruction text: warm, clear
+}
 
 
 def norm(t):
@@ -52,7 +59,10 @@ def clip_id(t):
 
 def prep(t):
     """Make the line read like a finished sentence."""
-    t = ' '.join(t.strip().replace('\u2026', '...').split())
+    t = t.replace('\u2026', '...').replace(' \u2014 ', ', ').replace('\u2014', ', ')
+    # emoji and pictographs are shown on screen but not read aloud
+    t = ''.join(ch for ch in t if not (unicodedata.category(ch) in ('So', 'Sk', 'Cf', 'Mn', 'Me') and ord(ch) > 0x2000))
+    t = ' '.join(t.strip().replace('( ', '(').replace(' )', ')').replace('()', '').split())
     if t[:1].islower():
         t = t[0].upper() + t[1:]
     if t[-1:] not in '.!?':
@@ -105,10 +115,10 @@ def score(t, speech, gap):
     return s
 
 
-def tts(text, seed, speed):
+def tts(text, seed, speed, extra=None):
     url = f'https://api.elevenlabs.io/v1/text-to-speech/{VOICE}?output_format=mp3_44100_128'
     body = json.dumps({'text': text, 'model_id': MODEL, 'seed': seed,
-                       'voice_settings': dict(SETTINGS, speed=speed)}).encode()
+                       'voice_settings': dict(SETTINGS, speed=speed, **(extra or {}))}).encode()
     req = urllib.request.Request(url, data=body, method='POST', headers={
         'xi-api-key': KEY, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
     for attempt in range(4):
@@ -132,8 +142,11 @@ def polish(src, dst):
                     '-c:a', 'libmp3lame', '-b:a', '64k', dst], check=True)
 
 
+GROUP = {}
 if LEO:
-    lines = [t for group in json.load(open(os.path.join(VDIR, 'leo_lines.json'))).values() for t in group]
+    _groups = json.load(open(os.path.join(VDIR, 'leo_lines.json')))
+    lines = [t for group in _groups.values() for t in group]
+    GROUP = {t: g for g, ts in _groups.items() for t in ts}
     idx_path = os.path.join(VDIR, 'leo_index.json')
 else:
     lines = json.load(open(os.path.join(VDIR, 'lines.json')))
@@ -167,7 +180,9 @@ if POLISH:
     save()
     sys.exit(f'Polished. {len(index)} clips.')
 
-if REDO:
+if ONLY:
+    todo = [t for t in lines if GROUP.get(t) in ONLY]
+elif REDO:
     todo = list(lines)
 else:
     todo = [t for t in lines if norm(t) not in index]
@@ -181,11 +196,13 @@ retakes = 0
 for n, t in enumerate(todo, 1):
     text = prep(t)
     speed = PHRASE_SPEED if is_phrase(t) else SETTINGS['speed']
+    extra = dict(GROUP_SETTINGS.get(GROUP.get(t), {}))
+    speed = extra.pop('speed', speed)
     best = None
     for take in range(3):
         raw = os.path.join(tmp, f'{n}_{take}.mp3')
         try:
-            open(raw, 'wb').write(tts(text, 1000 + take * 7919 + n, speed))
+            open(raw, 'wb').write(tts(text, 1000 + take * 7919 + n, speed, extra))
         except RuntimeError as e:
             save()
             sys.exit(f'Stopped at "{t}": {e}')
