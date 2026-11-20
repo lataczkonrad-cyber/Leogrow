@@ -267,3 +267,33 @@ body.adult #panel .lemur-stage,body.adult .certif .lemur-stage,body.adult .cours
 body.adult .lemur-stage,.track-portrait{border:none!important;background:transparent!important;}
 .track-leo{border-radius:22%;}
 .lemur-img.swap{opacity:1!important;filter:none!important;}
+/* ---------- your course home, my levels, settings ---------- */
+.my-hero{margin-bottom:22px;min-height:0;}
+.my-hero-top{display:flex;align-items:center;gap:16px;}
+.my-hero-top .level-code{width:76px;height:76px;font-size:32px;}
+.my-hero-text{flex:1;min-width:0;}
+.my-hero-text .title{margin:2px 0 8px;}
+.my-course{display:inline-block;font-weight:800;font-size:13px;letter-spacing:.04em;color:var(--navy);background:var(--gold-pale,#fff3cf);border-radius:999px;padding:3px 12px;}
+.my-hero .hero-leo{flex:0 0 auto;}
+.chip-btn{font:inherit;font-weight:800;font-size:13px;cursor:pointer;border:2px solid var(--gold);background:transparent;color:var(--navy);border-radius:999px;padding:5px 14px;}
+.chip-btn:hover{background:var(--gold);}
+.my-hero .hero-stats{margin-top:14px;}
+.my-continue{display:block;width:100%;margin-top:16px;font-size:17px;padding:14px 18px;white-space:normal;}
+.my-done{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;color:var(--navy);font-size:17px;}
+.level-card.current{border-color:var(--gold);box-shadow:0 5px 0 var(--gold),0 0 0 4px rgba(236,184,58,.35);}
+.cur-pill{display:inline-block;vertical-align:middle;font-size:11px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:999px;padding:2px 9px;margin-left:6px;}
+.set-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;text-align:left;}
+.set-row{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:rgba(5,10,48,.05);}
+.set-row>b{color:var(--navy);font-size:15px;}
+.set-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.set-note{font-size:13px;color:#5a6185;margin-right:4px;word-break:break-all;}
+.seg{font:inherit;font-weight:700;font-size:14px;cursor:pointer;border:2px solid rgba(5,10,48,.18);background:#fff;color:var(--navy);border-radius:12px;padding:7px 13px;}
+.seg.on{background:var(--gold);border-color:var(--gold);box-shadow:0 3px 0 #b5891f;}
+.set-row.danger .seg{border-color:#e06a5a;color:#c0392b;}
+#authModal .auth-box{max-height:88vh;overflow-y:auto;}
+@media(max-width:560px){
+  .my-hero-top{flex-wrap:wrap;}
+  .my-hero-top .level-code{width:62px;height:62px;font-size:26px;}
+  .my-hero .hero-leo{display:none;}
+  body:not(.in-lesson) #musicToggle,body:not(.in-lesson) #soundToggle{display:none;}
+}

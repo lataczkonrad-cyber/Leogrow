@@ -2570,7 +2570,7 @@ function showCourse(){
   $('lessonView').style.display='none';
   $('courseView').style.display='';
   $('timerPill').textContent='A0 → C1';
-  if(_lastLesson){VIEW={track:_lastLesson.unit.track,level:_lastLesson.unit.level};try{localStorage.setItem('lingrowView',JSON.stringify(VIEW));}catch(e){}}
+  if(_lastLesson&&!_lastLesson.review){setProfile(_lastLesson.unit.track,_lastLesson.unit.level,true);VIEW={track:null,level:null};try{localStorage.setItem('lingrowView',JSON.stringify(VIEW));}catch(e){}}
   renderCourse();
   window.scrollTo({top:0});
 }
@@ -2745,7 +2745,7 @@ async function initCloud(){
   const {data}=await SUPA.auth.getSession(); USER=data.session&&data.session.user||null; renderAccountBtn(); if(USER) pullAndMerge();
 }
 function mergeProgress(a,b){ // keep the best of both devices
-  const out={score:Math.max(a.score||0,b.score||0),maxCombo:Math.max(a.maxCombo||0,b.maxCombo||0),C:{lessons:{},active:(a.C&&a.C.active)||(b.C&&b.C.active)||null,placed:{},review:{},days:[]}};
+  const out={score:Math.max(a.score||0,b.score||0),maxCombo:Math.max(a.maxCombo||0,b.maxCombo||0),C:{lessons:{},active:(a.C&&a.C.active)||(b.C&&b.C.active)||null,placed:{},review:{},days:[],profile:(a.C&&a.C.profile)||(b.C&&b.C.profile)||null}};
   [a,b].forEach(x=>{const c=x.C||{};
     Object.entries(c.lessons||{}).forEach(([id,r])=>{const o=out.C.lessons[id]||{stars:0,points:0,done:false};out.C.lessons[id]={done:o.done||!!r.done,stars:Math.max(o.stars,r.stars||0),points:Math.max(o.points,r.points||0)};});
     Object.assign(out.C.placed,c.placed||{});
@@ -3256,5 +3256,130 @@ const GRAMMAR_PL={
 (function(){const _rz=renderZone;renderZone=function(i){const z=zones[i];
   if(LANG==='pl'&&z&&z.type==='grammar'&&GRAMMAR_PL[z.title]){const orig=z.html;let h=orig;GRAMMAR_PL[z.title].forEach(([a,b])=>{h=h.split(a).join(b);});z.html=h;const r=_rz(i);z.html=orig;return r;}
   return _rz(i);};})();
+
+
+/* ---------- Your course: one current course + level, "My levels", Settings ---------- */
+const PROF=()=>C.profile&&TRACKS.find(t=>t.id===C.profile.track)?C.profile:null;
+function setProfile(track,level,quiet){
+  const t=TRACKS.find(x=>x.id===track); if(!t) return;
+  if(!level||!t.levels.includes(level)) level=(C.profile&&C.profile.levels&&C.profile.levels[track])||(C.placed&&C.placed[track])||t.levels[0];
+  const levels=Object.assign({},C.profile&&C.profile.levels); levels[track]=level;
+  C.profile={track,level,levels};
+  // picking a level means "this is my level": open its first lesson (and those below), like the placement test does
+  C.placed=C.placed||{}; const pl=C.placed[track];
+  if(!pl||PL_LV.indexOf(level)>PL_LV.indexOf(pl)) C.placed[track]=level;
+  saveProgress();
+  if(!quiet) _comboToastText(T2('✅ Your level: ','✅ Twój poziom: ')+t.emoji+' '+level);
+}
+const _navOld=nav;
+nav=function(track,level){
+  if(level&&TRACKS.some(t=>t.id===track)){ setProfile(track,level,PROF()&&PROF().track===track&&PROF().level===level); return _navOld(); }
+  return _navOld(track,level);
+};
+function levelUnitsLessons(tid,lv){return COURSE.units.filter(u=>u.level===lv&&u.track===tid).flatMap(u=>u.lessons);}
+function nextInLevel(tid,lv){const ls=levelUnitsLessons(tid,lv);return ls.find(l=>!lessonDone(l.id))||null;}
+/* home for a learner who already has a course: only their level */
+function myHomeHtml(p){
+  const t=TRACKS.find(x=>x.id===p.track), L=LEVELS.find(x=>x.id===p.level), ls=levelUnitsLessons(t.id,p.level);
+  const nxt=nextInLevel(t.id,p.level), i=t.levels.indexOf(p.level), nextL=t.levels[i+1];
+  const cont=C.active&&nxt&&C.active.id===nxt.id;
+  let h=`<div class="panel my-hero"><div class="my-hero-top"><div class="level-code">${p.level}</div><div class="my-hero-text">
+      <span class="my-course">${t.emoji} ${t.name}</span><h2 class="title">${L.name} ${L.emoji}</h2>
+      <button class="chip-btn" onclick="nav('levels')">🔄 Change level</button></div>
+      <div class="hero-leo">${renderLemur('big',t.id==='adults'?['Welcome back.','Ready for the next one?']:["Hi! I'm Leo! 👋","Let's keep going! 🚀"],t.id==='adults'?96:110)}</div></div>
+    ${statsRow(ls)}
+    ${nxt?`<button class="btn btn-gold my-continue" onclick="openLesson('${nxt.id}')">${cont?'▶ Continue':'▶ Next lesson'}: ${nxt.num} · ${nxt.title} →</button>`
+        :`<div class="my-done"><b>🏆 ${p.level} complete!</b>${nextL?`<button class="btn btn-gold" onclick="nav('${t.id}','${nextL}')">Go to ${nextL} →</button>`:''}</div>`}
+  </div>${typeof installCard==='function'?installCard():''}${reviewCard(t.id)}`;
+  COURSE.units.filter(u=>u.level===p.level&&u.track===t.id).forEach(u=>{h+=unitHtml(u);});
+  h+=`<div class="level-nav"><button class="btn secondary" onclick="nav('levels')">📚 My levels</button><button class="btn secondary" onclick="nav('me')">📊 My progress</button></div>`;
+  return h;
+}
+/* every course and level in one place; the current one is highlighted */
+function myLevelsHtml(){
+  const p=PROF();
+  let h=`<div class="panel level-intro">${zoneTag('MY LEVELS')}<h2 class="title">Choose your level</h2><p class="sub">Your progress is saved on every level — switching never loses anything.</p></div>`;
+  h+=`<div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div>`;
+  TRACKS.forEach(t=>{
+    h+=`<h2 class="section-title">${t.emoji} ${t.name}</h2><div class="level-grid">`;
+    t.levels.forEach(lv=>{
+      const L=LEVELS.find(x=>x.id===lv), lls=levelUnitsLessons(t.id,lv), s=statsOf(lls), cur=p&&p.track===t.id&&p.level===lv;
+      if(!lls.length) return;
+      h+=`<div class="level-card ${cur?'current':''} ${s.done===s.total?'done':''}" onclick="nav('${t.id}','${lv}')">
+        <div class="level-code">${lv}</div><div class="level-info"><h3>${L.name} ${L.emoji} ${cur?'<span class="cur-pill">Your level</span>':''}</h3>
+        <p>${(t.id==='adults'&&L.adesc)||L.desc}</p><div class="course-bar"><div style="width:${Math.round(s.done/s.total*100)}%"></div></div>
+        <p class="track-meta">${s.done}/${s.total} lessons · ${s.coins}/${s.total*3} coins</p></div><div class="level-go">${cur?'✓':'›'}</div></div>`;
+    });
+    h+=`</div>`;
+  });
+  return h;
+}
+const _crumbsOld=crumbs;
+crumbs=function(){
+  if(VIEW.track==='levels') return `<div class="crumbs"><a href="#" onclick="nav();return false;">🏠 Home</a><span>›</span><b>📚 My levels</b></div>`;
+  if(!VIEW.track&&PROF()) return '';
+  return _crumbsOld();
+};
+renderCourse=function(){
+  const p=PROF();
+  let t=TRACKS.find(x=>x.id===VIEW.track);
+  if(VIEW.level&&(!t||!t.levels.includes(VIEW.level))) VIEW.level=null;
+  if(t&&VIEW.level){setProfile(t.id,VIEW.level,true);VIEW={track:null,level:null};t=null;}
+  const homeT=!VIEW.track&&p?TRACKS.find(x=>x.id===p.track):t;
+  document.body.classList.toggle('adult',!!(homeT&&homeT.id==='adults'));
+  let h=testerBar()+crumbs();
+  if(VIEW.track==='me') h+=progressHtml();
+  else if(VIEW.track==='levels') h+=myLevelsHtml();
+  else if(t) h+=trackHtml(t);
+  else if(p) h+=myHomeHtml(p);
+  else h+=homeHtml();
+  $('courseView').innerHTML=courseShell(h);
+};
+sideNav=function(){
+  const p=PROF(), cur=VIEW.track, inPT=typeof PT!=='undefined'&&PT&&!VIEW._leftPT;
+  const item=(on,click,icon,label,extra)=>`<a href="#" class="sn-item ${on?'on':''}" onclick="${click};return false;"><span>${icon}</span><b>${label}</b>${extra||''}</a>`;
+  let h=`<aside class="side-nav"><div class="sn-title">Menu</div>`;
+  h+=item(!cur&&!inPT,"PT=null;nav()","🏠","Home",p?`<small>${p.level}</small>`:'');
+  h+=item(cur==='levels'&&!inPT,"PT=null;nav('levels')","📚","My levels");
+  h+=item(inPT,"startPlacement()","🧭","Find my level");
+  h+=item(cur==='me'&&!inPT,"PT=null;nav('me')","📊","My progress",`<small>🔥 ${streakOf(C.days)}</small>`);
+  if(p){const rv=reviewWords(p.track).length; if(rv) h+=item(false,`openReview('${p.track}')`,"🔁","Review",`<small>${rv}</small>`);}
+  h+=item(false,"openSettings()","⚙️","Settings");
+  return h+`</aside>`;
+};
+/* ---------- Settings ---------- */
+function openSettings(){
+  const p=PROF(), tr=p?p.track:null, t=TRACKS.find(x=>x.id===tr);
+  const seg=(on,click,label)=>`<button class="seg ${on?'on':''}" onclick="${click}">${label}</button>`;
+  let acc='';
+  if(cloudOn()) acc=USER?`<div class="set-row"><b>👤 Account</b><div class="set-ctl"><span class="set-note">${(USER.user_metadata&&USER.user_metadata.name)||USER.email}</span>${seg(false,"closeAuth();openAccount()",'Sync & log out')}</div></div>`
+                     :`<div class="set-row"><b>👤 Account</b><div class="set-ctl">${seg(false,"openAuth('in')",'Log in')}${seg(false,"openAuth('up')",'Create account')}</div></div>`;
+  authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('SETTINGS')}<h2 class="title">⚙️ Settings</h2>
+   <div class="set-list">
+    <div class="set-row"><b>🌍 Language</b><div class="set-ctl">${seg(LANG==='pl',"setLang('pl');openSettings()",'🇵🇱 Polski')}${seg(LANG==='en',"setLang('en');openSettings()",'🇬🇧 English')}</div></div>
+    <div class="set-row"><b>🎒 Course</b><div class="set-ctl">${TRACKS.map(x=>seg(tr===x.id,`setProfile('${x.id}');VIEW={track:null,level:null};renderCourse();openSettings()`,x.emoji+' '+x.name)).join('')}</div></div>
+    ${t?`<div class="set-row"><b>📈 Level</b><div class="set-ctl">${t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length).map(lv=>seg(p.level===lv,`setProfile('${t.id}','${lv}');VIEW={track:null,level:null};renderCourse();openSettings()`,lv)).join('')}</div></div>`:''}
+    <div class="set-row"><b>🔊 Sound effects</b><div class="set-ctl">${seg(soundOn,"if(!soundOn)toggleSound();openSettings()",'On')}${seg(!soundOn,"if(soundOn)toggleSound();openSettings()",'Off')}</div></div>
+    <div class="set-row"><b>🎵 Music</b><div class="set-ctl">${seg(musicOn,"if(!musicOn)toggleMusic();openSettings()",'On')}${seg(!musicOn,"if(musicOn)toggleMusic();openSettings()",'Off')}</div></div>
+    ${acc}
+    <div class="set-row"><b>🧭 Placement test</b><div class="set-ctl">${seg(false,"closeAuth();startPlacement()",'Find my level again')}</div></div>
+    ${TESTER_ALLOWED?`<div class="set-row"><b>🧪 Tester mode</b><div class="set-ctl">${seg(TESTER,"setTester(true);openSettings()",'On')}${seg(!TESTER,"setTester(false);openSettings()",'Off')}</div></div>`:''}
+    <div class="set-row danger"><b>🗑️ Reset progress</b><div class="set-ctl">${seg(false,"resetProgress()",'Reset everything')}</div></div>
+   </div>`);
+  if(LANG==='pl') applyLang();
+}
+(function(){
+  const ctl=document.querySelector('.topbar-controls');
+  if(ctl&&!document.getElementById('settingsBtn')){const b=document.createElement('button');b.id='settingsBtn';b.className='sound-toggle';b.title='Settings';b.textContent='⚙️';b.onclick=openSettings;ctl.appendChild(b);}
+})();
+Object.assign(PL_UI,{
+ "🔄 Change level":"🔄 Zmień poziom","📚 My levels":"📚 Moje poziomy","My levels":"Moje poziomy","MY LEVELS":"MOJE POZIOMY","Your level":"Twój poziom",
+ "Your progress is saved on every level — switching never loses anything.":"Postęp jest zapisany na każdym poziomie — zmiana niczego nie kasuje.",
+ "SETTINGS":"USTAWIENIA","⚙️ Settings":"⚙️ Ustawienia","Settings":"Ustawienia","🌍 Language":"🌍 Język","🎒 Course":"🎒 Kurs","📈 Level":"📈 Poziom",
+ "🔊 Sound effects":"🔊 Efekty dźwiękowe","🎵 Music":"🎵 Muzyka","On":"Wł.","Off":"Wył.","👤 Account":"👤 Konto","Sync & log out":"Synchronizacja i wylogowanie",
+ "Log in":"Zaloguj się","Create account":"Załóż konto","🧭 Placement test":"🧭 Test poziomujący","Find my level again":"Sprawdź poziom jeszcze raz",
+ "🧪 Tester mode":"🧪 Tryb testera","🗑️ Reset progress":"🗑️ Zresetuj postęp","Reset everything":"Zresetuj wszystko","Teens & Adults":"Młodzież i dorośli","Kids":"Dzieci",
+ "🧒 Kids":"🧒 Dzieci","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli","Welcome back.":"Witaj ponownie.","Ready for the next one?":"Gotowy na kolejną?","Let's keep going! 🚀":"Działamy dalej! 🚀",
+});
 
 initCloud();

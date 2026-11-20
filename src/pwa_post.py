@@ -46,8 +46,8 @@ i=s.rindex('renderCourse();')
 s=s[:i]+js+s[i:]
 # show the card on the home screen
 a='<div class="placement-card" onclick="startPlacement()">'
-assert s.count(a)==1
-s=s.replace(a,'${installCard()}'+a)
+assert s.count(a)>=1
+s=s.replace(a,'${installCard()}'+a,1)
 for a,b in [('<p class="sub">Kliknij: <b>','<p class="sub">Click: <b>'),('<h2 class="title">Pytanie ${st.i+1}','<h2 class="title">Question ${st.i+1}')]:
     assert a in s,a; s=s.replace(a,b)
 open(OUT,'w').write(s)
