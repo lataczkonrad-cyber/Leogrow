@@ -154,5 +154,21 @@ for _o in ["img.src = LEO_CHEER;","img.src = LEO_IDLE;"]:
 for _n,_v in [('LEO_IDLE',LEO_NEW),('LEO_CHEER',LEO_NEW),('LEMUR_COIN',BADGE)]:
     engine,_k=_re.subn(r'const %s = "[^"]+"'%_n,lambda m:'const %s = "%s"'%(_n,_v),engine,count=1); assert _k==1,_n
 
+# --- voice clips (tools/voice_gen.py) : play the user's recorded voice, browser voice as fallback
+_VDIR=os.path.join(HERE,'voice'); _vidx=os.path.join(_VDIR,'index.json')
+VOICE_CLIPS=__import__('json').load(open(_vidx)) if os.path.exists(_vidx) else {}
+VOICE_CLIPS={k:v for k,v in VOICE_CLIPS.items() if os.path.exists(os.path.join(_VDIR,v))}
+_old_speak="function speak(t){try{if(!('speechSynthesis' in window))return false;"
+assert engine.count(_old_speak)==1
+engine=engine.replace(_old_speak,"const VOICE_CLIPS="+__import__('json').dumps(VOICE_CLIPS,ensure_ascii=False)+";let _vAud=null;\n"
+ "function speak(t){const f=VOICE_CLIPS[String(t||'').trim().toLowerCase().split(/\\s+/).join(' ')];"
+ "if(f){try{if('speechSynthesis' in window)speechSynthesis.cancel();if(_vAud)_vAud.pause();_vAud=new Audio('voice/'+f);"
+ "const p=_vAud.play();if(p&&p.catch)p.catch(()=>_ttsSpeak(t));return true;}catch(e){}}return _ttsSpeak(t);}\n"
+ "function _ttsSpeak(t){try{if(!('speechSynthesis' in window))return false;",1)
+import shutil as _sh
+_sv=os.path.join(os.path.dirname(OUT),'voice'); _sh.rmtree(_sv,ignore_errors=True)
+if VOICE_CLIPS:
+    os.makedirs(_sv); [_sh.copy(os.path.join(_VDIR,v),_sv) for v in set(VOICE_CLIPS.values())]
+print('voice clips:',len(VOICE_CLIPS))
 open(OUT,'w').write(head+body+engine+boot)
 print('ok',len(head+body+engine+boot))
