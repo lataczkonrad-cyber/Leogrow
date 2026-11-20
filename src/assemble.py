@@ -160,11 +160,24 @@ VOICE_CLIPS=__import__('json').load(open(_vidx)) if os.path.exists(_vidx) else {
 VOICE_CLIPS={k:v for k,v in VOICE_CLIPS.items() if os.path.exists(os.path.join(_VDIR,v))}
 _old_speak="function speak(t){try{if(!('speechSynthesis' in window))return false;"
 assert engine.count(_old_speak)==1
-engine=engine.replace(_old_speak,"const VOICE_CLIPS="+__import__('json').dumps(VOICE_CLIPS,ensure_ascii=False)+";let _vAud=null;\n"
+_VOICE_JS=("const VOICE_CLIPS="+__import__('json').dumps(VOICE_CLIPS,ensure_ascii=False)+";\n"
+ # one reusable player per clip: no reload delay, so the first sound isn't swallowed
+ "const _vCache={};let _vAud=null;window._voiceBusy=false;\n"
+ "function _vGet(f){let a=_vCache[f];if(!a){a=new Audio('voice/'+f);a.preload='auto';"
+ "a.addEventListener('ended',()=>{if(_vAud===a)window._voiceBusy=false;});"
+ "a.addEventListener('pause',()=>{if(_vAud===a)window._voiceBusy=false;});_vCache[f]=a;}return a;}\n"
  "function speak(t){const f=VOICE_CLIPS[String(t||'').trim().toLowerCase().split(/\\s+/).join(' ')];"
- "if(f){try{if('speechSynthesis' in window)speechSynthesis.cancel();if(_vAud)_vAud.pause();_vAud=new Audio('voice/'+f);"
- "const p=_vAud.play();if(p&&p.catch)p.catch(()=>_ttsSpeak(t));return true;}catch(e){}}return _ttsSpeak(t);}\n"
- "function _ttsSpeak(t){try{if(!('speechSynthesis' in window))return false;",1)
+ "if(f){try{if('speechSynthesis' in window)speechSynthesis.cancel();const a=_vGet(f);"
+ # tapping again while the same clip is still playing lets it finish instead of cutting it
+ "if(_vAud===a&&!a.paused&&!a.ended)return true;"
+ "if(_vAud&&_vAud!==a){_vAud.pause();}_vAud=a;a.currentTime=0;window._voiceBusy=true;"
+ "const p=a.play();if(p&&p.catch)p.catch(()=>{window._voiceBusy=false;_ttsSpeak(t);});return true;}catch(e){}}return _ttsSpeak(t);}\n"
+ "function _ttsSpeak(t){try{if(!('speechSynthesis' in window))return false;")
+engine=engine.replace(_old_speak,_VOICE_JS,1)
+# the little background tune pauses while your voice is speaking
+_mt="if(!musicOn||!soundOn) return;"
+assert engine.count(_mt)==1
+engine=engine.replace(_mt,"if(!musicOn||!soundOn||window._voiceBusy) return;")
 import shutil as _sh
 _sv=os.path.join(os.path.dirname(OUT),'voice'); _sh.rmtree(_sv,ignore_errors=True)
 if VOICE_CLIPS:
