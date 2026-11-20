@@ -2980,7 +2980,7 @@ function homeHtml(){
     <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=t.id==='kids'?`<img class="track-leo" src="${LEO_CHEER}" alt="">`:`<div class="track-portrait"><img src="${LEO_ADULT}" alt=""></div>`;
+    const pic=`<img class="track-leo" src="${(t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||LEO_CHEER}" alt="">`;
     h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
       ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
       <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
@@ -3396,10 +3396,11 @@ function goHome(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)s
 (function(){const b=document.querySelector('.topbar .brand');if(b){b.setAttribute('role','link');b.title='Home';b.style.cursor='pointer';b.onclick=goHome;}})();
 
 /* ---------- Leo grows with the learner ---------- */
-const LEO_STAGES={
- kids:{A0:[.62,'🍼','Baby Leo','Mały Leo'],A1:[.72,'🧸','Little Leo','Malutki Leo'],A2:[.82,'🎒','Schoolkid Leo','Leo uczeń']},
- adults:{A0:[.86,'🎧','Teen Leo','Nastoletni Leo'],A1:[.92,'🛹','Teen Leo','Nastoletni Leo'],A2:[.98,'✈️','Traveller Leo','Leo podróżnik'],
-         B1:[1.04,'📚','Student Leo','Leo student'],B2:[1.1,'💼','Young pro Leo','Leo profesjonalista'],C1:[1.16,'🎓','Professor Leo','Profesor Leo']}};
+const LEO_AGES={};  // filled in by the build: Leo at different ages
+const LEO_STAGES={ // [size, which Leo, name EN, name PL]
+ kids:{A0:[.62,'baby','Baby Leo','Mały Leo'],A1:[.72,'little','Little Leo','Malutki Leo'],A2:[.82,'kid','Kid Leo','Leo uczeń']},
+ adults:{A0:[.86,'teen','Teen Leo','Nastoletni Leo'],A1:[.92,'teen','Teen Leo','Nastoletni Leo'],A2:[.98,'adult','Young Leo','Młody Leo'],
+         B1:[1.04,'adult','Student Leo','Leo student'],B2:[1.1,'senior','Grown-up Leo','Dorosły Leo'],C1:[1.16,'senior','Professor Leo','Profesor Leo']}};
 function leoContext(){
   if(activeLesson&&activeLesson.unit) return {track:activeLesson.unit.track,level:activeLesson.unit.level};
   if(typeof PT!=='undefined'&&PT) return null;
@@ -3409,7 +3410,7 @@ function leoContext(){
 function leoGrow(h){
   const c=leoContext(), st=c&&LEO_STAGES[c.track]&&LEO_STAGES[c.track][c.level]; if(!st) return h;
   h=h.replace('class="lemur-wrap"',`class="lemur-wrap" style="--leo-s:${st[0]}"`);
-  h=h.replace(/(<div class="lemur-stage"[^>]*>)/,`$1<span class="leo-acc">${st[1]}</span>`);
+  const src=LEO_AGES[st[1]]; if(src) h=h.replace(/(id="lemurImgBase-[^"]+") src="[^"]*"/,`$1 data-age="${st[1]}" src="${src}"`);
   h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
   return h;
 }

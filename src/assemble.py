@@ -14,6 +14,11 @@ from PIL import Image
 def _uri(name,size,q=88):
     im=Image.open(os.path.join(HERE,'brand',name)).convert('RGBA');im.thumbnail((size,size),Image.LANCZOS)
     b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
+import sys as _sys; _sys.path.insert(0,HERE); import leo_age
+def _imuri(im,size=480,q=86):
+    im=im.copy();im.thumbnail((size,size),Image.LANCZOS);b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
+LEO_AGES={n:_imuri(im) for n,im in leo_age.make(os.path.join(HERE,'brand','icon-rounded.png')).items()}
+course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps(LEO_AGES)+';',1)
 LEO_NEW=_uri('icon-rounded.png',560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
 course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1
 head,rest=src.split('<body>',1)
@@ -141,6 +146,8 @@ renderCourse();
 '''
 import re as _re
 _lc=open(os.path.join(HERE,'leo_centered.js')).read()
+for _o in ["img.src = LEO_CHEER;","img.src = LEO_IDLE;"]:
+    assert engine.count(_o)==1,_o; engine=engine.replace(_o,"if(!img.dataset.age) "+_o)
 for _n,_v in [('LEO_IDLE',LEO_NEW),('LEO_CHEER',LEO_NEW),('LEMUR_COIN',BADGE)]:
     engine,_k=_re.subn(r'const %s = "[^"]+"'%_n,lambda m:'const %s = "%s"'%(_n,_v),engine,count=1); assert _k==1,_n
 
