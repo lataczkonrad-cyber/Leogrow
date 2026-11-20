@@ -1,0 +1,50 @@
+
+/* ---------- daily habit: streak, goal, reminders ---------- */
+.wk-day i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:var(--navy);}
+.wk-day.goal i{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:#b5891f;box-shadow:0 0 10px rgba(236,184,58,.75);}
+.wk-day.shield i{background:#dfe6ff;border-color:#8fa2e8;font-size:12px;}
+.wk-day.today small{color:var(--navy);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;}
+.goal-ring .gr-bg{fill:none;stroke:#e4e6f0;stroke-width:7;}
+.goal-ring .gr-fg{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+.goal-ring .gr-fg.done{stroke:#2fa36b;}
+.goal-ring text{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:18px;fill:var(--navy);}
+.daily-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:var(--cream);border:2px solid var(--gold);border-radius:20px;padding:12px 16px;box-shadow:0 4px 0 #b5891f;}
+.dc-main{flex:1;min-width:0;}
+.dc-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
+.dc-top span{font-size:13px;font-weight:800;color:#6b6b85;}
+.dc-streak{font-family:'Baloo 2',sans-serif;font-size:24px;color:var(--navy);line-height:1;}
+.dc-streak.zero{filter:grayscale(1);opacity:.6;}
+.dc-shield{margin-left:auto;background:#eef1ff;border:1px solid #c5cff5;border-radius:999px;padding:1px 8px;color:var(--navy)!important;}
+.daily-card p{margin:3px 0 6px;font-size:13.5px;font-weight:700;color:var(--navy);}
+.dc-week .wk-day i,.habit-strip+.wk-row .wk-day i{width:20px;height:20px;font-size:11px;}
+.dc-week{display:flex;gap:7px;}
+.dc-week .wk-day small{font-size:10px;}
+.dc-set{align-self:flex-start;white-space:nowrap;}
+.habit-strip{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--navy-light);border-radius:16px;padding:8px 12px;box-shadow:0 2px 0 var(--gold);text-align:left;}
+.habit-strip b{display:block;font-family:'Baloo 2',sans-serif;font-size:16px;color:var(--navy);}
+.habit-strip small{font-size:12.5px;font-weight:800;color:#6b6b85;}
+.habit-strip.on-finish{max-width:340px;margin:10px auto 4px;}
+.habit-panel .habit-strip{margin-top:6px;}
+.habit-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.habit-stats div{background:#fff;border:2px solid var(--navy-light);border-radius:14px;padding:8px 6px;text-align:center;box-shadow:0 2px 0 var(--gold);}
+.habit-stats b{display:block;font-family:'Baloo 2',sans-serif;font-size:19px;color:var(--navy);}
+.habit-stats small{font-size:11.5px;font-weight:800;color:#6b6b85;}
+.goal-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 6px;}
+.goal-opt{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 3px 0 #c9cbe0;}
+.goal-opt span{font-size:22px;}.goal-opt b{font-family:'Baloo 2',sans-serif;font-size:16px;}.goal-opt small{font-size:11px;font-weight:800;color:#6b6b85;}
+.goal-opt.on{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 3px 0 #b5891f;}
+.habit-h3{font-family:'Baloo 2',sans-serif;color:var(--navy);margin:16px 0 6px;font-size:19px;}
+.rem-row label{font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px;}
+.rem-row input{font:inherit;font-weight:800;font-size:17px;padding:6px 10px;border-radius:12px;border:2px solid var(--navy-light);color:var(--navy);background:#fff;}
+.rem-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.rem-note{font-size:12.5px;color:#6b6b85;font-weight:700;margin:10px 0 0;}
+body.adult .daily-card{box-shadow:0 3px 0 rgba(181,137,31,.5);}
+@media(max-width:560px){
+  .daily-card{flex-wrap:wrap;gap:10px;padding:12px;}
+  .dc-ring{order:0}.dc-main{flex:1 1 calc(100% - 80px);}
+  .dc-set{flex-basis:100%;text-align:center;}
+  .dc-week{gap:5px;}
+  .habit-stats{grid-template-columns:repeat(2,1fr);}
+  .goal-opts{grid-template-columns:repeat(3,1fr);}
+}
+.habit-panel{min-height:0!important;padding-bottom:20px;}
