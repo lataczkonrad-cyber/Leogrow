@@ -17,9 +17,11 @@ def _uri(name,size,q=88):
 import sys as _sys; _sys.path.insert(0,HERE); import leo_age
 def _imuri(im,size=480,q=86):
     im=im.copy();im.thumbnail((size,size),Image.LANCZOS);b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
-LEO_AGES={n:_imuri(im) for n,im in leo_age.make(os.path.join(HERE,'brand','icon-rounded.png')).items()}
+import belly
+_LEO_BASE=belly.furry_belly(Image.open(os.path.join(HERE,'brand','icon-rounded.png')))
+LEO_AGES={n:_imuri(im) for n,im in leo_age.make(_LEO_BASE).items()}
 course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps(LEO_AGES)+';',1)
-LEO_NEW=_uri('icon-rounded.png',560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
+LEO_NEW=_imuri(_LEO_BASE,560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
 course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1
 head,rest=src.split('<body>',1)
 head=head.replace('<title>Leogrow — Unit 3: Technology for All</title>','<title>Leogrow — English A0–C1</title>')

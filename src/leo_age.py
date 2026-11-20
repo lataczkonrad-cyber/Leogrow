@@ -43,7 +43,7 @@ STAGES={ # head scale, head shift down, eye scale, eye height factor, body stret
  'senior':stage(0.85,-24,1.00,0.74,1.10,1.18,0.92),
 }
 def make(src):
-    base=Image.open(src)
+    base=src if isinstance(src,Image.Image) else Image.open(src)
     return {n:warp(base,ps) for n,ps in STAGES.items()}
 if __name__=='__main__':
     import sys
