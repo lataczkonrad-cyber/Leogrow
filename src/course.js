@@ -2422,7 +2422,7 @@ function loadProgress(){
     if(typeof d.maxCombo==='number') maxCombo=d.maxCombo;
     if(typeof d.soundOn==='boolean') soundOn=d.soundOn;
     if(typeof d.musicOn==='boolean') musicOn=d.musicOn;
-    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[],profile:d.C.profile||null};
+    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[],profile:d.C.profile||null,hab:d.C.hab||null};
   }catch(e){}
 }
 function resetProgress(){
@@ -2497,7 +2497,7 @@ function rLessonFinish(){
   const pts=Math.max(0,score-lessonStartScore);
   const prev=C.lessons[l.id]||{stars:0,points:0,done:false};
   const firstTime=!prev.done;
-  const _today=new Date().toISOString().slice(0,10);C.days=C.days||[];if(!C.days.includes(_today))C.days.push(_today);
+  const _today=localDay();C.days=C.days||[];if(!C.days.includes(_today))C.days.push(_today);
   const cleared=l.review?finishReview():0;
   if(!l.review) C.lessons[l.id]={done:true,stars:Math.max(prev.stars,stars),points:Math.max(prev.points,pts)};
   C.active=null; saveProgress();
@@ -2886,10 +2886,9 @@ function streakOf(days){const set=new Set(days||[]);let n=0;const d=new Date();
 function progressHtml(){
   const days=C.days||[], streak=streakOf(days), all=ALL_LESSONS, done=all.filter(l=>lessonDone(l.id)).length;
   const coins=all.reduce((s,l)=>s+((C.lessons[l.id]&&C.lessons[l.id].stars)||0),0);
-  const week=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=d.toISOString().slice(0,10);return `<div class="wk-day ${days.includes(k)?'on':''}"><i></i><small>${['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()]}</small></div>`;}).join('');
   let h=`<div class="panel prog-hero">${zoneTag('MY PROGRESS')}<h2 class="title">${USER?'👤 '+((USER.user_metadata&&USER.user_metadata.name)||USER.email.split('@')[0]):'My progress'}</h2>
     <div class="prog-stats"><div><b>🔥 ${streak}</b><small>day streak</small></div><div><b>${done}/${all.length}</b><small>lessons</small></div><div><b><img class="mini-coin" src="${LEMUR_COIN}" alt="" style="width:20px;height:20px;vertical-align:-3px"> ${coins}</b><small>coins</small></div><div><b>${score}</b><small>points</small></div></div>
-    <div class="wk-row">${week}</div>
+    <div class="wk-row">${weekDots()}</div>
     ${cloudOn()&&!USER?`<p class="sub" style="margin-top:12px;">Progress is saved on this device only. <a href="#" onclick="openAuth('up');return false;">Create a free account</a> to keep it on every device.</p>`:''}</div>`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id); if(!ls.length) return;
