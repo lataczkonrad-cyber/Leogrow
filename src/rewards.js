@@ -78,7 +78,8 @@ function mergeW(a,b){a=a||{};b=b||{};const o={e:Object.assign({},a.e,b.e),p:Obje
 
 /* ---------- stamina (energy) ---------- */
 const EN_MAX=20, EN_MS=3*60*1000;
-const energyFree=()=>typeof isPremium==='function'&&isPremium()&&!TESTER;
+// tester accounts never get blocked; local tester mode (file / ?tester) keeps stamina so it can be tested
+const energyFree=()=>(typeof isTesterAccount==='function'&&isTesterAccount())||(typeof isPremium==='function'&&isPremium()&&!TESTER);
 function energyNow(){const w=W(),now=Date.now();let en=w.en;if(!en||typeof en.v!=='number'){en=w.en={v:EN_MAX,t:now,s:now};}
   if(en.v>=EN_MAX){en.v=EN_MAX;en.t=now;return EN_MAX;}
   const g=Math.floor((now-en.t)/EN_MS);if(g>0){en.v=Math.min(EN_MAX,en.v+g);en.t=en.v>=EN_MAX?now:en.t+g*EN_MS;}
