@@ -21,7 +21,8 @@ let _installEvt=null;
 const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('lingrow-sw.js').catch(()=>{}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register('lingrow-sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}));
+  let _swReloaded=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(_swReloaded||activeLesson)return;_swReloaded=true;location.reload();});
 }
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_installEvt=e;if(!activeLesson)renderCourse();});
 window.addEventListener('appinstalled',()=>{_installEvt=null;if(!activeLesson)renderCourse();_comboToastText('📲 Leogrow is on your home screen!');});
