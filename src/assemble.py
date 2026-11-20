@@ -8,6 +8,14 @@ src=open(SRC).read()
 css_course=open(os.path.join(HERE,'course.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
 course_js=open(os.path.join(HERE,'course.js')).read()
 
+
+import base64,io
+from PIL import Image
+def _uri(name,size,q=88):
+    im=Image.open(os.path.join(HERE,'brand',name)).convert('RGBA');im.thumbnail((size,size),Image.LANCZOS)
+    b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
+LEO_NEW=_uri('icon-rounded.png',560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
+course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1
 head,rest=src.split('<body>',1)
 head=head.replace('<title>Leogrow — Unit 3: Technology for All</title>','<title>Leogrow — English A0–C1</title>')
 head=head.replace('</style>',css_course+'</style>',1)
@@ -19,9 +27,9 @@ body=f'''<body>
   <div class="topbar">
     <div class="brand">
       <div class="brand-mark">
-        <img src="{logo}" alt="Leogrow">
+        <img src="{BADGE_SM}" alt="Leogrow">
       </div>
-      <div class="brand-text">LEOGROW</div>
+      <div class="brand-text"><span class="wm-leo">Leo</span><span class="wm-grow">grow</span></div>
     </div>
     <div class="topbar-controls">
       <button class="back-course" onclick="showCourse()" title="Back to the course">🗺️ Course</button>
@@ -133,8 +141,8 @@ renderCourse();
 '''
 import re as _re
 _lc=open(os.path.join(HERE,'leo_centered.js')).read()
-for _n in ['LEO_IDLE','LEO_CHEER']:
-    _v=_re.search(r'const %s = "([^"]+)"'%_n,_lc).group(1)
-    engine=_re.sub(r'const %s = "[^"]+"'%_n,lambda m:'const %s = "%s"'%(_n,_v),engine,count=1)
+for _n,_v in [('LEO_IDLE',LEO_NEW),('LEO_CHEER',LEO_NEW),('LEMUR_COIN',BADGE)]:
+    engine,_k=_re.subn(r'const %s = "[^"]+"'%_n,lambda m:'const %s = "%s"'%(_n,_v),engine,count=1); assert _k==1,_n
+
 open(OUT,'w').write(head+body+engine+boot)
 print('ok',len(head+body+engine+boot))
