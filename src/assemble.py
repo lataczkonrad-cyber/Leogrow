@@ -5,8 +5,8 @@ import re
 SRC=os.path.join(HERE,'lesson-technology.html')
 OUT=os.path.join(SITE,'lingrow-academy.html')
 src=open(SRC).read()
-css_course=open(os.path.join(HERE,'course.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
-course_js=open(os.path.join(HERE,'course.js')).read()
+css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'premium.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
+course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()
 
 
 import base64,io

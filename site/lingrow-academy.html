@@ -928,6 +928,28 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .app-back{white-space:nowrap;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:var(--gold-light);border-radius:999px;padding:7px 12px;cursor:pointer;display:none;}
 body.can-back .app-back{display:inline-block;}
 .app-back:active{transform:scale(.96);}
+/* ---------- Leogrow Premium ---------- */
+.prem-tag{display:inline-block;margin-left:4px;padding:1px 7px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:10px;letter-spacing:.5px;}
+.lesson-card.premium-lock{cursor:pointer;}
+.lesson-card.premium-lock .lc-emoji{filter:saturate(.6);}
+.prem-btn{white-space:nowrap;}
+.prem-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:10px 14px;border-radius:16px;background:var(--cream);border:2px solid var(--gold);color:var(--navy);font-size:14px;font-weight:700;box-shadow:0 3px 0 var(--gold);}
+.prem-banner .lesson-btn{flex:none;}
+.prem-feats{list-style:none;padding:0;margin:10px 0 14px;text-align:left;}
+.prem-feats li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:14px;font-weight:700;color:var(--navy);border-bottom:1px dashed rgba(32,42,110,.15);}
+.prem-feats li span{flex:none;width:22px;text-align:center;}
+.prem-plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.prem-plan{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px;border-radius:16px;border:2px solid var(--navy-light);background:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;color:var(--navy);box-shadow:0 3px 0 var(--gold);transition:transform .15s;}
+.prem-plan:first-child{border-color:var(--gold);background:var(--cream);}
+.prem-plan:hover{transform:translateY(-2px);}
+.prem-plan:disabled{opacity:.55;cursor:wait;transform:none;}
+.prem-plan i{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.6px;color:#8a6a10;}
+.prem-plan b{font-family:'Baloo 2',sans-serif;font-size:26px;line-height:1.1;}
+.prem-plan small{font-size:12px;font-weight:700;color:#6b6b85;}
+.prem-plan em{font-style:normal;font-size:11px;color:#8b8ba0;margin-top:4px;line-height:1.3;}
+.prem-state{font-size:14px;font-weight:700;color:var(--navy);margin:6px 0;}
+.prem-acc{margin:8px 0;padding-top:8px;border-top:1px dashed rgba(32,42,110,.2);}
+@media(max-width:400px){.prem-plans{grid-template-columns:1fr;}}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -5243,6 +5265,193 @@ initCloud();
     try{history.replaceState(stateNow(),'');}catch(e){}
     setTimeout(()=>{ready=true;updateBack();},300);
   });
+})();
+
+
+/* ---------- Leogrow Premium (Stripe) ----------
+   Free:    the whole A0 level of every track + the first lesson of every other unit, up to 3 lessons a day.
+   Premium: every lesson and unit test, no daily limit. 7 days free for every new account.
+   Payments: Netlify functions in netlify/functions (checkout, billing-portal, stripe-webhook).
+   The webhook writes public.premium in Supabase; the app reads the learner's own row. */
+const PREMIUM={
+  freeLevels:['A0'], freeLessonsPerUnit:1, dailyFree:3, trialDays:7,
+  price:{month:'24,99 zł',year:'149 zł'},
+  row:null, loadedFor:null,
+};
+const _todayKey=()=>new Date().toISOString().slice(0,10);
+function premiumUntil(){
+  const r=PREMIUM.row; if(!r) return 0;
+  return Math.max(r.sub_until?Date.parse(r.sub_until):0, r.paid_until?Date.parse(r.paid_until):0);
+}
+function trialUntil(){
+  if(!USER||!USER.created_at) return 0;
+  return Date.parse(USER.created_at)+PREMIUM.trialDays*864e5;
+}
+const paidPremium=()=>premiumUntil()>Date.now();
+const onTrial=()=>!paidPremium()&&trialUntil()>Date.now();
+function isPremium(){
+  if(TESTER||!cloudOn()) return true;          // tester tools and offline copies see everything
+  return paidPremium()||onTrial();
+}
+function freeLesson(l){
+  if(!l||l.review) return true;
+  const u=l.unit; if(PREMIUM.freeLevels.includes(u.level)) return true;
+  return u.lessons.indexOf(l)<PREMIUM.freeLessonsPerUnit;
+}
+const needsPremium=l=>!isPremium()&&!freeLesson(l);
+/* daily limit for the free plan: distinct lessons opened today */
+function dailyOpened(){try{const d=JSON.parse(localStorage.getItem('leogrowDaily')||'null');if(d&&d.d===_todayKey())return d.ids||[];}catch(e){}return [];}
+function markOpened(id){const ids=dailyOpened();if(ids.includes(id))return;ids.push(id);try{localStorage.setItem('leogrowDaily',JSON.stringify({d:_todayKey(),ids}));}catch(e){}}
+const freeLeftToday=()=>Math.max(0,PREMIUM.dailyFree-dailyOpened().length);
+
+const _openLessonFree=openLesson;
+openLesson=function(id){
+  const l=typeof id==='object'?id:ALL_LESSONS.find(x=>x.id===id);
+  if(l&&!isPremium()){
+    if(!freeLesson(l)){openPremium('lesson');return;}
+    const key=l.review?'review-'+l.unit.track:l.id, resume=C.active&&C.active.id===l.id;
+    if(!resume&&!dailyOpened().includes(key)&&freeLeftToday()<=0){openPremium('daily');return;}
+    if(l.review||lessonUnlocked(l.id)) markOpened(key);
+  }
+  return _openLessonFree.apply(this,arguments);
+};
+
+/* lesson cards: show a ⭐ Premium button instead of Start on paid lessons */
+const _renderCoursePlain=renderCourse;
+renderCourse=function(){
+  const r=_renderCoursePlain.apply(this,arguments);
+  try{decoratePremium();}catch(e){console.warn('premium',e);}
+  return r;
+};
+function decoratePremium(){
+  if(!cloudOn()) return;
+  const prem=isPremium();
+  ALL_LESSONS.forEach(l=>{
+    const card=document.getElementById('card-'+l.id); if(!card) return;
+    if(prem||freeLesson(l)) return;
+    card.classList.add('premium-lock');
+    const unlocked=lessonUnlocked(l.id);
+    card.onclick=null; card.removeAttribute('onclick');
+    if(unlocked){
+      card.setAttribute('onclick',"openPremium('lesson')");
+      const btn=card.querySelector('.lc-bottom .lesson-btn');
+      if(btn) btn.outerHTML=`<button class="btn btn-gold lesson-btn prem-btn" onclick="event.stopPropagation();openPremium('lesson')">⭐ Premium</button>`;
+    }
+    const tag=card.querySelector('.lc-title span'); if(tag&&!tag.querySelector('.prem-tag')) tag.insertAdjacentHTML('beforeend',' <b class="prem-tag">⭐ PREMIUM</b>');
+  });
+  const main=document.querySelector('#courseView .course-main');
+  if(main&&!document.getElementById('premBanner')){
+    let h='';
+    if(paidPremium()) h='';
+    else if(onTrial()){const d=Math.max(1,Math.ceil((trialUntil()-Date.now())/864e5));h=`<span>⭐ <b>${T2('Premium trial','Próbny Premium')}</b> · ${T2(d+(d===1?' day':' days')+' left','zostało dni: '+d)}</span><button class="btn btn-gold lesson-btn" onclick="openPremium()">${T2('Keep Premium','Zostań z Premium')}</button>`;}
+    else{const n=freeLeftToday();h=`<span>🌱 <b>${T2('Free plan','Plan darmowy')}</b> · ${T2(n+' of '+PREMIUM.dailyFree+' lessons left today','zostało lekcji dziś: '+n+' z '+PREMIUM.dailyFree)}</span><button class="btn btn-gold lesson-btn" onclick="openPremium()">⭐ ${T2('Go Premium','Przejdź na Premium')}</button>`;}
+    if(h) main.insertAdjacentHTML('afterbegin',`<div class="prem-banner" id="premBanner">${h}</div>`);
+  }
+}
+
+/* the Premium window */
+function openPremium(why){
+  if(!cloudOn()) return;
+  const reason=why==='lesson'?T2('This lesson is part of Leogrow Premium.','Ta lekcja jest częścią Leogrow Premium.')
+              :why==='daily'?T2('You\'ve used today\'s '+PREMIUM.dailyFree+' free lessons. Come back tomorrow, or go Premium for unlimited learning.','Wykorzystałeś dziś '+PREMIUM.dailyFree+' darmowe lekcje. Wróć jutro albo przejdź na Premium i ucz się bez limitu.')
+              :T2('Learn every level from A0 to C1, with no limits.','Ucz się na każdym poziomie od A0 do C1, bez limitów.');
+  const feats=[
+    ['📚',T2('All 75 lessons, Kids A0–A2 and Teens & Adults A0–C1','Wszystkie 75 lekcji: Dzieci A0–A2 oraz Młodzież i Dorośli A0–C1')],
+    ['♾️',T2('Unlimited lessons every day','Nielimitowane lekcje każdego dnia')],
+    ['🏆',T2('Every unit test and final test','Wszystkie testy działów i testy końcowe')],
+    ['🔁',T2('Unlimited review of your missed words','Nielimitowane powtórki trudnych słówek')],
+  ].map(([e,t])=>`<li><span>${e}</span>${t}</li>`).join('');
+  let body;
+  if(paidPremium()){
+    body=`<p class="prem-state">✅ ${T2('You have Premium until','Masz Premium do')} <b>${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>${manageBtn()}`;
+  }else if(!USER){
+    body=`<p class="prem-state">${T2('Create a free account first. You get <b>7 days of Premium free</b>, no card needed.','Najpierw załóż darmowe konto. Dostaniesz <b>7 dni Premium za darmo</b>, bez karty.')}</p>
+      <button class="btn btn-gold auth-go" onclick="openAuth('up')">${T2('Create free account →','Załóż darmowe konto →')}</button>
+      <button class="btn secondary auth-go" onclick="openAuth('in')">${T2('I have an account','Mam już konto')}</button>`;
+  }else{
+    const t=onTrial()?`<p class="prem-state">⭐ ${T2('Your free trial ends on','Twój okres próbny kończy się')} <b>${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>`:'';
+    body=t+`<div class="prem-plans">
+      <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · −50%','NAJLEPSZA CENA · −50%')}</i><b>${PREMIUM.price.year}</b><small>${T2('for 1 year · about 12 zł a month','za 1 rok · ok. 12 zł miesięcznie')}</small><em>${T2('One payment, no auto-renewal · BLIK, card, Przelewy24','Jedna płatność, bez odnawiania · BLIK, karta, Przelewy24')}</em></button>
+      <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · cancel anytime','miesięcznie · anuluj kiedy chcesz')}</small><em>${T2('Card, Apple Pay, Google Pay','Karta, Apple Pay, Google Pay')}</em></button>
+    </div><p class="auth-msg" id="premMsg"></p>
+    <p class="auth-note">${T2('Secure payment by Stripe. Premium unlocks on all your devices.','Bezpieczna płatność przez Stripe. Premium działa na wszystkich Twoich urządzeniach.')}</p>`;
+  }
+  authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('LEOGROW PREMIUM')}
+    <h2 class="title">⭐ Leogrow Premium</h2><p class="sub">${reason}</p><ul class="prem-feats">${feats}</ul>${body}`);
+}
+function manageBtn(){
+  const r=PREMIUM.row;
+  return r&&r.stripe_subscription_id?`<button class="btn secondary auth-go" onclick="managePremium(this)">${T2('Manage or cancel subscription','Zarządzaj subskrypcją lub ją anuluj')}</button><p class="auth-msg" id="premMsg"></p>`:'';
+}
+async function _premFetch(path,body){
+  const {data}=await SUPA.auth.getSession(); const tok=data.session&&data.session.access_token;
+  if(!tok) throw new Error(T2('Please log in again.','Zaloguj się ponownie.'));
+  const r=await fetch('/.netlify/functions/'+path,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok||!j.url) throw new Error(j.error||T2('Payments are not available right now. Please try again later.','Płatności są teraz niedostępne. Spróbuj ponownie później.'));
+  return j.url;
+}
+async function buyPremium(plan,btn){
+  const msg=$('premMsg'); document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
+  try{ await pushNow(true); location.href=await _premFetch('checkout',{plan,lang:LANG}); }
+  catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=false); }
+}
+async function managePremium(btn){
+  const msg=$('premMsg'); btn.disabled=true;
+  try{ location.href=await _premFetch('billing-portal',{lang:LANG}); }
+  catch(e){ if(msg) msg.textContent=e.message; btn.disabled=false; }
+}
+
+/* load the learner's Premium row whenever the logged-in account changes */
+async function loadPremium(){
+  if(!SUPA||!USER){PREMIUM.row=null;PREMIUM.loadedFor=null;return;}
+  const uid=USER.id;
+  try{
+    const {data,error}=await SUPA.from('premium').select('sub_until,paid_until,sub_status,stripe_subscription_id').eq('user_id',uid).maybeSingle();
+    if(error) throw error;
+    if(!USER||USER.id!==uid) return;
+    PREMIUM.row=data||null; PREMIUM.loadedFor=uid;
+    try{localStorage.setItem('leogrowPremium',JSON.stringify({u:uid,row:PREMIUM.row}));}catch(e){}
+  }catch(e){console.warn('premium',e);}
+  if(!activeLesson) renderCourse();
+}
+try{const c=JSON.parse(localStorage.getItem('leogrowPremium')||'null');if(c&&c.row)PREMIUM.cached=c;}catch(e){}
+const _renderAccountBtnPlain=renderAccountBtn;
+renderAccountBtn=function(){
+  const r=_renderAccountBtnPlain.apply(this,arguments);
+  const uid=USER&&USER.id||null;
+  if(uid!==PREMIUM.loadedFor){
+    PREMIUM.loadedFor=uid;
+    PREMIUM.row=uid&&PREMIUM.cached&&PREMIUM.cached.u===uid?PREMIUM.cached.row:null;   // works offline too
+    if(uid) loadPremium(); else if(!activeLesson) renderCourse();
+  }
+  return r;
+};
+/* account window: show the plan */
+const _openAccountPlain=openAccount;
+openAccount=function(){
+  const r=_openAccountPlain.apply(this,arguments);
+  const box=document.querySelector('#authModal .auth-box'); if(!box) return r;
+  let h;
+  if(paidPremium()) h=`<p class="prem-state">⭐ <b>Premium</b> ${T2('until','do')} ${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</p>${manageBtn()}`;
+  else if(onTrial()) h=`<p class="prem-state">⭐ ${T2('Premium trial until','Próbny Premium do')} ${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</p><button class="btn btn-gold auth-go" onclick="openPremium()">⭐ ${T2('See Premium plans','Zobacz plany Premium')}</button>`;
+  else h=`<p class="prem-state">🌱 ${T2('Free plan','Plan darmowy')}</p><button class="btn btn-gold auth-go" onclick="openPremium()">⭐ ${T2('Go Premium','Przejdź na Premium')}</button>`;
+  const sync=box.querySelector('button[onclick^="syncNowBtn"]');
+  if(sync) sync.insertAdjacentHTML('beforebegin',`<div class="prem-acc">${h}</div>`); else box.insertAdjacentHTML('beforeend',h);
+  return r;
+};
+/* back from Stripe */
+(function(){
+  const q=new URLSearchParams(location.search), p=q.get('premium'); if(!p) return;
+  q.delete('premium'); history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);
+  if(p==='cancel'){setTimeout(()=>_comboToastText(T2('Payment cancelled — nothing was charged.','Płatność anulowana — nic nie zostało pobrane.')),900);return;}
+  if(p!=='ok') return;
+  setTimeout(()=>_comboToastText(T2('🎉 Thank you! Unlocking Premium…','🎉 Dziękujemy! Odblokowujemy Premium…')),900);
+  let tries=0; const tick=async()=>{ tries++;
+    if(USER){ await loadPremium(); if(paidPremium()){ _comboToastText(T2('⭐ Premium is on. Enjoy every lesson!','⭐ Premium włączone. Miłej nauki!')); return; } }
+    if(tries<15) setTimeout(tick,2000);
+    else _comboToastText(T2('Payment received. Premium will appear in a minute — refresh the page.','Płatność otrzymana. Premium pojawi się za chwilę — odśwież stronę.'));
+  }; setTimeout(tick,1500);
 })();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
