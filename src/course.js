@@ -2402,7 +2402,9 @@ const ALL_LESSONS=[];
 COURSE.units.forEach((u,ui)=>u.lessons.forEach((l,li)=>{l.unit=u;l.num=`${ui+1}.${li+1}`;ALL_LESSONS.push(l);}));
 
 /* ---------- course progress (persistence) ---------- */
-const SAVE_KEY='lingrowCourse_dailyRoutines_v1';
+/* separate tester version: leogrow.netlify.app/tester (or ?tester) keeps its own progress and never syncs to the cloud */
+const TESTER_SITE=/^https?:$/.test(location.protocol)&&(/\/tester\/?$/.test(location.pathname)||/[?&]tester\b/.test(location.search));
+const SAVE_KEY=TESTER_SITE?'leogrowTesterProgress_v1':'lingrowCourse_dailyRoutines_v1';
 let C={lessons:{},active:null};          // lessons[id] = {stars, points, done}
 let activeLesson=null, lessonStartScore=0;
 function saveProgress(noSync){
@@ -2420,7 +2422,7 @@ function loadProgress(){
     if(typeof d.maxCombo==='number') maxCombo=d.maxCombo;
     if(typeof d.soundOn==='boolean') soundOn=d.soundOn;
     if(typeof d.musicOn==='boolean') musicOn=d.musicOn;
-    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[]};
+    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[],profile:d.C.profile||null};
   }catch(e){}
 }
 function resetProgress(){
@@ -2430,7 +2432,7 @@ function resetProgress(){
 }
 const lessonDone=id=>!!(C.lessons[id]&&C.lessons[id].done);
 /* tester tools: always available when the file is opened directly; on the website only with ?tester in the address */
-const TESTER_ALLOWED=location.protocol==='file:'||/[?&]tester\b/.test(location.search);
+const TESTER_ALLOWED=location.protocol==='file:'||TESTER_SITE;
 let TESTER=TESTER_ALLOWED; try{ const t=localStorage.getItem('lingrowTester'); if(t==='0') TESTER=false; if(t==='1'&&TESTER_ALLOWED) TESTER=true; }catch(e){}
 function setTester(on){TESTER=on;try{localStorage.setItem('lingrowTester',on?'1':'0');}catch(e){}document.body.classList.toggle('tester',TESTER);renderCourse();}
 function skipLesson(){ if(!activeLesson) return; sfxWhoosh(); go(zones.length-1); }
@@ -2729,7 +2731,7 @@ function courseShell(h){return `<div class="course-layout">${sideNav()}<main cla
 /* ---------- Accounts & progress sync (Supabase) ---------- */
 const LINGROW_CFG=Object.assign({supabaseUrl:"",supabaseAnonKey:"",google:false},window.LINGROW_CONFIG||{}); // filled in when the project is connected
 let SUPA=null, USER=null, _syncTimer=null, _authMode='in';
-const cloudOn=()=>!!(LINGROW_CFG.supabaseUrl&&LINGROW_CFG.supabaseAnonKey);
+const cloudOn=()=>!TESTER_SITE&&!!(LINGROW_CFG.supabaseUrl&&LINGROW_CFG.supabaseAnonKey);
 function loadSupabase(){ // works with both key types: the new 'sb_publishable_…' key and the legacy 'anon' key
   const srcs=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
   return new Promise((res,rej)=>{if(window.supabase)return res();const next=i=>{if(i>=srcs.length)return rej();const s=document.createElement('script');s.src=srcs[i];s.onload=()=>res();s.onerror=()=>next(i+1);document.head.appendChild(s);};next(0);});}
@@ -3331,11 +3333,11 @@ renderCourse=function(){
   if(VIEW.track==='me') h+=progressHtml();
   else if(VIEW.track==='levels') h+=myLevelsHtml();
   else if(t) h+=trackHtml(t);
-  else if(p) h+=myHomeHtml(p);
+  else if(p) h+=(TESTER?testerJumpHtml():'')+myHomeHtml(p);
   else h+=homeHtml();
   $('courseView').innerHTML=courseShell(h);
 };
-sideNav=function(){
+const _sideNavMine=function(){
   const p=PROF(), cur=VIEW.track, inPT=typeof PT!=='undefined'&&PT&&!VIEW._leftPT;
   const item=(on,click,icon,label,extra)=>`<a href="#" class="sn-item ${on?'on':''}" onclick="${click};return false;"><span>${icon}</span><b>${label}</b>${extra||''}</a>`;
   let h=`<aside class="side-nav"><div class="sn-title">Menu</div>`;
@@ -3347,6 +3349,13 @@ sideNav=function(){
   h+=item(false,"openSettings()","⚙️","Settings");
   return h+`</aside>`;
 };
+const _sideNavAll=sideNav;
+sideNav=function(){return TESTER?_sideNavAll():_sideNavMine();};
+function testerJumpHtml(){
+  return `<div class="panel tester-jump">${zoneTag('🧪 TESTER')}<h2 class="title">Jump to any level</h2><p class="sub">Every lesson is unlocked here. Progress in the tester version is separate and never touches your real account.</p>`+
+   TRACKS.map(t=>`<div class="tj-row"><b>${t.emoji} ${t.name}</b><div class="set-ctl">${t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length).map(lv=>`<button class="seg ${PROF()&&PROF().track===t.id&&PROF().level===lv?'on':''}" onclick="nav('${t.id}','${lv}')">${lv}</button>`).join('')}</div></div>`).join('')+
+   `<p style="margin-top:12px;"><button class="btn secondary lesson-btn" onclick="C.profile=null;saveProgress(true);nav()">See the new-learner home</button></p></div>`;
+}
 /* ---------- Settings ---------- */
 function openSettings(){
   const p=PROF(), tr=p?p.track:null, t=TRACKS.find(x=>x.id===tr);

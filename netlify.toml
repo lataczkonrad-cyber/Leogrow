@@ -6,3 +6,13 @@
   from = "/"
   to = "/lingrow-academy.html"
   status = 200
+
+[[redirects]]
+  from = "/tester/"
+  to = "/tester"
+  status = 301
+
+[[redirects]]
+  from = "/tester"
+  to = "/lingrow-academy.html"
+  status = 200
