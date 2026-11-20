@@ -334,3 +334,8 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .opt,.memory-face,.lesson-chip{min-width:0;overflow-wrap:break-word;}
 .opt.big-txt{font-size:clamp(20px,1.4vw + 12px,32px);line-height:1.2;padding:14px 12px;display:flex;align-items:center;justify-content:center;text-align:center;}
 .memory-front{line-height:1.1;}
+
+/* ← Back button in the top bar (shown everywhere except the home screen) */
+.app-back{white-space:nowrap;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:var(--gold-light);border-radius:999px;padding:7px 12px;cursor:pointer;display:none;}
+body.can-back .app-back{display:inline-block;}
+.app-back:active{transform:scale(.96);}

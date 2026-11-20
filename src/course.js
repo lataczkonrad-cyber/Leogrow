@@ -3468,3 +3468,53 @@ initCloud();
     later();
   });
 })();
+
+/* --- Back navigation: an in-app ← Back button, and the phone/browser back button moves
+   back inside Leogrow (lesson → course page → level → track → home) instead of leaving
+   the site. Each course screen and each opened lesson is a browser history entry. --- */
+(function(){
+  let ready=false,popping=false,depth=0;
+  const stateNow=()=>activeLesson?{lg:'l',id:activeLesson.id}:{lg:'c',t:(VIEW&&VIEW.track)||null,l:(VIEW&&VIEW.level)||null};
+  const same=(a,b)=>a&&b&&a.lg===b.lg&&a.id===b.id&&a.t===b.t&&a.l===b.l;
+  function record(){
+    if(!ready||popping)return;
+    const s=stateNow();
+    if(same(history.state,s))return;
+    try{history.pushState(s,'');depth++;}catch(e){}
+    updateBack();
+  }
+  function updateBack(){
+    const atHome=!activeLesson&&!(VIEW&&VIEW.track)&&!(typeof PT!=='undefined'&&PT);
+    document.body.classList.toggle('can-back',!atHome);
+  }
+  function parentOf(){
+    if(activeLesson)return 'course';
+    if(VIEW&&VIEW.level)return [VIEW.track,null];
+    if(VIEW&&VIEW.track)return [null,null];
+    return null;
+  }
+  window.appBack=function(){
+    if(depth>0){history.back();return;}
+    const p=parentOf();
+    if(p==='course')showCourse();
+    else if(p){if(typeof PT!=='undefined')PT=null;nav(p[0],p[1]);}
+    updateBack();
+  };
+  window.addEventListener('popstate',e=>{
+    const s=e.state;if(!s||!s.lg)return;
+    popping=true;depth=Math.max(0,depth-1);
+    try{
+      if(s.lg==='l'){if(!activeLesson||activeLesson.id!==s.id){if(activeLesson)showCourse();openLesson(s.id);}}
+      else{if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;nav(s.t,s.l);}
+    }catch(err){}
+    popping=false;updateBack();
+  });
+  const wrap=(name)=>{const f=window[name];if(typeof f!=='function')return;window[name]=function(){const r=f.apply(this,arguments);record();updateBack();return r;};};
+  window.addEventListener('load',()=>{
+    ['nav','openLesson','showCourse'].forEach(wrap);
+    const bar=document.querySelector('.topbar-controls');
+    if(bar&&!document.getElementById('appBack'))bar.insertAdjacentHTML('afterbegin','<button class="app-back" id="appBack" onclick="appBack()" title="Go back">← Back</button>');
+    try{history.replaceState(stateNow(),'');}catch(e){}
+    setTimeout(()=>{ready=true;updateBack();},300);
+  });
+})();
