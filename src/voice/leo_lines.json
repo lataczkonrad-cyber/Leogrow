@@ -16,7 +16,7 @@
   "Well done! Lesson complete!",
   "Amazing work today!"
  ],
- "say": [
+ "intro": [
   "Your very first English words: hello, goodbye, please, thank you…",
   "Count with Leo! One, two, three… all the way to twenty.",
   "Red, blue, green… ten colours to paint your world.",
@@ -92,21 +92,6 @@
   "Cleft sentences for emphasis, and participle clauses for concise, formal writing.",
   "Read an essay on the '15-minute city', analyse its argument and write your own.",
   "The final test for Cities & Society: vocabulary, grammar, mistakes and translation. Get 3 coins to win the Urban Thinker badge! It's a long one — about 10–15 minutes. Good luck! 🍀",
-  "Click the card to see the translation.",
-  "Listen and choose the same sentence.",
-  "Match the English phrase to its translation.",
-  "Flip two cards — the picture and the word must match.",
-  "Click the letters in the right order.",
-  "Spin the wheel, then type in English what you landed on!",
-  "Which activity is it? Click the balloon with the right name.",
-  "Choose the correct word.",
-  "Build the sentence from the tiles.",
-  "Type the translation or use \"Show answer\".",
-  "Which one doesn't belong?",
-  "Click the wrong word.",
-  "click the right lemur before it ducks back down!",
-  "Read the story.",
-  "Do the action, then click \"Done!\".",
   "Twoje pierwsze angielskie słowa: cześć, do widzenia, proszę, dziękuję…",
   "Licz z Leo! Jeden, dwa, trzy… aż do dwudziestu.",
   "Test końcowy działu the Starter unit: słownictwo, gramatyka, błędy i tłumaczenie. Zdobądź 3 monety, aby wygrać odznakę! To długi test — ok. 10–15 minut. Powodzenia! 🍀",
@@ -136,19 +121,6 @@
   "Precyzyjne słownictwo o produktywności, obciążeniu pracą i dobrostanie.",
   "Test końcowy działu Work–Life Balance: słownictwo, gramatyka, błędy i tłumaczenie. Zdobądź 3 monety, aby wygrać odznakę! To długi test — ok. 10–15 minut. Powodzenia! 🍀",
   "Formalne słownictwo o nierównościach, polityce i działaniach społecznych.",
-  "Przeczytaj esej o '15-minutowym mieście', przeanalizuj argumenty i napisz własny.",
-  "Połącz angielskie wyrażenie z tłumaczeniem.",
-  "Odwróć dwie karty — obrazek i słowo muszą pasować.",
-  "Kliknij balon z właściwą nazwą.",
-  "Kliknij kartę, aby zobaczyć tłumaczenie.",
-  "Ułóż zdanie z klocków.",
-  "Zakręć kołem i napisz po angielsku, co wylosowałeś!",
-  "Wpisz tłumaczenie albo użyj „Pokaż odpowiedź”.",
-  "Klikaj litery we właściwej kolejności.",
-  "Wybierz poprawne słowo.",
-  "kliknij właściwego lemura, zanim się schowa!",
-  "Kliknij błędne słowo.",
-  "Zrób ruch, potem kliknij „Gotowe!”.",
-  "Przeczytaj historię."
+  "Przeczytaj esej o '15-minutowym mieście', przeanalizuj argumenty i napisz własny."
  ]
 }
