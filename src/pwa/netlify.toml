@@ -3,12 +3,13 @@
   to = "/lingrow-academy.html"
   status = 200
 
-[[redirects]]
-  from = "/tester/"
-  to = "/tester"
-  status = 301
-
+# the tester version (Netlify matches "/tester" and "/tester/" alike; never add a /tester/ -> /tester redirect, it loops)
 [[redirects]]
   from = "/tester"
   to = "/lingrow-academy.html"
+  status = 200
+
+[[redirects]]
+  from = "/tester/*"
+  to = "/:splat"
   status = 200
