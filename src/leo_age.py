@@ -11,7 +11,7 @@ def _inv(kernels,qx,qy):
         dx,dy=qx-ox,qy-oy; w=_w(np.hypot(dx,dy),R)
         nx+=w*((cx-ox)+dx*(1/sx-1)); ny+=w*((cy-oy)+dy*(1/sy-1))
     return nx,ny
-def warp(img,passes,size=512):
+def warp(img,passes,size=512,keep_alpha=True):
     a=np.asarray(img.convert('RGBA').resize((size,size),Image.LANCZOS)).astype(np.float32)
     k=size/512.
     yy,xx=np.mgrid[0:size,0:size].astype(np.float32)
@@ -21,8 +21,9 @@ def warp(img,passes,size=512):
     x0=np.floor(qx).astype(int); y0=np.floor(qy).astype(int); fx=(qx-x0)[...,None]; fy=(qy-y0)[...,None]
     p=lambda y,x:a[y,x]
     out=(p(y0,x0)*(1-fx)*(1-fy)+p(y0,x0+1)*fx*(1-fy)+p(y0+1,x0)*(1-fx)*fy+p(y0+1,x0+1)*fx*fy)
-    out[...,3]=a[...,3]  # keep the rounded tile shape
+    if keep_alpha: out[...,3]=a[...,3]  # keep the rounded tile shape
     return Image.fromarray(np.clip(out,0,255).astype(np.uint8),'RGBA')
+STAGE_ARGS={}
 def stage(head_s,head_dy,eye_s,eye_sy,body_sy,tail_sy,body_sx=1.0):
     hx,hy=HEAD; nh=(hx,hy+head_dy)
     p1=[]
@@ -34,13 +35,15 @@ def stage(head_s,head_dy,eye_s,eye_sy,body_sy,tail_sy,body_sx=1.0):
         ne=(nh[0]+(ex-hx)*head_s, nh[1]+(ey-hy)*head_s)
         if eye_s!=1 or eye_sy!=1: p3.append((ne,ne,(eye_s,eye_s*eye_sy),26*head_s))
     return [p1,p2,p3]
+def _st(name,*a):
+    STAGE_ARGS[name]=a; return stage(*a)
 STAGES={ # head scale, head shift down, eye scale, eye height factor, body stretch y, tail stretch y, body stretch x
- 'baby':  stage(1.36, 40,1.22,1.00,0.90,0.85,1.06),
- 'little':stage(1.22, 26,1.14,1.00,0.92,0.92,1.05),
- 'kid':   stage(1.10, 12,1.07,1.00,0.97,0.97,1.02),
+ 'baby':  _st('baby',1.36, 40,1.22,1.00,0.90,0.85,1.06),
+ 'little':_st('little',1.22, 26,1.14,1.00,0.92,0.92,1.05),
+ 'kid':   _st('kid',1.10, 12,1.07,1.00,0.97,0.97,1.02),
  'teen':  [],
- 'adult': stage(0.93,-12,1.00,0.88,1.05,1.10,0.95),
- 'senior':stage(0.85,-24,1.00,0.74,1.10,1.18,0.92),
+ 'adult': _st('adult',0.93,-12,1.00,0.88,1.05,1.10,0.95),
+ 'senior':_st('senior',0.85,-24,1.00,0.74,1.10,1.18,0.92),
 }
 def make(src):
     base=src if isinstance(src,Image.Image) else Image.open(src)

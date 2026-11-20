@@ -2980,7 +2980,7 @@ function homeHtml(){
     <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=`<img class="track-leo" src="${(t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||LEO_CHEER}" alt="">`;
+    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).b||LEO_CHEER}" alt="">`;
     h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
       ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
       <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
@@ -3408,11 +3408,23 @@ function leoContext(){
   return null;
 }
 function leoGrow(h){
-  const c=leoContext(), st=c&&LEO_STAGES[c.track]&&LEO_STAGES[c.track][c.level]; if(!st) return h;
-  h=h.replace('class="lemur-wrap"',`class="lemur-wrap" style="--leo-s:${st[0]}"`);
-  const src=LEO_AGES[st[1]]; if(src) h=h.replace(/(id="lemurImgBase-[^"]+") src="[^"]*"/,`$1 data-age="${st[1]}" src="${src}"`);
-  h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
+  const c=leoContext(), st=c&&LEO_STAGES[c.track]&&LEO_STAGES[c.track][c.level];
+  const rig=LEO_AGES[st?st[1]:'teen']; if(!rig||!rig.b) return h;
+  if(st) h=h.replace('class="lemur-wrap"',`class="lemur-wrap" style="--leo-s:${st[0]}"`);
+  // Leo as layers: body, a swaying tail and eyelids for blinking
+  const lids=rig.e.map(([x,y,rx,ry])=>`<span class="leo-lid" style="left:${x-rx}%;top:${y-ry}%;width:${2*rx}%;height:${2*ry}%"></span>`).join('');
+  h=h.replace(/<img class="(lemur-img[^"]*)" id="(lemurImgBase-[^"]+)" src="[^"]*"([^>]*)>/,(m,cls,id,rest)=>
+    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'teen'}" src="${rig.b}"${rest}><img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
+  if(st) h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
   return h;
 }
+/* Leo blinks now and then */
+(function(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  setInterval(()=>{document.querySelectorAll('.leo-rig:not(.blink)').forEach(r=>{
+    if(Math.random()<0.075){r.classList.add('blink');setTimeout(()=>{r.classList.remove('blink');
+      if(Math.random()<0.18) setTimeout(()=>{r.classList.add('blink');setTimeout(()=>r.classList.remove('blink'),190);},120);},190);}
+  });},400);
+})();
 
 initCloud();
