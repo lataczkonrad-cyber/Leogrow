@@ -3414,10 +3414,25 @@ function leoGrow(h){
   // Leo as layers: body, a swaying tail and eyelids for blinking
   const lids=rig.e.map(([x,y,rx,ry])=>`<span class="leo-lid" style="left:${x-rx}%;top:${y-ry}%;width:${2*rx}%;height:${2*ry}%"></span>`).join('');
   h=h.replace(/<img class="(lemur-img[^"]*)" id="(lemurImgBase-[^"]+)" src="[^"]*"([^>]*)>/,(m,cls,id,rest)=>
-    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'teen'}" src="${rig.b}"${rest}><img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
+    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'teen'}" src="${rig.b}"${rest}>${rig.a?`<img class="leo-arm" src="${rig.a}" alt="" draggable="false" style="transform-origin:${rig.s[0]}% ${rig.s[1]}%"><img class="leo-cap" src="${rig.c}" alt="" draggable="false">`:''}<img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
   if(st) h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
   return h;
 }
+/* Leo waves: hand comes up, waves, goes back down — on greeting, when tapped, and now and then */
+function leoWaveArm(rig){
+  if(!rig||rig.classList.contains('waving')) return;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  rig.classList.add('waving'); setTimeout(()=>rig.classList.remove('waving'),2700);
+}
+(function(){
+  const _lw=lemurWave; lemurWave=function(id){_lw(id); const w=document.getElementById('lemurWrap-'+id); leoWaveArm(w&&w.querySelector('.leo-rig'));};
+  // greet: wave once when a new Leo appears
+  new MutationObserver(ms=>{ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;
+    const r=n.matches&&n.matches('.leo-rig')?[n]:[...n.querySelectorAll?n.querySelectorAll('.leo-rig'):[]];
+    r.forEach(x=>{if(!x.closest('.lemur-corner')) setTimeout(()=>leoWaveArm(x),700);});}));}).observe(document.body,{childList:true,subtree:true});
+  // and now and then on his own
+  setInterval(()=>{document.querySelectorAll('.leo-rig').forEach(r=>{if(Math.random()<0.04) leoWaveArm(r);});},1000);
+})();
 /* Leo blinks now and then */
 (function(){
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;

@@ -320,3 +320,11 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 @keyframes leoPeek{0%,100%{transform:translateY(0) scale(1);}45%,60%{transform:translateY(3px) scale(.985);}}
 @keyframes leoSpin{0%,100%{transform:rotate(0);}30%{transform:rotate(-3deg);}65%{transform:rotate(2.5deg);}}
 @media (prefers-reduced-motion: reduce){.leo-rig,.leo-tail,.lemur-stage{animation:none!important;}}
+/* resting pose: hand down; waving: up, wave, back down. The tail never stops. */
+.leo-arm{transform:rotate(-106deg);will-change:transform;}
+.leo-rig.waving .leo-arm{animation:leoWave 2.6s cubic-bezier(.45,0,.4,1) both!important;}
+@keyframes leoWave{
+ 0%{transform:rotate(-106deg);} 22%{transform:rotate(-4deg);} 30%{transform:rotate(7deg);} 38%{transform:rotate(-5deg);}
+ 46%{transform:rotate(7deg);} 54%{transform:rotate(-5deg);} 62%{transform:rotate(5deg);} 72%{transform:rotate(-2deg);} 100%{transform:rotate(-106deg);}
+}
+@media (prefers-reduced-motion: reduce){.leo-rig.waving .leo-arm{animation:none!important;}}

@@ -3,6 +3,8 @@ Works on the 1024px brand icon after the chest badge is removed; positions are g
 import numpy as np
 from PIL import Image, ImageFilter
 import leo_age
+ARM_CUT=300.; ARM_PIVOT=(292.,455.)   # shoulder
+TAIL_PIVOT=(628.,955.)
 EYES_1024=[(355,288,32,30),(466,292,36,33)]   # x, y, half-width, half-height of each eye (lid size)
 def _navy(a):
     r,g,b=a[...,0],a[...,1],a[...,2]
@@ -48,8 +50,53 @@ def split(img):
     fr=(~_navy(a)&(m<0.5)&(a[...,:3].max(-1)>=120)).astype(np.float32)*band
     fr=np.asarray(Image.fromarray((fr*255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.
     front=a.copy(); front[...,3]=a[...,3]*fr
+    # ---- the waving arm: cut it off at the shoulder so it can hang down and wave ----
+    isbg=(a[...,2]-a[...,0]>28)&(a[...,2]-a[...,1]>18)&(a[...,0]<95)
+    gold=(a[...,0]>140)&(a[...,1]>100)&(a[...,2]<110)&(a[...,0]>a[...,2]+60)
+    cand=(xx<ARM_CUT*s)&(yy>260*s)&(yy<570*s)&~isbg&~gold
+    from collections import deque
+    seen=np.zeros_like(cand); q=deque([(int(340*s),int(150*s))]); seen[q[0]]=True
+    while q:
+        y,x=q.popleft()
+        for dy,dx in ((1,0),(-1,0),(0,1),(0,-1)):
+            ny,nx=y+dy,x+dx
+            if 0<=ny<H and 0<=nx<W and cand[ny,nx] and not seen[ny,nx]: seen[ny,nx]=True; q.append((ny,nx))
+    seen=np.asarray(Image.fromarray((seen*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.MinFilter(7)))>127
+    # fill holes inside the arm (dark fur that looked like background)
+    out=np.zeros_like(seen); q=deque()
+    for y in range(H):
+        for x in (0,W-1):
+            if not seen[y,x]: out[y,x]=True; q.append((y,x))
+    for x in range(W):
+        for y in (0,H-1):
+            if not seen[y,x] and not out[y,x]: out[y,x]=True; q.append((y,x))
+    while q:
+        y,x=q.popleft()
+        for dy,dx in ((1,0),(-1,0),(0,1),(0,-1)):
+            ny,nx=y+dy,x+dx
+            if 0<=ny<H and 0<=nx<W and not seen[ny,nx] and not out[ny,nx] and nx<ARM_CUT*s+40: out[ny,nx]=True; q.append((ny,nx))
+    seen=(~out)&(xx<ARM_CUT*s)
+    am=Image.fromarray((seen*255).astype(np.uint8)).filter(ImageFilter.MinFilter(5))   # drop the white sticker rim
+    am=np.asarray(am.filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.*(xx<ARM_CUT*s)
+    am=am*np.clip((ARM_CUT*s-xx)/(14*s),0,1)   # soft end at the shoulder so no seam shows
+    arm=a.copy(); arm[...,3]=a[...,3]*am
+    aw=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(21)).filter(ImageFilter.GaussianBlur(3*s))).astype(np.float32)/255.*(xx<ARM_CUT*s+3)
+    ah=np.clip(np.maximum(am*1.1,aw*(isbg|(a[...,:3].max(-1)<150))),0,1)[...,None]
+    near=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(61))).astype(np.float32)/255.
+    zone=((xx<(ARM_CUT-4)*s)&(yy>250*s)&(yy<556*s)&~gold).astype(np.float32)*near
+    zone=np.asarray(Image.fromarray((zone*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2*s))).astype(np.float32)/255.
+    ah=np.maximum(ah,zone[...,None])
+    nearL=(isbg)&(xx<330*s)&(yy>150*s)&(yy<620*s)&(near<0.5)
+    fillA=np.zeros_like(fill)
+    for c in range(3):
+        coef,*_=np.linalg.lstsq(A[nearL],a[...,c][nearL],rcond=None); fillA[...,c]=A@coef
+    body[...,:3]=body[...,:3]*(1-ah)+fillA*ah
+    d=np.hypot(xx-ARM_PIVOT[0]*s,yy-ARM_PIVOT[1]*s)
+    capm=(~isbg&(am<0.5)&(d<130*s)&(xx>=(ARM_CUT-2)*s)&(mw<0.5)).astype(np.float32)
+    capm=np.asarray(Image.fromarray((capm*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2*s))).astype(np.float32)/255.
+    cap=a.copy(); cap[...,3]=a[...,3]*capm
     to=lambda x:Image.fromarray(np.clip(x,0,255).astype(np.uint8),'RGBA')
-    return to(body),to(tail),to(front)
+    return to(body),to(tail),to(front),to(arm),to(cap)
 def stage_eyes(name):
     st=leo_age.STAGE_ARGS.get(name)
     out=[]
@@ -60,14 +107,21 @@ def stage_eyes(name):
             out.append((nx/5.12,ny/5.12,rx/2*hs*es/5.12,ry/2*hs*es*esy/5.12))
         else: out.append((x/10.24,y/10.24,rx/10.24,ry/10.24))
     return [[round(v,2) for v in e] for e in out]
+def _track(passes,pt,size):
+    # where a point of the original ends up after the age warp
+    im=Image.new('RGBA',(1024,1024),(0,0,0,0)); from PIL import ImageDraw
+    ImageDraw.Draw(im).ellipse([pt[0]-10,pt[1]-10,pt[0]+10,pt[1]+10],fill=(255,255,255,255))
+    w=np.asarray(leo_age.warp(im,passes,size,keep_alpha=False))[...,3].astype(np.float32)
+    ys,xs=np.nonzero(w>60); return (round(xs.mean()/size*100,1),round(ys.mean()/size*100,1))
 def make_rigs(src_img,size=512):
-    body,tail,front=split(src_img)
+    body,tail,front,arm,cap=split(src_img)
     rigs={}
     for name,passes in leo_age.STAGES.items():
         b=leo_age.warp(body,passes,size)
         t=leo_age.warp(tail,passes,size,keep_alpha=False)
         f=leo_age.warp(front,passes,size,keep_alpha=False)
+        ar=leo_age.warp(arm,passes,size,keep_alpha=False); cp=leo_age.warp(cap,passes,size,keep_alpha=False)
         ta=np.asarray(t)[...,3]; ys,xs=np.nonzero(ta>128)
         low=ys>np.percentile(ys,92); px,py=xs[low].min(),ys[low].mean()   # tail base, low on the left, behind the leg
-        rigs[name]=dict(body=b,tail=t,front=f,pivot=(round(px/size*100,1),round(py/size*100,1)),eyes=stage_eyes(name))
+        rigs[name]=dict(body=b,tail=t,front=f,arm=ar,cap=cp,shoulder=_track(passes,ARM_PIVOT,size),pivot=(round(px/size*100,1),round(py/size*100,1)),eyes=stage_eyes(name))
     return rigs
