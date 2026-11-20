@@ -4,6 +4,7 @@
 Usage (from the repo root):
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py          # only missing lines
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --redo   # remake every line
+    ELEVEN_KEY=... ELEVEN_VOICE=<owner voice> python3 tools/voice_gen.py --leo --redo   # Leo's lines
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --fix    # remake phrases + clips that fail the check
     python3 tools/voice_gen.py --polish                                  # only re-trim/level existing clips (no API)
 
@@ -28,10 +29,11 @@ VDIR = os.path.join(HERE, '..', 'src', 'voice')
 KEY = os.environ.get('ELEVEN_KEY', '').strip()
 VOICE = os.environ.get('ELEVEN_VOICE', '').strip()
 MODEL = os.environ.get('ELEVEN_MODEL', 'eleven_multilingual_v2')
-TAG = '-v3'        # bump when clips are remade, so browsers/CDN fetch the new files
+TAG = '-v4'        # bump when clips are remade, so browsers/CDN fetch the new files
 REDO = '--redo' in sys.argv
 FIX = '--fix' in sys.argv
 POLISH = '--polish' in sys.argv
+LEO = '--leo' in sys.argv   # Leo's own lines (src/voice/leo_lines.json), usually in the owner's voice
 if not POLISH and (not KEY or not VOICE):
     sys.exit('Set ELEVEN_KEY and ELEVEN_VOICE first.')
 
@@ -45,7 +47,7 @@ def norm(t):
 
 
 def clip_id(t):
-    return hashlib.sha1(norm(t).encode()).hexdigest()[:12] + TAG
+    return ('leo-' if LEO else '') + hashlib.sha1(norm(t).encode()).hexdigest()[:12] + TAG
 
 
 def prep(t):
@@ -130,8 +132,12 @@ def polish(src, dst):
                     '-c:a', 'libmp3lame', '-b:a', '64k', dst], check=True)
 
 
-lines = json.load(open(os.path.join(VDIR, 'lines.json')))
-idx_path = os.path.join(VDIR, 'index.json')
+if LEO:
+    lines = [t for group in json.load(open(os.path.join(VDIR, 'leo_lines.json'))).values() for t in group]
+    idx_path = os.path.join(VDIR, 'leo_index.json')
+else:
+    lines = json.load(open(os.path.join(VDIR, 'lines.json')))
+    idx_path = os.path.join(VDIR, 'index.json')
 index = json.load(open(idx_path)) if os.path.exists(idx_path) else {}
 index = {k: v for k, v in index.items() if os.path.exists(os.path.join(VDIR, v))}
 

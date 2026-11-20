@@ -1,0 +1,5 @@
+{
+ "praise": ["Well done!", "Great job!", "Brilliant!", "Nice one!", "Keep it up!", "You're on fire!"],
+ "wrong": ["Try again!", "Almost! Try again.", "Don't worry, you've got this."],
+ "win": ["Well done! Lesson complete!", "Amazing work today!"]
+}

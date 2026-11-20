@@ -178,10 +178,30 @@ engine=engine.replace(_old_speak,_VOICE_JS,1)
 _mt="if(!musicOn||!soundOn) return;"
 assert engine.count(_mt)==1
 engine=engine.replace(_mt,"if(!musicOn||!soundOn||window._voiceBusy) return;")
+# --- Leo's own lines in the owner's voice (tools/voice_gen.py --leo): praise, try again, lesson complete
+_lj=os.path.join(_VDIR,'leo_lines.json'); _li=os.path.join(_VDIR,'leo_index.json')
+LEO_CLIPS={}
+if os.path.exists(_lj) and os.path.exists(_li):
+    _lidx=__import__('json').load(open(_li))
+    for _g,_ts in __import__('json').load(open(_lj)).items():
+        _fs=[_lidx.get(' '.join(t.strip().lower().split())) for t in _ts]
+        LEO_CLIPS[_g]=[f for f in _fs if f and os.path.exists(os.path.join(_VDIR,f))]
+_LEO_JS=("const LEO_CLIPS="+__import__('json').dumps(LEO_CLIPS)+";let _leoLast='';\n"
+ # Leo speaks now and then, never over a lesson word; a lesson word cuts Leo short instead
+ "function leoSay(g,prob,delay){try{if(typeof soundOn!=='undefined'&&!soundOn)return;const l=LEO_CLIPS[g];"
+ "if(!l||!l.length||Math.random()>prob||window._voiceBusy)return;let f=l[Math.floor(Math.random()*l.length)];"
+ "if(f===_leoLast&&l.length>1)f=l[(l.indexOf(f)+1)%l.length];_leoLast=f;"
+ "setTimeout(()=>{if(window._voiceBusy)return;const a=_vGet(f);if(_vAud&&_vAud!==a)_vAud.pause();"
+ "_vAud=a;a.currentTime=0;window._voiceBusy=true;const p=a.play();if(p&&p.catch)p.catch(()=>{window._voiceBusy=false;});},delay||450);}catch(e){}}\n")
+engine=engine.replace("function _ttsSpeak(t){",_LEO_JS+"function _ttsSpeak(t){",1)
+for _o,_n in [("  sfxCorrect();\n  saveProgress();","  sfxCorrect();\n  leoSay('praise',(combo===3||combo%5===0)?1:0.15);\n  saveProgress();"),
+              ("  combo=0;\n  sfxWrong();","  combo=0;\n  sfxWrong();\n  leoSay('wrong',0.4,600);"),
+              ("function sfxBigWin(){","function sfxBigWin(){\n  leoSay('win',1,900);")]:
+    assert engine.count(_o)==1,_o; engine=engine.replace(_o,_n)
 import shutil as _sh
 _sv=os.path.join(os.path.dirname(OUT),'voice'); _sh.rmtree(_sv,ignore_errors=True)
 if VOICE_CLIPS:
-    os.makedirs(_sv); [_sh.copy(os.path.join(_VDIR,v),_sv) for v in set(VOICE_CLIPS.values())]
-print('voice clips:',len(VOICE_CLIPS))
+    os.makedirs(_sv); [_sh.copy(os.path.join(_VDIR,v),_sv) for v in set(VOICE_CLIPS.values())|{f for l in LEO_CLIPS.values() for f in l}]
+print('voice clips:',len(VOICE_CLIPS),'leo:',sum(map(len,LEO_CLIPS.values())))
 open(OUT,'w').write(head+body+engine+boot)
 print('ok',len(head+body+engine+boot))
