@@ -1,0 +1,3 @@
+Emoji pictures in this folder:
+- Microsoft Fluent Emoji (flat) — Copyright (c) Microsoft Corporation, MIT License. https://github.com/microsoft/fluentui-emoji
+- Country flags: Twemoji — Copyright Twitter, Inc and other contributors, graphics licensed CC-BY 4.0. https://github.com/jdecked/twemoji
