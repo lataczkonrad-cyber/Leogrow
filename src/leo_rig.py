@@ -111,8 +111,33 @@ def extend_bottom(a):
         bl=np.stack([_fblur(out[...,c],2.0*s) for c in range(3)],-1)
         out[...,:3]=np.where(ring[...,None],bl,out[...,:3])   # no dark line around the filled gap
     return out
+def round_tail(a):
+    """The tail loop is cut off flat on its right (x~916, y~745-915 in the 1024px icon).
+    Grow it out into a soft round bulge: each row carries on the fur colour from just inside the cut."""
+    H,W=a.shape[:2]; s=W/1024.; out=a.copy()
+    cut=int(916*s); y0,y1=745*s,915*s; bulge=22*s
+    rng=np.random.default_rng(11)
+    rag=_fblur(rng.normal(0,1,(int(H),3)).astype(np.float32),4*s)[:,0]; rag=rag/(rag.std()+1e-6)*0.8*s
+    grain=_fblur(rng.normal(0,1,(H,W)).astype(np.float32),0.7*s)
+    grain=np.cumsum(grain,1); grain=(grain-np.roll(grain,int(6*s),1)); grain/=grain.std()+1e-6   # short horizontal hair strokes
+    ys=np.arange(H); band=(ys>=y0-6*s)&(ys<=y1+6*s)
+    inner=a[:,cut-int(14*s):cut-int(3*s),:3].mean(1)                            # colour just inside the cut, per row
+    inner=np.stack([_fblur(inner[:,c:c+1].repeat(3,1),1.5*s)[:,0] for c in range(3)],-1)
+    for y in range(int(y0),int(y1)+1):
+        t=(y-y0)/(y1-y0); ext=bulge*np.sin(np.pi*t)**0.8+rag[y]
+        for d in range(-int(4*s),int(np.ceil(ext))+2):
+            x=cut+d
+            if x>=W: break
+            if d<=0:                                                           # hide the old cut line
+                k=(d+4*s)/(4*s)*0.8
+            else:
+                k=float(np.clip(ext-d+1,0,1))
+            col=inner[y]*(1+0.06*grain[y,x])
+            col=col+(250-col)*0.25*np.clip(d/max(ext,1),0,1)                  # lighter fur tips at the edge
+            out[y,x,:3]=a[y,x,:3]*(1-k)+col*k
+    return out
 def clean_rim(img,width=3):
-    im=img.convert('RGBA'); a=extend_bottom(np.asarray(im).astype(np.float32))
+    im=img.convert('RGBA'); a=round_tail(extend_bottom(np.asarray(im).astype(np.float32)))
     R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
     bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))&(A>200)
     gold=(R>140)&(G>100)&(B<110)&(R>B+60)

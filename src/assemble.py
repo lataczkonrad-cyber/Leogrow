@@ -23,7 +23,7 @@ import sys as _sys; _sys.path.insert(0,HERE); import leo_age
 def _imuri(im,size=480,q=86):
     im=im.copy();im.thumbnail((size,size),Image.LANCZOS);b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
 import belly
-_LEO_BASE=belly.furry_belly(Image.open(os.path.join(HERE,'brand','icon-rounded.png')))
+_LEO_BASE=belly.real_fur_belly(Image.open(os.path.join(HERE,'brand','icon-rounded.png')))
 import leo_rig
 LEO_AGES={n:{'b':_imuri(r['body']),'t':_imuri(r['tail'],q=88),'f':_imuri(r['front'],q=88),'a':_imuri(r['arm'],q=88),'c':_imuri(r['cap'],q=88),'s':r['shoulder'],'p':r['pivot'],'e':r['eyes']} for n,r in leo_rig.make_rigs(_LEO_BASE).items()}
 course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps(LEO_AGES)+';',1)
