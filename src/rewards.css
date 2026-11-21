@@ -98,10 +98,11 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
 .side-panels{display:none;}
 @media(min-width:1024px){
   body:not(.in-lesson) .app{max-width:none;padding:14px 24px 60px;}
+  .course-layout .side-nav{min-height:calc(100vh - 112px);top:88px;}
 }
 @media(min-width:1280px){
   .course-layout{grid-template-columns:240px minmax(0,1fr) 320px;gap:26px;}
-  .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:14px;}
+  .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:88px;}
   .course-main .daily-card{display:none;}
 }
 @media(min-width:1600px){.course-layout{grid-template-columns:260px minmax(0,1fr) 360px;gap:32px;}}
