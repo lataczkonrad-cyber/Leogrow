@@ -38,6 +38,8 @@ export default async req => {
     if (plan === 'month') {
       params.mode = 'subscription';
       params.subscription_data = { metadata: { user_id: user.id } };
+      // 7 days free on the first monthly subscription only (card needed; cancel in time and nothing is charged)
+      if (!(row && row.stripe_subscription_id)) params.subscription_data.trial_period_days = 7;
     } else {
       // one payment for a year: works with BLIK, Przelewy24 and cards (whatever is switched on in Stripe)
       params.mode = 'payment';
