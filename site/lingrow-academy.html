@@ -1074,6 +1074,43 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
   .rw-item .btn{font-size:13.5px;padding:8px 6px;}
   .rw-meter{min-width:0;}
 }
+/* ---------- PC: full width + right column ---------- */
+.side-panels{display:none;}
+@media(min-width:1024px){
+  body:not(.in-lesson) .app{max-width:none;padding:14px 24px 60px;}
+}
+@media(min-width:1280px){
+  .course-layout{grid-template-columns:240px minmax(0,1fr) 320px;gap:26px;}
+  .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:14px;}
+  .course-main .daily-card{display:none;}
+}
+@media(min-width:1600px){.course-layout{grid-template-columns:260px minmax(0,1fr) 360px;gap:32px;}}
+.sp-stats{display:flex;justify-content:space-between;gap:6px;background:rgba(5,10,48,.88);border:2px solid rgba(236,184,58,.55);border-radius:20px;padding:8px 10px;}
+.sp-stat{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px 4px;border-radius:12px;text-decoration:none;font-family:'Baloo 2',sans-serif;color:var(--gold-light);}
+.sp-stat span{font-size:20px;line-height:1;}.sp-stat b{font-size:17px;}
+.sp-stat:hover{background:rgba(255,255,255,.08);}
+.sp-stat.zero{filter:grayscale(1);opacity:.6;}
+.sp-card{background:var(--cream);border:2px solid var(--gold);border-radius:20px;padding:14px 16px;box-shadow:0 4px 0 #b5891f;color:var(--navy);}
+.sp-card p{margin:6px 0 0;font-size:13.5px;font-weight:600;color:#4a4a63;line-height:1.4;}
+.sp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sp-head b{font-family:'Baloo 2',sans-serif;font-size:18px;}
+.sp-head a{text-decoration:none;font-size:12.5px;font-weight:800;color:var(--navy-light);text-transform:uppercase;letter-spacing:.5px;}
+.sp-coins{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;}
+.sp-tag{display:block;font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8a6a10;}
+.sp-row{display:flex;align-items:center;gap:12px;margin-top:8px;}
+.sp-row>div{min-width:0;}
+.sp-row b{display:block;font-family:'Baloo 2',sans-serif;font-size:17px;line-height:1.2;}
+.sp-row small{font-size:12.5px;font-weight:700;color:#6b6b85;}
+.sp-row p{margin:0;}
+.sp-emo{flex:0 0 auto;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,var(--navy2),var(--navy-light));}
+.sp-emo img{width:34px;height:34px;}
+.sp-week{margin-top:10px;justify-content:space-between;}
+.sp-btn{display:block;width:100%;margin-top:12px;padding:10px 12px;font-size:15px;}
+.sp-next{border-width:3px;}
+.sp-prem{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;}
+.sp-prem .sp-tag{color:var(--gold-light);}
+.sp-prem .sp-big{display:block;font-family:'Baloo 2',sans-serif;font-size:21px;margin-top:4px;color:#fff;}
+.sp-prem p{color:#d9dcf5;}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -6004,6 +6041,43 @@ BONUS_LESSONS.forEach(l=>{l.bonus_lesson=true;l.num='Bonus';l.bonus=l.zones[0].c
 
 /* ---------- start ---------- */
 (function(){const _lp=loadProgress;loadProgress=function(){_lp();applyTheme();shopEarn(30,'welcome');setTimeout(renderWallet,0);};})();
+
+/* ---------- PC: full-width page with a right column of panels ---------- */
+function sidePanels(){
+  const n=streakOf(C.days),v=energyNow(),free=energyFree(),p=typeof PROF==='function'?PROF():null;
+  const chip=(click,icon,val,tip,cls)=>`<a href="#" class="sp-stat ${cls||''}" title="${tip}" onclick="${click};return false;"><span>${icon}</span><b>${val}</b></a>`;
+  let h=`<div class="sp-stats">`+chip("openHabits()","🔥",n,T2('Day streak','Dni z rzędu'),n?'':'zero')+chip("nav('shop')","🪙",coins(),T2('Coins','Monety'))
+    +chip("nav('shop')","⚡",free?'∞':v+'/'+EN_MAX,T2('Energy','Energia'))+(shieldsLeft()?chip("openHabits()","🛡️",shieldsLeft(),T2('Streak shields','Tarcze serii')):'')+`</div>`;
+  /* up next */
+  const nx=p?(nextInLevel(p.track,p.level)||nextLessonToDo(p.track)):nextLessonToDo();
+  if(nx) h+=`<div class="sp-card sp-next"><small class="sp-tag">${T2('UP NEXT','NASTĘPNA LEKCJA')} · ${nx.unit.level}</small>
+    <div class="sp-row"><span class="sp-emo">${nx.emoji}</span><div><b>${nx.title}</b><small>⏱ ~${zoneMinutes(nx)} min</small></div></div>
+    <button class="btn btn-gold sp-btn" onclick="openLesson('${nx.id}')">${C.active&&C.active.id===nx.id?T2('Continue →','Kontynuuj →'):T2('Start →','Start →')}</button></div>`;
+  /* daily goal */
+  const g=goalMin(),m=todayMin(),done=todayRec().g;
+  h+=`<div class="sp-card"><div class="sp-head"><b>🎯 ${T2('Daily goal','Dzienny cel')}</b><a href="#" onclick="openHabits();return false;">${T2('Change','Zmień')}</a></div>
+    <div class="sp-row">${goalRing(58)}<div><b>${done?T2('Done for today!','Na dziś zrobione!'):T2(`${m} of ${g} min`,`${m} z ${g} min`)}</b>
+    <small>${n?T2(`🔥 ${n}-day streak`,`🔥 seria: ${n} dni`):T2('Do one lesson to start a streak','Zrób lekcję, by zacząć serię')}</small></div></div>
+    <div class="dc-week sp-week">${weekDots()}</div></div>`;
+  /* premium (when available) */
+  if(typeof openPremium==='function'&&!(typeof isPremium==='function'&&isPremium()))
+    h+=`<div class="sp-card sp-prem"><small class="sp-tag">LEOGROW PREMIUM</small><b class="sp-big">${T2('Learn without limits','Ucz się bez limitów')}</b>
+      <p>${T2('Unlimited ⚡ energy and every lesson unlocked.','Nieograniczona ⚡ energia i wszystkie lekcje odblokowane.')}</p>
+      <button class="btn btn-gold sp-btn" onclick="openPremium()">⭐ ${T2('See Premium','Zobacz Premium')}</button></div>`;
+  /* shop */
+  h+=`<div class="sp-card"><div class="sp-head"><b>🛍️ ${T2('Shop','Sklep')}</b><span class="sp-coins">🪙 ${coins()}</span></div>
+    <div class="sp-row">${avatarHtml(52)}<p>${T2('Spend your coins on outfits for Leo, themes, frames and hints.','Wydaj monety na stroje dla Leo, motywy, ramki i podpowiedzi.')}</p></div>
+    <button class="btn secondary sp-btn" onclick="nav('shop')">${T2('Open the shop','Otwórz sklep')} →</button></div>`;
+  /* review */
+  const rt=p?p.track:(VIEW.track&&TRACKS.find(t=>t.id===VIEW.track)?VIEW.track:null),rv=rt?reviewWords(rt).length:0;
+  if(rv) h+=`<div class="sp-card"><div class="sp-head"><b>🔁 ${T2('Review','Powtórka')}</b><span class="sp-coins">${rv}</span></div>
+    <p>${reviewWords(rt).slice(0,4).map(w=>w.en).join(', ')}${rv>4?'…':''}</p>
+    <button class="btn secondary sp-btn" onclick="openReview('${rt}')">${T2('Practise them','Poćwicz je')} →</button></div>`;
+  return h;
+}
+(function(){const _cs=courseShell;courseShell=function(h){
+  let s='';try{s=sidePanels();}catch(e){console.warn('side panels',e);}
+  return _cs(h).replace(/<\/div>$/,`<aside class="side-panels">${s}</aside></div>`);};})();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){

@@ -418,3 +418,40 @@ BONUS_LESSONS.forEach(l=>{l.bonus_lesson=true;l.num='Bonus';l.bonus=l.zones[0].c
 
 /* ---------- start ---------- */
 (function(){const _lp=loadProgress;loadProgress=function(){_lp();applyTheme();shopEarn(30,'welcome');setTimeout(renderWallet,0);};})();
+
+/* ---------- PC: full-width page with a right column of panels ---------- */
+function sidePanels(){
+  const n=streakOf(C.days),v=energyNow(),free=energyFree(),p=typeof PROF==='function'?PROF():null;
+  const chip=(click,icon,val,tip,cls)=>`<a href="#" class="sp-stat ${cls||''}" title="${tip}" onclick="${click};return false;"><span>${icon}</span><b>${val}</b></a>`;
+  let h=`<div class="sp-stats">`+chip("openHabits()","🔥",n,T2('Day streak','Dni z rzędu'),n?'':'zero')+chip("nav('shop')","🪙",coins(),T2('Coins','Monety'))
+    +chip("nav('shop')","⚡",free?'∞':v+'/'+EN_MAX,T2('Energy','Energia'))+(shieldsLeft()?chip("openHabits()","🛡️",shieldsLeft(),T2('Streak shields','Tarcze serii')):'')+`</div>`;
+  /* up next */
+  const nx=p?(nextInLevel(p.track,p.level)||nextLessonToDo(p.track)):nextLessonToDo();
+  if(nx) h+=`<div class="sp-card sp-next"><small class="sp-tag">${T2('UP NEXT','NASTĘPNA LEKCJA')} · ${nx.unit.level}</small>
+    <div class="sp-row"><span class="sp-emo">${nx.emoji}</span><div><b>${nx.title}</b><small>⏱ ~${zoneMinutes(nx)} min</small></div></div>
+    <button class="btn btn-gold sp-btn" onclick="openLesson('${nx.id}')">${C.active&&C.active.id===nx.id?T2('Continue →','Kontynuuj →'):T2('Start →','Start →')}</button></div>`;
+  /* daily goal */
+  const g=goalMin(),m=todayMin(),done=todayRec().g;
+  h+=`<div class="sp-card"><div class="sp-head"><b>🎯 ${T2('Daily goal','Dzienny cel')}</b><a href="#" onclick="openHabits();return false;">${T2('Change','Zmień')}</a></div>
+    <div class="sp-row">${goalRing(58)}<div><b>${done?T2('Done for today!','Na dziś zrobione!'):T2(`${m} of ${g} min`,`${m} z ${g} min`)}</b>
+    <small>${n?T2(`🔥 ${n}-day streak`,`🔥 seria: ${n} dni`):T2('Do one lesson to start a streak','Zrób lekcję, by zacząć serię')}</small></div></div>
+    <div class="dc-week sp-week">${weekDots()}</div></div>`;
+  /* premium (when available) */
+  if(typeof openPremium==='function'&&!(typeof isPremium==='function'&&isPremium()))
+    h+=`<div class="sp-card sp-prem"><small class="sp-tag">LEOGROW PREMIUM</small><b class="sp-big">${T2('Learn without limits','Ucz się bez limitów')}</b>
+      <p>${T2('Unlimited ⚡ energy and every lesson unlocked.','Nieograniczona ⚡ energia i wszystkie lekcje odblokowane.')}</p>
+      <button class="btn btn-gold sp-btn" onclick="openPremium()">⭐ ${T2('See Premium','Zobacz Premium')}</button></div>`;
+  /* shop */
+  h+=`<div class="sp-card"><div class="sp-head"><b>🛍️ ${T2('Shop','Sklep')}</b><span class="sp-coins">🪙 ${coins()}</span></div>
+    <div class="sp-row">${avatarHtml(52)}<p>${T2('Spend your coins on outfits for Leo, themes, frames and hints.','Wydaj monety na stroje dla Leo, motywy, ramki i podpowiedzi.')}</p></div>
+    <button class="btn secondary sp-btn" onclick="nav('shop')">${T2('Open the shop','Otwórz sklep')} →</button></div>`;
+  /* review */
+  const rt=p?p.track:(VIEW.track&&TRACKS.find(t=>t.id===VIEW.track)?VIEW.track:null),rv=rt?reviewWords(rt).length:0;
+  if(rv) h+=`<div class="sp-card"><div class="sp-head"><b>🔁 ${T2('Review','Powtórka')}</b><span class="sp-coins">${rv}</span></div>
+    <p>${reviewWords(rt).slice(0,4).map(w=>w.en).join(', ')}${rv>4?'…':''}</p>
+    <button class="btn secondary sp-btn" onclick="openReview('${rt}')">${T2('Practise them','Poćwicz je')} →</button></div>`;
+  return h;
+}
+(function(){const _cs=courseShell;courseShell=function(h){
+  let s='';try{s=sidePanels();}catch(e){console.warn('side panels',e);}
+  return _cs(h).replace(/<\/div>$/,`<aside class="side-panels">${s}</aside></div>`);};})();
