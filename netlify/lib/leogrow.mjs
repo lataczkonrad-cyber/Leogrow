@@ -6,6 +6,8 @@
 import crypto from 'node:crypto';
 
 export const SUPABASE_URL = process.env.SUPABASE_URL || 'https://dqksrcffgkngjbkkfhby.supabase.co';
+// the public (publishable) key, same as in site/lingrow-config.js — enough to check who is logged in
+export const SUPABASE_PUBLIC_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_3DqjA-lTMKMDAavURFcHog_syyO5u8U';
 export const PLANS = {
   month: { amount: 2499, name: 'Leogrow Premium (monthly)', namePl: 'Leogrow Premium (miesięcznie)' },
   year:  { amount: 14900, name: 'Leogrow Premium (1 year)', namePl: 'Leogrow Premium (1 rok)', days: 365 },
@@ -38,6 +40,7 @@ function form(obj, prefix, out = new URLSearchParams()) {
   return out;
 }
 export async function stripe(method, path, params) {
+  if (!/^(sk|rk)_/.test(needEnv('STRIPE_SECRET_KEY'))) throw new Error('Payments setup: STRIPE_SECRET_KEY in Netlify must be the Stripe key starting with sk_.');
   const r = await fetch('https://api.stripe.com/v1/' + path, {
     method,
     headers: { Authorization: 'Bearer ' + needEnv('STRIPE_SECRET_KEY'), 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -67,13 +70,14 @@ function supaHeaders(extra) {
 }
 export async function userFromToken(token) {
   if (!token) return null;
-  const r = await fetch(SUPABASE_URL + '/auth/v1/user', { headers: { apikey: needEnv('SUPABASE_SERVICE_ROLE_KEY'), Authorization: 'Bearer ' + token } });
+  const r = await fetch(SUPABASE_URL + '/auth/v1/user', { headers: { apikey: SUPABASE_PUBLIC_KEY, Authorization: 'Bearer ' + token } });
   if (!r.ok) return null;
   const u = await r.json();
   return u && u.id ? u : null;
 }
 export async function getPremium(userId) {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/premium?user_id=eq.${encodeURIComponent(userId)}&select=*`, { headers: supaHeaders() });
+  if (r.status === 401 || r.status === 403) throw new Error('Payments setup: SUPABASE_SERVICE_ROLE_KEY in Netlify is not the Supabase secret key.');
   if (!r.ok) throw new Error('Supabase read failed: ' + (await r.text()));
   return (await r.json())[0] || null;
 }
