@@ -81,8 +81,38 @@ def add_fingers(a,hand,s=1.0):
     rgb=np.stack([g(rgb[...,c]*m)/wm for c in range(3)],-1)
     rng=np.random.default_rng(7); rgb=np.clip(rgb+rng.normal(0,3,(H,W,1)),0,255)
     return rgb,al
+def extend_bottom(a):
+    """The picture of Leo stops in a straight line a little above the bottom of the tile.
+    Continue his legs and tail down to the edge by mirroring the last rows of fur."""
+    R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
+    bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))
+    H=a.shape[0]; rows=np.nonzero((~bg&(A>200)).sum(1)>40)[0]
+    if not len(rows): return a
+    end=rows.max()
+    if end>=H-2: return a
+    out=a.copy()
+    for k in range(1,H-end):
+        src=max(0,end-k)
+        fgrow=~bg[src]&(A[src]>200)
+        keep=A[end+k]>0
+        out[end+k,fgrow&keep,:3]=a[src,fgrow&keep,:3]
+    # the gap between his feet is a hard-edged box in the picture: fill it with the leg beside it
+    H,W=a.shape[:2]; s=W/1024.
+    gy,gx=np.nonzero(bg[int(940*s):,int(410*s):int(490*s)]&(A[int(940*s):,int(410*s):int(490*s)]>200))
+    gy=gy+int(940*s); gx=gx+int(410*s)
+    for x in np.unique(gx):
+        ys=gy[gx==x]; top=ys.min()
+        for y in ys:
+            sy=int(2*top-y-1)
+            if 0<=sy<H: out[y,x,:3]=out[sy,x,:3]
+    if len(gx):
+        nm=np.zeros((H,W),bool); nm[gy,gx]=True
+        ring=_mf(nm,ImageFilter.MaxFilter,7)&~_mf(nm,ImageFilter.MinFilter,5)
+        bl=np.stack([_fblur(out[...,c],2.0*s) for c in range(3)],-1)
+        out[...,:3]=np.where(ring[...,None],bl,out[...,:3])   # no dark line around the filled gap
+    return out
 def clean_rim(img,width=3):
-    im=img.convert('RGBA'); a=np.asarray(im).astype(np.float32)
+    im=img.convert('RGBA'); a=extend_bottom(np.asarray(im).astype(np.float32))
     R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
     bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))&(A>200)
     gold=(R>140)&(G>100)&(B<110)&(R>B+60)
@@ -92,19 +122,24 @@ def clean_rim(img,width=3):
     # background colour under the rim: average of nearby background pixels
     fgm=~bg&(A>200)
     halo=bg&_mf(fgm,ImageFilter.MaxFilter,7)          # background right next to Leo (often a light halo)
-    far=bg&~_mf(fgm,ImageFilter.MaxFilter,13)
+    far=bg&~_mf(fgm,ImageFilter.MaxFilter,9)
     rim=rim|halo
     H,W=bg.shape; yy,xx=np.mgrid[0:H,0:W]; sc=W/1024.
     rim&=~((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))   # leave the cap and its badge alone
-    fill=_fill_from(a,far,10)
+    fill=_fill_from(a,far,6)
     k=_soft(rim,0.7)[...,None]
     out=a.copy(); out[...,:3]=a[...,:3]*(1-k)+fill*k
-    # smooth the jagged cut-out edge: let the outermost pixel row fade into the background
+    # smooth the jagged cut-out outline: round off the stair steps and little bumps, then anti-alias it
     fg=~(bg|rim)&(A>200)
-    edge=np.clip(_fblur(fg.astype(np.float32),1.1)*1.6-0.3,0,1)[...,None]
-    keep=(gold|((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc)))[...,None]
-    e=np.where(keep|~fg[...,None],1.0,edge)
-    out[...,:3]=out[...,:3]*e+fill*(1-e)
+    specks=fg&(_fblur(fg.astype(np.float32),4*sc)<0.3)&~gold   # stray dots floating in the background
+    rim=rim|specks; out[...,:3]=np.where(specks[...,None],fill,out[...,:3]); fg=fg&~specks
+    sm=_fblur(fg.astype(np.float32),2.2*sc)
+    alpha=np.clip((sm-0.5)*2.6+0.5,0,1)
+    fgcol=_fill_from(out,fg,2.5*sc)                    # fur colour for small dips that the smoothing fills in
+    col=np.where(fg[...,None],out[...,:3],fgcol)
+    keep=(gold|((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))|(A<=200))[...,None]
+    sm_out=col*alpha[...,None]+fill*(1-alpha[...,None])
+    out[...,:3]=np.where(keep,out[...,:3],sm_out)
     return Image.fromarray(np.clip(out,0,255).astype(np.uint8),'RGBA'),rim
 def split(img):
     """returns (body without tail, tail layer) as RGBA images of the same size"""
