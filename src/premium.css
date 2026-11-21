@@ -1,0 +1,24 @@
+/* ---------- Leogrow Premium ---------- */
+.prem-tag{display:inline-block;margin-left:4px;padding:1px 7px;border-radius:999px;background:var(--gold);color:var(--navy);font-size:10px;letter-spacing:.5px;}
+.lesson-card.premium-lock{cursor:pointer;}
+.lesson-card.premium-lock .lc-emoji{filter:saturate(.6);}
+.prem-btn{white-space:nowrap;}
+.prem-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 14px;padding:10px 14px;border-radius:16px;background:var(--cream);border:2px solid var(--gold);color:var(--navy);font-size:14px;font-weight:700;box-shadow:0 3px 0 var(--gold);}
+.prem-banner .lesson-btn{flex:none;}
+.prem-feats{list-style:none;padding:0;margin:10px 0 14px;text-align:left;}
+.prem-feats li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:14px;font-weight:700;color:var(--navy);border-bottom:1px dashed rgba(32,42,110,.15);}
+.prem-feats li span{flex:none;width:22px;text-align:center;}
+.prem-plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.prem-plan{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px;border-radius:16px;border:2px solid var(--navy-light);background:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;color:var(--navy);box-shadow:0 3px 0 var(--gold);transition:transform .15s;}
+.prem-plan:first-child{border-color:var(--gold);background:var(--cream);}
+.prem-plan:hover{transform:translateY(-2px);}
+.prem-plan:disabled{opacity:.55;cursor:wait;transform:none;}
+.prem-plan i{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.6px;color:#8a6a10;}
+.prem-plan b{font-family:'Baloo 2',sans-serif;font-size:26px;line-height:1.1;}
+.prem-plan small{font-size:12px;font-weight:700;color:#6b6b85;}
+.prem-plan em{font-style:normal;font-size:11px;color:#8b8ba0;margin-top:4px;line-height:1.3;}
+.prem-state{font-size:14px;font-weight:700;color:var(--navy);margin:6px 0;}
+.prem-acc{margin:8px 0;padding-top:8px;border-top:1px dashed rgba(32,42,110,.2);}
+@media(max-width:400px){.prem-plans{grid-template-columns:1fr;}}
+.prem-once{display:block;width:100%;margin-top:10px;padding:9px 12px;border-radius:12px;border:1.5px dashed var(--navy-light);background:transparent;color:var(--navy);font:700 12.5px 'Montserrat',sans-serif;cursor:pointer;}
+.prem-once:disabled{opacity:.55;cursor:wait;}

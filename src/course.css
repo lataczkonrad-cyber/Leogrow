@@ -199,7 +199,7 @@ body.adult .track-leo{animation:none;}
   .side-nav{display:block;position:sticky;top:14px;background:rgba(5,10,48,.88);border:2px solid rgba(236,184,58,.55);border-radius:20px;padding:14px 10px;}
   .sn-title{font-family:'Baloo 2',sans-serif;color:var(--gold-light);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;opacity:.75;padding:0 10px 6px;}
   .sn-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;color:#e8e9f5;text-decoration:none;font-size:14.5px;}
-  .sn-item span{font-size:18px;width:22px;text-align:center;}
+  .sn-item>span{font-size:18px;width:22px;text-align:center;}
   .sn-item b{flex:1;font-weight:700;}
   .sn-item small{font-size:11.5px;font-weight:800;color:var(--gold-light);opacity:.85;}
   .sn-item:hover{background:rgba(255,255,255,.08);}
@@ -305,11 +305,11 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .leo-rig{position:relative;width:100%;aspect-ratio:1;margin-top:4.95%;border-radius:22%;overflow:hidden;transform-origin:50% 96%;animation:leoBreath 4.6s ease-in-out infinite;}
 .lemur-stage .leo-rig img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;border-radius:0!important;animation:none!important;}
 .lemur-stage .leo-rig img.lemur-img{position:absolute;}
-.leo-tail{animation:leoTail 3.6s cubic-bezier(.45,0,.55,1) infinite alternate!important;will-change:transform;}
+.leo-tail,.lemur-stage .leo-rig img.leo-tail{animation:leoTail 3.6s cubic-bezier(.45,0,.55,1) infinite alternate!important;will-change:transform;}
 .leo-lid{position:absolute;border-radius:50%;background:radial-gradient(ellipse closest-side,#141419 70%,rgba(20,20,25,0) 100%);transform:scaleY(0);transform-origin:50% 0;pointer-events:none;}
 .leo-rig.blink .leo-lid{animation:leoBlink .19s ease-in-out;}
 @keyframes leoBreath{0%,100%{transform:scale(1,1);}50%{transform:scale(1.006,1.016);}}
-@keyframes leoTail{0%{transform:rotate(-1deg);}40%{transform:rotate(2.6deg);}65%{transform:rotate(1.8deg);}100%{transform:rotate(3.8deg);}}
+@keyframes leoTail{0%{transform:rotate(-1.5deg);}45%{transform:rotate(1deg);}70%{transform:rotate(.6deg);}100%{transform:rotate(2deg);}}
 @keyframes leoBlink{0%{transform:scaleY(0);}45%,60%{transform:scaleY(1);}100%{transform:scaleY(0);}}
 /* gentler, more natural reactions (no spinning tiles) */
 @keyframes leoJump{0%,100%{transform:translateY(0);}30%{transform:translateY(-9px);}55%{transform:translateY(0) scale(1.01,.99);}75%{transform:translateY(-3px);}}
@@ -320,12 +320,12 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 @keyframes leoPeek{0%,100%{transform:translateY(0) scale(1);}45%,60%{transform:translateY(3px) scale(.985);}}
 @keyframes leoSpin{0%,100%{transform:rotate(0);}30%{transform:rotate(-3deg);}65%{transform:rotate(2.5deg);}}
 @media (prefers-reduced-motion: reduce){.leo-rig,.leo-tail,.lemur-stage{animation:none!important;}}
-/* resting pose: hand down; waving: up, wave, back down. The tail never stops. */
-.leo-arm{transform:rotate(-106deg);will-change:transform;}
-.leo-rig.waving .leo-arm{animation:leoWave 2.6s cubic-bezier(.45,0,.4,1) both!important;}
+/* resting pose: hand up (as drawn); now and then he waves it from the shoulder. The tail never stops. */
+.leo-arm{transform:rotate(0deg);will-change:transform;}
+.leo-rig.waving .leo-arm,.lemur-stage .leo-rig.waving img.leo-arm{animation:leoWave 2.4s ease-in-out both!important;}
 @keyframes leoWave{
- 0%{transform:rotate(-106deg);} 22%{transform:rotate(-4deg);} 30%{transform:rotate(7deg);} 38%{transform:rotate(-5deg);}
- 46%{transform:rotate(7deg);} 54%{transform:rotate(-5deg);} 62%{transform:rotate(5deg);} 72%{transform:rotate(-2deg);} 100%{transform:rotate(-106deg);}
+ 0%,100%{transform:rotate(0deg);} 12%{transform:rotate(-9deg);} 26%{transform:rotate(7deg);} 40%{transform:rotate(-9deg);}
+ 54%{transform:rotate(7deg);} 68%{transform:rotate(-7deg);} 82%{transform:rotate(4deg);}
 }
 @media (prefers-reduced-motion: reduce){.leo-rig.waving .leo-arm{animation:none!important;}}
 
@@ -339,6 +339,31 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .app-back{white-space:nowrap;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:var(--gold-light);border-radius:999px;padding:7px 12px;cursor:pointer;display:none;}
 body.can-back .app-back{display:inline-block;}
 .app-back:active{transform:scale(.96);}
+
+/* emoji pictures (self-hosted Fluent Emoji, see emoji_post.js) */
+img.emj{width:1em;height:1em;margin:0 .04em;vertical-align:-0.125em;display:inline-block;pointer-events:none;user-select:none;-webkit-user-drag:none;}
+span.ej{display:inline;}
+.flash-emoji{font-size:44px;line-height:1;margin-bottom:6px;}
+
+/* Speaking practice ("Say it") */
+.sp-card{text-align:center;margin:14px auto;padding:18px 14px;max-width:520px;background:#fff;border:2px solid var(--navy);border-radius:18px;box-shadow:0 4px 0 var(--gold);}
+.sp-emoji{font-size:44px;line-height:1.1;min-height:10px;}
+.sp-text{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(22px,2vw + 12px,34px);color:var(--navy);overflow-wrap:break-word;}
+.sp-pl{color:#8b8ba0;font-weight:700;font-size:14px;margin-top:4px;}
+.sp-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.sp-mic{font-size:20px;padding:12px 22px;}
+.sp-mic.on{background:#c0392b;border-color:#c0392b;animation:fxGlow 1.2s ease-in-out infinite;}
+.sp-status{text-align:center;font-weight:700;color:#5b5f7a;margin:8px 0;}
+.sp-live{color:#c0392b;}
+.sp-err{color:#b03a2e;}
+.sp-result{margin:10px auto;max-width:560px;padding:12px 14px;border-radius:14px;text-align:center;}
+.sp-result.good{background:var(--gold-pale);border:2px solid var(--gold);}
+.sp-result.bad{background:#fdecea;border:2px solid #e6a29b;}
+.sp-words{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;}
+.sp-words .ok{color:#1e7d3a;}
+.sp-words .miss{color:#c0392b;text-decoration:underline wavy;}
+.sp-heard{margin:6px 0 2px;color:#5b5f7a;font-size:14px;}
+.sp-verdict{margin:4px 0 0;font-weight:800;color:var(--navy);}
 /* Google / Apple sign-in */
 .oauth-box{margin:12px 0 4px;}
 .oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;font:700 15px 'Montserrat',sans-serif;cursor:pointer;transition:transform .12s,box-shadow .12s;}

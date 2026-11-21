@@ -1,16 +1,18 @@
 /* Leogrow — offline support. Bump VERSION when the app file changes. */
-const VERSION = 'leogrow-v18';
+const VERSION = 'leogrow-v31';
 const CORE = ['./lingrow-academy.html', './lingrow-config.js', './lingrow.webmanifest', './lingrow-icon-192.png', './lingrow-icon-512.png', './lingrow-icon-180.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION && k !== 'leogrow-state').map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  // accounts, progress and Premium status must always be fresh: never serve them from the cache
+  if (url.hostname.endsWith('.supabase.co') || url.pathname.startsWith('/.netlify/')) return;
   // the app page: try the network first so updates arrive, fall back to the saved copy offline
   if (req.mode === 'navigate' || url.pathname.endsWith('.html')) {
     e.respondWith(fetch(req,{cache:'no-store'}).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put('./lingrow-academy.html', copy)); return r; })
@@ -21,5 +23,31 @@ self.addEventListener('fetch', e => {
   e.respondWith(caches.match(req).then(hit => {
     const net = fetch(req).then(r => { if (r && (r.ok || r.type === 'opaque')) { const copy = r.clone(); caches.open(VERSION).then(c => c.put(req, copy)); } return r; }).catch(() => hit);
     return hit || net;
+  }));
+});
+
+/* daily reminder: on Android (installed app) the browser wakes this up now and then; remind once a day after the chosen time if the goal isn't done */
+const _day = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+async function maybeRemind() {
+  const c = await caches.open('leogrow-state'), r = await c.match('./__reminder');
+  if (!r) return;
+  const st = await r.json(), now = new Date(), today = _day(now);
+  const hm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+  if (!st.on || hm < st.time || st.notified === today || (st.today === today && st.done)) return;
+  const wins = await self.clients.matchAll({ type: 'window' });
+  if (wins.some(w => w.visibilityState === 'visible')) return;
+  const pl = st.lang === 'pl', n = st.today === today || st.today === _day(new Date(now - 864e5)) ? st.streak : 0;
+  const title = n ? (pl ? `🔥 Utrzymaj serię ${n} dni!` : `🔥 Keep your ${n}-day streak!`) : (pl ? 'Czas na angielski z Leo! 🦁' : 'Time for English with Leo! 🦁');
+  const body = pl ? `Tylko ${st.goal} minut dzisiaj. Do dzieła!` : `Just ${st.goal} minutes today. Let's go!`;
+  st.notified = today;
+  await c.put('./__reminder', new Response(JSON.stringify(st), { headers: { 'Content-Type': 'application/json' } }));
+  await self.registration.showNotification(title, { body, icon: 'lingrow-icon-192.png', badge: 'lingrow-icon-192.png', tag: 'leogrow-daily' });
+}
+self.addEventListener('periodicsync', e => { if (e.tag === 'leogrow-daily') e.waitUntil(maybeRemind()); });
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(ws => {
+    const w = ws.find(x => 'focus' in x);
+    return w ? w.focus() : self.clients.openWindow(self.registration.scope);
   }));
 });
