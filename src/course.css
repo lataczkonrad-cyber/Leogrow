@@ -344,3 +344,23 @@ body.can-back .app-back{display:inline-block;}
 img.emj{width:1em;height:1em;margin:0 .04em;vertical-align:-0.125em;display:inline-block;pointer-events:none;user-select:none;-webkit-user-drag:none;}
 span.ej{display:inline;}
 .flash-emoji{font-size:44px;line-height:1;margin-bottom:6px;}
+
+/* Speaking practice ("Say it") */
+.sp-card{text-align:center;margin:14px auto;padding:18px 14px;max-width:520px;background:#fff;border:2px solid var(--navy);border-radius:18px;box-shadow:0 4px 0 var(--gold);}
+.sp-emoji{font-size:44px;line-height:1.1;min-height:10px;}
+.sp-text{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(22px,2vw + 12px,34px);color:var(--navy);overflow-wrap:break-word;}
+.sp-pl{color:#8b8ba0;font-weight:700;font-size:14px;margin-top:4px;}
+.sp-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.sp-mic{font-size:20px;padding:12px 22px;}
+.sp-mic.on{background:#c0392b;border-color:#c0392b;animation:fxGlow 1.2s ease-in-out infinite;}
+.sp-status{text-align:center;font-weight:700;color:#5b5f7a;margin:8px 0;}
+.sp-live{color:#c0392b;}
+.sp-err{color:#b03a2e;}
+.sp-result{margin:10px auto;max-width:560px;padding:12px 14px;border-radius:14px;text-align:center;}
+.sp-result.good{background:var(--gold-pale);border:2px solid var(--gold);}
+.sp-result.bad{background:#fdecea;border:2px solid #e6a29b;}
+.sp-words{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;}
+.sp-words .ok{color:#1e7d3a;}
+.sp-words .miss{color:#c0392b;text-decoration:underline wavy;}
+.sp-heard{margin:6px 0 2px;color:#5b5f7a;font-size:14px;}
+.sp-verdict{margin:4px 0 0;font-weight:800;color:var(--navy);}
