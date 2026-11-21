@@ -1162,6 +1162,63 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
 @media(max-width:400px){.prem-plans{grid-template-columns:1fr;}}
 .prem-once{display:block;width:100%;margin-top:10px;padding:9px 12px;border-radius:12px;border:1.5px dashed var(--navy-light);background:transparent;color:var(--navy);font:700 12.5px 'Montserrat',sans-serif;cursor:pointer;}
 .prem-once:disabled{opacity:.55;cursor:wait;}
+/* ---------- first-run welcome ---------- */
+.ob-wrap{max-width:620px;margin:6px auto 28px;padding:0 2px;}
+.ob-panel{text-align:center;padding:16px 20px 24px;min-height:0!important;}
+.ob-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;min-height:32px;}
+.ob-link{font:inherit;font-weight:800;font-size:14px;color:#6b6b85;background:none;border:0;cursor:pointer;padding:6px 4px;}
+.ob-link:hover{color:var(--navy);}
+.ob-dots{display:flex;gap:7px;}
+.ob-dots i{width:28px;height:8px;border-radius:8px;background:#dcdde9;}
+.ob-dots i.done{background:var(--gold-light);}
+.ob-dots i.on{background:var(--gold);box-shadow:0 2px 0 #b5891f;}
+.ob-panel .title{margin:8px 0 6px;}
+.ob-panel .sub{max-width:460px;margin:0 auto 10px;}
+.ob-leo{display:flex;justify-content:center;margin:0 0 4px;}
+.ob-leo .lemur-wrap{margin:4px auto 6px;}
+.ob-q{font-weight:800;color:var(--navy);margin:18px 0 8px;}
+.ob-langs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.ob-pill{font:inherit;font-weight:800;font-size:16px;cursor:pointer;padding:10px 18px;border-radius:999px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 3px 0 #c9cbe0;}
+.ob-pill.on{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 3px 0 #b5891f;}
+.ob-main{display:block;width:100%;max-width:360px;margin:22px auto 0;font-size:18px;}
+.ob-later{display:block;margin:12px auto 0;}
+.ob-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.ob-card{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px 18px;border-radius:22px;border:3px solid var(--navy-light);background:var(--cream);color:var(--navy);box-shadow:0 6px 0 var(--gold);transition:transform .18s,box-shadow .18s;}
+.ob-card:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--gold);}
+.ob-ico{font-size:56px;line-height:1;margin:4px 0 2px;}
+.ob-ico img{width:72px;height:72px;}
+.ob-card b{font-family:'Baloo 2',sans-serif;font-size:20px;line-height:1.15;}
+.ob-card small{font-size:13px;color:#4a4a63;font-weight:600;}
+.ob-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;text-align:left;}
+.ob-row{font:inherit;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 4px 0 #c9cbe0;transition:transform .15s;}
+.ob-row:hover{transform:translateY(-2px);}
+.ob-row.gold{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 4px 0 #b5891f;}
+.ob-row>span{font-size:30px;flex:0 0 auto;}
+.ob-row>div{flex:1;min-width:0;display:flex;flex-direction:column;}
+.ob-row b{font-family:'Baloo 2',sans-serif;font-size:19px;}
+.ob-row small{color:#4a4a63;font-weight:600;font-size:13px;}
+.ob-row>i{font-style:normal;font-size:26px;font-weight:800;color:var(--gold);}
+.ob-levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;}
+.ob-lv{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border-radius:16px;border:2px solid #dcdde9;background:#fff;color:var(--navy);}
+.ob-lv:hover{border-color:var(--gold);}
+.ob-lv .level-code{width:46px;height:46px;font-size:20px;border-radius:12px;}
+.ob-lv b{font-size:12px;}
+.ob-goals{margin-top:16px;}
+.ob-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px;}
+.ob-sum>div{background:var(--gold-pale);border:2px solid var(--gold);border-radius:16px;padding:10px 6px;display:flex;flex-direction:column;gap:2px;}
+.ob-sum small{font-size:12px;font-weight:800;color:#9a6c0c;text-transform:uppercase;letter-spacing:.04em;}
+.ob-sum b{color:var(--navy);font-size:15px;}
+.ob-acc{margin:16px 0 0;font-size:14px;color:#4a4a63;}
+.ob-acc a{font-weight:800;color:var(--navy-light);}
+body.onboarding .lemur-corner{display:none;}
+@media (max-width:560px){
+  .ob-panel{padding:12px 14px 20px;}
+  .ob-ico img{width:60px;height:60px;}
+  .ob-card b{font-size:17px;}
+  .ob-sum{grid-template-columns:1fr;}
+  .ob-sum>div{flex-direction:row;justify-content:space-between;align-items:center;padding:10px 14px;}
+}
+@media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -7441,7 +7498,7 @@ function setLang(l){LANG=l;if(l==='en')restoreLang();try{localStorage.setItem('l
    Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji 3D, stored in site/emoji/,
    so a word looks the same on iPhone, Android, Windows and Mac. Flags come from Twemoji.
    The list of available pictures is filled in at build time by emoji_post.js. */
-const EMOJI_KEYS=[];
+const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f337.webp","1f338.webp","1f33b.webp","1f33c.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f350.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f366.webp","1f36b.webp","1f36c.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f392.webp","1f393.webp","1f399.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3d0.webp","1f3d3.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45e.webp","1f45f.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f393.webp","1f469-200d-1f9b0.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47e.webp","1f482.webp","1f483.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f49b.webp","1f49d.webp","1f4a1.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ac.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52e.webp","1f534.webp","1f535.webp","1f53c.webp","1f550.webp","1f552.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5bc.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5fa.webp","1f5ff.webp","1f602.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f634.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f648.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f6a7.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6eb.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f945.webp","1f947.webp","1f94b.webp","1f950.webp","1f952.webp","1f954.webp","1f955.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95e.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f96a.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f99c.webp","1f9a5.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9c0.webp","1f9c3.webp","1f9ca.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa79.webp","1fa7a.webp","1fa81.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa5.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fad8.webp","1faf6.webp","2197.webp","2198.webp","21a9.webp","231a.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","2600.webp","2601.webp","2602.webp","2615.webp","261d.webp","265f.webp","267b.webp","267e.webp","2693.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c8.webp","26d3.webp","26f0.webp","26f4.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270b.webp","270d.webp","270f.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b50.webp","30-20e3.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
 const EMOJI_FILE=new Map(EMOJI_KEYS.map(f=>[f.replace(/\.\w+$/,''),f]));
 const EMOJI_SET={get size(){return EMOJI_FILE.size;},has:k=>EMOJI_FILE.has(k)};
 const EMOJI_RX=/\p{RI}\p{RI}|[#*0-9]️?⃣|\p{Extended_Pictographic}(?:️|\p{EMod})?(?:‍\p{Extended_Pictographic}(?:️|\p{EMod})?)*/gu;
@@ -8734,6 +8791,112 @@ openAccount=function(){
     if(tries<15) setTimeout(tick,2000);
     else _comboToastText(T2('Payment received. Premium will appear in a minute — refresh the page.','Płatność otrzymana. Premium pojawi się za chwilę — odśwież stronę.'));
   }; setTimeout(tick,1500);
+})();
+
+/* ---------- First run: a short welcome for new learners ----------
+   Steps: hello (language) → who is learning → where to start (A0, a level, or the placement test) → daily goal → ready.
+   Shown only to a learner with no course yet and no finished lessons. Progress through the steps is kept in
+   localStorage 'leogrowOnboard' = {step, track, done}. "Skip" leaves it for good and shows the full home page. */
+const OB_KEY=TESTER_SITE?'leogrowTesterOnboard':'leogrowOnboard';
+let OB={step:'hello',track:null,done:false,started:false};
+try{Object.assign(OB,JSON.parse(localStorage.getItem(OB_KEY)||'{}'));}catch(e){}
+function obSave(){try{localStorage.setItem(OB_KEY,JSON.stringify(OB));}catch(e){}}
+function obActive(){
+  if(OB.done) return false;
+  // an existing learner (a course or finished lessons, maybe from the cloud) never sees the welcome
+  if(!OB.started&&(PROF()||Object.values(C.lessons||{}).some(r=>r&&r.done))){OB.done=true;obSave();return false;}
+  return !VIEW.track&&!(typeof PT!=='undefined'&&PT);
+}
+function obGo(step){OB.step=step;OB.started=true;obSave();if(typeof sfxWhoosh==='function')sfxWhoosh();renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
+function obWho(t){OB.track=t;obGo('start');}
+function obLevel(lv){setProfile(OB.track,lv,true);obGo('goal');}
+function obPlacement(){
+  OB.step='pt';OB.started=true;obSave();startPlacement();
+  if(PT){PT.who=OB.track;renderPlacement();}
+}
+function obGoal(m){setGoal(m);obGo('ready');}
+function obFinish(open){
+  OB.done=true;obSave();
+  const p=PROF(), nx=p&&(nextInLevel(p.track,p.level)||nextLessonToDo(p.track));
+  VIEW={track:null,level:null};
+  if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
+}
+function obSkip(){OB.done=true;obSave();VIEW={track:null,level:null};renderCourse();}
+function obReset(){OB={step:'hello',track:null,done:false,started:false};obSave();}
+
+const OB_LV_PL={Starter:'Start od zera',Beginner:'Początkujący',Elementary:'Podstawowy',Intermediate:'Średni','Upper-intermediate':'Średnio zaawansowany',Advanced:'Zaawansowany'};
+const obLvName=L=>LANG==='pl'&&OB_LV_PL[L.name]||L.name;
+function obDots(){
+  const steps=['who','start','goal','ready'], i=steps.indexOf(OB.step==='pt'?'start':OB.step);
+  return `<div class="ob-dots">${steps.map((s,k)=>`<i class="${k<i?'done':k===i?'on':''}"></i>`).join('')}</div>`;
+}
+function obTop(back){
+  return `<div class="ob-top">${back?`<button class="ob-link" onclick="obGo('${back}')">← ${T2('Back','Wstecz')}</button>`:'<span></span>'}${OB.step==='hello'?'':obDots()}<button class="ob-link" onclick="obSkip()">${T2('Skip','Pomiń')}</button></div>`;
+}
+function obHtml(){
+  const t=TRACKS.find(x=>x.id===OB.track), adult=OB.track==='adults';
+  const leo=(msgs,size)=>`<div class="ob-leo">${renderLemur('big',msgs,size||(adult?96:120),adult?'idle':'cheer')}</div>`;
+  let h='';
+  if(OB.step==='hello'){
+    h=obTop()+leo([T2("Hi! I'm Leo! 👋","Cześć! Jestem Leo! 👋"),T2("Let's set you up!","Zaczynamy!")],130)+
+    `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
+    <p class="sub">${T2('Three quick questions and you are ready for your first lesson.','Trzy krótkie pytania i możesz zacząć pierwszą lekcję.')}</p>
+    <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
+    <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
+    <button class="btn btn-gold ob-main" onclick="obGo('who')">${T2("Let's start →","Zaczynamy →")}</button>`;
+  } else if(OB.step==='who'){
+    h=obTop('hello')+`<span class="zone-tag">${T2('STEP 1 OF 3','KROK 1 Z 3')}</span><h2 class="title">${T2('Who is learning?','Kto się uczy?')}</h2>
+    <p class="sub">${T2('Each section has its own lessons and style.','Każda część ma własne lekcje i styl.')}</p><div class="ob-cards">`+
+    TRACKS.map(x=>`<button class="ob-card ${x.id}" onclick="obWho('${x.id}')"><span class="ob-ico">${x.emoji}</span>
+      <b>${x.id==='kids'?T2('A kid','Dziecko'):T2('A teen or adult','Nastolatek lub dorosły')}</b>
+      <small>${x.id==='kids'?T2('Ages 6–12 · games, music and coins · A0–A2','6–12 lat · gry, muzyka i monety · A0–A2'):T2('Ages 13+ · real-life topics, calm style · A0–C1','13+ lat · tematy z życia, spokojny styl · A0–C1')}</small></button>`).join('')+`</div>`;
+  } else if(OB.step==='start'&&t){
+    const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
+    h=obTop('who')+`<span class="zone-tag">${T2('STEP 2 OF 3','KROK 2 Z 3')}</span><h2 class="title">${T2('Where do you want to start?','Od czego zaczynamy?')}</h2>
+    <div class="ob-list">
+      <button class="ob-row" onclick="obLevel('${lvls[0]}')"><span>🌱</span><div><b>${T2("I'm new to English","Dopiero zaczynam")}</b><small>${T2('Start from the very first words','Zacznij od pierwszych słówek')} · ${lvls[0]}</small></div><i>›</i></button>
+      <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
+    </div>
+    <p class="ob-q">${T2('Or pick your level:','Albo wybierz swój poziom:')}</p>
+    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
+  } else if(OB.step==='goal'){
+    const g=goalMin();
+    h=obTop(PROF()?'start':'who')+`<span class="zone-tag">${T2('STEP 3 OF 3','KROK 3 Z 3')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>
+    <p class="sub">${T2('Pick a goal you can keep every day. You can change it any time in ⚙️ Settings.','Wybierz cel, który dasz radę utrzymać każdego dnia. Zmienisz go w każdej chwili w ⚙️ Ustawieniach.')}</p>
+    <div class="goal-opts ob-goals">${GOAL_OPTS.map(([m,e,en,pl])=>`<button class="goal-opt ${m===g&&HAB().goalAt?'on':''}" onclick="obGoal(${m})"><span>${e}</span><b>${m} min</b><small>${T2(en,pl)}</small></button>`).join('')}</div>`;
+  } else if(OB.step==='ready'&&PROF()){
+    const p=PROF(), tt=TRACKS.find(x=>x.id===p.track), L=LEVELS.find(x=>x.id===p.level), nx=nextInLevel(p.track,p.level)||nextLessonToDo(p.track);
+    const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
+    h=obTop('goal')+leo(p.track==='adults'?[T2('All set.','Gotowe.'),T2('Enjoy your first lesson.','Miłej pierwszej lekcji.')]:[T2('All set! 🎉','Gotowe! 🎉'),T2("Let's learn together!","Uczymy się razem!")])+
+    `<h2 class="title">${T2("You're ready!","Wszystko gotowe!")}</h2>
+    <div class="ob-sum"><div><small>${T2('Course','Kurs')}</small><b>${tt.emoji} ${tt.id==='kids'?T2('Kids','Dzieci'):T2('Teens & Adults','Młodzież i dorośli')}</b></div>
+      <div><small>${T2('Level','Poziom')}</small><b>${p.level} · ${obLvName(L)}</b></div><div><small>${T2('Daily goal','Dzienny cel')}</small><b>🎯 ${goalMin()} min</b></div></div>
+    ${nx?`<button class="btn btn-gold ob-main" onclick="obFinish(true)">▶ ${T2('Start my first lesson','Zacznij pierwszą lekcję')}</button>`:''}
+    <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
+    ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
+  } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.track?'start':'who'; obSave(); return obHtml(); }
+  return `<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
+}
+
+/* the course page shows the welcome until it is finished or skipped */
+(function(){
+  const _rc=renderCourse;
+  renderCourse=function(){
+    /* the placement test started from the welcome comes back to it: "Start A1 →" picks the level, then the goal step follows */
+    if(!OB.done&&OB.step==='pt'){ if(PROF()) {OB.step='goal';obSave();} else if(!(typeof PT!=='undefined'&&PT)) {OB.step='start';obSave();} }
+    if(obActive()){
+      document.body.classList.toggle('adult',OB.track==='adults');
+      document.body.classList.add('onboarding');
+      $('courseView').innerHTML=obHtml();
+      if(LANG==='pl'&&typeof applyLang==='function') applyLang();
+      return;
+    }
+    document.body.classList.remove('onboarding');
+    return _rc.apply(this,arguments);
+  };
+  /* tester: "See the new-learner home" also shows the welcome again */
+  const _tj=testerJumpHtml;
+  testerJumpHtml=function(){return _tj().replace('C.profile=null;saveProgress(true);nav()','C.profile=null;saveProgress(true);obReset();nav()');};
 })();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);

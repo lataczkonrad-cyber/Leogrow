@@ -1,0 +1,57 @@
+/* ---------- first-run welcome ---------- */
+.ob-wrap{max-width:620px;margin:6px auto 28px;padding:0 2px;}
+.ob-panel{text-align:center;padding:16px 20px 24px;min-height:0!important;}
+.ob-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;min-height:32px;}
+.ob-link{font:inherit;font-weight:800;font-size:14px;color:#6b6b85;background:none;border:0;cursor:pointer;padding:6px 4px;}
+.ob-link:hover{color:var(--navy);}
+.ob-dots{display:flex;gap:7px;}
+.ob-dots i{width:28px;height:8px;border-radius:8px;background:#dcdde9;}
+.ob-dots i.done{background:var(--gold-light);}
+.ob-dots i.on{background:var(--gold);box-shadow:0 2px 0 #b5891f;}
+.ob-panel .title{margin:8px 0 6px;}
+.ob-panel .sub{max-width:460px;margin:0 auto 10px;}
+.ob-leo{display:flex;justify-content:center;margin:0 0 4px;}
+.ob-leo .lemur-wrap{margin:4px auto 6px;}
+.ob-q{font-weight:800;color:var(--navy);margin:18px 0 8px;}
+.ob-langs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.ob-pill{font:inherit;font-weight:800;font-size:16px;cursor:pointer;padding:10px 18px;border-radius:999px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 3px 0 #c9cbe0;}
+.ob-pill.on{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 3px 0 #b5891f;}
+.ob-main{display:block;width:100%;max-width:360px;margin:22px auto 0;font-size:18px;}
+.ob-later{display:block;margin:12px auto 0;}
+.ob-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.ob-card{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px 18px;border-radius:22px;border:3px solid var(--navy-light);background:var(--cream);color:var(--navy);box-shadow:0 6px 0 var(--gold);transition:transform .18s,box-shadow .18s;}
+.ob-card:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--gold);}
+.ob-ico{font-size:56px;line-height:1;margin:4px 0 2px;}
+.ob-ico img{width:72px;height:72px;}
+.ob-card b{font-family:'Baloo 2',sans-serif;font-size:20px;line-height:1.15;}
+.ob-card small{font-size:13px;color:#4a4a63;font-weight:600;}
+.ob-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;text-align:left;}
+.ob-row{font:inherit;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 4px 0 #c9cbe0;transition:transform .15s;}
+.ob-row:hover{transform:translateY(-2px);}
+.ob-row.gold{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 4px 0 #b5891f;}
+.ob-row>span{font-size:30px;flex:0 0 auto;}
+.ob-row>div{flex:1;min-width:0;display:flex;flex-direction:column;}
+.ob-row b{font-family:'Baloo 2',sans-serif;font-size:19px;}
+.ob-row small{color:#4a4a63;font-weight:600;font-size:13px;}
+.ob-row>i{font-style:normal;font-size:26px;font-weight:800;color:var(--gold);}
+.ob-levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;}
+.ob-lv{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border-radius:16px;border:2px solid #dcdde9;background:#fff;color:var(--navy);}
+.ob-lv:hover{border-color:var(--gold);}
+.ob-lv .level-code{width:46px;height:46px;font-size:20px;border-radius:12px;}
+.ob-lv b{font-size:12px;}
+.ob-goals{margin-top:16px;}
+.ob-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px;}
+.ob-sum>div{background:var(--gold-pale);border:2px solid var(--gold);border-radius:16px;padding:10px 6px;display:flex;flex-direction:column;gap:2px;}
+.ob-sum small{font-size:12px;font-weight:800;color:#9a6c0c;text-transform:uppercase;letter-spacing:.04em;}
+.ob-sum b{color:var(--navy);font-size:15px;}
+.ob-acc{margin:16px 0 0;font-size:14px;color:#4a4a63;}
+.ob-acc a{font-weight:800;color:var(--navy-light);}
+body.onboarding .lemur-corner{display:none;}
+@media (max-width:560px){
+  .ob-panel{padding:12px 14px 20px;}
+  .ob-ico img{width:60px;height:60px;}
+  .ob-card b{font-size:17px;}
+  .ob-sum{grid-template-columns:1fr;}
+  .ob-sum>div{flex-direction:row;justify-content:space-between;align-items:center;padding:10px 14px;}
+}
+@media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
