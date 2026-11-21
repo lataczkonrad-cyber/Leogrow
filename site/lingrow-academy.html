@@ -934,6 +934,26 @@ img.emj{width:1em;height:1em;margin:0 .04em;vertical-align:-0.125em;display:inli
 span.ej{display:inline;}
 .flash-emoji{font-size:44px;line-height:1;margin-bottom:6px;}
 
+/* Speaking practice ("Say it") */
+.sp-card{text-align:center;margin:14px auto;padding:18px 14px;max-width:520px;background:#fff;border:2px solid var(--navy);border-radius:18px;box-shadow:0 4px 0 var(--gold);}
+.sp-emoji{font-size:44px;line-height:1.1;min-height:10px;}
+.sp-text{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(22px,2vw + 12px,34px);color:var(--navy);overflow-wrap:break-word;}
+.sp-pl{color:#8b8ba0;font-weight:700;font-size:14px;margin-top:4px;}
+.sp-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:8px 0;}
+.sp-mic{font-size:20px;padding:12px 22px;}
+.sp-mic.on{background:#c0392b;border-color:#c0392b;animation:fxGlow 1.2s ease-in-out infinite;}
+.sp-status{text-align:center;font-weight:700;color:#5b5f7a;margin:8px 0;}
+.sp-live{color:#c0392b;}
+.sp-err{color:#b03a2e;}
+.sp-result{margin:10px auto;max-width:560px;padding:12px 14px;border-radius:14px;text-align:center;}
+.sp-result.good{background:var(--gold-pale);border:2px solid var(--gold);}
+.sp-result.bad{background:#fdecea;border:2px solid #e6a29b;}
+.sp-words{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;}
+.sp-words .ok{color:#1e7d3a;}
+.sp-words .miss{color:#c0392b;text-decoration:underline wavy;}
+.sp-heard{margin:6px 0 2px;color:#5b5f7a;font-size:14px;}
+.sp-verdict{margin:4px 0 0;font-weight:800;color:var(--navy);}
+
 /* ---------- daily habit: streak, goal, reminders ---------- */
 .wk-day i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:var(--navy);}
 .wk-day.goal i{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:#b5891f;box-shadow:0 0 10px rgba(236,184,58,.75);}
@@ -6726,6 +6746,18 @@ COURSE.units.sort((a,b)=>LEVELS.findIndex(l=>l.id===a.level)-LEVELS.findIndex(l=
  });
 })();
 
+/* ---------- Speaking practice: every lesson with new words gets a "Say it" step ---------- */
+COURSE.units.forEach(u=>u.lessons.forEach(l=>{
+ if(l.test||l.review||l.zones.some(z=>z.type==='speak'))return;
+ const ci=l.zones.findIndex(z=>z.type==='cards');if(ci<0)return;
+ const cards=l.zones[ci].cards||[];
+ const items=cards.slice(0,5).map(c=>({en:c.say||c.en,emoji:c.emoji||'',pl:c.pl||''}));
+ const lz=l.zones.find(z=>z.type==='listen');
+ if(lz)lz.items.slice(0,2).forEach(it=>items.push({en:it.word,emoji:'💬',pl:''}));
+ if(items.length<3)return;
+ l.zones.splice(Math.min(ci+2,l.zones.length),0,{type:"speak",label:"Say it",items});
+}));
+
 const ALL_LESSONS=[];
 COURSE.units.forEach((u,ui)=>u.lessons.forEach((l,li)=>{l.unit=u;l.num=`${ui+1}.${li+1}`;ALL_LESSONS.push(l);}));
 
@@ -6789,6 +6821,7 @@ function renderZone(i){
     case "fill":    return fbInit(z.items,"Fill the gap","Choose the correct word.",z.tag||"FILL IT");
     case "build":   return sbInit(z.items,"Build the sentence","Build the sentence from the tiles.","BUILD IT");
     case "tf":      return tfInit(z.items,z.title||"True or False?",z.sub||"",z.tag||"TRUE / FALSE",z.labels);
+    case "speak":   return spInit(z.items);
     case "listen":  return lcInit(z.items,"Listen and choose","Listen and choose the same sentence.","LISTEN");
     case "quiz":    return quizRender(l.id+'-'+i,z.qs,z.tag||'QUIZ',z.done||"Quiz complete! 🎯");
     case "odd":     return ooInit(z.items,"Odd one out","Which one doesn't belong?","ODD ONE OUT");
@@ -7894,6 +7927,83 @@ initCloud();
     setTimeout(()=>{ready=true;updateBack();},300);
   });
 })();
+
+
+/* ---------- Speaking practice ("Say it"): tap 🎤, say the word or sentence, ElevenLabs Speech to
+   Text writes down what it heard (netlify/functions/stt.mjs), and we compare it with the answer.
+   It checks the words, not the accent. ---------- */
+let SP={items:[],idx:0,score:0,state:'idle',rec:null,chunks:[],heard:'',ok:false,off:false};
+const SP_NUM=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+function spWords(t){return String(t||'').toLowerCase().replace(/[’`]/g,"'").replace(/[^a-z0-9' ]+/g,' ').split(/\s+/).filter(Boolean).map(w=>/^\d+$/.test(w)&&SP_NUM[+w]?SP_NUM[+w]:w.replace(/^'+|'+$/g,''));}
+/* which answer words were heard (in order, ignoring extra words like "um") */
+function spCompare(answer,heard){
+  const a=spWords(answer),h=spWords(heard);let j=0;
+  const res=a.map(w=>{let k=j;while(k<h.length&&h[k]!==w&&!(h[k].replace(/'/g,'')===w.replace(/'/g,'')))k++;if(k<h.length){j=k+1;return {w,ok:true};}return {w,ok:false};});
+  return {res,ok:res.length>0&&res.every(r=>r.ok)};
+}
+function spInit(items){SP={items,idx:0,score:0,state:'idle',rec:null,chunks:[],heard:'',ok:false,off:SP.off};return spRender();}
+function spRender(){
+  if(SP.idx>=SP.items.length)return doneScreen('SAY IT',SP.score,SP.items.length);
+  const it=SP.items[SP.idx];
+  const canRec=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+  let fb='';
+  if(SP.state==='rec')fb=`<p class="sp-status sp-live">🔴 ${T2('Listening… tap again when you finish','Słucham… kliknij ponownie, gdy skończysz')}</p>`;
+  else if(SP.state==='busy')fb=`<p class="sp-status">⏳ ${T2('Checking…','Sprawdzam…')}</p>`;
+  else if(SP.state==='done'){
+    const c=spCompare(it.en,SP.heard);
+    fb=`<div class="sp-result ${c.ok?'good':'bad'}"><div class="sp-words">${c.res.map(r=>`<span class="${r.ok?'ok':'miss'}">${r.w}</span>`).join(' ')}</div>`
+      +`<p class="sp-heard">${T2('I heard:','Usłyszałem:')} <b>${SP.heard?SP.heard.replace(/</g,'&lt;'):'…'}</b></p>`
+      +`<p class="sp-verdict">${c.ok?'✅ '+T2('Perfect!','Świetnie!'):'🔁 '+T2('Almost — the red words were off. Try again!','Prawie — czerwone słowa były niewyraźne. Spróbuj jeszcze raz!')}</p></div>`;
+  }
+  else if(SP.state==='error')fb=`<p class="sp-status sp-err">${SP.err}</p>`;
+  const next=SP.off||(SP.state==='done'&&spCompare(it.en,SP.heard).ok);
+  return `${zoneTag('SAY IT')}<h2 class="title">${T2('Say it','Powiedz to')} 🎤</h2>`
+   +`<p class="sub">${T2('Listen, then tap the microphone and say it in English.','Posłuchaj, potem kliknij mikrofon i powiedz to po angielsku.')} (${SP.idx+1} / ${SP.items.length})</p>`
+   +`<div class="sp-card"><div class="sp-emoji">${it.emoji||''}</div><div class="sp-text">${it.en}</div>${it.pl?`<div class="sp-pl">${it.pl}</div>`:''}</div>`
+   +`<div class="sp-btns"><button class="btn secondary" onclick="speak(SP.items[SP.idx].en)">🔊 ${T2('Listen','Posłuchaj')}</button>`
+   +(canRec&&!SP.off?`<button class="btn btn-navy sp-mic ${SP.state==='rec'?'on':''}" onclick="spMic()" ${SP.state==='busy'?'disabled':''}>${SP.state==='rec'?'⏹ '+T2('Stop','Stop'):'🎤 '+T2('Speak','Mów')}</button>`:'')+`</div>`
+   +(canRec?'':`<p class="sp-status sp-err">${T2('Your browser can’t record here. Say it out loud, then tap Next.','Ta przeglądarka nie nagrywa dźwięku. Powiedz to na głos i kliknij Dalej.')}</p>`)
+   +(SP.off?`<p class="sp-status">${T2('The speaking check isn’t switched on yet. Say it out loud, then tap Next.','Sprawdzanie mowy nie jest jeszcze włączone. Powiedz to na głos i kliknij Dalej.')}</p>`:'')
+   +fb
+   +`<div class="nav-row"><button class="btn secondary" onclick="go(current-1)">← ${T2('Back','Wstecz')}</button>`
+   +`<button class="btn ${next?'btn-gold':'secondary'}" onclick="spNext()">${next?T2('Next →','Dalej →'):T2('Skip →','Pomiń →')}</button></div>`;
+}
+function spPaint(){setPanel(spRender());}
+function spNext(){
+  if(SP.rec&&SP.rec.state==='recording'){try{SP.rec.onstop=null;SP.rec.stop();}catch(e){}}
+  if(SP.off&&SP.state!=='done')SP.score++;      // check not available: practise freely, no penalty
+  SP.idx++;SP.state='idle';SP.heard='';spPaint();
+}
+async function spMic(){
+  if(SP.state==='rec'){try{SP.rec.stop();}catch(e){}return;}
+  if(SP.state==='busy')return;
+  try{if(typeof _vAud!=='undefined'&&_vAud&&!_vAud.paused)_vAud.pause();}catch(e){}
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});}
+  catch(e){SP.state='error';SP.err=T2('Allow the microphone for this site, then try again.','Zezwól tej stronie na użycie mikrofonu i spróbuj ponownie.');spPaint();return;}
+  const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(m=>window.MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m))||'';
+  const rec=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);
+  SP.rec=rec;SP.chunks=[];SP.state='rec';spPaint();
+  const it=SP.items[SP.idx];
+  const limit=setTimeout(()=>{if(rec.state==='recording')rec.stop();},Math.min(9000,2500+it.en.length*120));
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)SP.chunks.push(e.data);};
+  rec.onstop=async()=>{
+    clearTimeout(limit);stream.getTracks().forEach(t=>t.stop());
+    const blob=new Blob(SP.chunks,{type:(rec.mimeType||mime||'audio/webm').split(';')[0]});
+    SP.state='busy';spPaint();
+    try{
+      const r=await fetch('/.netlify/functions/stt',{method:'POST',headers:{'Content-Type':blob.type||'audio/webm'},body:blob});
+      const d=await r.json().catch(()=>({}));
+      if(r.status===503||d.error==='not_set_up'){SP.off=true;SP.state='idle';spPaint();return;}
+      if(!r.ok)throw new Error(d.error||r.status);
+      SP.heard=d.text||'';SP.state='done';
+      const c=spCompare(it.en,SP.heard);
+      if(c.ok){if(!it._scored){it._scored=true;SP.score++;}addScore(5);}else registerWrongAnswer();
+    }catch(e){SP.state='error';SP.err=T2('Couldn’t check that one. Check your internet and try again.','Nie udało się sprawdzić. Sprawdź internet i spróbuj ponownie.');}
+    spPaint();
+  };
+  rec.start();
+}
 
 
 /* ---------- Daily habit: day streak, daily goal, streak shields, reminders ----------
