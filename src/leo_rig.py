@@ -7,7 +7,9 @@ ARM_CUT=300.; ARM_PIVOT=(292.,455.)   # shoulder
 TAIL_PIVOT=(628.,955.)
 EYES_1024=[(355,288,32,30),(466,292,36,33)]   # x, y, half-width, half-height of each eye (lid size)
 REST_ROT=106.   # the resting arm hangs down: CSS turns the arm layer by -REST_ROT degrees
-REST_HAND=(270.,556.,-6.)   # where the relaxed hand goes in the resting pose: wrist x, y, extra turn
+REST_HAND=(279.,548.,-4.)   # where the relaxed hand goes in the resting pose: wrist x, y, extra turn
+REST_LONGER=(-30.,118.)
+REST_ELBOW=(325.,470.,130.)  # where the stretch starts (x, y) and how long the forearm was below it     # the resting forearm is made this much longer (x, y in px), so it matches his other arm
 def _mf(m,f,n): return np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(f(n)))>127
 def _close(m,n): return _mf(_mf(m,ImageFilter.MaxFilter,n),ImageFilter.MinFilter,n)
 def _open(m,n): return _mf(_mf(m,ImageFilter.MinFilter,n),ImageFilter.MaxFilter,n)
@@ -39,6 +41,11 @@ def _blob(m,seed=None):
             ny,nx=y+dy,x+dx
             if 0<=ny<H and 0<=nx<W and not b[ny,nx] and not out[ny,nx]: out[ny,nx]=True; q.append((ny,nx))
     return ~out
+def _sample(a,sx,sy):
+    """bilinear lookup of image array a at float positions"""
+    H,W=a.shape[:2]; sx=np.clip(sx,0,W-1.001); sy=np.clip(sy,0,H-1.001)
+    x0=np.floor(sx).astype(int); y0=np.floor(sy).astype(int); fx=(sx-x0)[...,None]; fy=(sy-y0)[...,None]
+    return a[y0,x0]*(1-fx)*(1-fy)+a[y0,x0+1]*fx*(1-fy)+a[y0+1,x0]*(1-fx)*fy+a[y0+1,x0+1]*fx*fy
 def _soft(m,r): return np.asarray(Image.fromarray((np.clip(m,0,1)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)/255.
 def rest_arm(img,arm):
     """The arm for the resting pose. Turning the waving arm down left its open palm sticking out sideways,
@@ -61,10 +68,17 @@ def rest_arm(img,arm):
     h=a.copy(); h[...,3]=255*hm
     hi=Image.fromarray(h.astype(np.uint8)).crop((xs.min()-3,ys.min(),xs.max()+4,ys.max()+3)).transpose(Image.FLIP_LEFT_RIGHT)
     # 3) hang it from the wrist, under the fur of the forearm
-    cx,cy,turn=REST_HAND; cx*=s; cy*=s; w,hh=hi.size
+    ex,ey=REST_LONGER[0]*s,REST_LONGER[1]*s
+    cx,cy,turn=REST_HAND; cx=cx*s+ex; cy=cy*s+ey; w,hh=hi.size
     pad=Image.new('RGBA',(w*3,hh*3)); pad.paste(hi,(w,int(hh*1.5)))
     pad=pad.rotate(turn,center=(w*1.5,hh*1.5),resample=Image.BICUBIC)
     out=Image.new('RGBA',(W,H)); out.alpha_composite(pad,(int(cx-w*1.5),int(cy-hh*1.5)))
+    # a longer forearm: stretch it along its length below the elbow, down to the new wrist
+    L=np.hypot(ex,ey); dx,dy=ex/L,ey/L; ox,oy=REST_ELBOW[0]*s,REST_ELBOW[1]*s
+    u=(xx-ox)*dx+(yy-oy)*dy; v=(xx-ox)*-dy+(yy-oy)*dx
+    lw=REST_ELBOW[2]*s; k=(lw+L)/lw
+    us=np.where(u>0,u/k,u); sx=ox+us*dx-v*dy; sy=oy+us*dy+v*dx
+    fore=_sample(fore,sx,sy)
     out.alpha_composite(Image.fromarray(np.clip(fore,0,255).astype(np.uint8)))
     return out.rotate(-REST_ROT,center=P,resample=Image.BICUBIC)
 def _navy(a):
