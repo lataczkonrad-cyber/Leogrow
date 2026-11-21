@@ -110,8 +110,9 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
   .course-layout .sn-title{font-size:14px;padding-bottom:8px;}
   .course-layout .sn-profile b{font-size:19px;}.course-layout .sn-profile small{font-size:13.5px;}
 }
-@media(min-width:1280px){
-  .course-layout{grid-template-columns:262px minmax(0,1fr) 320px;gap:24px;}
+@media(min-width:1024px){.course-layout{grid-template-columns:250px minmax(0,1fr);}}
+@media(min-width:1440px){
+  .course-layout{grid-template-columns:262px minmax(0,1fr) 330px;gap:26px;}
   .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:88px;}
   .course-main .daily-card{display:none;}
 }
