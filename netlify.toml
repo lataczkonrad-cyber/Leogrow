@@ -17,3 +17,8 @@
   from = "/tester/*"
   to = "/:splat"
   status = 200
+
+# Premium payments (Stripe): small server functions in netlify/functions
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
