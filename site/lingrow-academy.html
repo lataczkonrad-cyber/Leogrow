@@ -9336,7 +9336,8 @@ function resetProgress(){
 }
 const lessonDone=id=>!!(C.lessons[id]&&C.lessons[id].done);
 /* tester tools: always available when the file is opened directly; on the website only with ?tester in the address */
-const TESTER_ALLOWED=location.protocol==='file:'||TESTER_SITE;
+/* tester accounts: a real logged-in account (Supabase app_metadata.tester = true) also gets every lesson, level and premium option open — see 'Tester accounts' below */
+let TESTER_ALLOWED=location.protocol==='file:'||TESTER_SITE;
 let TESTER=TESTER_ALLOWED; try{ const t=localStorage.getItem('lingrowTester'); if(t==='0') TESTER=false; if(t==='1'&&TESTER_ALLOWED) TESTER=true; }catch(e){}
 function setTester(on){TESTER=on;try{localStorage.setItem('lingrowTester',on?'1':'0');}catch(e){}document.body.classList.toggle('tester',TESTER);renderCourse();}
 function skipLesson(){ if(!activeLesson) return; sfxWhoosh(); go(zones.length-1); }
@@ -9517,7 +9518,7 @@ try{const v=JSON.parse(localStorage.getItem('lingrowView')||'null');if(v&&typeof
 function nav(track,level){if(typeof PT!=='undefined')PT=null;VIEW={track:track||null,level:level||null};try{localStorage.setItem('lingrowView',JSON.stringify(VIEW));}catch(e){}sfxWhoosh();renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
 const statsOf=ls=>({total:ls.length,done:ls.filter(l=>lessonDone(l.id)).length,coins:ls.reduce((s,l)=>s+((C.lessons[l.id]&&C.lessons[l.id].stars)||0),0)});
 
-function testerBar(){if(!TESTER_ALLOWED)return '';return `<div class="tester-bar ${TESTER?'on':''}"><span>🧪 <b>Tester mode ${TESTER?'ON':'OFF'}</b> — ${TESTER?'every lesson is unlocked and has a ⏭ Skip button.':'lessons unlock in order, like for real learners.'}</span><button class="btn ${TESTER?'secondary':'btn-gold'} lesson-btn" onclick="setTester(${!TESTER})">${TESTER?'Turn off':'Turn on'}</button></div>`;}
+function testerBar(){if(!TESTER_ALLOWED)return '';const acc=typeof testerAccount==='function'&&testerAccount();return `<div class="tester-bar ${TESTER?'on':''}"><span>🧪 <b>${acc?'Tester account':'Tester mode'} ${TESTER?'ON':'OFF'}</b> — ${TESTER?(acc?'everything is open: every level, lesson and premium option, no daily limit. Progress saves to your account.':'every lesson is unlocked and has a ⏭ Skip button.'):'lessons unlock in order, like for real learners.'}</span><button class="btn ${TESTER?'secondary':'btn-gold'} lesson-btn" onclick="setTester(${!TESTER})">${TESTER?'Turn off':'Turn on'}</button></div>`;}
 function crumbs(){
   const t=TRACKS.find(x=>x.id===VIEW.track);
   let h=`<div class="crumbs"><a href="#" onclick="nav();return false;">🏠 Home</a>`;
@@ -9844,6 +9845,31 @@ function openAccount(){
 async function syncNowBtn(b){b.disabled=true;b.textContent='…';const ok=await pullAndMerge();b.disabled=false;b.textContent='↻ Sync now';const el=$('syncState');if(el)el.textContent=ok?'✅ '+T2('Saved to cloud: ','Zapisano w chmurze: ')+_lastSync.toLocaleTimeString():'⚠️ '+_syncErr;}
 async function logOut(){await pushNow();await SUPA.auth.signOut();USER=null;closeAuth();renderAccountBtn();_comboToastText('👋 Logged out — progress stays on this device');}
 
+/* ---------- Tester accounts ----------
+   Mark an account as a tester in Supabase (SQL editor):
+     update auth.users set raw_app_meta_data = raw_app_meta_data || '{"tester":true}' where email = 'you@example.com';
+   That account then works like a normal learner (cloud sync, streaks, progress, shop) but every level,
+   lesson, unit test and premium option is open, with no daily limit. Learners can't set app_metadata themselves. */
+const _TESTER_LOCAL=TESTER_ALLOWED; // file copy or /tester page
+let _testerChecked=null;
+const testerAccount=()=>!!(USER&&USER.app_metadata&&USER.app_metadata.tester===true);
+function isTesterAccount(){return testerAccount();}
+function applyAccountTester(){
+  const was=TESTER, acc=testerAccount();
+  if(acc){ if(!TESTER_ALLOWED){TESTER_ALLOWED=true;let t=null;try{t=localStorage.getItem('lingrowTester');}catch(e){}TESTER=t!=='0';} }
+  else if(!_TESTER_LOCAL&&TESTER_ALLOWED){TESTER_ALLOWED=false;TESTER=false;}
+  document.body.classList.toggle('tester',TESTER);
+  document.body.classList.toggle('tester-account',acc);
+  if(was!==TESTER&&!activeLesson) renderCourse();
+  // the saved session can be old: ask Supabase once per login for the account's current flags
+  if(USER&&SUPA&&_testerChecked!==USER.id){_testerChecked=USER.id;
+    SUPA.auth.getUser().then(({data})=>{const u=data&&data.user;if(!u||!USER||u.id!==USER.id)return;
+      const before=testerAccount();USER.app_metadata=u.app_metadata||{};if(testerAccount()!==before)applyAccountTester();}).catch(()=>{});}
+  if(!USER) _testerChecked=null;
+}
+const _renderAccountBtnNoTester=renderAccountBtn;
+renderAccountBtn=function(){const r=_renderAccountBtnNoTester.apply(this,arguments);applyAccountTester();return r;};
+
 
 /* ---------- My progress dashboard ---------- */
 function streakOf(days){const set=new Set(days||[]);let n=0;const d=new Date();
@@ -9997,6 +10023,9 @@ function renderCourse(){
 let LANG='en'; try{LANG=localStorage.getItem('lingrowLang')||'en';}catch(e){}
 const PL_UI={
  "Tester mode ON":"Tryb testera WŁ.","Tester mode OFF":"Tryb testera WYŁ.",
+ "Tester account ON":"Konto testera WŁ.","Tester account OFF":"Konto testera WYŁ.",
+ "— everything is open: every level, lesson and premium option, no daily limit. Progress saves to your account.":"— wszystko jest otwarte: każdy poziom, lekcja i opcja Premium, bez dziennego limitu. Postęp zapisuje się na Twoim koncie.",
+ "Every lesson is unlocked for your tester account. Progress, coins and streaks save to this account like for a real learner.":"Każda lekcja jest odblokowana na Twoim koncie testera. Postęp, monety i serie zapisują się na tym koncie jak u prawdziwego ucznia.",
  "— every lesson is unlocked and has a ⏭ Skip button.":"— każda lekcja jest odblokowana i ma przycisk ⏭ Pomiń.",
  "— lessons unlock in order, like for real learners.":"— lekcje odblokowują się po kolei, jak u prawdziwych uczniów.",
  "Turn off":"Wyłącz","Turn on":"Włącz","🗺️ Course":"🗺️ Kurs","⏭ Skip":"⏭ Pomiń","🏠 Home":"🏠 Start",
@@ -10366,7 +10395,7 @@ const _sideNavMine=function(){
 const _sideNavAll=sideNav;
 sideNav=function(){return TESTER?_sideNavAll():_sideNavMine();};
 function testerJumpHtml(){
-  return `<div class="panel tester-jump">${zoneTag('🧪 TESTER')}<h2 class="title">Jump to any level</h2><p class="sub">Every lesson is unlocked here. Progress in the tester version is separate and never touches your real account.</p>`+
+  return `<div class="panel tester-jump">${zoneTag('🧪 TESTER')}<h2 class="title">Jump to any level</h2><p class="sub">${typeof testerAccount==='function'&&testerAccount()?'Every lesson is unlocked for your tester account. Progress, coins and streaks save to this account like for a real learner.':'Every lesson is unlocked here. Progress in the tester version is separate and never touches your real account.'}</p>`+
    TRACKS.map(t=>`<div class="tj-row"><b>${t.emoji} ${t.name}</b><div class="set-ctl">${t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length).map(lv=>`<button class="seg ${PROF()&&PROF().track===t.id&&PROF().level===lv?'on':''}" onclick="nav('${t.id}','${lv}')">${lv}</button>`).join('')}</div></div>`).join('')+
    `<p style="margin-top:12px;"><button class="btn secondary lesson-btn" onclick="C.profile=null;saveProgress(true);nav()">See the new-learner home</button></p></div>`;
 }
