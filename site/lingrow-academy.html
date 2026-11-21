@@ -1078,14 +1078,24 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
 .side-panels{display:none;}
 @media(min-width:1024px){
   body:not(.in-lesson) .app{max-width:none;padding:14px 24px 60px;}
-  .course-layout .side-nav{min-height:calc(100vh - 112px);top:88px;}
+  .course-layout .side-nav{top:88px;padding:16px 12px 18px;}
+  .course-layout .sn-item{font-size:17px;padding:12px 14px;margin:6px 0;gap:12px;border:2px solid transparent;border-radius:14px;}
+  .course-layout .sn-item span{font-size:26px;width:30px;flex:0 0 30px;}
+  .course-layout .sn-item span img{width:28px;height:28px;}
+  .course-layout .sn-item b{white-space:nowrap;}
+  .course-layout .sn-item.on{background:rgba(236,184,58,.16);border-color:var(--gold);color:var(--gold-light);}
+  .course-layout .sn-item.on small{color:var(--gold-light);}
+  .course-layout .sn-item small{font-size:13px;white-space:nowrap;}
+  .course-layout .sn-item b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;}
+  .course-layout .sn-title{font-size:14px;padding-bottom:8px;}
+  .course-layout .sn-profile b{font-size:19px;}.course-layout .sn-profile small{font-size:13.5px;}
 }
 @media(min-width:1280px){
-  .course-layout{grid-template-columns:240px minmax(0,1fr) 320px;gap:26px;}
+  .course-layout{grid-template-columns:262px minmax(0,1fr) 320px;gap:24px;}
   .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:88px;}
   .course-main .daily-card{display:none;}
 }
-@media(min-width:1600px){.course-layout{grid-template-columns:260px minmax(0,1fr) 360px;gap:32px;}}
+@media(min-width:1600px){.course-layout{grid-template-columns:270px minmax(0,1fr) 360px;gap:32px;}}
 .sp-stats{display:flex;justify-content:space-between;gap:6px;background:rgba(5,10,48,.88);border:2px solid rgba(236,184,58,.55);border-radius:20px;padding:8px 10px;}
 .sp-stat{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:6px 4px;border-radius:12px;text-decoration:none;font-family:'Baloo 2',sans-serif;color:var(--gold-light);}
 .sp-stat span{font-size:20px;line-height:1;}.sp-stat b{font-size:17px;}
