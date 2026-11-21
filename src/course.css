@@ -305,11 +305,11 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .leo-rig{position:relative;width:100%;aspect-ratio:1;margin-top:4.95%;border-radius:22%;overflow:hidden;transform-origin:50% 96%;animation:leoBreath 4.6s ease-in-out infinite;}
 .lemur-stage .leo-rig img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;border-radius:0!important;animation:none!important;}
 .lemur-stage .leo-rig img.lemur-img{position:absolute;}
-.leo-tail{animation:leoTail 3.6s cubic-bezier(.45,0,.55,1) infinite alternate!important;will-change:transform;}
+.leo-tail,.lemur-stage .leo-rig img.leo-tail{animation:leoTail 3.6s cubic-bezier(.45,0,.55,1) infinite alternate!important;will-change:transform;}
 .leo-lid{position:absolute;border-radius:50%;background:radial-gradient(ellipse closest-side,#141419 70%,rgba(20,20,25,0) 100%);transform:scaleY(0);transform-origin:50% 0;pointer-events:none;}
 .leo-rig.blink .leo-lid{animation:leoBlink .19s ease-in-out;}
 @keyframes leoBreath{0%,100%{transform:scale(1,1);}50%{transform:scale(1.006,1.016);}}
-@keyframes leoTail{0%{transform:rotate(-1deg);}40%{transform:rotate(2.6deg);}65%{transform:rotate(1.8deg);}100%{transform:rotate(3.8deg);}}
+@keyframes leoTail{0%{transform:rotate(-1.5deg);}45%{transform:rotate(1deg);}70%{transform:rotate(.6deg);}100%{transform:rotate(2deg);}}
 @keyframes leoBlink{0%{transform:scaleY(0);}45%,60%{transform:scaleY(1);}100%{transform:scaleY(0);}}
 /* gentler, more natural reactions (no spinning tiles) */
 @keyframes leoJump{0%,100%{transform:translateY(0);}30%{transform:translateY(-9px);}55%{transform:translateY(0) scale(1.01,.99);}75%{transform:translateY(-3px);}}
@@ -320,12 +320,12 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 @keyframes leoPeek{0%,100%{transform:translateY(0) scale(1);}45%,60%{transform:translateY(3px) scale(.985);}}
 @keyframes leoSpin{0%,100%{transform:rotate(0);}30%{transform:rotate(-3deg);}65%{transform:rotate(2.5deg);}}
 @media (prefers-reduced-motion: reduce){.leo-rig,.leo-tail,.lemur-stage{animation:none!important;}}
-/* resting pose: hand down; waving: up, wave, back down. The tail never stops. */
-.leo-arm{transform:rotate(-106deg);will-change:transform;}
-.leo-rig.waving .leo-arm{animation:leoWave 2.6s cubic-bezier(.45,0,.4,1) both!important;}
+/* resting pose: hand up (as drawn); now and then he waves it from the shoulder. The tail never stops. */
+.leo-arm{transform:rotate(0deg);will-change:transform;}
+.leo-rig.waving .leo-arm,.lemur-stage .leo-rig.waving img.leo-arm{animation:leoWave 2.4s ease-in-out both!important;}
 @keyframes leoWave{
- 0%{transform:rotate(-106deg);} 22%{transform:rotate(-4deg);} 30%{transform:rotate(7deg);} 38%{transform:rotate(-5deg);}
- 46%{transform:rotate(7deg);} 54%{transform:rotate(-5deg);} 62%{transform:rotate(5deg);} 72%{transform:rotate(-2deg);} 100%{transform:rotate(-106deg);}
+ 0%,100%{transform:rotate(0deg);} 12%{transform:rotate(-9deg);} 26%{transform:rotate(7deg);} 40%{transform:rotate(-9deg);}
+ 54%{transform:rotate(7deg);} 68%{transform:rotate(-7deg);} 82%{transform:rotate(4deg);}
 }
 @media (prefers-reduced-motion: reduce){.leo-rig.waving .leo-arm{animation:none!important;}}
 

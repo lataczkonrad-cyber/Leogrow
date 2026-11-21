@@ -6,6 +6,20 @@ import leo_age
 ARM_CUT=300.; ARM_PIVOT=(292.,455.)   # shoulder
 TAIL_PIVOT=(628.,955.)
 EYES_1024=[(355,288,32,30),(466,292,36,33)]   # x, y, half-width, half-height of each eye (lid size)
+def _mf(m,f,n): return np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(f(n)))>127
+def _soft(m,r): return np.asarray(Image.fromarray((np.clip(m,0,1)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)/255.
+def _fblur(x,r):
+    """float gaussian-ish blur (three box passes), no 8-bit rounding"""
+    x=np.asarray(x,np.float32); k=max(1,int(round(r*0.9)))
+    for _ in range(3):
+        for ax in (0,1):
+            c=np.cumsum(np.pad(x,[(k+1,k)] if x.ndim==1 else ([(k+1,k),(0,0)] if ax==0 else [(0,0),(k+1,k)])+([(0,0)] if x.ndim==3 else []),mode='edge'),axis=ax)
+            x=(np.take(c,range(2*k+1,c.shape[ax]),axis=ax)-np.take(c,range(0,c.shape[ax]-2*k-1),axis=ax))/(2*k+1)
+    return x
+def _fill_from(a,mask,r):
+    """colour of the background behind a region: average of nearby masked pixels"""
+    m=mask.astype(np.float32); w=_fblur(m,r)+1e-6
+    return np.stack([_fblur(a[...,c]*m,r)/w for c in range(3)],-1)
 def _navy(a):
     r,g,b=a[...,0],a[...,1],a[...,2]
     return (b>r+18)&(b>g+10)&(r<110)
@@ -27,9 +41,117 @@ def tail_mask(img):
     tight=np.asarray(core.filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(1.0*s))).astype(np.float32)/255.
     wide=np.asarray(core.filter(ImageFilter.MaxFilter(29)).filter(ImageFilter.GaussianBlur(4.0*s))).astype(np.float32)/255.
     return tight,wide
+FD=np.array([-0.57,-0.82])             # fingers point this way (up and a little left)
+FN=np.array([0.82,-0.57])              # across the fingers
+# fingers along the clipped edge, as bands across (v = N . p) with how far each sticks out past the cut
+FINGERS=[(-130.,-114.,9.),(-114.,-96.,15.),(-96.,-79.,19.),(-79.,-62.,15.)]
+def add_fingers(a,hand,s=1.0):
+    """a: HxWx4 float image, hand: bool mask of the hand as drawn. Returns (rgb, alpha) of new fingertips."""
+    H,W=a.shape[:2]; yy,xx=np.mgrid[0:H,0:W].astype(np.float32)
+    px,py=xx/s,yy/s
+    v=FN[0]*px+FN[1]*py; u=FD[0]*px+FD[1]*py
+    box=(px>70)&(px<150)&(py>250)&(py<392)&~hand
+    # trace back against the finger direction to the hand edge
+    hit=np.full((H,W),-1.0,np.float32); hx=np.zeros((H,W),np.float32); hy=np.zeros((H,W),np.float32)
+    for k in range(0,40):
+        qx=np.clip(np.round(xx-k*FD[0]*s),0,W-1).astype(int); qy=np.clip(np.round(yy-k*FD[1]*s),0,H-1).astype(int)
+        h=hand[qy,qx]&(hit<0)&box
+        hit[h]=k; hx[h]=xx[h]-(k+7)*FD[0]*s; hy[h]=yy[h]-(k+7)*FD[1]*s   # sample a little inside the hand
+    rgb=np.zeros((H,W,3),np.float32); al=np.zeros((H,W),np.float32)
+    for v0,v1,L in FINGERS:
+        vc=(v0+v1)/2; r=(v1-v0)/2
+        inb=box&(hit>=0)&(v>=v0)&(v<v1)
+        if not inb.any(): continue
+        # where this finger leaves the hand (median over its middle), so the tip is a clean round cap
+        mid=inb&(np.abs(v-vc)<r*0.5)
+        ub=np.median((u+0)[mid]-hit[mid]/s*1.0) if mid.any() else 0
+        ext=u-ub                        # distance past the cut, along the finger
+        cap=L-r+np.sqrt(np.clip(r*r-(v-vc)**2,0,None))
+        inside=inb&(ext<=cap)
+        edge=np.clip((cap-ext)/1.2,0,1)*np.clip((r-np.abs(v-vc))/1.2,0,1)
+        al=np.where(inside,np.maximum(al,edge),al)
+        qx=np.clip(hx,0,W-1.001); qy=np.clip(hy,0,H-1.001)
+        samp=a[qy.astype(int),qx.astype(int),:3]
+        shade=1-0.45*((v-vc)/r)**2-0.25*np.clip(ext/max(L,1),0,1)**2   # round across, a bit darker at the tip
+        rgb=np.where(inside[...,None],samp*np.clip(shade,0.35,1)[...,None],rgb)
+    # smooth away streaks from the ray sampling, keep the hand's dark tone, add a little fur grain
+    Lm=rgb.mean(-1,keepdims=True); rgb=np.where(Lm>75,rgb*75/np.maximum(Lm,1),rgb)
+    def g(x): return _fblur(x,0.9*s)
+    m=(al>0).astype(np.float32); wm=g(m)+1e-3
+    rgb=np.stack([g(rgb[...,c]*m)/wm for c in range(3)],-1)
+    rng=np.random.default_rng(7); rgb=np.clip(rgb+rng.normal(0,3,(H,W,1)),0,255)
+    return rgb,al
+def extend_bottom(a):
+    """The picture of Leo stops in a straight line a little above the bottom of the tile.
+    Continue his legs and tail down to the edge by mirroring the last rows of fur."""
+    R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
+    bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))
+    H=a.shape[0]; rows=np.nonzero((~bg&(A>200)).sum(1)>40)[0]
+    if not len(rows): return a
+    end=rows.max()
+    if end>=H-2: return a
+    out=a.copy()
+    for k in range(1,H-end):
+        src=max(0,end-k)
+        fgrow=~bg[src]&(A[src]>200)
+        keep=A[end+k]>0
+        out[end+k,fgrow&keep,:3]=a[src,fgrow&keep,:3]
+    # the gap between his feet is a hard-edged box in the picture: fill it with the leg beside it
+    H,W=a.shape[:2]; s=W/1024.
+    gy,gx=np.nonzero(bg[int(940*s):,int(410*s):int(490*s)]&(A[int(940*s):,int(410*s):int(490*s)]>200))
+    gy=gy+int(940*s); gx=gx+int(410*s)
+    for x in np.unique(gx):
+        ys=gy[gx==x]; top=ys.min()
+        for y in ys:
+            sy=int(2*top-y-1)
+            if 0<=sy<H: out[y,x,:3]=out[sy,x,:3]
+    if len(gx):
+        nm=np.zeros((H,W),bool); nm[gy,gx]=True
+        ring=_mf(nm,ImageFilter.MaxFilter,7)&~_mf(nm,ImageFilter.MinFilter,5)
+        bl=np.stack([_fblur(out[...,c],2.0*s) for c in range(3)],-1)
+        out[...,:3]=np.where(ring[...,None],bl,out[...,:3])   # no dark line around the filled gap
+    return out
+def clean_rim(img,width=3):
+    im=img.convert('RGBA'); a=extend_bottom(np.asarray(im).astype(np.float32))
+    R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
+    bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))&(A>200)
+    gold=(R>140)&(G>100)&(B<110)&(R>B+60)
+    L=a[...,:3].mean(-1); sat=a[...,:3].max(-1)-a[...,:3].min(-1)
+    near=_mf(bg,ImageFilter.MaxFilter,2*width+1)&~bg&(A>200)
+    rim=near&(L>95)&(sat<70)&~gold
+    # background colour under the rim: average of nearby background pixels
+    fgm=~bg&(A>200)
+    halo=bg&_mf(fgm,ImageFilter.MaxFilter,7)          # background right next to Leo (often a light halo)
+    far=bg&~_mf(fgm,ImageFilter.MaxFilter,9)
+    rim=rim|halo
+    H,W=bg.shape; yy,xx=np.mgrid[0:H,0:W]; sc=W/1024.
+    rim&=~((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))   # leave the cap and its badge alone
+    fill=_fill_from(a,far,6)
+    k=_soft(rim,0.7)[...,None]
+    out=a.copy(); out[...,:3]=a[...,:3]*(1-k)+fill*k
+    # smooth the jagged cut-out outline: round off the stair steps and little bumps, then anti-alias it
+    fg=~(bg|rim)&(A>200)
+    specks=fg&(_fblur(fg.astype(np.float32),4*sc)<0.3)&~gold   # stray dots floating in the background
+    rim=rim|specks; out[...,:3]=np.where(specks[...,None],fill,out[...,:3]); fg=fg&~specks
+    sm=_fblur(fg.astype(np.float32),2.2*sc)
+    alpha=np.clip((sm-0.5)*2.6+0.5,0,1)
+    fgcol=_fill_from(out,fg,2.5*sc)                    # fur colour for small dips that the smoothing fills in
+    col=np.where(fg[...,None],out[...,:3],fgcol)
+    keep=(gold|((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))|(A<=200))[...,None]
+    sm_out=col*alpha[...,None]+fill*(1-alpha[...,None])
+    out[...,:3]=np.where(keep,out[...,:3],sm_out)
+    return Image.fromarray(np.clip(out,0,255).astype(np.uint8),'RGBA'),rim
 def split(img):
     """returns (body without tail, tail layer) as RGBA images of the same size"""
-    im=img.convert('RGBA'); a=np.asarray(im).astype(np.float32); m,mw=tail_mask(im)
+    im,_=clean_rim(img); a=np.asarray(im).astype(np.float32); m,mw=tail_mask(im)   # white sticker outline removed first
+    # where the tail was cut from the fur next to it (straight vertical cuts), fade it in instead of a hard line
+    H0,W0=m.shape; y0,x0=np.mgrid[0:H0,0:W0].astype(np.float32); s0=W0/1024.
+    xc=np.where(y0<700*s0,648*s0,np.where(y0<870*s0,700*s0,622*s0))
+    # the tail layer reaches a few px past the cut, under the fur in front of it, so no dark line shows there
+    xi=np.clip(np.round(xc+3*s0).astype(int),0,W0-1)
+    rowtail=m[np.arange(H0)[:,None].repeat(W0,1),xi]>0.5
+    under=rowtail&(x0>=xc-20*s0)&(x0<xc+2*s0)&~_navy(np.asarray(im).astype(np.float32))&(np.asarray(im)[...,3]>200)
+    mt=np.maximum(m,under.astype(np.float32))
     # fill where the tail was with the surrounding background (smooth push-pull fill)
     bg=(_navy(a)&(mw<0.01)).astype(np.float32)
     # smooth model of the navy background: a quadratic fit over nearby background pixels
@@ -43,7 +165,7 @@ def split(img):
     dark=np.asarray(Image.fromarray((dark*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32)/255.
     hole=np.clip(np.maximum(m*1.1,mw*np.maximum(dark,_navy(a))),0,1)[...,None]
     body=a.copy(); body[...,:3]=a[...,:3]*(1-hole)+fill*hole
-    tail=a.copy(); tail[...,3]=a[...,3]*m
+    tail=a.copy(); tail[...,3]=a[...,3]*mt
     # the arm and leg next to the tail go on top, so the tail tucks in behind them as it sways
     H,W=m.shape; yy,xx=np.mgrid[0:H,0:W]; s=W/1024.
     band=((xx>540*s)&(xx<706*s)&(yy>440*s)).astype(np.float32)
@@ -79,7 +201,29 @@ def split(img):
     am=Image.fromarray((seen*255).astype(np.uint8)).filter(ImageFilter.MinFilter(5))   # drop the white sticker rim
     am=np.asarray(am.filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.*(xx<ARM_CUT*s)
     am=am*np.clip((ARM_CUT*s-xx)/(14*s),0,1)   # soft end at the shoulder so no seam shows
-    arm=a.copy(); arm[...,3]=a[...,3]*am
+    # the arm reaches a little past the cut, over the untouched shoulder, so no seam line shows where they meet
+    ARM_OVER=26.
+    rows=(seen[:,int((ARM_CUT-3)*s)-2:int((ARM_CUT-3)*s)+1].any(1))[:,None]
+    ext=rows&(xx>=(ARM_CUT-16)*s)&(xx<(ARM_CUT+ARM_OVER)*s)&~isbg&~gold&(mw<0.3)
+    amx=np.asarray(Image.fromarray(((seen|ext)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.
+    amx=np.maximum(amx*np.clip(((ARM_CUT+ARM_OVER)*s-xx)/(ARM_OVER*s),0,1)*(xx>=(ARM_CUT-16)*s),am)
+    # the hand: a thin sticker rim shows in the dip between thumb and fingers; drop it
+    rim=(xx<205*s)&(yy<372*s)&(a[...,:3].mean(-1)>140)
+    rim|=(xx>160*s)&(xx<188*s)&(yy>318*s)&(yy<356*s)&(a[...,:3].mean(-1)>80)
+    amx=amx*(1-_soft(_mf(rim,ImageFilter.MaxFilter,3),0.8*s))
+    nb=(xx>150*s)&(xx<195*s)&(yy>312*s)&(yy<360*s)   # tidy the dip: drop thin strands, keep a smooth outline
+    op=Image.fromarray((np.clip(amx,0,1)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(7)).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(0.9*s))
+    amx=np.where(nb,np.minimum(amx,np.asarray(op).astype(np.float32)/255.),amx)
+    arm=a.copy(); arm[...,3]=a[...,3]*amx
+    # the drawing cut the fingertips off with a straight line; grow them back
+    hand=(amx>0.5)&(xx>100*s)&(xx<230*s)&(yy>280*s)&(yy<400*s)
+    frgb,fal=add_fingers(arm,hand,s)
+    arm[...,:3]=np.clip(arm[...,:3]*(1-fal[...,None])+frgb*fal[...,None],0,255)
+    arm[...,3]=np.maximum(arm[...,3],255*fal)
+    seam=((np.abs(xx/s-108)<4)&(yy/s>290)&(yy/s<388))|((np.abs(yy/s-292)<4)&(xx/s>104)&(xx/s<132))
+    sm=_soft(seam,1.5*s)[...,None]
+    bl=np.stack([np.asarray(Image.fromarray(np.clip(arm[...,c],0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.4*s))).astype(np.float32) for c in range(3)],-1)
+    arm[...,:3]=arm[...,:3]*(1-sm)+bl*sm
     aw=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(21)).filter(ImageFilter.GaussianBlur(3*s))).astype(np.float32)/255.*(xx<ARM_CUT*s+3)
     ah=np.clip(np.maximum(am*1.1,aw*(isbg|(a[...,:3].max(-1)<150))),0,1)[...,None]
     near=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(61))).astype(np.float32)/255.
@@ -87,13 +231,12 @@ def split(img):
     zone=np.asarray(Image.fromarray((zone*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2*s))).astype(np.float32)/255.
     ah=np.maximum(ah,zone[...,None])
     nearL=(isbg)&(xx<330*s)&(yy>150*s)&(yy<620*s)&(near<0.5)
-    fillA=np.zeros_like(fill)
-    for c in range(3):
-        coef,*_=np.linalg.lstsq(A[nearL],a[...,c][nearL],rcond=None); fillA[...,c]=A@coef
+    fillA=_fill_from(a,isbg&(near<0.5)&(mw<0.01),40)   # same background tone as around it, so no box shows
     body[...,:3]=body[...,:3]*(1-ah)+fillA*ah
     d=np.hypot(xx-ARM_PIVOT[0]*s,yy-ARM_PIVOT[1]*s)
     capm=(~isbg&(am<0.5)&(d<130*s)&(xx>=(ARM_CUT-2)*s)&(mw<0.5)).astype(np.float32)
     capm=np.asarray(Image.fromarray((capm*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2*s))).astype(np.float32)/255.
+    capm=capm*np.clip((xx-(ARM_CUT-2)*s)/(22*s),0,1)   # soft edge over the arm
     cap=a.copy(); cap[...,3]=a[...,3]*capm
     to=lambda x:Image.fromarray(np.clip(x,0,255).astype(np.uint8),'RGBA')
     return to(body),to(tail),to(front),to(arm),to(cap)
