@@ -100,8 +100,8 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
   body:not(.in-lesson) .app{max-width:none;padding:14px 24px 60px;}
   .course-layout .side-nav{top:88px;padding:16px 12px 18px;}
   .course-layout .sn-item{font-size:17px;padding:12px 14px;margin:6px 0;gap:12px;border:2px solid transparent;border-radius:14px;}
-  .course-layout .sn-item span{font-size:26px;width:30px;flex:0 0 30px;}
-  .course-layout .sn-item span img{width:28px;height:28px;}
+  .course-layout .sn-item>span{font-size:26px;width:30px;flex:0 0 30px;}
+  .course-layout .sn-item>span img{width:28px;height:28px;}
   .course-layout .sn-item b{white-space:nowrap;}
   .course-layout .sn-item.on{background:rgba(236,184,58,.16);border-color:var(--gold);color:var(--gold-light);}
   .course-layout .sn-item.on small{color:var(--gold-light);}
