@@ -1,5 +1,5 @@
 /* Leogrow — offline support. Bump VERSION when the app file changes. */
-const VERSION = 'leogrow-v29';
+const VERSION = 'leogrow-v30';
 const CORE = ['./lingrow-academy.html', './lingrow-config.js', './lingrow.webmanifest', './lingrow-icon-192.png', './lingrow-icon-512.png', './lingrow-icon-180.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -14,6 +14,11 @@ self.addEventListener('fetch', e => {
   // accounts, progress and Premium status must always be fresh: never serve them from the cache
   if (url.hostname.endsWith('.supabase.co') || url.pathname.startsWith('/.netlify/')) return;
   // the app page: try the network first so updates arrive, fall back to the saved copy offline
+  // other pages (terms, privacy): network first, their own saved copy offline
+  if (url.origin === location.origin && /\/(terms|privacy)\.html$/.test(url.pathname)) {
+    e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put(req, copy)); return r; }).catch(() => caches.match(req)));
+    return;
+  }
   if (req.mode === 'navigate' || url.pathname.endsWith('.html')) {
     e.respondWith(fetch(req,{cache:'no-store'}).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put('./lingrow-academy.html', copy)); return r; })
       .catch(() => caches.match('./lingrow-academy.html')));

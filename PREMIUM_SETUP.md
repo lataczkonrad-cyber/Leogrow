@@ -55,3 +55,10 @@ When the test works, switch Stripe to **Live mode**, repeat steps 3, 4 and 5 the
 - **Premium:** every lesson and unit test, no daily limit. 24,99 zł a month or 199 zł a year as subscriptions (card, Apple Pay, Google Pay; cancel anytime), or 199 zł once for a year (BLIK, Przelewy24, card; no renewal).
 - **Trial:** both subscriptions (monthly and yearly) start with 3 free days (card needed; once per account). The one-off yearly BLIK/Przelewy24 payment has no trial. No free trial on sign-up.
 - Settings are at the top of `src/premium.js` (`freeLevels`, `freeLessonsPerUnit`, `dailyFree`, `trialDays`). Prices are in `netlify/lib/leogrow.mjs` (in grosze) and the labels in `src/premium.js`.
+
+## Terms and privacy pages
+- `site/terms.html` (Regulamin / Terms) and `site/privacy.html` (Polityka prywatności / Privacy), Polish + English, written for działalność nierejestrowana.
+- Before going live, replace every `[…]` placeholder in both files: your full name, a postal address for letters, a contact e-mail and the effective date.
+- Before buying, learners must tick a box accepting the Terms and the immediate start of Premium, which ends the 14-day withdrawal right for digital content. Without the tick the checkout refuses. The consent and its time are saved on the Stripe payment/subscription (metadata `consent`, `consent_at`).
+- In Stripe → Settings → Customer emails, turn on **Successful payments** so buyers get a receipt e-mail.
+- Have an accountant or lawyer read both pages once; they are a solid draft, not legal advice.
