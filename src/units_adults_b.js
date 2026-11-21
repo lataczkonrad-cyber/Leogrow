@@ -138,7 +138,7 @@ mkUnit({id:"bd1",level:"B1",track:"adults",topic:"Money",title:"Money & Spending
    {q:"The electricity ___ was €120 this month.",opts:["bill","budget","debt"],correct:0},{q:"Buying things you never use is a ___ of money.",opts:["waste","debt","budget"],correct:0},
   ],
   odd:[
-   {opts:["earn","save","spend","afford","bill"].slice(0,3).concat(["bill"]),odd:3,why:"'Bill' is a noun; the others are verbs."},
+   {opts:["earn","save","spend","bill"],odd:3,why:"'Bill' is a noun; the others are verbs."},
    {opts:["debt","bill","budget","refund"],odd:3,why:"A refund is money you get back; the others are about money you plan or must pay."},
    {opts:["borrow","lend","owe","waste"],odd:3,why:"'Waste' isn't about lending money between people."},
    {opts:["save","invest","put aside","spend"],odd:3,why:"'Spend' is the opposite — the others keep money for later."},
@@ -400,7 +400,7 @@ mkUnit({id:"bd2",level:"B2",track:"adults",topic:"Culture",title:"Culture & the 
    {word:"I'd highly recommend it.",options:["I'd highly recommend it.","I'd hardly recommend it.","I'd highly recommend him."],correct:0},
    {word:"It's not really my cup of tea.",options:["It's not really my cup of tea.","It's not really my cup or tea.","It's really my cup of tea."],correct:0},
   ],
-  wordle:[["moving","🥹"],["dull","😴"],["gripping","😮"].slice(0,0).concat(["into","❤️"]),["sold","🎟️❌"],["tea","🍵🙅"]]},
+  wordle:[["moving","🥹"],["dull","😴"],["into","❤️"],["sold","🎟️❌"],["tea","🍵🙅"]]},
  grammar:{title:"The film, which I loved…",emoji:"🔗",label:"Relative clauses",intro:"Who, which, that, whose, where — defining and non-defining relative clauses.",boxTitle:"Relative clauses",
   html:`<p><b>Defining</b> clauses tell us <b>which one</b> — no commas, and <b>that</b> is OK.</p>${TBL(["Pronoun","For","Example"],[["<b>who / that</b>","people","The actor <b>who</b> played Hamlet was brilliant."],["<b>which / that</b>","things","The book <b>that</b> I read was gripping."],["<b>whose</b>","possession","The artist <b>whose</b> work we saw is Polish."],["<b>where</b>","places","That's the cinema <b>where</b> we met."]])}<p style="margin-top:12px;"><b>Non-defining</b> clauses add <b>extra information</b> — use <b>commas</b> and never <b>that</b>:<br>Kraków, <b>which</b> has many galleries, is lovely. ❌ Kraków, that has…</p><p style="margin-top:8px;">In defining clauses you can drop the pronoun when it's the object: The film (that) <b>I saw</b> was dull.</p>`,
   quizTag:"WHO, WHICH, WHOSE…",quiz:[
@@ -469,7 +469,7 @@ mkUnit({id:"bd2",level:"B2",track:"adults",topic:"Culture",title:"Culture & the 
   errors:[
    {s:"The singer which I like is touring.",wrong:2,ok:"The singer who I like is touring."},
    {s:"My dad, that is a painter, loves galleries.",wrong:2,ok:"My dad, who is a painter, loves galleries."},
-   {s:"The film was so moved that I cried.",wrong:3,ok:"The film was so moving that I cried."},
+   {s:"The film was so moved that I cried.",wrong:4,ok:"The film was so moving that I cried."},
    {s:"That's the café which we first met.",wrong:3,ok:"That's the café where we first met."}],
   typed:[
    {prompt:"To aktor, którego żona jest reżyserką.",answers:["He is the actor whose wife is a director","He's the actor whose wife is a director","This is the actor whose wife is a director","That's the actor whose wife is a director"]},
@@ -495,7 +495,7 @@ mkUnit({id:"cd1",level:"C1",track:"adults",topic:"Science & Ethics",title:"Scien
    {q:"The most modern, advanced technology:",opts:["cutting-edge","controversial","placebo"],correct:0},{q:"Headaches and nausea are common ___ of the drug.",opts:["side effects","findings","samples"],correct:0},
   ],
   odd:[
-   {opts:["hypothesis","experiment","findings","placebo effect","bias"].slice(0,3).concat(["bias"]),odd:3,why:"Bias is a problem in research; the others are normal stages of a study."},
+   {opts:["hypothesis","experiment","findings","bias"],odd:3,why:"Bias is a problem in research; the others are normal stages of a study."},
    {opts:["cutting-edge","state-of-the-art","pioneering","outdated"],odd:3,why:"'Outdated' is the opposite — the others mean very modern."},
    {opts:["data","findings","results","dilemma"],odd:3,why:"A dilemma is a difficult choice, not what a study produces."},
    {opts:["replicate","reproduce","repeat","refute"],odd:3,why:"To refute is to prove wrong; the others mean doing it again."},
@@ -519,7 +519,7 @@ mkUnit({id:"cd1",level:"C1",track:"adults",topic:"Science & Ethics",title:"Scien
    {word:"It raises serious ethical concerns.",options:["It raises serious ethical concerns.","It raises several ethical concerns.","It raised serious ethical concerts."],correct:0},
    {word:"It's a slippery slope.",options:["It's a slippery slope.","It's a slippery soap.","It's a sleepy slope."],correct:0},
   ],
-  wordle:[["bias","↗️⚖️"],["ethics","⚖️"].slice(0,0).concat(["ethics","🧭"]),["consent","✍️✅"],["dilemma","🔀"],["regulate","📜"].slice(0,0).concat(["risk","⚠️"])]},
+  wordle:[["bias","↗️⚖️"],["ethics","🧭"],["consent","✍️✅"],["dilemma","🔀"],["risk","⚠️"]]},
  grammar:{title:"It is widely believed that…",emoji:"🧩",label:"Impersonal passive",intro:"It is thought that… / X is said to have… / The results appear to suggest… — distance and caution in academic English.",boxTitle:"Impersonal passive & hedging",
   html:`<p>To report beliefs without naming who holds them, use an <b>impersonal passive</b>.</p>${TBL(["Pattern","Example"],[["<b>It is + said / thought / believed + that…</b>","<b>It is believed that</b> the drug is safe."],["<b>Subject + is said + to + infinitive</b>","The drug <b>is believed to be</b> safe."],["<b>… + to have + past participle</b> (past)","The data <b>is thought to have been</b> altered."],["<b>There is said to be…</b>","<b>There are thought to be</b> 5,000 cases."]])}<p style="margin-top:12px;"><b>Hedging</b> makes claims more cautious: the results <b>appear to / seem to / tend to</b>…; this <b>may / could</b> suggest…; it is <b>likely / unlikely</b> that…; <b>to some extent</b>, <b>arguably</b>.</p>`,
   quizTag:"SOUND ACADEMIC",quiz:[
@@ -554,7 +554,7 @@ mkUnit({id:"cd1",level:"C1",track:"adults",topic:"Science & Ethics",title:"Scien
    {q:"More cautious:",opts:["may suggest","proves"],correct:0},{q:"Patients must give informed ___.",opts:["consent","content"],correct:0},
    {q:"A sugar pill:",opts:["placebo","sample"],correct:0},
   ],
-  wordle:[["likely","📈"],["thought","💭"].slice(0,0).concat(["claim","🗣️"]),["proof","✅"],["seems","🤔"]]},
+  wordle:[["likely","📈"],["claim","🗣️"],["proof","✅"],["seems","🤔"]]},
  reading:{title:"Should we edit genes?",emoji:"🧬",intro:"Read an essay on gene editing, analyse how it hedges and argues, translate, and write your own balanced essay.",storyTitle:"Editing Life: Promise or Peril?",label:"Essay",paras:[
    "<b>Editing Life: Promise or Peril?</b> 🧬",
    "Few scientific breakthroughs have raised as many hopes — or concerns — as CRISPR, a technique that allows scientists to 'cut and paste' DNA with remarkable precision. It is already being used in clinical trials, and it is widely believed to offer a cure for some inherited diseases, such as sickle-cell anaemia.",
@@ -708,7 +708,7 @@ mkUnit({id:"ce1",level:"C1",track:"adults",topic:"Business & Economy",title:"Bus
    {s:"We recommend that he takes a break.",wrong:4,ok:"We recommend that he take a break."},
    {s:"It's high time we leave.",wrong:4,ok:"It's high time we left."},
    {s:"I'd rather you don't phone so late.",wrong:3,ok:"I'd rather you didn't phone so late."},
-   {s:"The company broke even and went bankrupt with profits.",wrong:3,ok:"The company made big profits."}],
+   {s:"The company broke even with huge profits.",wrong:2,ok:"The company made huge profits."}],
   typed:[
    {prompt:"Nalegam, żeby on przyszedł.",answers:["I insist that he come","I insist he come","I insist that he should come"]},
    {prompt:"Najwyższy czas, żebyśmy poszli.",answers:["It's high time we went","It is high time we went","It's high time we left","It is high time we left"]},
