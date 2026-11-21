@@ -1,5 +1,5 @@
 /* Leogrow — offline support. Bump VERSION when the app file changes. */
-const VERSION = 'leogrow-v29';
+const VERSION = 'leogrow-v30';
 const CORE = ['./lingrow-academy.html', './lingrow-config.js', './lingrow.webmanifest', './lingrow-icon-192.png', './lingrow-icon-512.png', './lingrow-icon-180.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -50,4 +50,31 @@ self.addEventListener('notificationclick', e => {
     const w = ws.find(x => 'focus' in x);
     return w ? w.focus() : self.clients.openWindow(self.registration.scope);
   }));
+});
+
+/* streak reminder sent by the server (works when the app is fully closed; on iPhone once Leogrow is on the Home Screen) */
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (_) { d = { b: e.data && e.data.text() }; }
+  const title = d.t || 'Leogrow', tag = d.tag || 'leogrow-daily';
+  e.waitUntil((async () => {
+    // remember it, so the app's own on-device reminder doesn't repeat it today
+    if (tag === 'leogrow-daily') {
+      try { const c = await caches.open('leogrow-state'), r = await c.match('./__reminder');
+        if (r) { const st = await r.json(); st.notified = d.day || _day(new Date()); await c.put('./__reminder', new Response(JSON.stringify(st), { headers: { 'Content-Type': 'application/json' } })); } } catch (_) {}
+    }
+    await self.registration.showNotification(title, { body: d.b || '', icon: 'lingrow-icon-192.png', badge: 'lingrow-icon-192.png', tag });
+  })());
+});
+/* the browser renewed this device's push address: tell the server the new one */
+self.addEventListener('pushsubscriptionchange', e => {
+  e.waitUntil((async () => {
+    try {
+      const old = e.oldSubscription, sub = e.newSubscription || await self.registration.pushManager.subscribe(old ? old.options : { userVisibleOnly: true, applicationServerKey: (await (await fetch('/.netlify/functions/push')).json()).key });
+      let state = {};
+      try { const r = await (await caches.open('leogrow-state')).match('./__reminder'); if (r) { const st = await r.json(); state = { on: st.on, time: st.time, lang: st.lang, goal: st.goal, streak: st.streak, tz: st.tz }; } } catch (_) {}
+      await fetch('/.netlify/functions/push', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'save', sub: sub.toJSON(), state }) });
+      if (old) await fetch('/.netlify/functions/push', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'off', endpoint: old.endpoint }) });
+    } catch (_) {}
+  })());
 });
