@@ -11,9 +11,9 @@ export const SUPABASE_PUBLIC_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publisha
 export const PLANS = {
   // subscriptions (card, Apple Pay, Google Pay): 3 days free on the first subscription, then renew
   month:    { amount: 2499,  interval: 'month', name: 'Leogrow Premium (monthly)', namePl: 'Leogrow Premium (miesięcznie)' },
-  year:     { amount: 14900, interval: 'year',  name: 'Leogrow Premium (yearly)',  namePl: 'Leogrow Premium (rocznie)' },
+  year:     { amount: 20000, interval: 'year',  name: 'Leogrow Premium (yearly)',  namePl: 'Leogrow Premium (rocznie)' },
   // one payment for 1 year (BLIK, Przelewy24, card): no trial, no renewal
-  yearOnce: { amount: 14900, days: 365, name: 'Leogrow Premium (1 year)', namePl: 'Leogrow Premium (1 rok)' },
+  yearOnce: { amount: 20000, days: 365, name: 'Leogrow Premium (1 year)', namePl: 'Leogrow Premium (1 rok)' },
 };
 export const TRIAL_DAYS = 3;
 
