@@ -1,5 +1,5 @@
 // Starts a Stripe Checkout for a logged-in learner. Body: { plan: 'month' | 'year', lang: 'en' | 'pl' }
-import { PLANS, json, siteUrl, stripe, userFromToken, getPremium, bearer } from '../lib/leogrow.mjs';
+import { PLANS, TRIAL_DAYS, json, siteUrl, stripe, userFromToken, getPremium, bearer } from '../lib/leogrow.mjs';
 
 export default async req => {
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
@@ -11,7 +11,7 @@ export default async req => {
     if (!P) return json({ error: 'Unknown plan.' }, 400);
     const pl = lang === 'pl';
     const row = await getPremium(user.id);
-    if (plan === 'month' && row && row.stripe_subscription_id && ['active', 'trialing', 'past_due'].includes(row.sub_status))
+    if (P.interval && row && row.stripe_subscription_id && ['active', 'trialing', 'past_due'].includes(row.sub_status))
       return json({ error: pl ? 'Masz już aktywną subskrypcję.' : 'You already have an active subscription.' }, 409);
 
     const site = siteUrl(req);
@@ -29,17 +29,17 @@ export default async req => {
           currency: 'pln',
           unit_amount: P.amount,
           product_data: { name: pl ? P.namePl : P.name },
-          ...(plan === 'month' ? { recurring: { interval: 'month' } } : {}),
+          ...(P.interval ? { recurring: { interval: P.interval } } : {}),
         },
       }],
     };
     if (row && row.stripe_customer_id) params.customer = row.stripe_customer_id;
     else params.customer_email = user.email;
-    if (plan === 'month') {
+    if (P.interval) {
       params.mode = 'subscription';
       params.subscription_data = { metadata: { user_id: user.id } };
-      // 7 days free on the first monthly subscription only (card needed; cancel in time and nothing is charged)
-      if (!(row && row.stripe_subscription_id)) params.subscription_data.trial_period_days = 7;
+      // free days on the first subscription only (card needed; cancel in time and nothing is charged)
+      if (!(row && row.stripe_subscription_id)) params.subscription_data.trial_period_days = TRIAL_DAYS;
     } else {
       // one payment for a year: works with BLIK, Przelewy24 and cards (whatever is switched on in Stripe)
       params.mode = 'payment';

@@ -95,17 +95,18 @@ function openPremium(why){
   ].map(([e,t])=>`<li><span>${e}</span>${t}</li>`).join('');
   let body;
   if(paidPremium()){
-    body=`<p class="prem-state">✅ ${subTrial()?T2('Free week — your first payment is on','Darmowy tydzień — pierwsza płatność')+' ':''}${subTrial()?'':T2('You have Premium until','Masz Premium do')} <b>${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>${manageBtn()}`;
+    body=`<p class="prem-state">✅ ${subTrial()?T2('Free days — your first payment is on','Darmowe dni — pierwsza płatność')+' ':''}${subTrial()?'':T2('You have Premium until','Masz Premium do')} <b>${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>${manageBtn()}`;
   }else if(!USER){
-    body=`<p class="prem-state">${T2('Create a free account first, then pick a plan. The monthly plan starts with <b>7 days free</b>.','Najpierw załóż darmowe konto, potem wybierz plan. Plan miesięczny zaczyna się od <b>7 dni za darmo</b>.')}</p>
+    body=`<p class="prem-state">${T2('Create a free account first, then pick a plan. Both plans start with <b>3 days free</b>.','Najpierw załóż darmowe konto, potem wybierz plan. Oba plany zaczynają się od <b>3 dni za darmo</b>.')}</p>
       <button class="btn btn-gold auth-go" onclick="openAuth('up')">${T2('Create free account →','Załóż darmowe konto →')}</button>
       <button class="btn secondary auth-go" onclick="openAuth('in')">${T2('I have an account','Mam już konto')}</button>`;
   }else{
     const t=onTrial()?`<p class="prem-state">⭐ ${T2('Your free trial ends on','Twój okres próbny kończy się')} <b>${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>`:'';
     body=t+`<div class="prem-plans">
-      <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · −50%','NAJLEPSZA CENA · −50%')}</i><b>${PREMIUM.price.year}</b><small>${T2('for 1 year · about 12 zł a month','za 1 rok · ok. 12 zł miesięcznie')}</small><em>${T2('One payment, no auto-renewal · BLIK, card, Przelewy24','Jedna płatność, bez odnawiania · BLIK, karta, Przelewy24')}</em></button>
-      <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · first 7 days free','miesięcznie · pierwsze 7 dni za darmo')}</small><em>${T2('Cancel anytime in the first 7 days and you pay nothing · Card, Apple Pay, Google Pay','Anuluj w ciągu 7 dni, a nic nie zapłacisz · Karta, Apple Pay, Google Pay')}</em></button>
-    </div><p class="auth-msg" id="premMsg"></p>
+      <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · −50%','NAJLEPSZA CENA · −50%')}</i><b>${PREMIUM.price.year}</b><small>${T2('a year · first 3 days free','rocznie · pierwsze 3 dni za darmo')}</small><em>${T2('About 12 zł a month · cancel in 3 days and pay nothing · Card, Apple Pay, Google Pay','Ok. 12 zł miesięcznie · anuluj w ciągu 3 dni, a nic nie zapłacisz · Karta, Apple Pay, Google Pay')}</em></button>
+      <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · first 3 days free','miesięcznie · pierwsze 3 dni za darmo')}</small><em>${T2('Cancel in 3 days and pay nothing · Card, Apple Pay, Google Pay','Anuluj w ciągu 3 dni, a nic nie zapłacisz · Karta, Apple Pay, Google Pay')}</em></button>
+    </div>
+    <button class="prem-once" onclick="buyPremium('yearOnce',this)">💳 ${T2('Prefer BLIK? Pay '+PREMIUM.price.year+' once for 1 year (BLIK, Przelewy24, card · no trial, no renewal)','Wolisz BLIK? Zapłać '+PREMIUM.price.year+' jednorazowo za 1 rok (BLIK, Przelewy24, karta · bez okresu próbnego i odnawiania)')}</button><p class="auth-msg" id="premMsg"></p>
     <p class="auth-note">${T2('Secure payment by Stripe. Premium unlocks on all your devices.','Bezpieczna płatność przez Stripe. Premium działa na wszystkich Twoich urządzeniach.')}</p>`;
   }
   authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('LEOGROW PREMIUM')}
@@ -124,9 +125,9 @@ async function _premFetch(path,body){
   return j.url;
 }
 async function buyPremium(plan,btn){
-  const msg=$('premMsg'); document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
+  const msg=$('premMsg'); document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
   try{ await pushNow(true); location.href=await _premFetch('checkout',{plan,lang:LANG}); }
-  catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=false); }
+  catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=false); }
 }
 async function managePremium(btn){
   const msg=$('premMsg'); btn.disabled=true;

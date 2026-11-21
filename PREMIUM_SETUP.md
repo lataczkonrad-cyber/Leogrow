@@ -52,6 +52,6 @@ When the test works, switch Stripe to **Live mode**, repeat steps 3, 4 and 5 the
 
 ## What is free and what is Premium
 - **Free:** placement test, the whole A0 level in both courses, the first lesson of every other unit, review lessons, up to 3 different lessons a day.
-- **Premium:** every lesson and unit test, no daily limit. 24,99 zł a month (card, Apple Pay, Google Pay; cancel anytime) or 149 zł for a year (one payment; BLIK, card, Przelewy24).
-- **Trial:** only the monthly plan: the first 7 days are free (card needed; cancel within 7 days and nothing is charged). No free trial on sign-up.
+- **Premium:** every lesson and unit test, no daily limit. 24,99 zł a month or 149 zł a year as subscriptions (card, Apple Pay, Google Pay; cancel anytime), or 149 zł once for a year (BLIK, Przelewy24, card; no renewal).
+- **Trial:** both subscriptions (monthly and yearly) start with 3 free days (card needed; cancel within 3 days and nothing is charged; once per account). The one-off yearly BLIK/Przelewy24 payment has no trial. No free trial on sign-up.
 - Settings are at the top of `src/premium.js` (`freeLevels`, `freeLessonsPerUnit`, `dailyFree`, `trialDays`). Prices are in `netlify/lib/leogrow.mjs` (in grosze) and the labels in `src/premium.js`.
