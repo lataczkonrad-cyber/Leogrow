@@ -20,3 +20,5 @@
 .prem-state{font-size:14px;font-weight:700;color:var(--navy);margin:6px 0;}
 .prem-acc{margin:8px 0;padding-top:8px;border-top:1px dashed rgba(32,42,110,.2);}
 @media(max-width:400px){.prem-plans{grid-template-columns:1fr;}}
+.prem-once{display:block;width:100%;margin-top:10px;padding:9px 12px;border-radius:12px;border:1.5px dashed var(--navy-light);background:transparent;color:var(--navy);font:700 12.5px 'Montserrat',sans-serif;cursor:pointer;}
+.prem-once:disabled{opacity:.55;cursor:wait;}

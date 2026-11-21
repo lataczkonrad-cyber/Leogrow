@@ -9,9 +9,13 @@ export const SUPABASE_URL = process.env.SUPABASE_URL || 'https://dqksrcffgkngjbk
 // the public (publishable) key, same as in site/lingrow-config.js — enough to check who is logged in
 export const SUPABASE_PUBLIC_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_3DqjA-lTMKMDAavURFcHog_syyO5u8U';
 export const PLANS = {
-  month: { amount: 2499, name: 'Leogrow Premium (monthly)', namePl: 'Leogrow Premium (miesięcznie)' },
-  year:  { amount: 14900, name: 'Leogrow Premium (1 year)', namePl: 'Leogrow Premium (1 rok)', days: 365 },
+  // subscriptions (card, Apple Pay, Google Pay): 3 days free on the first subscription, then renew
+  month:    { amount: 2499,  interval: 'month', name: 'Leogrow Premium (monthly)', namePl: 'Leogrow Premium (miesięcznie)' },
+  year:     { amount: 14900, interval: 'year',  name: 'Leogrow Premium (yearly)',  namePl: 'Leogrow Premium (rocznie)' },
+  // one payment for 1 year (BLIK, Przelewy24, card): no trial, no renewal
+  yearOnce: { amount: 14900, days: 365, name: 'Leogrow Premium (1 year)', namePl: 'Leogrow Premium (1 rok)' },
 };
+export const TRIAL_DAYS = 3;
 
 export const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });

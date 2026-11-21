@@ -27,7 +27,7 @@ async function addYear(session) {
   const from = Math.max(Date.now(), row && row.paid_until ? Date.parse(row.paid_until) : 0);
   await savePremium(userId, {
     stripe_customer_id: session.customer || (row && row.stripe_customer_id) || null,
-    paid_until: new Date(from + PLANS.year.days * 864e5).toISOString(),
+    paid_until: new Date(from + PLANS.yearOnce.days * 864e5).toISOString(),
     last_payment: session.id,
   });
 }

@@ -5,7 +5,7 @@
    Payments: Netlify functions in netlify/functions (checkout, billing-portal, stripe-webhook).
    The webhook writes public.premium in Supabase; the app reads the learner's own row. */
 const PREMIUM={
-  freeLevels:['A0'], freeLessonsPerUnit:1, dailyFree:3, trialDays:7,
+  freeLevels:['A0'], freeLessonsPerUnit:1, dailyFree:3, trialDays:0,   // no free trial on sign-up: the 7 free days come only with the monthly subscription (Stripe trial)
   price:{month:'24,99 zł',year:'149 zł'},
   row:null, loadedFor:null,
 };
@@ -19,6 +19,7 @@ function trialUntil(){
   return Date.parse(USER.created_at)+PREMIUM.trialDays*864e5;
 }
 const paidPremium=()=>premiumUntil()>Date.now();
+const subTrial=()=>!!(PREMIUM.row&&PREMIUM.row.sub_status==='trialing');
 const onTrial=()=>!paidPremium()&&trialUntil()>Date.now();
 function isPremium(){
   if(TESTER||!cloudOn()) return true;          // tester tools and offline copies see everything
@@ -87,24 +88,25 @@ function openPremium(why){
               :why==='daily'?T2('You\'ve used today\'s '+PREMIUM.dailyFree+' free lessons. Come back tomorrow, or go Premium for unlimited learning.','Wykorzystałeś dziś '+PREMIUM.dailyFree+' darmowe lekcje. Wróć jutro albo przejdź na Premium i ucz się bez limitu.')
               :T2('Learn every level from A0 to C1, with no limits.','Ucz się na każdym poziomie od A0 do C1, bez limitów.');
   const feats=[
-    ['📚',T2('All 75 lessons, Kids A0–A2 and Teens & Adults A0–C1','Wszystkie 75 lekcji: Dzieci A0–A2 oraz Młodzież i Dorośli A0–C1')],
+    ['📚',T2('All '+ALL_LESSONS.length+' lessons, Kids A0–A2 and Teens & Adults A0–C1','Wszystkie lekcje ('+ALL_LESSONS.length+'): Dzieci A0–A2 oraz Młodzież i Dorośli A0–C1')],
     ['♾️',T2('Unlimited lessons every day','Nielimitowane lekcje każdego dnia')],
     ['🏆',T2('Every unit test and final test','Wszystkie testy działów i testy końcowe')],
     ['🔁',T2('Unlimited review of your missed words','Nielimitowane powtórki trudnych słówek')],
   ].map(([e,t])=>`<li><span>${e}</span>${t}</li>`).join('');
   let body;
   if(paidPremium()){
-    body=`<p class="prem-state">✅ ${T2('You have Premium until','Masz Premium do')} <b>${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>${manageBtn()}`;
+    body=`<p class="prem-state">✅ ${subTrial()?T2('Free days — your first payment is on','Darmowe dni — pierwsza płatność')+' ':''}${subTrial()?'':T2('You have Premium until','Masz Premium do')} <b>${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>${manageBtn()}`;
   }else if(!USER){
-    body=`<p class="prem-state">${T2('Create a free account first. You get <b>7 days of Premium free</b>, no card needed.','Najpierw załóż darmowe konto. Dostaniesz <b>7 dni Premium za darmo</b>, bez karty.')}</p>
+    body=`<p class="prem-state">${T2('Create a free account first, then pick a plan. Both plans start with <b>3 days free</b>.','Najpierw załóż darmowe konto, potem wybierz plan. Oba plany zaczynają się od <b>3 dni za darmo</b>.')}</p>
       <button class="btn btn-gold auth-go" onclick="openAuth('up')">${T2('Create free account →','Załóż darmowe konto →')}</button>
       <button class="btn secondary auth-go" onclick="openAuth('in')">${T2('I have an account','Mam już konto')}</button>`;
   }else{
     const t=onTrial()?`<p class="prem-state">⭐ ${T2('Your free trial ends on','Twój okres próbny kończy się')} <b>${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>`:'';
     body=t+`<div class="prem-plans">
-      <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · −50%','NAJLEPSZA CENA · −50%')}</i><b>${PREMIUM.price.year}</b><small>${T2('for 1 year · about 12 zł a month','za 1 rok · ok. 12 zł miesięcznie')}</small><em>${T2('One payment, no auto-renewal · BLIK, card, Przelewy24','Jedna płatność, bez odnawiania · BLIK, karta, Przelewy24')}</em></button>
-      <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · cancel anytime','miesięcznie · anuluj kiedy chcesz')}</small><em>${T2('Card, Apple Pay, Google Pay','Karta, Apple Pay, Google Pay')}</em></button>
-    </div><p class="auth-msg" id="premMsg"></p>
+      <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · −50%','NAJLEPSZA CENA · −50%')}</i><b>${PREMIUM.price.year}</b><small>${T2('a year · first 3 days free','rocznie · pierwsze 3 dni za darmo')}</small><em>${T2('About 12 zł a month · cancel in 3 days and pay nothing · Card, Apple Pay, Google Pay','Ok. 12 zł miesięcznie · anuluj w ciągu 3 dni, a nic nie zapłacisz · Karta, Apple Pay, Google Pay')}</em></button>
+      <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · first 3 days free','miesięcznie · pierwsze 3 dni za darmo')}</small><em>${T2('Cancel in 3 days and pay nothing · Card, Apple Pay, Google Pay','Anuluj w ciągu 3 dni, a nic nie zapłacisz · Karta, Apple Pay, Google Pay')}</em></button>
+    </div>
+    <button class="prem-once" onclick="buyPremium('yearOnce',this)">💳 ${T2('Prefer BLIK? Pay '+PREMIUM.price.year+' once for 1 year (BLIK, Przelewy24, card · no trial, no renewal)','Wolisz BLIK? Zapłać '+PREMIUM.price.year+' jednorazowo za 1 rok (BLIK, Przelewy24, karta · bez okresu próbnego i odnawiania)')}</button><p class="auth-msg" id="premMsg"></p>
     <p class="auth-note">${T2('Secure payment by Stripe. Premium unlocks on all your devices.','Bezpieczna płatność przez Stripe. Premium działa na wszystkich Twoich urządzeniach.')}</p>`;
   }
   authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('LEOGROW PREMIUM')}
@@ -123,9 +125,9 @@ async function _premFetch(path,body){
   return j.url;
 }
 async function buyPremium(plan,btn){
-  const msg=$('premMsg'); document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
+  const msg=$('premMsg'); document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
   try{ await pushNow(true); location.href=await _premFetch('checkout',{plan,lang:LANG}); }
-  catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan').forEach(b=>b.disabled=false); }
+  catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=false); }
 }
 async function managePremium(btn){
   const msg=$('premMsg'); btn.disabled=true;
@@ -164,7 +166,7 @@ openAccount=function(){
   const r=_openAccountPlain.apply(this,arguments);
   const box=document.querySelector('#authModal .auth-box'); if(!box) return r;
   let h;
-  if(paidPremium()) h=`<p class="prem-state">⭐ <b>Premium</b> ${T2('until','do')} ${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</p>${manageBtn()}`;
+  if(paidPremium()) h=`<p class="prem-state">⭐ <b>Premium</b> ${subTrial()?T2('free until','za darmo do'):T2('until','do')} ${new Date(premiumUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</p>${manageBtn()}`;
   else if(onTrial()) h=`<p class="prem-state">⭐ ${T2('Premium trial until','Próbny Premium do')} ${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</p><button class="btn btn-gold auth-go" onclick="openPremium()">⭐ ${T2('See Premium plans','Zobacz plany Premium')}</button>`;
   else h=`<p class="prem-state">🌱 ${T2('Free plan','Plan darmowy')}</p><button class="btn btn-gold auth-go" onclick="openPremium()">⭐ ${T2('Go Premium','Przejdź na Premium')}</button>`;
   const sync=box.querySelector('button[onclick^="syncNowBtn"]');
