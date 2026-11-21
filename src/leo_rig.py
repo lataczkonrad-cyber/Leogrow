@@ -29,9 +29,71 @@ def tail_mask(img):
     tight=np.asarray(core.filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.GaussianBlur(1.0*s))).astype(np.float32)/255.
     wide=np.asarray(core.filter(ImageFilter.MaxFilter(29)).filter(ImageFilter.GaussianBlur(4.0*s))).astype(np.float32)/255.
     return tight,wide
+FD=np.array([-0.57,-0.82])             # fingers point this way (up and a little left)
+FN=np.array([0.82,-0.57])              # across the fingers
+# fingers along the clipped edge, as bands across (v = N . p) with how far each sticks out past the cut
+FINGERS=[(-130.,-114.,9.),(-114.,-96.,15.),(-96.,-79.,19.),(-79.,-62.,15.)]
+def add_fingers(a,hand,s=1.0):
+    """a: HxWx4 float image, hand: bool mask of the hand as drawn. Returns (rgb, alpha) of new fingertips."""
+    H,W=a.shape[:2]; yy,xx=np.mgrid[0:H,0:W].astype(np.float32)
+    px,py=xx/s,yy/s
+    v=FN[0]*px+FN[1]*py; u=FD[0]*px+FD[1]*py
+    box=(px>70)&(px<150)&(py>250)&(py<392)&~hand
+    # trace back against the finger direction to the hand edge
+    hit=np.full((H,W),-1.0,np.float32); hx=np.zeros((H,W),np.float32); hy=np.zeros((H,W),np.float32)
+    for k in range(0,40):
+        qx=np.clip(np.round(xx-k*FD[0]*s),0,W-1).astype(int); qy=np.clip(np.round(yy-k*FD[1]*s),0,H-1).astype(int)
+        h=hand[qy,qx]&(hit<0)&box
+        hit[h]=k; hx[h]=xx[h]-(k+7)*FD[0]*s; hy[h]=yy[h]-(k+7)*FD[1]*s   # sample a little inside the hand
+    rgb=np.zeros((H,W,3),np.float32); al=np.zeros((H,W),np.float32)
+    for v0,v1,L in FINGERS:
+        vc=(v0+v1)/2; r=(v1-v0)/2
+        inb=box&(hit>=0)&(v>=v0)&(v<v1)
+        if not inb.any(): continue
+        # where this finger leaves the hand (median over its middle), so the tip is a clean round cap
+        mid=inb&(np.abs(v-vc)<r*0.5)
+        ub=np.median((u+0)[mid]-hit[mid]/s*1.0) if mid.any() else 0
+        ext=u-ub                        # distance past the cut, along the finger
+        cap=L-r+np.sqrt(np.clip(r*r-(v-vc)**2,0,None))
+        inside=inb&(ext<=cap)
+        edge=np.clip((cap-ext)/1.2,0,1)*np.clip((r-np.abs(v-vc))/1.2,0,1)
+        al=np.where(inside,np.maximum(al,edge),al)
+        qx=np.clip(hx,0,W-1.001); qy=np.clip(hy,0,H-1.001)
+        samp=a[qy.astype(int),qx.astype(int),:3]
+        shade=1-0.45*((v-vc)/r)**2-0.25*np.clip(ext/max(L,1),0,1)**2   # round across, a bit darker at the tip
+        rgb=np.where(inside[...,None],samp*np.clip(shade,0.35,1)[...,None],rgb)
+    # smooth away streaks from the ray sampling, keep the hand's dark tone, add a little fur grain
+    Lm=rgb.mean(-1,keepdims=True); rgb=np.where(Lm>75,rgb*75/np.maximum(Lm,1),rgb)
+    def g(x): return np.asarray(Image.fromarray(np.clip(x,0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.4*s))).astype(np.float32)
+    m=(al>0).astype(np.float32); wm=g(m*255)/255.+1e-3
+    rgb=np.stack([g(rgb[...,c]*m)/wm for c in range(3)],-1)
+    rng=np.random.default_rng(7); rgb=np.clip(rgb+rng.normal(0,3,(H,W,1)),0,255)
+    return rgb,al
+def clean_rim(img,width=3):
+    im=img.convert('RGBA'); a=np.asarray(im).astype(np.float32)
+    R,G,B,A=a[...,0],a[...,1],a[...,2],a[...,3]
+    bg=((B-R>28)&(B-G>18)&(R<95)|_navy(a))&(A>200)
+    gold=(R>140)&(G>100)&(B<110)&(R>B+60)
+    L=a[...,:3].mean(-1); sat=a[...,:3].max(-1)-a[...,:3].min(-1)
+    near=_mf(bg,ImageFilter.MaxFilter,2*width+1)&~bg&(A>200)
+    rim=near&(L>95)&(sat<70)&~gold
+    # background colour under the rim: average of nearby background pixels
+    fgm=~bg&(A>200)
+    halo=bg&_mf(fgm,ImageFilter.MaxFilter,7)          # background right next to Leo (often a light halo)
+    far=bg&~_mf(fgm,ImageFilter.MaxFilter,13)
+    rim=rim|halo
+    H,W=bg.shape; yy,xx=np.mgrid[0:H,0:W]; sc=W/1024.
+    rim&=~((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))   # leave the cap and its badge alone
+    bgf=far.astype(np.float32)
+    def blur(x,r): return np.asarray(Image.fromarray(np.clip(x,0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)
+    w=blur(bgf*255,9)/255.+1e-4
+    fill=np.stack([blur(a[...,c]*bgf,9)/w for c in range(3)],-1)
+    k=_soft(rim,0.7)[...,None]
+    out=a.copy(); out[...,:3]=a[...,:3]*(1-k)+fill*k
+    return Image.fromarray(np.clip(out,0,255).astype(np.uint8),'RGBA'),rim
 def split(img):
     """returns (body without tail, tail layer) as RGBA images of the same size"""
-    im=img.convert('RGBA'); a=np.asarray(im).astype(np.float32); m,mw=tail_mask(im)
+    im,_=clean_rim(img); a=np.asarray(im).astype(np.float32); m,mw=tail_mask(im)   # white sticker outline removed first
     # fill where the tail was with the surrounding background (smooth push-pull fill)
     bg=(_navy(a)&(mw<0.01)).astype(np.float32)
     # smooth model of the navy background: a quadratic fit over nearby background pixels
@@ -87,22 +149,23 @@ def split(img):
     ext=rows&(xx>=(ARM_CUT-16)*s)&(xx<(ARM_CUT+ARM_OVER)*s)&~isbg&~gold&(mw<0.3)
     amx=np.asarray(Image.fromarray(((seen|ext)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.
     amx=np.maximum(amx*np.clip(((ARM_CUT+ARM_OVER)*s-xx)/(ARM_OVER*s),0,1)*(xx>=(ARM_CUT-16)*s),am)
-    # the hand: the drawing was clipped by a straight vertical cut at its left side, and a thin white
-    # sticker rim shows along the fingers. Round the cut side into a natural curve and drop the rim.
-    HX,HY0,HY1,HD=108.,292.,386.,16.
-    hc=(HY0+HY1)/2; hh=(HY1-HY0)/2
-    t=np.clip((yy/s-hc)/hh,-1,1); edge=HX+np.where(t<0,HD,5.)*(1-np.sqrt(1-t*t))+2.0
-    inhand=(yy>=HY0*s-4)&(yy<=HY1*s+4)&(xx<(HX+40)*s)
-    cut=np.clip((xx/s-edge)/1.6,0,1)
-    amx=np.where(inhand,amx*cut,amx)
+    # the hand: a thin sticker rim shows in the dip between thumb and fingers; drop it
     rim=(xx<205*s)&(yy<372*s)&(a[...,:3].mean(-1)>140)
-    rim|=(xx>160*s)&(xx<188*s)&(yy>318*s)&(yy<356*s)&(a[...,:3].mean(-1)>80)   # rim in the dip between thumb and fingers
+    rim|=(xx>160*s)&(xx<188*s)&(yy>318*s)&(yy<356*s)&(a[...,:3].mean(-1)>80)
     amx=amx*(1-_soft(_mf(rim,ImageFilter.MaxFilter,3),0.8*s))
     nb=(xx>150*s)&(xx<195*s)&(yy>312*s)&(yy<360*s)   # tidy the dip: drop thin strands, keep a smooth outline
     op=Image.fromarray((np.clip(amx,0,1)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(7)).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(0.9*s))
     amx=np.where(nb,np.minimum(amx,np.asarray(op).astype(np.float32)/255.),amx)
-    shade=np.where(inhand,np.clip(1-(xx/s-edge)/5.,0,1)*0.35,0)[...,None]   # a little shadow on the new edge
-    arm=a.copy(); arm[...,:3]=arm[...,:3]*(1-shade); arm[...,3]=a[...,3]*amx
+    arm=a.copy(); arm[...,3]=a[...,3]*amx
+    # the drawing cut the fingertips off with a straight line; grow them back
+    hand=(amx>0.5)&(xx>100*s)&(xx<230*s)&(yy>280*s)&(yy<400*s)
+    frgb,fal=add_fingers(arm,hand,s)
+    arm[...,:3]=np.clip(arm[...,:3]*(1-fal[...,None])+frgb*fal[...,None],0,255)
+    arm[...,3]=np.maximum(arm[...,3],255*fal)
+    seam=((np.abs(xx/s-108)<4)&(yy/s>290)&(yy/s<388))|((np.abs(yy/s-292)<4)&(xx/s>104)&(xx/s<132))
+    sm=_soft(seam,1.5*s)[...,None]
+    bl=np.stack([np.asarray(Image.fromarray(np.clip(arm[...,c],0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.4*s))).astype(np.float32) for c in range(3)],-1)
+    arm[...,:3]=arm[...,:3]*(1-sm)+bl*sm
     aw=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(21)).filter(ImageFilter.GaussianBlur(3*s))).astype(np.float32)/255.*(xx<ARM_CUT*s+3)
     ah=np.clip(np.maximum(am*1.1,aw*(isbg|(a[...,:3].max(-1)<150))),0,1)[...,None]
     near=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(61))).astype(np.float32)/255.
