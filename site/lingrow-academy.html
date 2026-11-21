@@ -6661,6 +6661,724 @@ mkUnit({id:"kc2",level:"A2",track:"kids",topic:"Weather",title:"Weather & Season
 });
 
 /* =====================================================================
+   MORE TOPICS (round 2) — TEENS & ADULTS A1 / A2
+   ===================================================================== */
+
+/* ================= ADULTS A1 · My Daily Routine ================= */
+mkUnit({id:"ad1",level:"A1",track:"adults",topic:"Daily Routine",title:"My Daily Routine",emoji:"⏰",badge:"Early Bird",sub:"Your day from morning to night — and the Present Simple with always, usually, never.",
+ sets:[
+  {title:"Morning to night",label:"Routine",words:V([
+   ["get up","wstawać","🛏️"],["have a shower","brać prysznic","🚿"],["get dressed","ubierać się","👕"],["have breakfast","jeść śniadanie","🥣"],["go to work","iść do pracy","🏢"],["start work","zaczynać pracę","▶️"],
+   ["have lunch","jeść obiad (lunch)","🥪"],["finish work","kończyć pracę","🏁"],["go home","iść do domu","🏠"],["cook dinner","gotować kolację","🍳"],["watch TV","oglądać telewizję","📺"],["go to bed","iść spać","🌙"]])},
+  {title:"How often?",label:"Frequency",findTitle:"Which word is it? 🔎",words:V([
+   ["always","zawsze","💯"],["usually","zazwyczaj","👍"],["often","często","🔁"],["sometimes","czasami","🤷"],["never","nigdy","🚫"],["every day","codziennie","📅"],
+   ["early","wcześnie","🌅"],["late","późno","🌃"],["weekday","dzień powszedni","💼"],["weekend","weekend","🎉"],["busy","zajęty","🏃"],["free time","czas wolny","🎮"]])},
+ ],
+ l1:{title:"My day",emoji:"🌞",intro:"Get up, have breakfast, go to work, go to bed — twelve actions for every day.",quizTag:"MY DAY",quizLabel:"My day",quiz:[
+   {q:"In the morning, I ___ at 7 o'clock.",opts:["get up","go to bed","finish work"],correct:0},{q:"I wash in the bathroom. I ___.",opts:["have a shower","cook dinner","watch TV"],correct:0},
+   {q:"I put on my clothes. I ___.",opts:["get dressed","get up","go home"],correct:0},{q:"At 8 a.m. I eat. I ___.",opts:["have breakfast","have dinner","go to bed"],correct:0},
+   {q:"At 1 p.m. I ___.",opts:["have lunch","get up","have a shower"],correct:0},{q:"At 5 p.m. I ___ and go home.",opts:["finish work","start work","get dressed"],correct:0},
+   {q:"In the evening I ___ in the kitchen.",opts:["cook dinner","go to work","get up"],correct:0},{q:"At 11 p.m. I ___.",opts:["go to bed","have breakfast","start work"],correct:0},
+  ],
+  odd:[
+   {opts:["breakfast","lunch","dinner","shower"],odd:3,why:"A shower isn't a meal."},
+   {opts:["get up","get dressed","have breakfast","go to bed"],odd:3,why:"We go to bed at night, not in the morning."},
+   {opts:["start work","finish work","go to work","watch TV"],odd:3,why:"Watching TV isn't about work."},
+   {opts:["morning","afternoon","evening","weekend"],odd:3,why:"A weekend is days, not part of a day."},
+  ],
+  wordle:[["shower","🚿"],["lunch","🥪"],["dinner","🍳"],["bed","🌙"]]},
+ l2:{title:"Always or never?",emoji:"🔁",intro:"Always, usually, sometimes, never — say how often you do things.",fillTag:"HOW OFTEN?",fill:[
+   {before:"I",blank:"always",after:"drink coffee in the morning. Every day!",bank:["always","never","sometimes"],emoji:"☕"},
+   {before:"I",blank:"never",after:"eat meat. I'm vegetarian.",bank:["never","always","usually"],emoji:"🥦"},
+   {before:"I",blank:"sometimes",after:"go to the gym — maybe once a week.",bank:["sometimes","always","never"],emoji:"🏋️"},
+   {before:"I go to work",blank:"every day",after:"from Monday to Friday.",bank:["every day","never","late"],emoji:"📅"},
+   {before:"I get up at 5 a.m. — very",blank:"early",after:"!",bank:["early","late","busy"],emoji:"🌅"},
+   {before:"On Saturday I get up",blank:"late",after:", at 11 o'clock.",bank:["late","early","always"],emoji:"🌃"},
+   {before:"I work ten hours a day. I'm very",blank:"busy",after:".",bank:["busy","free","early"],emoji:"🏃"},
+   {before:"In my",blank:"free time",after:"I play the guitar.",bank:["free time","weekday","breakfast"],emoji:"🎸"},
+  ],
+  tf:{sub:"Read the message: 'Hi Jan! My week is crazy. I get up at 6, I start work at 7:30 and I finish at 6 p.m. I always have lunch at my desk. In the evening I usually cook dinner and watch TV. I never go to bed late on weekdays. Free on Saturday? — Ola'",tag:"A MESSAGE",items:[
+   {text:"Ola gets up at 6.",answer:0},{text:"She starts work at 8.",answer:1},{text:"She has lunch at her desk.",answer:0},
+   {text:"She usually eats in a restaurant in the evening.",answer:1},{text:"She often goes to bed late on weekdays.",answer:1},{text:"She asks Jan about Saturday.",answer:0}]},
+  listen:[
+   {word:"I usually get up at seven.",options:["I usually get up at seven.","I usually get up at eleven.","I always get up at seven."],correct:0},
+   {word:"She never watches TV.",options:["She never watches TV.","She often watches TV.","She never washes TV."],correct:0},
+   {word:"We have lunch at one.",options:["We have lunch at one.","We have lunch at nine.","We have breakfast at one."],correct:0},
+  ],
+  wordle:[["always","💯"],["never","🚫"],["often","🔁"],["early","🌅"],["busy","🏃"]]},
+ grammar:{title:"She gets up at seven",emoji:"🕖",label:"Present Simple",intro:"I get up at seven. She gets up at eight. Do you work? — the Present Simple for routines.",boxTitle:"Present Simple · how often",
+  html:`<p>Use the <b>Present Simple</b> for things you do <b>regularly</b> — your routine.</p>${TBL(["","I / you / we / they","he / she / it"],[["+","I <b>work</b>.","She <b>works</b>."],["–","I <b>don't work</b>.","She <b>doesn't work</b>."],["?","<b>Do</b> you <b>work</b>?","<b>Does</b> she <b>work</b>?"]])}<p style="margin-top:12px;">he / she / it: add <b>-s</b> (works), <b>-es</b> (watches, goes), y → <b>-ies</b> (studies). have → <b>has</b>.</p><p style="margin-top:8px;">Frequency words go <b>before</b> the main verb: I <b>always</b> get up early. But <b>after</b> be: I'm <b>never</b> late.</p>`,
+  quizTag:"PRESENT SIMPLE",quiz:[
+   {q:"She ___ at 7 o'clock.",opts:["gets up","get up","getting up"],correct:0},{q:"I ___ coffee in the morning.",opts:["drink","drinks","drinking"],correct:0},
+   {q:"He ___ TV in the evening.",opts:["watches","watchs","watch"],correct:0},{q:"___ you work on Saturday?",opts:["Do","Does","Are"],correct:0},
+   {q:"My brother ___ work at 9.",opts:["doesn't start","don't start","not start"],correct:0},{q:"___ she have breakfast?",opts:["Does","Do","Is"],correct:0},
+   {q:"I ___ late.",opts:["am never","never am","never"],correct:0},{q:"Tom ___ a shower every morning.",opts:["has","have","haves"],correct:0},
+  ],
+  fill:[
+   {before:"My mum",blank:"gets",after:"up at six.",bank:["gets","get","getting"],emoji:"🛏️"},
+   {before:"I",blank:"don't",after:"work on Sunday.",bank:["don't","doesn't","not"],emoji:"🎉"},
+   {before:"",blank:"Does",after:"your husband cook dinner?",bank:["Does","Do","Is"],emoji:"🍳"},
+   {before:"He",blank:"goes",after:"to bed at eleven.",bank:["goes","go","gos"],emoji:"🌙"},
+   {before:"We",blank:"have",after:"lunch at one o'clock.",bank:["have","has","haves"],emoji:"🥪"},
+   {before:"She",blank:"studies",after:"English in the evening.",bank:["studies","studys","study"],emoji:"📚"},
+   {before:"I",blank:"usually",after:"walk to work.",bank:["usually","am usually","usual"],emoji:"🚶"},
+   {before:"My boss",blank:"doesn't",after:"drink coffee.",bank:["doesn't","don't","isn't"],emoji:"☕"},
+  ],
+  build:[
+   {s:"I get up at seven every day.",pl:"Codziennie wstaję o siódmej."},{s:"She always has breakfast at home.",pl:"Ona zawsze je śniadanie w domu."},
+   {s:"Do you work on Saturday?",pl:"Czy pracujesz w sobotę?"},{s:"He doesn't watch TV.",pl:"On nie ogląda telewizji."},{s:"We usually go to bed at eleven.",pl:"Zazwyczaj chodzimy spać o jedenastej."},
+  ],
+  errors:[
+   {s:"She get up at six.",wrong:1,ok:"She gets up at six."},
+   {s:"I doesn't work on Monday.",wrong:1,ok:"I don't work on Monday."},
+   {s:"Do he like coffee?",wrong:0,ok:"Does he like coffee?"},
+   {s:"He watchs TV every day.",wrong:1,ok:"He watches TV every day."},
+   {s:"I get always up early.",wrong:2,ok:"I always get up early."},
+  ],
+  whack:[
+   {q:"she ___",opts:["works","work"],correct:0},{q:"I ___",opts:["work","works"],correct:0},
+   {q:"___ he work?",opts:["Does","Do"],correct:0},{q:"he ___",opts:["has","have"],correct:0},
+   {q:"they ___ work",opts:["don't","doesn't"],correct:0},
+  ],
+  wordle:[["gets","🛏️"],["does","❓"],["works","💼"],["goes","🚶"]]},
+ reading:{title:"A day in the life",emoji:"📖",intro:"Read about a day in the life of a nurse who works at night, then answer, translate and write about your day.",storyTitle:"Night and Day",label:"Story",paras:[
+   "<b>Night and Day</b> 🌙",
+   "Marta is a nurse. She works in a big hospital in Poznań. But her day is not like your day — Marta works at night!",
+   "She gets up at four o'clock in the afternoon. She has a shower and has 'breakfast' at five — usually eggs and coffee. Then she goes to the gym or meets a friend.",
+   "Marta starts work at eight in the evening. The hospital is quiet at night, but she is always busy. She has lunch at one o'clock in the morning!",
+   "She finishes work at eight in the morning and goes home by bus. She never watches TV in the morning — she goes to bed at nine. 'I sometimes miss the sun,' she says, 'but I love my job.'",
+  ],
+  tf:[
+   {text:"Marta is a nurse.",answer:0},{text:"She works in Warsaw.",answer:1},{text:"She gets up at 4 p.m.",answer:0},
+   {text:"She has lunch at 1 p.m.",answer:1},{text:"She goes home by bus.",answer:0},{text:"She has a cat.",answer:2},{text:"She often watches TV in the morning.",answer:1}],
+  quiz:[
+   {q:"When does Marta work?",opts:["At night","In the morning","At the weekend only"],correct:0},
+   {q:"What does she usually have for 'breakfast'?",opts:["Eggs and coffee","Toast and tea","Nothing"],correct:0},
+   {q:"When does she start work?",opts:["At 8 p.m.","At 8 a.m.","At 4 p.m."],correct:0},
+   {q:"What time does she go to bed?",opts:["At 9 a.m.","At 11 p.m.","At 1 a.m."],correct:0},
+   {q:"How does Marta feel about her job?",opts:["She loves it","She hates it","She is bored"],correct:0},
+  ],
+  typed:[
+   {prompt:"Wstaję o siódmej.",answers:["I get up at seven","I get up at 7"]},
+   {prompt:"Ona pracuje w szpitalu.",answers:["She works in a hospital","She works at a hospital"]},
+   {prompt:"Nigdy nie oglądam telewizji.",answers:["I never watch TV","I never watch television"]},
+   {prompt:"Czy jesz śniadanie?",answers:["Do you have breakfast","Do you eat breakfast"]},
+  ],
+  writing:{label:"Your day",title:"My normal day ✍️",sub:"Write about your normal day (min. 40 words). Use at least five routine phrases and three words like always, usually, never.",starters:["I get up at…","I usually…","I always…","In the evening I…","I never…","I go to bed at…"],min:40},
+  wordle:[["nurse","👩‍⚕️"],["night","🌙"],["quiet","🤫"],["bus","🚌"]]},
+ test:{grammar:[
+   {q:"He ___ to work by car.",opts:["goes","go","going"],correct:0},{q:"I ___ like coffee.",opts:["don't","doesn't","not"],correct:0},
+   {q:"___ they live here?",opts:["Do","Does","Are"],correct:0},{q:"She ___ English every day.",opts:["studies","studys","study"],correct:0},
+   {q:"To put on your clothes:",opts:["get dressed","get up","go home"],correct:0},{q:"0 times: I ___ eat fish.",opts:["never","always","usually"],correct:0},
+   {q:"Saturday and Sunday:",opts:["weekend","weekday","every day"],correct:0},{q:"The meal in the morning:",opts:["breakfast","lunch","dinner"],correct:0}],
+  errors:[
+   {s:"My sister work in a bank.",wrong:2,ok:"My sister works in a bank."},
+   {s:"Does you have lunch at work?",wrong:0,ok:"Do you have lunch at work?"},
+   {s:"She don't get up early.",wrong:1,ok:"She doesn't get up early."},
+   {s:"I am usually get up at six.",wrong:1,ok:"I usually get up at six."}],
+  typed:[
+   {prompt:"On idzie spać o jedenastej.",answers:["He goes to bed at eleven","He goes to bed at 11"]},
+   {prompt:"Zawsze jem obiad o pierwszej.",answers:["I always have lunch at one","I always have lunch at 1","I always eat lunch at one","I always eat lunch at 1"]},
+   {prompt:"Ona nie pracuje w niedzielę.",answers:["She doesn't work on Sunday","She doesn't work on Sundays","She does not work on Sunday","She does not work on Sundays"]},
+   {prompt:"Jestem bardzo zajęty.",answers:["I'm very busy","I am very busy"]}]},
+});
+
+/* ================= ADULTS A1 · Weather & Seasons ================= */
+mkUnit({id:"ae1",level:"A1",track:"adults",topic:"Weather",title:"Weather & Seasons",emoji:"🌦️",badge:"Weather Watcher",sub:"Sun, rain, snow and the four seasons — and the Present Continuous for what's happening now.",
+ sets:[
+  {title:"What's the weather like?",label:"Weather",words:V([
+   ["sunny","słonecznie","☀️"],["cloudy","pochmurno","☁️"],["rainy","deszczowo","🌧️"],["windy","wietrznie","🌬️"],["snowy","śnieżnie","🌨️"],["foggy","mglisto","🌫️"],
+   ["hot","gorąco","🥵"],["warm","ciepło","🌤️"],["cool","chłodno","🍃"],["cold","zimno","🥶"],["storm","burza","⛈️"],["temperature","temperatura","🌡️"]])},
+  {title:"Seasons & things",label:"Seasons",findTitle:"What is it? 🔎",words:V([
+   ["spring","wiosna","🌷"],["summer","lato","🏖️"],["autumn","jesień","🍂"],["winter","zima","❄️"],["umbrella","parasol","☂️"],["raincoat","płaszcz przeciwdeszczowy","🧥"],
+   ["sunglasses","okulary przeciwsłoneczne","🕶️"],["scarf","szalik","🧣"],["gloves","rękawiczki","🧤"],["boots","kozaki, buty za kostkę","👢"],["degrees","stopnie","🔢"],["forecast","prognoza","📺"]])},
+ ],
+ l1:{title:"Sun or rain?",emoji:"⛅",intro:"Sunny, cloudy, windy, cold — say what the weather is like today.",quizTag:"WEATHER",quizLabel:"Weather",quiz:[
+   {q:"The sun is out. It's…",opts:["sunny","foggy","snowy"],correct:0},{q:"Water is falling from the sky. It's…",opts:["rainy","sunny","hot"],correct:0},
+   {q:"You can't see far. It's…",opts:["foggy","windy","warm"],correct:0},{q:"It's minus ten degrees. It's very…",opts:["cold","hot","warm"],correct:0},
+   {q:"Thunder and lightning! It's a…",opts:["storm","sunny day","forecast"],correct:0},{q:"The sky is grey, but no rain. It's…",opts:["cloudy","sunny","snowy"],correct:0},
+   {q:"It's 35 degrees. It's…",opts:["hot","cool","cold"],correct:0},{q:"My hat flies away! It's…",opts:["windy","foggy","warm"],correct:0},
+  ],
+  odd:[
+   {opts:["sunny","rainy","windy","summer"],odd:3,why:"Summer is a season, not weather."},
+   {opts:["hot","warm","cold","cloudy"],odd:3,why:"Cloudy is about the sky; the others are temperature."},
+   {opts:["rain","snow","storm","sun"],odd:3,why:"The sun isn't bad weather."},
+   {opts:["cold","cool","snowy","hot"],odd:3,why:"Hot is the only warm one."},
+  ],
+  wordle:[["sunny","☀️"],["rainy","🌧️"],["cold","🥶"],["storm","⛈️"]]},
+ l2:{title:"Four seasons",emoji:"🍂",intro:"Spring, summer, autumn, winter — and umbrellas, scarves and sunglasses.",fillTag:"SEASONS",fill:[
+   {before:"In",blank:"winter",after:"it's cold and snowy in Poland.",bank:["winter","summer","spring"],emoji:"❄️"},
+   {before:"In",blank:"summer",after:"we go to the beach.",bank:["summer","autumn","winter"],emoji:"🏖️"},
+   {before:"In",blank:"autumn",after:"the leaves are red and yellow.",bank:["autumn","spring","summer"],emoji:"🍂"},
+   {before:"Flowers grow in",blank:"spring",after:".",bank:["spring","winter","autumn"],emoji:"🌷"},
+   {before:"It's raining. Take an",blank:"umbrella",after:"!",bank:["umbrella","scarf","sunglasses"],emoji:"☂️"},
+   {before:"It's very sunny. Where are my",blank:"sunglasses",after:"?",bank:["sunglasses","gloves","boots"],emoji:"🕶️"},
+   {before:"My hands are cold. I need my",blank:"gloves",after:".",bank:["gloves","umbrella","raincoat"],emoji:"🧤"},
+   {before:"The weather",blank:"forecast",after:"says it will rain tomorrow.",bank:["forecast","degrees","scarf"],emoji:"📺"},
+  ],
+  tf:{sub:"Read the forecast: 'Good morning! Today in Kraków it's cloudy and cool, about 12 degrees. This afternoon it's going to rain, so take an umbrella. In the mountains it's snowing! Tomorrow will be sunny and warm — 20 degrees.'",tag:"THE FORECAST",items:[
+   {text:"It's sunny in Kraków this morning.",answer:1},{text:"It's about 12 degrees.",answer:0},{text:"It will rain this afternoon.",answer:0},
+   {text:"It's snowing in the mountains.",answer:0},{text:"Tomorrow will be cold.",answer:1},{text:"Tomorrow will be 20 degrees.",answer:0}]},
+  listen:[
+   {word:"It's very windy today.",options:["It's very windy today.","It's very sunny today.","It's very windy Tuesday."],correct:0},
+   {word:"Take your umbrella.",options:["Take your umbrella.","Take your sunglasses.","Make your umbrella."],correct:0},
+   {word:"It's minus five degrees.",options:["It's minus five degrees.","It's minus nine degrees.","It's plus five degrees."],correct:0},
+  ],
+  wordle:[["spring","🌷"],["winter","❄️"],["scarf","🧣"],["boots","👢"],["warm","🌤️"]]},
+ grammar:{title:"It's raining now!",emoji:"☔",label:"Present Continuous",intro:"It's raining. The sun is shining. What are you wearing? — the Present Continuous for now.",boxTitle:"Present Continuous (now)",
+  html:`<p>Use the <b>Present Continuous</b> for things happening <b>now</b>, at this moment.</p>${TBL(["","Example"],[["+","It<b>'s raining</b>. I<b>'m wearing</b> a coat."],["–","It <b>isn't snowing</b>. They<b>'re not</b> / They <b>aren't working</b>."],["?","<b>Is</b> it <b>raining</b>? <b>What are</b> you <b>doing</b>?"]])}<p style="margin-top:12px;">Form: <b>am / is / are + -ing</b>. Spelling: rain → rain<b>ing</b>, shine → shin<b>ing</b>, sit → sit<b>ting</b>.</p><p style="margin-top:8px;">Compare: It <b>often rains</b> in autumn (routine) · It<b>'s raining</b> now.</p>`,
+  quizTag:"RIGHT NOW",quiz:[
+   {q:"Look! It ___.",opts:["'s snowing","snows","snow"],correct:0},{q:"The sun ___ today.",opts:["is shining","shines","shine"],correct:0},
+   {q:"What ___ you wearing?",opts:["are","is","do"],correct:0},{q:"I ___ a scarf because it's cold.",opts:["'m wearing","wear","wearing"],correct:0},
+   {q:"___ it raining in Gdańsk?",opts:["Is","Does","Are"],correct:0},{q:"They ___ in the park now.",opts:["are walking","walk","is walking"],correct:0},
+   {q:"It isn't ___ now. It's sunny.",opts:["raining","rain","rains"],correct:0},{q:"In winter it often ___.",opts:["snows","is snowing","snowing"],correct:0},
+  ],
+  fill:[
+   {before:"Take an umbrella — it's",blank:"raining",after:".",bank:["raining","rains","rain"],emoji:"☂️"},
+   {before:"The children",blank:"are",after:"playing in the snow.",bank:["are","is","am"],emoji:"☃️"},
+   {before:"I'm",blank:"wearing",after:"my new boots.",bank:["wearing","wear","wears"],emoji:"👢"},
+   {before:"",blank:"Is",after:"the sun shining?",bank:["Is","Are","Does"],emoji:"☀️"},
+   {before:"It",blank:"isn't",after:"snowing now.",bank:["isn't","aren't","don't"],emoji:"❄️"},
+   {before:"We're",blank:"sitting",after:"in the garden.",bank:["sitting","siting","sit"],emoji:"🪑"},
+   {before:"What",blank:"are",after:"you doing?",bank:["are","is","do"],emoji:"❓"},
+   {before:"The wind is",blank:"blowing",after:"very hard.",bank:["blowing","blows","blow"],emoji:"🌬️"},
+  ],
+  build:[
+   {s:"It's raining in Warsaw now.",pl:"W Warszawie teraz pada deszcz."},{s:"I'm wearing a warm coat.",pl:"Mam na sobie ciepły płaszcz."},
+   {s:"Is it snowing in the mountains?",pl:"Czy w górach pada śnieg?"},{s:"The sun isn't shining today.",pl:"Dziś nie świeci słońce."},{s:"What are you doing now?",pl:"Co teraz robisz?"},
+  ],
+  errors:[
+   {s:"It raining now.",wrong:0,ok:"It's raining now."},
+   {s:"Look! It snows.",wrong:2,ok:"Look! It's snowing."},
+   {s:"They is walking in the rain.",wrong:1,ok:"They are walking in the rain."},
+   {s:"I'm wear a hat.",wrong:1,ok:"I'm wearing a hat."},
+   {s:"Are it raining?",wrong:0,ok:"Is it raining?"},
+  ],
+  whack:[
+   {q:"It ___ raining.",opts:["is","are"],correct:0},{q:"They ___ walking.",opts:["are","is"],correct:0},
+   {q:"I ___ wearing a hat.",opts:["am","is"],correct:0},{q:"now → It's ___",opts:["snowing","snows"],correct:0},
+   {q:"sit → ___",opts:["sitting","siting"],correct:0},
+  ],
+  wordle:[["raining","🌧️"],["shining","☀️"],["windy","🌬️"],["now","⏱️"]]},
+ reading:{title:"Postcard from the mountains",emoji:"🏔️",intro:"Read a postcard from a winter holiday, then answer, translate and write your own postcard.",storyTitle:"Greetings from Zakopane!",label:"Postcard",paras:[
+   "<b>Greetings from Zakopane!</b> 🏔️",
+   "Dear Mum and Dad, we're having a great time in Zakopane! It's winter here and it's very cold — minus eight degrees today.",
+   "Right now I'm sitting in a small café and I'm drinking hot chocolate. Outside it's snowing and the mountains are white. Tomek isn't here — he's skiing with his friends.",
+   "Yesterday was sunny and we walked to a beautiful lake. I'm wearing the gloves and the scarf from Grandma — thank you! They're very warm.",
+   "The forecast says it's going to be windy tomorrow, so we're going to visit a museum. See you on Sunday! Love, Kasia",
+  ],
+  tf:[
+   {text:"Kasia is in Zakopane.",answer:0},{text:"It's summer.",answer:1},{text:"It's minus eight degrees.",answer:0},
+   {text:"Kasia is drinking coffee.",answer:1},{text:"Tomek is skiing.",answer:0},{text:"The café is next to the lake.",answer:2},{text:"Tomorrow will be windy.",answer:0}],
+  quiz:[
+   {q:"Where is Kasia now?",opts:["In a café","On the mountain","At the lake"],correct:0},
+   {q:"What is the weather like outside?",opts:["It's snowing","It's raining","It's sunny"],correct:0},
+   {q:"What was the weather like yesterday?",opts:["Sunny","Foggy","Rainy"],correct:0},
+   {q:"Who gave Kasia the gloves and scarf?",opts:["Grandma","Tomek","Mum"],correct:0},
+   {q:"What are they going to do tomorrow?",opts:["Visit a museum","Go skiing","Walk to the lake"],correct:0},
+  ],
+  typed:[
+   {prompt:"Pada deszcz.",answers:["It's raining","It is raining"]},
+   {prompt:"Jest bardzo zimno.",answers:["It's very cold","It is very cold"]},
+   {prompt:"Mam na sobie szalik.",answers:["I'm wearing a scarf","I am wearing a scarf"]},
+   {prompt:"Latem jest gorąco.",answers:["It's hot in summer","It is hot in summer","In summer it's hot","In summer, it's hot","In summer it is hot"]},
+  ],
+  writing:{label:"Your postcard",title:"A postcard from a trip ✍️",sub:"Write a postcard from a holiday (min. 40 words). Say what the weather is like and what you are doing now. Use the Present Continuous three times.",starters:["Dear…,","I'm in… and it's…","Right now I'm…","It's raining / snowing / sunny…","Tomorrow…","Love, …"],min:40},
+  wordle:[["snow","❄️"],["lake","🏞️"],["skiing","⛷️"],["cafe","☕"]]},
+ test:{grammar:[
+   {q:"Look! It ___.",opts:["'s raining","rains","rain"],correct:0},{q:"We ___ in the snow now.",opts:["are playing","play","plays"],correct:0},
+   {q:"___ you wearing a coat?",opts:["Are","Is","Do"],correct:0},{q:"In Poland it often ___ in November.",opts:["rains","is raining","raining"],correct:0},
+   {q:"Thunder and lightning:",opts:["storm","fog","forecast"],correct:0},{q:"The season after summer:",opts:["autumn","spring","winter"],correct:0},
+   {q:"You wear them on your hands:",opts:["gloves","boots","sunglasses"],correct:0},{q:"You can't see far because of…",opts:["fog","sun","wind"],correct:0}],
+  errors:[
+   {s:"The sun are shining.",wrong:2,ok:"The sun is shining."},
+   {s:"It's snow today.",wrong:1,ok:"It's snowing today."},
+   {s:"Is they skiing now?",wrong:0,ok:"Are they skiing now?"},
+   {s:"I wearing my gloves.",wrong:0,ok:"I'm wearing my gloves."}],
+  typed:[
+   {prompt:"Czy pada śnieg?",answers:["Is it snowing"]},
+   {prompt:"Weź parasol!",answers:["Take an umbrella","Take your umbrella","Take the umbrella"]},
+   {prompt:"Jest słonecznie i ciepło.",answers:["It's sunny and warm","It is sunny and warm"]},
+   {prompt:"Wieje wiatr.",answers:["It's windy","It is windy","The wind is blowing"]}]},
+});
+
+/* ================= ADULTS A1 · My Body & Health ================= */
+mkUnit({id:"af1",level:"A1",track:"adults",topic:"Body & Health",title:"My Body & Health",emoji:"💪",badge:"Healthy Me",sub:"Body parts, aches and healthy habits — and can / can't and instructions (imperatives).",
+ sets:[
+  {title:"The body",label:"Body",words:V([
+   ["head","głowa","🗣️"],["eye","oko","👁️"],["ear","ucho","👂"],["nose","nos","👃"],["mouth","usta","👄"],["tooth","ząb","🦷"],
+   ["arm","ręka (ramię)","💪"],["hand","dłoń","✋"],["leg","noga","🦵"],["foot","stopa","🦶"],["back","plecy","🔙"],["stomach","brzuch, żołądek","🫃"]])},
+  {title:"Health",label:"Health",findTitle:"Which health word is it? 🔎",words:V([
+   ["headache","ból głowy","🤕"],["toothache","ból zęba","🦷😖"],["a cold","przeziębienie","🤧"],["a temperature","gorączka","🌡️"],["cough","kaszel, kaszleć","😷"],["tired","zmęczony","🥱"],
+   ["sick","chory","🤒"],["healthy","zdrowy","🍏"],["medicine","lekarstwo","💊"],["rest","odpoczywać, odpoczynek","🛋️"],["exercise","ćwiczyć, ćwiczenia","🏋️"],["water","woda","💧"]])},
+ ],
+ l1:{title:"Head to toe",emoji:"🧍",intro:"Head, eyes, arms, legs, back — twelve words for your body.",quizTag:"THE BODY",quizLabel:"The body",quiz:[
+   {q:"You see with your…",opts:["eyes","ears","feet"],correct:0},{q:"You hear with your…",opts:["ears","nose","hands"],correct:0},
+   {q:"You smell with your…",opts:["nose","mouth","back"],correct:0},{q:"You walk with your…",opts:["legs","arms","eyes"],correct:0},
+   {q:"You eat with your…",opts:["mouth","ear","foot"],correct:0},{q:"You write with your…",opts:["hand","leg","nose"],correct:0},
+   {q:"Your food goes to your…",opts:["stomach","head","back"],correct:0},{q:"The dentist looks at your…",opts:["teeth","feet","ears"],correct:0},
+  ],
+  odd:[
+   {opts:["eye","ear","nose","foot"],odd:3,why:"A foot isn't on your head."},
+   {opts:["arm","hand","leg","mouth"],odd:3,why:"Your mouth isn't an arm or leg."},
+   {opts:["headache","toothache","earache","stomach"],odd:3,why:"'Stomach' is a body part, not a pain."},
+   {opts:["head","back","stomach","medicine"],odd:3,why:"Medicine isn't a body part."},
+  ],
+  wordle:[["head","🗣️"],["hand","✋"],["nose","👃"],["mouth","👄"]]},
+ l2:{title:"I don't feel well",emoji:"🤒",intro:"A headache, a cold, a temperature — say how you feel and what to do.",fillTag:"HEALTH",fill:[
+   {before:"My head hurts. I've got a",blank:"headache",after:".",bank:["headache","toothache","cough"],emoji:"🤕"},
+   {before:"I've got a",blank:"cold",after:"— my nose is red.",bank:["cold","headache","rest"],emoji:"🤧"},
+   {before:"She's hot — she's got a",blank:"temperature",after:".",bank:["temperature","toothache","water"],emoji:"🌡️"},
+   {before:"Take this",blank:"medicine",after:"three times a day.",bank:["medicine","exercise","cough"],emoji:"💊"},
+   {before:"You're",blank:"tired",after:". Go to bed early.",bank:["tired","healthy","sick"],emoji:"🥱"},
+   {before:"Drink a lot of",blank:"water",after:".",bank:["water","medicine","rest"],emoji:"💧"},
+   {before:"I",blank:"exercise",after:"three times a week. I'm very healthy.",bank:["exercise","rest","cough"],emoji:"🏋️"},
+   {before:"Stay at home and",blank:"rest",after:".",bank:["rest","exercise","cough"],emoji:"🛋️"},
+  ],
+  tf:{sub:"Read the note: 'Hi Mr Nowak, I'm sorry, I can't come to work today. I'm sick — I've got a bad cold and a temperature. The doctor says I must rest for two days. I can answer emails from home. — Anna'",tag:"A NOTE",items:[
+   {text:"Anna can't go to work today.",answer:0},{text:"She has a toothache.",answer:1},{text:"She has a temperature.",answer:0},
+   {text:"The doctor says rest for a week.",answer:1},{text:"She can answer emails.",answer:0},{text:"Mr Nowak is sick too.",answer:1}]},
+  listen:[
+   {word:"I've got a headache.",options:["I've got a headache.","I've got a toothache.","I've got a head."],correct:0},
+   {word:"My back hurts.",options:["My back hurts.","My black hurts.","My hand hurts."],correct:0},
+   {word:"Drink a lot of water.",options:["Drink a lot of water.","Drink a lot of wine.","Think a lot of water."],correct:0},
+  ],
+  wordle:[["sick","🤒"],["cough","😷"],["tired","🥱"],["rest","🛋️"],["water","💧"]]},
+ grammar:{title:"I can't walk — sit down!",emoji:"🩹",label:"can / can't · imperatives",intro:"I can swim. I can't run today. Sit down! Don't eat that! — can / can't and instructions.",boxTitle:"can / can't · imperatives",
+  html:`<p><b>can / can't</b> + verb = ability or possibility. Same form for everyone!</p>${TBL(["","Example"],[["+","I <b>can</b> swim. She <b>can</b> run 10 km."],["–","He <b>can't</b> walk today — his leg hurts."],["?","<b>Can</b> you <b>touch</b> your toes?"]])}<p style="margin-top:12px;"><b>Imperatives</b> = instructions: just the verb.</p>${TBL(["Do it ✅","Don't do it ❌"],[["<b>Drink</b> water.","<b>Don't drink</b> coffee."],["<b>Rest</b>.","<b>Don't go</b> to work."],["<b>Take</b> this medicine.","<b>Don't eat</b> sweets."]])}<p style="margin-top:12px;">❗ No 'to' and no -s: She can <b>swim</b> (✗ cans swim, ✗ can to swim).</p>`,
+  quizTag:"CAN & DO IT!",quiz:[
+   {q:"My leg hurts. I ___ walk.",opts:["can't","can","don't"],correct:0},{q:"She ___ swim very well.",opts:["can","cans","can to"],correct:0},
+   {q:"___ you touch your toes?",opts:["Can","Do","Are"],correct:0},{q:"You've got a cold. ___ in bed.",opts:["Stay","Stays","To stay"],correct:0},
+   {q:"___ eat sweets before bed.",opts:["Don't","Not","No"],correct:0},{q:"He can ___ 20 push-ups.",opts:["do","does","to do"],correct:0},
+   {q:"___ this medicine twice a day.",opts:["Take","Takes","Taking"],correct:0},{q:"I can't ___ — I've got a cold.",opts:["smell","smells","smelling"],correct:0},
+  ],
+  fill:[
+   {before:"I",blank:"can't",after:"eat — I've got a toothache.",bank:["can't","don't","not"],emoji:"🦷😖"},
+   {before:"My grandma is 80, but she",blank:"can",after:"walk 5 km!",bank:["can","cans","can to"],emoji:"👵"},
+   {before:"",blank:"Can",after:"you run fast?",bank:["Can","Do","Are"],emoji:"🏃"},
+   {before:"",blank:"Drink",after:"a lot of water.",bank:["Drink","Drinks","To drink"],emoji:"💧"},
+   {before:"",blank:"Don't",after:"go to work today.",bank:["Don't","Not","No"],emoji:"🏢"},
+   {before:"Open your mouth and",blank:"say",after:"'aaa'.",bank:["say","says","saying"],emoji:"👄"},
+   {before:"She can't",blank:"hear",after:"very well.",bank:["hear","hears","to hear"],emoji:"👂"},
+   {before:"",blank:"Sit",after:"down, please.",bank:["Sit","Sits","Sitting"],emoji:"🪑"},
+  ],
+  build:[
+   {s:"I can't walk today.",pl:"Dziś nie mogę chodzić."},{s:"Can you swim?",pl:"Czy umiesz pływać?"},
+   {s:"Drink a lot of water.",pl:"Pij dużo wody."},{s:"Don't eat sweets.",pl:"Nie jedz słodyczy."},{s:"She can run very fast.",pl:"Ona potrafi bardzo szybko biegać."},
+  ],
+  errors:[
+   {s:"She cans swim.",wrong:1,ok:"She can swim."},
+   {s:"I can to dance.",wrong:2,ok:"I can dance."},
+   {s:"No eat that!",wrong:0,ok:"Don't eat that!"},
+   {s:"He can runs fast.",wrong:2,ok:"He can run fast."},
+   {s:"Do you can help me?",wrong:0,ok:"Can you help me?"},
+  ],
+  whack:[
+   {q:"she ___ swim",opts:["can","cans"],correct:0},{q:"I can ___",opts:["run","to run"],correct:0},
+   {q:"___ eat that!",opts:["Don't","No"],correct:0},{q:"___ you help?",opts:["Can","Do can"],correct:0},
+   {q:"___ down!",opts:["Sit","Sits"],correct:0},
+  ],
+  wordle:[["can","✅"],["drink","💧"],["sit","🪑"],["stay","🏠"]]},
+ reading:{title:"Ten minutes a day",emoji:"🧘",intro:"Read a simple health guide for people who sit at a desk all day, then answer, translate and give your own tips.",storyTitle:"Ten Minutes a Day",label:"Guide",paras:[
+   "<b>Ten Minutes a Day</b> 🧘",
+   "Do you sit at a computer all day? Do your back, neck or eyes hurt? You aren't alone. But you can feel better with just ten minutes a day!",
+   "Eyes: Every hour, look out of the window for one minute. Don't look at your phone in your break.",
+   "Back and legs: Stand up every 30 minutes. Walk to the kitchen, drink some water, and touch your toes. Can't touch them? No problem — try every day.",
+   "Health: Don't eat lunch at your desk. Go outside if you can. And at night, go to bed early — sleep is the best medicine!",
+  ],
+  tf:[
+   {text:"The guide is for people who sit all day.",answer:0},{text:"You need one hour a day.",answer:1},{text:"Look out of the window every hour.",answer:0},
+   {text:"Use your phone in your break.",answer:1},{text:"Stand up every 30 minutes.",answer:0},{text:"The writer is a doctor.",answer:2},{text:"Eat lunch at your desk.",answer:1}],
+  quiz:[
+   {q:"How much time do you need?",opts:["Ten minutes a day","One hour","Two hours"],correct:0},
+   {q:"What should you do for your eyes?",opts:["Look out of the window","Look at your phone","Close them for an hour"],correct:0},
+   {q:"How often should you stand up?",opts:["Every 30 minutes","Every 3 hours","Once a day"],correct:0},
+   {q:"What if you can't touch your toes?",opts:["Try every day","Stop trying","See a doctor"],correct:0},
+   {q:"What is 'the best medicine'?",opts:["Sleep","Coffee","Exercise"],correct:0},
+  ],
+  typed:[
+   {prompt:"Boli mnie głowa.",answers:["I've got a headache","I have a headache","My head hurts","I have got a headache"]},
+   {prompt:"Nie mogę dziś pracować.",answers:["I can't work today","I cannot work today"]},
+   {prompt:"Pij dużo wody.",answers:["Drink a lot of water","Drink lots of water"]},
+   {prompt:"Czy umiesz pływać?",answers:["Can you swim"]},
+  ],
+  writing:{label:"Your tips",title:"My healthy tips ✍️",sub:"Write five health tips for a friend (min. 40 words). Use imperatives (Drink…, Don't…) and can / can't at least once.",starters:["Drink…","Don't…","Go to bed…","Eat…","You can…","Exercise…"],min:40},
+  wordle:[["neck","🦒"],["toes","🦶"],["break","☕"],["sleep","😴"]]},
+ test:{grammar:[
+   {q:"I ___ play football. My leg hurts.",opts:["can't","can","don't can"],correct:0},{q:"___ she speak French?",opts:["Can","Does can","Is"],correct:0},
+   {q:"___ the window, please.",opts:["Open","Opens","To open"],correct:0},{q:"___ touch that! It's hot!",opts:["Don't","No","Not"],correct:0},
+   {q:"You hear with your…",opts:["ears","eyes","nose"],correct:0},{q:"Pain in your tooth:",opts:["toothache","headache","cough"],correct:0},
+   {q:"The opposite of 'sick':",opts:["healthy","tired","hot"],correct:0},{q:"You take it when you're sick:",opts:["medicine","exercise","water"],correct:0}],
+  errors:[
+   {s:"He can plays tennis.",wrong:2,ok:"He can play tennis."},
+   {s:"Not go to work today.",wrong:0,ok:"Don't go to work today."},
+   {s:"She can to run.",wrong:2,ok:"She can run."},
+   {s:"Drinks a lot of water.",wrong:0,ok:"Drink a lot of water."}],
+  typed:[
+   {prompt:"On nie umie pływać.",answers:["He can't swim","He cannot swim"]},
+   {prompt:"Nie jedz tego!",answers:["Don't eat that","Don't eat it","Don't eat this"]},
+   {prompt:"Jestem zmęczony.",answers:["I'm tired","I am tired"]},
+   {prompt:"Mam przeziębienie.",answers:["I've got a cold","I have a cold","I have got a cold"]}]},
+});
+
+/* ================= ADULTS A2 · At the Doctor's ================= */
+mkUnit({id:"ad2",level:"A2",track:"adults",topic:"At the Doctor's",title:"At the Doctor's",emoji:"🩺",badge:"Health Hero",sub:"Symptoms, appointments and advice — should / shouldn't.",
+ sets:[
+  {title:"Symptoms",label:"Symptoms",words:V([
+   ["sore throat","ból gardła","😮‍💨"],["earache","ból ucha","👂"],["stomach ache","ból brzucha","🫃"],["backache","ból pleców","🔙"],["runny nose","katar","🤧"],["sneeze","kichać","🌸🤧"],
+   ["feel sick","mieć mdłości","🤢"],["dizzy","mający zawroty głowy","😵‍💫"],["hurt","boleć","😣"],["broken","złamany","🦴"],["allergic to","uczulony na","🥜"],["swollen","spuchnięty","🎈"]])},
+  {title:"At the surgery",label:"Surgery",findTitle:"Which word is it? 🔎",words:V([
+   ["appointment","wizyta (umówiona)","📅"],["waiting room","poczekalnia","🪑"],["patient","pacjent","🧑"],["pharmacy","apteka","🏪💊"],["tablets","tabletki","💊"],["plaster","plaster","🩹"],
+   ["injection","zastrzyk","💉"],["check","sprawdzić, zbadać","✔️"],["prescription","recepta","📄"],["nurse","pielęgniarka","👩‍⚕️"],["emergency","nagły wypadek","🚨"],["get better","wyzdrowieć","📈"]])},
+ ],
+ l1:{title:"What's the matter?",emoji:"🤧",intro:"A sore throat, a runny nose, feeling dizzy — describe your symptoms.",quizTag:"SYMPTOMS",quizLabel:"Symptoms",quiz:[
+   {q:"It hurts when I swallow. I've got a…",opts:["sore throat","backache","broken leg"],correct:0},{q:"My nose is running. I've got a…",opts:["runny nose","stomach ache","earache"],correct:0},
+   {q:"The room is spinning. I feel…",opts:["dizzy","swollen","allergic"],correct:0},{q:"I ate bad fish. Now I…",opts:["feel sick","sneeze","have an earache"],correct:0},
+   {q:"I can't eat nuts. I'm ___ them.",opts:["allergic to","dizzy from","broken by"],correct:0},{q:"I fell off my bike. My arm is…",opts:["broken","runny","sore"],correct:0},
+   {q:"My ankle is big and red. It's…",opts:["swollen","dizzy","sick"],correct:0},{q:"Pain in your ear:",opts:["earache","toothache","backache"],correct:0},
+  ],
+  odd:[
+   {opts:["earache","backache","stomach ache","sneeze"],odd:3,why:"A sneeze isn't a pain."},
+   {opts:["dizzy","sick","ill","healthy"],odd:3,why:"Healthy means you're fine."},
+   {opts:["arm","leg","finger","throat"],odd:3,why:"A throat can't be broken like a bone."},
+   {opts:["cough","sneeze","runny nose","swollen"],odd:3,why:"Swollen isn't a cold symptom."},
+  ],
+  wordle:[["dizzy","😵‍💫"],["sneeze","🌸🤧"],["hurt","😣"],["broken","🦴"]]},
+ l2:{title:"In the waiting room",emoji:"🪑",intro:"Appointments, prescriptions, pharmacies and nurses — what happens at the doctor's.",fillTag:"AT THE SURGERY",fill:[
+   {before:"I'd like to make an",blank:"appointment",after:"with Dr Kowalska.",bank:["appointment","injection","emergency"],emoji:"📅"},
+   {before:"Please sit in the",blank:"waiting room",after:".",bank:["waiting room","pharmacy","plaster"],emoji:"🪑"},
+   {before:"The doctor gave me a",blank:"prescription",after:"for some tablets.",bank:["prescription","patient","nurse"],emoji:"📄"},
+   {before:"You can buy it at the",blank:"pharmacy",after:"on the corner.",bank:["pharmacy","waiting room","appointment"],emoji:"🏪💊"},
+   {before:"Take two",blank:"tablets",after:"after meals.",bank:["tablets","plasters","nurses"],emoji:"💊"},
+   {before:"Put a",blank:"plaster",after:"on that cut.",bank:["plaster","tablet","injection"],emoji:"🩹"},
+   {before:"Call 112 — it's an",blank:"emergency",after:"!",bank:["emergency","appointment","prescription"],emoji:"🚨"},
+   {before:"Rest for three days and you'll",blank:"get better",after:".",bank:["get better","hurt","sneeze"],emoji:"📈"},
+  ],
+  tf:{sub:"Read the dialogue: 'Doctor: Good morning. What's the matter? — Patient: I've got a sore throat and a temperature. — Doctor: How long have you had it? — Patient: Since Monday. — Doctor: Let me check… It's an infection. Here's a prescription. You should stay in bed for two days and drink lots of warm tea.'",tag:"A DIALOGUE",items:[
+   {text:"The patient has a sore throat.",answer:0},{text:"The patient has a broken leg.",answer:1},{text:"The problem started on Monday.",answer:0},
+   {text:"The doctor gives a prescription.",answer:0},{text:"The patient should go to work.",answer:1},{text:"The doctor says drink cold water.",answer:1}]},
+  listen:[
+   {word:"I've got a sore throat.",options:["I've got a sore throat.","I've got a sore foot.","I've got a short throat."],correct:0},
+   {word:"I'm allergic to cats.",options:["I'm allergic to cats.","I'm allergic to nuts.","I'm a fan of cats."],correct:0},
+   {word:"I'd like an appointment.",options:["I'd like an appointment.","I'd like an apartment.","I like the appointment."],correct:0},
+  ],
+  wordle:[["nurse","👩‍⚕️"],["patient","🧑"],["tablet","💊"],["check","✔️"],["plaster","🩹"]]},
+ grammar:{title:"You should rest",emoji:"🛌",label:"should / shouldn't",intro:"You should rest. You shouldn't go to work. Should I take a tablet? — giving advice.",boxTitle:"should / shouldn't (advice)",
+  html:`<p>Use <b>should</b> + verb to give <b>advice</b> — to say what is a good idea.</p>${TBL(["","Example"],[["+","You <b>should</b> see a doctor."],["–","You <b>shouldn't</b> (should not) eat so much sugar."],["?","<b>Should</b> I <b>take</b> a tablet?"],["Asking for advice","What <b>should</b> I <b>do</b>?"]])}<p style="margin-top:12px;">Same form for everyone: he <b>should</b> (✗ shoulds). No 'to': should <b>rest</b> (✗ should to rest).</p><p style="margin-top:8px;">Softer: <b>I think you should…</b> / <b>I don't think you should…</b></p>`,
+  quizTag:"ADVICE",quiz:[
+   {q:"You've got a temperature. You ___ stay in bed.",opts:["should","shouldn't","shoulds"],correct:0},{q:"You ___ smoke. It's bad for you.",opts:["shouldn't","should","should to"],correct:0},
+   {q:"___ I take this medicine after meals?",opts:["Should","Do","Am"],correct:0},{q:"She should ___ more water.",opts:["drink","drinks","to drink"],correct:0},
+   {q:"What should I ___?",opts:["do","to do","doing"],correct:0},{q:"He ___ go to work today. He's sick.",opts:["shouldn't","should","doesn't should"],correct:0},
+   {q:"I don't think you ___ eat that.",opts:["should","shouldn't","should to"],correct:0},{q:"You've got toothache. You should ___ the dentist.",opts:["see","seeing","sees"],correct:0},
+  ],
+  fill:[
+   {before:"You",blank:"should",after:"see a doctor about that cough.",bank:["should","shouldn't","shoulds"],emoji:"😷"},
+   {before:"You",blank:"shouldn't",after:"go running with a broken foot!",bank:["shouldn't","should","don't should"],emoji:"🦴"},
+   {before:"",blank:"Should",after:"I make an appointment?",bank:["Should","Do","Am"],emoji:"📅"},
+   {before:"He should",blank:"rest",after:"for a few days.",bank:["rest","rests","to rest"],emoji:"🛌"},
+   {before:"What",blank:"should",after:"I do?",bank:["should","do","am"],emoji:"❓"},
+   {before:"I don't think you",blank:"should",after:"drive today.",bank:["should","shouldn't","should to"],emoji:"🚗"},
+   {before:"Kids",blank:"shouldn't",after:"eat too many sweets.",bank:["shouldn't","should","not should"],emoji:"🍬"},
+   {before:"She should",blank:"take",after:"the tablets twice a day.",bank:["take","takes","taking"],emoji:"💊"},
+  ],
+  build:[
+   {s:"You should see a doctor.",pl:"Powinieneś iść do lekarza."},{s:"You shouldn't eat so much sugar.",pl:"Nie powinieneś jeść tyle cukru."},
+   {s:"Should I take a tablet?",pl:"Czy powinienem wziąć tabletkę?"},{s:"What should I do?",pl:"Co powinienem zrobić?"},{s:"I think you should rest.",pl:"Myślę, że powinieneś odpocząć."},
+  ],
+  errors:[
+   {s:"You should to rest.",wrong:2,ok:"You should rest."},
+   {s:"She shoulds drink water.",wrong:1,ok:"She should drink water."},
+   {s:"You don't should smoke.",wrong:1,ok:"You shouldn't smoke."},
+   {s:"Do I should call the doctor?",wrong:0,ok:"Should I call the doctor?"},
+   {s:"He should goes home.",wrong:2,ok:"He should go home."},
+  ],
+  whack:[
+   {q:"advice + ___",opts:["should","shoulds"],correct:0},{q:"should ___",opts:["rest","to rest"],correct:0},
+   {q:"negative: ___",opts:["shouldn't","don't should"],correct:0},{q:"___ I go?",opts:["Should","Do should"],correct:0},
+   {q:"he ___ rest",opts:["should","shoulds"],correct:0},
+  ],
+  wordle:[["should","👍"],["advice","💬"],["rest","🛌"],["doctor","🩺"]]},
+ reading:{title:"Ask the doctor",emoji:"📰",intro:"Read three questions to a magazine doctor and her answers, then answer, translate and give your own advice.",storyTitle:"Ask Dr Ola",label:"Magazine",paras:[
+   "<b>Ask Dr Ola</b> 📰",
+   "<b>Q:</b> I can't sleep at night and I feel tired all day. What should I do? — Marek, 34",
+   "<b>A:</b> You shouldn't drink coffee after 3 p.m., and you shouldn't use your phone in bed. You should go to bed at the same time every night. If it doesn't get better in two weeks, you should make an appointment with your doctor.",
+   "<b>Q:</b> My son is eight and he often has a stomach ache before school. Should I worry? — Joanna, 40",
+   "<b>A:</b> Stomach aches before school are common. Sometimes children are worried about something. You should talk to him calmly. But if he feels sick or has a temperature, you should see a doctor.",
+  ],
+  tf:[
+   {text:"Marek can't sleep well.",answer:0},{text:"Dr Ola says drink coffee in the evening.",answer:1},{text:"Marek should go to bed at the same time.",answer:0},
+   {text:"Joanna's son is ten.",answer:1},{text:"Her son has stomach aches before school.",answer:0},{text:"Her son's teacher is very strict.",answer:2},{text:"Dr Ola says she should talk to him.",answer:0}],
+  quiz:[
+   {q:"What is Marek's problem?",opts:["He can't sleep","He has a backache","He has a cold"],correct:0},
+   {q:"When shouldn't he drink coffee?",opts:["After 3 p.m.","In the morning","At lunch"],correct:0},
+   {q:"When should Marek see a doctor?",opts:["If it doesn't get better in two weeks","Tomorrow","Never"],correct:0},
+   {q:"Why do children sometimes get stomach aches before school?",opts:["They are worried","They eat too much","They are allergic"],correct:0},
+   {q:"When should Joanna see a doctor?",opts:["If he has a temperature","Every week","Before school"],correct:0},
+  ],
+  typed:[
+   {prompt:"Powinieneś odpocząć.",answers:["You should rest","You should have a rest"]},
+   {prompt:"Nie powinieneś pić kawy.",answers:["You shouldn't drink coffee","You should not drink coffee"]},
+   {prompt:"Boli mnie gardło.",answers:["I've got a sore throat","I have a sore throat","My throat hurts","I have got a sore throat"]},
+   {prompt:"Chciałbym umówić wizytę.",answers:["I'd like to make an appointment","I would like to make an appointment"]},
+  ],
+  writing:{label:"Your advice",title:"Dear Dr… ✍️",sub:"A friend writes: 'I'm always tired and I often have headaches.' Write your advice (min. 50 words). Use should and shouldn't at least four times.",starters:["I'm sorry you feel…","I think you should…","You shouldn't…","You should also…","If it doesn't get better, …"],min:50},
+  wordle:[["sleep","😴"],["worry","😟"],["calm","😌"],["phone","📱"]]},
+ test:{grammar:[
+   {q:"You look tired. You ___ go to bed.",opts:["should","shouldn't","shoulds"],correct:0},{q:"You ___ carry heavy bags with a bad back.",opts:["shouldn't","should","should to"],correct:0},
+   {q:"___ we call an ambulance?",opts:["Should","Do","Are"],correct:0},{q:"She should ___ a plaster on it.",opts:["put","puts","to put"],correct:0},
+   {q:"Pain when you swallow:",opts:["sore throat","earache","backache"],correct:0},{q:"Where you buy medicine:",opts:["pharmacy","waiting room","surgery"],correct:0},
+   {q:"A meeting with a doctor at a set time:",opts:["appointment","emergency","prescription"],correct:0},{q:"When your head spins:",opts:["dizzy","swollen","allergic"],correct:0}],
+  errors:[
+   {s:"You should eats more fruit.",wrong:2,ok:"You should eat more fruit."},
+   {s:"He don't should work today.",wrong:1,ok:"He shouldn't work today."},
+   {s:"Should I to call you?",wrong:2,ok:"Should I call you?"},
+   {s:"I'm allergic for cats.",wrong:2,ok:"I'm allergic to cats."}],
+  typed:[
+   {prompt:"Co powinienem zrobić?",answers:["What should I do"]},
+   {prompt:"Powinnaś iść do lekarza.",answers:["You should see a doctor","You should go to the doctor","You should go to a doctor","You should see the doctor"]},
+   {prompt:"Jestem uczulony na orzechy.",answers:["I'm allergic to nuts","I am allergic to nuts"]},
+   {prompt:"Kręci mi się w głowie.",answers:["I feel dizzy","I'm dizzy","I am dizzy"]}]},
+});
+
+/* ================= ADULTS A2 · Work & Jobs ================= */
+mkUnit({id:"ae2",level:"A2",track:"adults",topic:"Work & Jobs",title:"Work & Jobs",emoji:"👷",badge:"Hard Worker",sub:"Jobs, workplaces and experience — the Present Perfect with ever / never.",
+ sets:[
+  {title:"Jobs",label:"Jobs",words:V([
+   ["engineer","inżynier","👷"],["shop assistant","sprzedawca","🛍️"],["waiter","kelner","🍽️"],["mechanic","mechanik","🔧"],["accountant","księgowy","🧮"],["receptionist","recepcjonista","🛎️"],
+   ["electrician","elektryk","💡"],["pilot","pilot","✈️"],["farmer","rolnik","🚜"],["chef","kucharz, szef kuchni","👨‍🍳"],["lawyer","prawnik","⚖️"],["cleaner","sprzątacz","🧽"]])},
+  {title:"At work",label:"Work",findTitle:"Which work word is it? 🔎",words:V([
+   ["full-time","na pełny etat","🕘🕔"],["part-time","na część etatu","🕐"],["uniform","mundur, strój służbowy","🦺"],["customer","klient","🧑‍🦱"],["office","biuro","🏢"],["factory","fabryka","🏭"],
+   ["earn","zarabiać","💰"],["job interview","rozmowa o pracę","🤝"],["experience","doświadczenie","📈"],["team","zespół","👥"],["meeting","spotkanie, zebranie","📊"],["day off","dzień wolny","🌴"]])},
+ ],
+ l1:{title:"What do you do?",emoji:"💼",intro:"Engineer, waiter, mechanic, chef — twelve jobs and what people do.",quizTag:"JOBS",quizLabel:"Jobs",quiz:[
+   {q:"This person repairs cars:",opts:["mechanic","waiter","lawyer"],correct:0},{q:"This person brings food in a restaurant:",opts:["waiter","pilot","farmer"],correct:0},
+   {q:"This person flies planes:",opts:["pilot","chef","cleaner"],correct:0},{q:"This person cooks in a restaurant:",opts:["chef","accountant","electrician"],correct:0},
+   {q:"This person works with money and numbers:",opts:["accountant","receptionist","mechanic"],correct:0},{q:"This person helps you in a court:",opts:["lawyer","farmer","waiter"],correct:0},
+   {q:"This person works at the front desk of a hotel:",opts:["receptionist","engineer","pilot"],correct:0},{q:"This person grows food and keeps animals:",opts:["farmer","chef","cleaner"],correct:0},
+  ],
+  odd:[
+   {opts:["waiter","chef","receptionist","farmer"],odd:3,why:"A farmer doesn't work in a hotel or restaurant."},
+   {opts:["mechanic","electrician","engineer","lawyer"],odd:3,why:"A lawyer doesn't fix things."},
+   {opts:["office","factory","shop","uniform"],odd:3,why:"A uniform isn't a workplace."},
+   {opts:["full-time","part-time","day off","customer"],odd:3,why:"A customer is a person."},
+  ],
+  wordle:[["pilot","✈️"],["chef","👨‍🍳"],["waiter","🍽️"],["farmer","🚜"]]},
+ l2:{title:"A day at work",emoji:"🏢",intro:"Full-time, part-time, customers and meetings — talk about your work.",fillTag:"AT WORK",fill:[
+   {before:"I work",blank:"part-time",after:"— only 20 hours a week.",bank:["part-time","full-time","day off"],emoji:"🕐"},
+   {before:"Nurses wear a",blank:"uniform",after:"at work.",bank:["uniform","customer","meeting"],emoji:"🦺"},
+   {before:"The shop assistant is talking to a",blank:"customer",after:".",bank:["customer","factory","team"],emoji:"🧑‍🦱"},
+   {before:"He works in a car",blank:"factory",after:".",bank:["factory","office","meeting"],emoji:"🏭"},
+   {before:"How much do you",blank:"earn",after:"a month?",bank:["earn","meet","cook"],emoji:"💰"},
+   {before:"I've got a",blank:"job interview",after:"tomorrow. I'm nervous!",bank:["job interview","day off","uniform"],emoji:"🤝"},
+   {before:"We have a",blank:"meeting",after:"every Monday at 9.",bank:["meeting","factory","customer"],emoji:"📊"},
+   {before:"It's my",blank:"day off",after:"today, so I'm at home.",bank:["day off","team","office"],emoji:"🌴"},
+  ],
+  tf:{sub:"Read the job advert: 'Café Słoneczna is looking for a part-time waiter (20 hours a week, weekends). Experience is good, but not necessary. You must be friendly and speak English. We give you a uniform and free lunch. Send your CV to jobs@cafeslon.pl.'",tag:"A JOB ADVERT",items:[
+   {text:"The job is for a waiter.",answer:0},{text:"It's a full-time job.",answer:1},{text:"You work at weekends.",answer:0},
+   {text:"You must have experience.",answer:1},{text:"You need to speak English.",answer:0},{text:"You must buy your uniform.",answer:1}]},
+  listen:[
+   {word:"I work part-time.",options:["I work part-time.","I work full-time.","I work at night."],correct:0},
+   {word:"He's an electrician.",options:["He's an electrician.","He's a musician.","He's an engineer."],correct:0},
+   {word:"Tomorrow is my day off.",options:["Tomorrow is my day off.","Tomorrow is my day out.","Today is my day off."],correct:0},
+  ],
+  wordle:[["office","🏢"],["earn","💰"],["team","👥"],["meeting","📊"],["boss","👔"]]},
+ grammar:{title:"Have you ever worked abroad?",emoji:"🌍",label:"Present Perfect",intro:"I've worked in a hotel. Have you ever been to London? I've never done that! — talking about experience.",boxTitle:"Present Perfect · ever / never",
+  html:`<p>Use the <b>Present Perfect</b> (have / has + past participle) for <b>life experience</b> — we don't say when.</p>${TBL(["","Example"],[["+","I<b>'ve worked</b> in a café. She<b>'s been</b> to Spain."],["–","I <b>haven't</b> / I've <b>never</b> worked at night."],["?","<b>Have</b> you <b>ever</b> been a waiter?"],["short answers","Yes, I <b>have</b>. / No, I <b>haven't</b>."]])}<p style="margin-top:12px;">Past participles: work → <b>worked</b>, be → <b>been</b>, do → <b>done</b>, have → <b>had</b>, see → <b>seen</b>, make → <b>made</b>.</p><p style="margin-top:8px;">With a time (yesterday, in 2020) use the <b>Past Simple</b>: I <b>worked</b> there in 2020.</p>`,
+  quizTag:"EXPERIENCE",quiz:[
+   {q:"___ you ever worked in a shop?",opts:["Have","Did","Are"],correct:0},{q:"She ___ been to New York twice.",opts:["has","have","is"],correct:0},
+   {q:"I've never ___ a job interview in English.",opts:["had","have","has"],correct:0},{q:"Have you ever ___ a uniform?",opts:["worn","wear","wore"],correct:0},
+   {q:"'Have you ever been a waiter?' 'Yes, I ___.'",opts:["have","did","am"],correct:0},{q:"He ___ never worked full-time.",opts:["has","have","is"],correct:0},
+   {q:"I ___ in a factory in 2019.",opts:["worked","have worked","work"],correct:0},{q:"We've ___ a lot of mistakes!",opts:["made","make","maked"],correct:0},
+  ],
+  fill:[
+   {before:"I've",blank:"worked",after:"in three different countries.",bank:["worked","work","working"],emoji:"🌍"},
+   {before:"",blank:"Have",after:"you ever been to a job interview?",bank:["Have","Did","Has"],emoji:"🤝"},
+   {before:"She has",blank:"never",after:"been late for work.",bank:["never","ever","not"],emoji:"⏰"},
+   {before:"Has he ever",blank:"been",after:"a chef?",bank:["been","be","was"],emoji:"👨‍🍳"},
+   {before:"I",blank:"haven't",after:"seen the new office.",bank:["haven't","hasn't","didn't"],emoji:"🏢"},
+   {before:"We've",blank:"done",after:"this job before.",bank:["done","did","do"],emoji:"✅"},
+   {before:"My sister",blank:"has",after:"had five jobs!",bank:["has","have","is"],emoji:"💼"},
+   {before:"I",blank:"started",after:"this job last year.",bank:["started","have started","start"],emoji:"📅"},
+  ],
+  build:[
+   {s:"Have you ever worked abroad?",pl:"Czy kiedykolwiek pracowałeś za granicą?"},{s:"I've never been a waiter.",pl:"Nigdy nie byłem kelnerem."},
+   {s:"She has worked in a factory.",pl:"Ona pracowała w fabryce."},{s:"We haven't met the new boss.",pl:"Nie poznaliśmy nowego szefa."},{s:"Yes, I have.",pl:"Tak (pracowałem)."},
+  ],
+  errors:[
+   {s:"I have work in a hotel.",wrong:2,ok:"I have worked in a hotel."},
+   {s:"Have you ever be to Paris?",wrong:3,ok:"Have you ever been to Paris?"},
+   {s:"She have never had a job.",wrong:1,ok:"She has never had a job."},
+   {s:"I have worked there in 2020.",wrong:1,ok:"I worked there in 2020."},
+   {s:"Did you ever been a chef?",wrong:0,ok:"Have you ever been a chef?"},
+  ],
+  whack:[
+   {q:"she ___ worked",opts:["has","have"],correct:0},{q:"be → ___",opts:["been","be"],correct:0},
+   {q:"___ you ever…?",opts:["Have","Did"],correct:0},{q:"in 2020 → ___",opts:["Past Simple","Present Perfect"],correct:0},
+   {q:"do → ___",opts:["done","did"],correct:0},
+  ],
+  wordle:[["ever","❓"],["never","🚫"],["been","✅"],["worked","💼"]]},
+ reading:{title:"Ten jobs, one life",emoji:"🔀",intro:"Read about a man who has had ten different jobs, then answer, translate and write about your work experience.",storyTitle:"Ten Jobs, One Life",label:"Interview",paras:[
+   "<b>Ten Jobs, One Life</b> 🔀",
+   "Paweł is 38 and he has had ten different jobs. 'I get bored easily,' he laughs. 'I've worked as a waiter, a receptionist, a farmer and even a pilot's assistant!'",
+   "His first job was at a café in Gdańsk when he was 16. 'I wasn't a good waiter — I dropped a lot of plates!' Later he worked in a factory, then in an office as an accountant. 'That was my worst job. I hate numbers!'",
+   "Paweł has also lived abroad. He has worked on a farm in New Zealand and in a hotel in Ireland. 'I've met people from all over the world. That experience is more important than money.'",
+   "Now he's a chef in his own small restaurant. Has he found the perfect job? 'Yes, I think so. I've never been so happy at work. But ask me again in five years!'",
+  ],
+  tf:[
+   {text:"Paweł has had ten jobs.",answer:0},{text:"His first job was in a factory.",answer:1},{text:"He was a good waiter.",answer:1},
+   {text:"He didn't like being an accountant.",answer:0},{text:"He has worked in New Zealand.",answer:0},{text:"His restaurant is in Kraków.",answer:2},{text:"He's a chef now.",answer:0}],
+  quiz:[
+   {q:"Why has Paweł had so many jobs?",opts:["He gets bored easily","He earns more money","He lost his jobs"],correct:0},
+   {q:"How old was he at his first job?",opts:["16","18","20"],correct:0},
+   {q:"What was his worst job?",opts:["Accountant","Waiter","Farmer"],correct:0},
+   {q:"What is more important to him than money?",opts:["Experience","A big office","A uniform"],correct:0},
+   {q:"What does he do now?",opts:["He's a chef","He's a pilot","He's a receptionist"],correct:0},
+  ],
+  typed:[
+   {prompt:"Czy kiedykolwiek pracowałeś w sklepie?",answers:["Have you ever worked in a shop"]},
+   {prompt:"Nigdy nie byłem w Londynie.",answers:["I've never been to London","I have never been to London"]},
+   {prompt:"Ona pracuje na pół etatu.",answers:["She works part-time","She works part time"]},
+   {prompt:"Mam jutro rozmowę o pracę.",answers:["I've got a job interview tomorrow","I have a job interview tomorrow","I have got a job interview tomorrow"]},
+  ],
+  writing:{label:"Your experience",title:"My work experience ✍️",sub:"Write about jobs you have done or want to do (min. 50 words). Use the Present Perfect with ever / never at least three times.",starters:["I've worked as…","I've never…","My first job was…","I have / haven't been…","My dream job is…"],min:50},
+  wordle:[["plates","🍽️"],["bored","🥱"],["hotel","🏨"],["happy","😊"]]},
+ test:{grammar:[
+   {q:"___ she ever worked at night?",opts:["Has","Have","Did"],correct:0},{q:"I've never ___ a uniform.",opts:["worn","wear","wore"],correct:0},
+   {q:"They ___ visited our office.",opts:["have never","has never","never have"],correct:0},{q:"He ___ here two years ago.",opts:["started","has started","starts"],correct:0},
+   {q:"This person repairs cars:",opts:["mechanic","accountant","chef"],correct:0},{q:"To get money for work:",opts:["earn","spend","meet"],correct:0},
+   {q:"A day when you don't work:",opts:["day off","meeting","uniform"],correct:0},{q:"A big building where things are made:",opts:["factory","office","shop"],correct:0}],
+  errors:[
+   {s:"Have you ever work in a team?",wrong:3,ok:"Have you ever worked in a team?"},
+   {s:"He have been a pilot.",wrong:1,ok:"He has been a pilot."},
+   {s:"I've never did that.",wrong:2,ok:"I've never done that."},
+   {s:"We have met him yesterday.",wrong:1,ok:"We met him yesterday."}],
+  typed:[
+   {prompt:"Nigdy nie pracowałem w fabryce.",answers:["I've never worked in a factory","I have never worked in a factory"]},
+   {prompt:"Czy byłeś kiedyś kelnerem?",answers:["Have you ever been a waiter"]},
+   {prompt:"On jest mechanikiem.",answers:["He's a mechanic","He is a mechanic"]},
+   {prompt:"Pracuję na pełny etat.",answers:["I work full-time","I work full time"]}]},
+});
+
+/* ================= ADULTS A2 · Phones & Technology ================= */
+mkUnit({id:"af2",level:"A2",track:"adults",topic:"Phones & Tech",title:"Phones & Technology",emoji:"📱",badge:"Tech Fan",sub:"Phones, apps and the internet — and will for predictions, offers and quick decisions.",
+ sets:[
+  {title:"My phone",label:"Phone",words:V([
+   ["screen","ekran","📱"],["battery","bateria","🔋"],["charger","ładowarka","🔌"],["app","aplikacja","📲"],["text message","SMS","💬"],["call","dzwonić, rozmowa","📞"],
+   ["camera","aparat","📷"],["password","hasło","🔑"],["headphones","słuchawki","🎧"],["selfie","selfie","🤳"],["ring","dzwonić (o telefonie)","🔔"],["switch off","wyłączyć","📴"]])},
+  {title:"Online",label:"Online",findTitle:"Which word is it? 🔎",words:V([
+   ["the internet","internet","🌐"],["website","strona internetowa","🖥️"],["email","e-mail","📧"],["download","pobrać","⬇️"],["upload","przesłać, wrzucić","⬆️"],["search","szukać (w sieci)","🔍"],
+   ["online","w sieci, online","🟢"],["video call","wideorozmowa","📹"],["social media","media społecznościowe","👍"],["post","publikować, wpis","📝"],["follow","obserwować","➕"],["laptop","laptop","💻"]])},
+ ],
+ l1:{title:"My phone",emoji:"📲",intro:"Screen, battery, charger, apps — twelve words for the phone in your pocket.",quizTag:"MY PHONE",quizLabel:"My phone",quiz:[
+   {q:"My phone is dead. The ___ is empty.",opts:["battery","screen","app"],correct:0},{q:"You need this to give your phone power:",opts:["charger","camera","password"],correct:0},
+   {q:"A small program on your phone:",opts:["app","selfie","call"],correct:0},{q:"A photo of yourself:",opts:["selfie","screen","text message"],correct:0},
+   {q:"You need a ___ to open your phone.",opts:["password","headphones","ring"],correct:0},{q:"You listen to music with…",opts:["headphones","a charger","a screen"],correct:0},
+   {q:"Please ___ your phones in the cinema.",opts:["switch off","ring","call"],correct:0},{q:"A short written message on your phone:",opts:["text message","video call","selfie"],correct:0},
+  ],
+  odd:[
+   {opts:["screen","battery","charger","password"],odd:3,why:"A password isn't a physical thing."},
+   {opts:["call","text","email","selfie"],odd:3,why:"A selfie isn't a way to send a message."},
+   {opts:["headphones","speaker","microphone","charger"],odd:3,why:"A charger isn't about sound."},
+   {opts:["laptop","tablet","phone","app"],odd:3,why:"An app isn't a device."},
+  ],
+  wordle:[["screen","📱"],["app","📲"],["call","📞"],["camera","📷"]]},
+ l2:{title:"Online life",emoji:"🌐",intro:"Download, upload, search, post, follow — what we do online.",fillTag:"ONLINE",fill:[
+   {before:"I",blank:"download",after:"films to watch on the train.",bank:["download","upload","follow"],emoji:"⬇️"},
+   {before:"She",blank:"uploads",after:"her photos to social media.",bank:["uploads","downloads","searches"],emoji:"⬆️"},
+   {before:"I don't know the answer. Let's",blank:"search",after:"online.",bank:["search","post","follow"],emoji:"🔍"},
+   {before:"I have a",blank:"video call",after:"with my parents every Sunday.",bank:["video call","website","password"],emoji:"📹"},
+   {before:"Do you",blank:"follow",after:"any famous people?",bank:["follow","download","switch off"],emoji:"➕"},
+   {before:"Visit our",blank:"website",after:"for more information.",bank:["website","email","laptop"],emoji:"🖥️"},
+   {before:"He spends three hours a day on",blank:"social media",after:".",bank:["social media","the battery","a charger"],emoji:"👍"},
+   {before:"I'll send you an",blank:"email",after:"with the details.",bank:["email","app","post"],emoji:"📧"},
+  ],
+  tf:{sub:"Read the chat: 'Ola: My phone battery is at 2%! 😱 — Kuba: Use my charger, it's on the desk. — Ola: Thanks! Can you send me the photos from Saturday? — Kuba: Sure, I'll upload them tonight. — Ola: Great, I'll post the best one!'",tag:"A CHAT",items:[
+   {text:"Ola's battery is almost empty.",answer:0},{text:"Kuba's charger is in his bag.",answer:1},{text:"Ola wants photos from Saturday.",answer:0},
+   {text:"Kuba will upload them tomorrow.",answer:1},{text:"Ola will post one photo.",answer:0},{text:"Kuba doesn't have a charger.",answer:1}]},
+  listen:[
+   {word:"My battery is dead.",options:["My battery is dead.","My battery is red.","My bakery is dead."],correct:0},
+   {word:"I'll call you later.",options:["I'll call you later.","I'll call you letter.","I call you later."],correct:0},
+   {word:"What's the password?",options:["What's the password?","What's the passport?","Where's the password?"],correct:0},
+  ],
+  wordle:[["email","📧"],["search","🔍"],["online","🟢"],["post","📝"],["laptop","💻"]]},
+ grammar:{title:"I'll help you!",emoji:"🤝",label:"will",intro:"I think robots will do our jobs. The phone's ringing — I'll answer it! — will for predictions, offers and decisions.",boxTitle:"will (predictions, offers, decisions)",
+  html:`<p><b>will / won't + verb</b> — same form for everyone.</p>${TBL(["Use","Example"],[["prediction (I think…)","I think phones <b>will</b> be smaller. People <b>won't</b> use cash."],["offer","Your battery's dead? I<b>'ll lend</b> you my charger."],["quick decision (now)","The phone's ringing. I<b>'ll answer</b> it!"],["promise","I<b>'ll call</b> you tonight, I promise."]])}<p style="margin-top:12px;">Question: <b>Will</b> you <b>help</b> me? · Short answers: Yes, I <b>will</b>. / No, I <b>won't</b>.</p><p style="margin-top:8px;">Plans made before → <b>going to</b>: I'm going to buy a new phone (I decided last week).</p>`,
+  quizTag:"WILL",quiz:[
+   {q:"I think we ___ have flying cars in 2050.",opts:["will","are","do"],correct:0},{q:"You're cold? I ___ close the window.",opts:["'ll","am","do"],correct:0},
+   {q:"The phone is ringing. I ___ it!",opts:["'ll answer","answer","answered"],correct:0},{q:"Don't worry, I ___ tell anyone.",opts:["won't","willn't","don't will"],correct:0},
+   {q:"___ you help me with my laptop?",opts:["Will","Do","Are"],correct:0},{q:"I promise I ___ you tomorrow.",opts:["'ll call","call","calling"],correct:0},
+   {q:"In the future people ___ use cash.",opts:["won't","will not to","don't will"],correct:0},{q:"She will ___ the photos tonight.",opts:["send","sends","to send"],correct:0},
+  ],
+  fill:[
+   {before:"I think phones",blank:"will",after:"be cheaper in the future.",bank:["will","are","do"],emoji:"🔮"},
+   {before:"Your battery's dead? I'll",blank:"lend",after:"you my charger.",bank:["lend","lends","to lend"],emoji:"🔌"},
+   {before:"I",blank:"won't",after:"forget your password, I promise.",bank:["won't","willn't","don't"],emoji:"🔑"},
+   {before:"",blank:"Will",after:"you send me the link?",bank:["Will","Do","Are"],emoji:"🔗"},
+   {before:"Someone's at the door. I'll",blank:"open",after:"it.",bank:["open","opens","opening"],emoji:"🚪"},
+   {before:"Robots",blank:"will",after:"do many jobs in 2050.",bank:["will","are","won't to"],emoji:"🤖"},
+   {before:"'Will you call me?' 'Yes, I",blank:"will",after:".'",bank:["will","do","am"],emoji:"📞"},
+   {before:"I don't think people",blank:"will",after:"read paper books in 100 years.",bank:["will","won't","are"],emoji:"📚"},
+  ],
+  build:[
+   {s:"I'll call you tonight.",pl:"Zadzwonię do ciebie wieczorem."},{s:"I think robots will do our jobs.",pl:"Myślę, że roboty będą wykonywać naszą pracę."},
+   {s:"I won't forget, I promise.",pl:"Nie zapomnę, obiecuję."},{s:"Will you help me?",pl:"Pomożesz mi?"},{s:"I'll lend you my charger.",pl:"Pożyczę ci moją ładowarkę."},
+  ],
+  errors:[
+   {s:"I will to call you.",wrong:2,ok:"I will call you."},
+   {s:"She wills send it.",wrong:1,ok:"She will send it."},
+   {s:"I willn't tell anyone.",wrong:1,ok:"I won't tell anyone."},
+   {s:"Do you will help me?",wrong:0,ok:"Will you help me?"},
+   {s:"It will rains tomorrow.",wrong:2,ok:"It will rain tomorrow."},
+  ],
+  whack:[
+   {q:"I ___ help you.",opts:["'ll","will to"],correct:0},{q:"will not = ___",opts:["won't","willn't"],correct:0},
+   {q:"she ___ come",opts:["will","wills"],correct:0},{q:"___ you call?",opts:["Will","Do will"],correct:0},
+   {q:"will + ___",opts:["verb","to + verb"],correct:0},
+  ],
+  wordle:[["will","🔮"],["phone","📱"],["robot","🤖"],["future","🚀"]]},
+ reading:{title:"Phones in 2040",emoji:"🔮",intro:"Read three people's predictions about phones in the future, then answer, translate and make your own predictions.",storyTitle:"What Will Phones Be Like in 2040?",label:"Opinions",paras:[
+   "<b>What Will Phones Be Like in 2040?</b> 🔮",
+   "<b>Zofia, 19, student:</b> 'I don't think we'll carry phones in our pockets. They'll be in our glasses! We'll see messages and maps in front of our eyes. I'll miss taking selfies, though.'",
+   "<b>Tomasz, 45, engineer:</b> 'Batteries will be much better. You'll charge your phone once a week, not every day. And I think phones will understand every language, so we won't need to learn English… but I hope people will still learn languages!'",
+   "<b>Halina, 72, retired teacher:</b> 'Phones will be smarter, but will people be happier? I'm not sure. I think families won't talk at dinner — everyone will look at a screen. I'll keep my old phone, thank you!'",
+   "What do you think? Will phones make our lives better or worse?",
+  ],
+  tf:[
+   {text:"Zofia thinks phones will be in our glasses.",answer:0},{text:"Zofia is an engineer.",answer:1},{text:"Tomasz thinks batteries will be better.",answer:0},
+   {text:"Tomasz says we'll charge phones every day.",answer:1},{text:"Halina is a retired teacher.",answer:0},{text:"Halina has five grandchildren.",answer:2},{text:"Halina wants a new phone.",answer:1}],
+  quiz:[
+   {q:"Where does Zofia think we'll see messages?",opts:["In front of our eyes","On our hands","On TV"],correct:0},
+   {q:"What will Zofia miss?",opts:["Taking selfies","Calling friends","Her laptop"],correct:0},
+   {q:"How often will we charge phones, says Tomasz?",opts:["Once a week","Every day","Never"],correct:0},
+   {q:"What does Halina worry about?",opts:["Families won't talk","Phones will be expensive","Batteries will die"],correct:0},
+   {q:"What will Halina do?",opts:["Keep her old phone","Buy smart glasses","Learn English"],correct:0},
+  ],
+  typed:[
+   {prompt:"Zadzwonię do ciebie jutro.",answers:["I'll call you tomorrow","I will call you tomorrow"]},
+   {prompt:"Myślę, że będzie padać.",answers:["I think it will rain","I think it'll rain"]},
+   {prompt:"Moja bateria jest rozładowana.",answers:["My battery is dead","My battery is flat","My battery's dead"]},
+   {prompt:"Pobiorę tę aplikację.",answers:["I'll download this app","I will download this app","I'll download the app","I will download the app","I'll download that app"]},
+  ],
+  writing:{label:"Your predictions",title:"My life in 2040 ✍️",sub:"Write five predictions about technology and your life in 2040 (min. 50 words). Use will and won't.",starters:["I think phones will…","People won't…","I'll probably…","Robots will…","I don't think…"],min:50},
+  wordle:[["glasses","👓"],["maps","🗺️"],["charge","🔌"],["smart","🧠"]]},
+ test:{grammar:[
+   {q:"I'm thirsty. — I ___ get you some water.",opts:["'ll","am","do"],correct:0},{q:"I think it ___ be sunny tomorrow.",opts:["will","is","does"],correct:0},
+   {q:"I ___ be late, I promise.",opts:["won't","willn't","don't"],correct:0},{q:"___ you be at home tonight?",opts:["Will","Do","Are"],correct:0},
+   {q:"It gives your phone power:",opts:["charger","screen","camera"],correct:0},{q:"A secret word to open your phone:",opts:["password","selfie","website"],correct:0},
+   {q:"To put a photo on the internet:",opts:["upload","download","search"],correct:0},{q:"Talking to someone and seeing them online:",opts:["video call","text message","email"],correct:0}],
+  errors:[
+   {s:"I will sends you the photos.",wrong:2,ok:"I will send you the photos."},
+   {s:"He won't to come.",wrong:2,ok:"He won't come."},
+   {s:"Will you to help me?",wrong:2,ok:"Will you help me?"},
+   {s:"My phone battery are dead.",wrong:3,ok:"My phone battery is dead."}],
+  typed:[
+   {prompt:"Pomożesz mi?",answers:["Will you help me","Can you help me"]},
+   {prompt:"Nie zapomnę.",answers:["I won't forget","I will not forget"]},
+   {prompt:"Wyślę ci e-mail.",answers:["I'll send you an email","I will send you an email","I'll send you an e-mail","I will send you an e-mail"]},
+   {prompt:"Wyłącz telefon.",answers:["Switch off your phone","Switch your phone off","Turn off your phone","Turn your phone off"]}]},
+});
+
+/* =====================================================================
    MORE TOPICS (round 2) — TEENS & ADULTS B1
    ===================================================================== */
 
@@ -8431,6 +9149,83 @@ Object.assign(MORE_GRAMMAR_PL,{
  "Present Perfect Continuous":[["— for an activity that started in the past and is <b>still going on</b> (or just stopped), often with <b>for / since / how long</b>.","— o czynności, która zaczęła się w przeszłości i <b>nadal trwa</b> (albo właśnie się skończyła), często z <b>for / since / how long</b>."],[">Example<",">Przykład<"],["+ period (for two hours)","+ okres (for two hours)"],["+ starting point (since Monday)","+ punkt początkowy (since Monday)"],["Results you can see now:","Skutki widoczne teraz:"],["Not with state verbs (know, like, have = own):","Nie z czasownikami stanu (know, like, have = mieć):"]],
 });
 
+/* =====================================================================
+   MORE TOPICS (round 2, step 2) — Polish for Teens & Adults A1 / A2.
+   Adds to MORE_PL / MORE_RX / MORE_GRAMMAR_PL from units_pl.js.
+   ===================================================================== */
+Object.assign(MORE_PL,{
+ // unit descriptions
+ "Your day from morning to night — and the Present Simple with always, usually, never.":"Twój dzień od rana do wieczora — i Present Simple z always, usually, never.",
+ "Sun, rain, snow and the four seasons — and the Present Continuous for what's happening now.":"Słońce, deszcz, śnieg i cztery pory roku — i Present Continuous o tym, co dzieje się teraz.",
+ "Body parts, aches and healthy habits — and can / can't and instructions (imperatives).":"Części ciała, bóle i zdrowe nawyki — i can / can't oraz polecenia (tryb rozkazujący).",
+ "Symptoms, appointments and advice — should / shouldn't.":"Objawy, wizyty i rady — should / shouldn't.",
+ "Jobs, workplaces and experience — the Present Perfect with ever / never.":"Zawody, miejsca pracy i doświadczenie — Present Perfect z ever / never.",
+ "Phones, apps and the internet — and will for predictions, offers and quick decisions.":"Telefony, aplikacje i internet — i will do przewidywań, propozycji i szybkich decyzji.",
+ // lesson intros
+ "Get up, have breakfast, go to work, go to bed — twelve actions for every day.":"Wstań, zjedz śniadanie, idź do pracy, idź spać — dwanaście czynności na każdy dzień.",
+ "Always, usually, sometimes, never — say how often you do things.":"Zawsze, zazwyczaj, czasami, nigdy — mów, jak często coś robisz.",
+ "I get up at seven. She gets up at eight. Do you work? — the Present Simple for routines.":"Wstaję o siódmej. Ona wstaje o ósmej. Pracujesz? — Present Simple o codziennych czynnościach.",
+ "Read about a day in the life of a nurse who works at night, then answer, translate and write about your day.":"Przeczytaj o dniu pielęgniarki, która pracuje nocą, potem odpowiadaj, tłumacz i opisz swój dzień.",
+ "Sunny, cloudy, windy, cold — say what the weather is like today.":"Słonecznie, pochmurno, wietrznie, zimno — powiedz, jaka jest dziś pogoda.",
+ "Spring, summer, autumn, winter — and umbrellas, scarves and sunglasses.":"Wiosna, lato, jesień, zima — i parasole, szaliki oraz okulary przeciwsłoneczne.",
+ "It's raining. The sun is shining. What are you wearing? — the Present Continuous for now.":"Pada deszcz. Świeci słońce. Co masz na sobie? — Present Continuous o teraźniejszości.",
+ "Read a postcard from a winter holiday, then answer, translate and write your own postcard.":"Przeczytaj pocztówkę z zimowych wakacji, potem odpowiadaj, tłumacz i napisz własną pocztówkę.",
+ "Head, eyes, arms, legs, back — twelve words for your body.":"Głowa, oczy, ręce, nogi, plecy — dwanaście słów o twoim ciele.",
+ "A headache, a cold, a temperature — say how you feel and what to do.":"Ból głowy, przeziębienie, gorączka — powiedz, jak się czujesz i co robić.",
+ "I can swim. I can't run today. Sit down! Don't eat that! — can / can't and instructions.":"Umiem pływać. Dziś nie mogę biegać. Usiądź! Nie jedz tego! — can / can't i polecenia.",
+ "Read a simple health guide for people who sit at a desk all day, then answer, translate and give your own tips.":"Przeczytaj prosty poradnik zdrowia dla osób, które cały dzień siedzą przy biurku, potem odpowiadaj, tłumacz i daj własne rady.",
+ "A sore throat, a runny nose, feeling dizzy — describe your symptoms.":"Ból gardła, katar, zawroty głowy — opisz swoje objawy.",
+ "Appointments, prescriptions, pharmacies and nurses — what happens at the doctor's.":"Wizyty, recepty, apteki i pielęgniarki — co dzieje się u lekarza.",
+ "You should rest. You shouldn't go to work. Should I take a tablet? — giving advice.":"Powinieneś odpocząć. Nie powinieneś iść do pracy. Czy powinienem wziąć tabletkę? — dawanie rad.",
+ "Read three questions to a magazine doctor and her answers, then answer, translate and give your own advice.":"Przeczytaj trzy pytania do lekarki z gazety i jej odpowiedzi, potem odpowiadaj, tłumacz i daj własną radę.",
+ "Engineer, waiter, mechanic, chef — twelve jobs and what people do.":"Inżynier, kelner, mechanik, kucharz — dwanaście zawodów i to, co robią ci ludzie.",
+ "Full-time, part-time, customers and meetings — talk about your work.":"Pełny etat, część etatu, klienci i spotkania — mów o swojej pracy.",
+ "I've worked in a hotel. Have you ever been to London? I've never done that! — talking about experience.":"Pracowałem w hotelu. Byłeś kiedyś w Londynie? Nigdy tego nie robiłem! — mówienie o doświadczeniach.",
+ "Read about a man who has had ten different jobs, then answer, translate and write about your work experience.":"Przeczytaj o mężczyźnie, który miał dziesięć różnych prac, potem odpowiadaj, tłumacz i opisz swoje doświadczenie zawodowe.",
+ "Screen, battery, charger, apps — twelve words for the phone in your pocket.":"Ekran, bateria, ładowarka, aplikacje — dwanaście słów o telefonie w twojej kieszeni.",
+ "Download, upload, search, post, follow — what we do online.":"Pobieraj, wrzucaj, szukaj, publikuj, obserwuj — co robimy w sieci.",
+ "I think robots will do our jobs. The phone's ringing — I'll answer it! — will for predictions, offers and decisions.":"Myślę, że roboty będą wykonywać naszą pracę. Dzwoni telefon — odbiorę! — will do przewidywań, propozycji i decyzji.",
+ "Read three people's predictions about phones in the future, then answer, translate and make your own predictions.":"Przeczytaj przewidywania trzech osób o telefonach przyszłości, potem odpowiadaj, tłumacz i napisz własne przewidywania.",
+ // writing tasks
+ "My normal day ✍️":"Mój zwykły dzień ✍️",
+ "Write about your normal day (min. 40 words). Use at least five routine phrases and three words like always, usually, never.":"Opisz swój zwykły dzień (min. 40 słów). Użyj co najmniej pięciu wyrażeń o codziennych czynnościach i trzech słów takich jak always, usually, never.",
+ "A postcard from a trip ✍️":"Pocztówka z wyjazdu ✍️",
+ "Write a postcard from a holiday (min. 40 words). Say what the weather is like and what you are doing now. Use the Present Continuous three times.":"Napisz pocztówkę z wakacji (min. 40 słów). Napisz, jaka jest pogoda i co teraz robisz. Użyj Present Continuous trzy razy.",
+ "My healthy tips ✍️":"Moje zdrowe rady ✍️",
+ "Write five health tips for a friend (min. 40 words). Use imperatives (Drink…, Don't…) and can / can't at least once.":"Napisz pięć rad zdrowotnych dla przyjaciela (min. 40 słów). Użyj trybu rozkazującego (Drink…, Don't…) i co najmniej raz can / can't.",
+ "Dear Dr… ✍️":"Droga Pani Doktor… ✍️",
+ "A friend writes: 'I'm always tired and I often have headaches.' Write your advice (min. 50 words). Use should and shouldn't at least four times.":"Przyjaciel pisze: 'Ciągle jestem zmęczony i często boli mnie głowa.' Napisz radę (min. 50 słów). Użyj should i shouldn't co najmniej cztery razy.",
+ "My work experience ✍️":"Moje doświadczenie zawodowe ✍️",
+ "Write about jobs you have done or want to do (min. 50 words). Use the Present Perfect with ever / never at least three times.":"Napisz o pracach, które wykonywałeś lub chcesz wykonywać (min. 50 słów). Użyj Present Perfect z ever / never co najmniej trzy razy.",
+ "My life in 2040 ✍️":"Moje życie w 2040 roku ✍️",
+ "Write five predictions about technology and your life in 2040 (min. 50 words). Use will and won't.":"Napisz pięć przewidywań o technologii i twoim życiu w 2040 roku (min. 50 słów). Użyj will i won't.",
+ // set titles, find titles, zone labels
+ "Morning to night":"Od rana do wieczora","Routine":"Codzienność","Frequency":"Częstotliwość","What is it? 🔎":"Co to jest? 🔎",
+ "The body":"Ciało","Symptoms":"Objawy","At the surgery":"W przychodni","Surgery":"Przychodnia","Work":"Praca","Which work word is it? 🔎":"Które to słowo o pracy? 🔎",
+ "Phone":"Telefon","Online":"W sieci","My day":"Mój dzień","My phone":"Mój telefon",
+ "Your day":"Twój dzień","Postcard":"Pocztówka","Your postcard":"Twoja pocztówka","Guide":"Poradnik","Your tips":"Twoje rady","Magazine":"Gazeta","Your advice":"Twoja rada","Interview":"Wywiad","Your experience":"Twoje doświadczenie","Your predictions":"Twoje przewidywania",
+ // grammar zone labels
+ "Present Simple":"Present Simple","can / can't · imperatives":"can / can't · tryb rozkazujący","should / shouldn't":"should / shouldn't","Present Perfect":"Present Perfect","will":"will",
+ // tags
+ "MY DAY":"MÓJ DZIEŃ","WEATHER":"POGODA","THE FORECAST":"PROGNOZA","RIGHT NOW":"W TEJ CHWILI","THE BODY":"CIAŁO","HEALTH":"ZDROWIE","A NOTE":"LIŚCIK","CAN & DO IT!":"CAN I POLECENIA!",
+ "SYMPTOMS":"OBJAWY","AT THE SURGERY":"W PRZYCHODNI","A DIALOGUE":"DIALOG","ADVICE":"RADY","JOBS":"ZAWODY","A JOB ADVERT":"OGŁOSZENIE O PRACĘ","EXPERIENCE":"DOŚWIADCZENIE",
+ "MY PHONE":"MÓJ TELEFON","ONLINE":"W SIECI","A CHAT":"CZAT","WILL":"WILL",
+ // grammar box titles
+ "Present Simple · how often":"Present Simple · jak często","Present Continuous (now)":"Present Continuous (teraz)","should / shouldn't (advice)":"should / shouldn't (rady)",
+ "Present Perfect · ever / never":"Present Perfect · ever / never","will (predictions, offers, decisions)":"will (przewidywania, propozycje, decyzje)",
+});
+MORE_RX.push(
+ [/^Read the (forecast|note|dialogue|job advert|chat): (.+)$/,(m,a,b)=>`Przeczytaj ${{'forecast':'prognozę','note':'liścik','dialogue':'dialog','job advert':'ogłoszenie o pracę','chat':'czat'}[a]}: ${b}`],
+);
+Object.assign(MORE_GRAMMAR_PL,{
+ "Present Simple · how often":[["Use the <b>Present Simple</b> for things you do <b>regularly</b> — your routine.","<b>Present Simple</b> używamy do tego, co robimy <b>regularnie</b> — do codziennych czynności."],["he / she / it: add","he / she / it: dodaj"],["Frequency words go <b>before</b> the main verb:","Słowa częstotliwości stoją <b>przed</b> głównym czasownikiem:"],["But <b>after</b> be:","Ale <b>po</b> be:"]],
+ "Present Continuous (now)":[["Use the <b>Present Continuous</b> for things happening <b>now</b>, at this moment.","<b>Present Continuous</b> używamy do tego, co dzieje się <b>teraz</b>, w tej chwili."],[">Example<",">Przykład<"],["Form:","Forma:"],["Spelling:","Pisownia:"],["Compare:","Porównaj:"],["(routine)","(rutyna)"]],
+ "can / can't · imperatives":[["+ verb = ability or possibility. Same form for everyone!","+ czasownik = umiejętność lub możliwość. Ta sama forma dla wszystkich!"],[">Example<",">Przykład<"],["= instructions: just the verb.","= polecenia: sam czasownik."],["<b>Imperatives</b>","<b>Tryb rozkazujący</b>"],[">Do it ✅<",">Zrób to ✅<"],[">Don't do it ❌<",">Nie rób tego ❌<"],["No 'to' and no -s:","Bez 'to' i bez -s:"]],
+ "should / shouldn't (advice)":[["+ verb to give <b>advice</b> — to say what is a good idea.","+ czasownik służy do dawania <b>rad</b> — mówi, co jest dobrym pomysłem."],["Use <b>should</b>","<b>should</b>"],[">Example<",">Przykład<"],[">Asking for advice<",">Prośba o radę<"],["Same form for everyone:","Ta sama forma dla wszystkich:"],["No 'to':","Bez 'to':"],["Softer:","Łagodniej:"]],
+ "Present Perfect · ever / never":[["Use the <b>Present Perfect</b> (have / has + past participle) for <b>life experience</b> — we don't say when.","<b>Present Perfect</b> (have / has + III forma) służy do mówienia o <b>doświadczeniach życiowych</b> — nie mówimy kiedy."],[">Example<",">Przykład<"],[">short answers<",">krótkie odpowiedzi<"],["Past participles:","III forma:"],["With a time (yesterday, in 2020) use the <b>Past Simple</b>:","Z określeniem czasu (yesterday, in 2020) używamy <b>Past Simple</b>:"]],
+ "will (predictions, offers, decisions)":[["<b>will / won't + verb</b> — same form for everyone.","<b>will / won't + czasownik</b> — ta sama forma dla wszystkich."],[">Use<",">Użycie<"],[">Example<",">Przykład<"],[">prediction (I think…)<",">przewidywanie (I think…)<"],[">offer<",">propozycja<"],[">quick decision (now)<",">szybka decyzja (teraz)<"],[">promise<",">obietnica<"],["Question:","Pytanie:"],["Short answers:","Krótkie odpowiedzi:"],["Plans made before →","Plany ustalone wcześniej →"],["(I decided last week)","(zdecydowałem w zeszłym tygodniu)"]],
+});
+
 /* ---------- CEFR levels (whole app: A0 → C1) ---------- */
 const LEVELS=[
  {id:"A0",name:"Starter",desc:"Your very first words: hello, numbers, colours, family.",adesc:"First contact: greetings, personal details and the verb 'to be'.",emoji:"🌱"},
@@ -9284,7 +10079,7 @@ function setLang(l){LANG=l;if(l==='en')restoreLang();try{localStorage.setItem('l
    Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji 3D, stored in site/emoji/,
    so a word looks the same on iPhone, Android, Windows and Mac. Flags come from Twemoji.
    The list of available pictures is filled in at build time by emoji_post.js. */
-const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33c.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45e.webp","1f45f.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5ff.webp","1f602.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f6a7.webp","1f6a8.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f944.webp","1f945.webp","1f947.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa81.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","2600.webp","2601.webp","2602.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c8.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
+const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f334.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33c.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f34f.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45e.webp","1f45f.webp","1f462.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f373.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f554.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5ff.webp","1f602.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635-200d-1f4ab.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f69c.webp","1f6a7.webp","1f6a8.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f944.webp","1f945.webp","1f947.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95c.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9ba.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa81.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","25b6.webp","2600.webp","2601.webp","2602.webp","2603.webp","2614.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c5.webp","26c8.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2714.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
 const EMOJI_FILE=new Map(EMOJI_KEYS.map(f=>[f.replace(/\.\w+$/,''),f]));
 const EMOJI_SET={get size(){return EMOJI_FILE.size;},has:k=>EMOJI_FILE.has(k)};
 const EMOJI_RX=/\p{RI}\p{RI}|[#*0-9]️?⃣|\p{Extended_Pictographic}(?:️|\p{EMod})?(?:‍\p{Extended_Pictographic}(?:️|\p{EMod})?)*/gu;
