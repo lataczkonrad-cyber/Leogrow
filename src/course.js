@@ -3300,6 +3300,8 @@ const GRAMMAR_PL={
  "Mixed conditionals":[["Mixed conditionals connect <b>different times</b>.","Mieszane okresy warunkowe łączą <b>różne czasy</b>."],[">Type<",">Typ<"],[">Example<",">Przykład<"],["(now)","(teraz)"],["(past)","(w przeszłości)"]],
  "Cleft sentences & participle clauses":[["<b>Cleft sentences</b> put the focus on one part of the message.","<b>Zdania typu cleft</b> podkreślają jedną część wypowiedzi."],[">Pattern<",">Wzór<"],[">Example<",">Przykład<"],[">Type<",">Typ<"],["<b>Participle clauses</b> replace a full clause:","<b>Konstrukcje imiesłowowe</b> zastępują całe zdanie podrzędne:"],["Present (-ing): active / same time","Imiesłów -ing: strona czynna / ten sam czas"],["Past (-ed): passive","Imiesłów -ed: strona bierna"],["Perfect: earlier action","Having + III forma: wcześniejsza czynność"],["⚠️ The subject must be the same:","⚠️ Podmiot musi być ten sam:"]],
 };
+if(typeof MORE_PL!=="undefined")Object.assign(PL_UI,MORE_PL);
+if(typeof MORE_GRAMMAR_PL!=="undefined")Object.assign(GRAMMAR_PL,MORE_GRAMMAR_PL);
 (function(){const _rz=renderZone;renderZone=function(i){const z=zones[i];
   if(LANG==='pl'&&z&&z.type==='grammar'&&GRAMMAR_PL[z.title]){const orig=z.html;let h=orig;GRAMMAR_PL[z.title].forEach(([a,b])=>{h=h.split(a).join(b);});z.html=h;const r=_rz(i);z.html=orig;return r;}
   return _rz(i);};})();
