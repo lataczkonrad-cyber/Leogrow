@@ -343,3 +343,4 @@ body.can-back .app-back{display:inline-block;}
 /* emoji pictures (self-hosted Fluent Emoji, see emoji_post.js) */
 img.emj{width:1em;height:1em;margin:0 .04em;vertical-align:-0.125em;display:inline-block;pointer-events:none;user-select:none;-webkit-user-drag:none;}
 span.ej{display:inline;}
+.flash-emoji{font-size:44px;line-height:1;margin-bottom:6px;}

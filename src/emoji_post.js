@@ -1,8 +1,8 @@
 // Leogrow — one emoji style everywhere.
 // Run after assemble.py + pwa_post.py:   node emoji_post.js
 // 1. finds every emoji the app uses (in lingrow-academy.html),
-// 2. makes sure site/emoji/<codepoints>.svg exists for each one
-//    (Microsoft Fluent Emoji "flat", MIT licence; flags from Twemoji, CC-BY 4.0),
+// 2. makes sure site/emoji/<codepoints>.webp exists for each one: Microsoft Fluent Emoji 3D (MIT),
+//    falling back to Fluent "flat" .svg, then Twemoji (CC-BY 4.0) when no 3D picture exists,
 // 3. writes the list into the page (EMOJI_KEYS) so the app swaps the phone's own emoji for these pictures.
 // Pictures already in site/emoji/ are reused, so the build works offline. Only new emoji need the internet
 // (the two icon packs are downloaded once from the npm registry into src/.emoji-src/, which git ignores).
@@ -62,24 +62,45 @@ function svgOf(pack, name) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}">${body}</svg>`;
 }
 
+// 3D pictures (realistic style) first, the flat drawings only where no 3D picture exists
+let d3 = null;
+function load3d() {
+  if (d3) return d3;
+  const dir = path.join(CACHE, 'fluent-emoji-3d');
+  if (!fs.existsSync(path.join(dir, 'package', 'assets'))) {
+    fs.mkdirSync(dir, { recursive: true });
+    const meta = JSON.parse(execSync('curl -sSL https://registry.npmjs.org/@lobehub/fluent-emoji-3d/latest').toString());
+    execSync(`curl -sSL ${meta.dist.tarball} | tar xz -C "${dir}"`);
+  }
+  d3 = {};
+  for (const f of fs.readdirSync(path.join(dir, 'package', 'assets'))) {
+    if (!f.endsWith('.webp')) continue;
+    const k = f.slice(0, -5).split('-').filter(h => h !== 'fe0f').map(h => h.replace(/^0+/, '')).join('-');
+    d3[k] = path.join(dir, 'package', 'assets', f);
+  }
+  return d3;
+}
 const have = [], missing = [];
 let added = 0;
 for (const [k, ch] of want) {
-  const file = path.join(DIR, k + '.svg');
-  if (fs.existsSync(file)) { have.push(k); continue; }
+  const webp = path.join(DIR, k + '.webp'), svgf = path.join(DIR, k + '.svg');
+  if (fs.existsSync(webp)) { have.push(k + '.webp'); continue; }
+  const D = load3d();
+  if (D[k]) { fs.copyFileSync(D[k], webp); have.push(k + '.webp'); added++; continue; }
+  if (fs.existsSync(svgf)) { have.push(k + '.svg'); continue; }
   const P = loadPacks();
   let svg = null;
   for (const name of ['fluent-emoji-flat', 'twemoji']) {
     const n = P[name].byKey[k]; if (n) svg = svgOf(P[name], n); if (svg) break;
   }
   if (!svg) { missing.push(ch + ' ' + k); continue; }
-  fs.writeFileSync(file, svg); have.push(k); added++;
+  fs.writeFileSync(svgf, svg); have.push(k + '.svg'); added++;
 }
 have.sort();
-const keep = new Set(have.map(k => k + '.svg'));
-for (const f of fs.readdirSync(DIR)) if (f.endsWith('.svg') && !keep.has(f)) fs.unlinkSync(path.join(DIR, f));
+const keep = new Set(have);
+for (const f of fs.readdirSync(DIR)) if (/\.(svg|webp)$/.test(f) && !keep.has(f)) fs.unlinkSync(path.join(DIR, f));
 const before = html;
 html = html.replace(/const EMOJI_KEYS=\[[^\]]*\];/, 'const EMOJI_KEYS=' + JSON.stringify(have) + ';');
 if (html === before && !html.includes('const EMOJI_KEYS=' + JSON.stringify(have))) throw new Error('EMOJI_KEYS placeholder not found');
 fs.writeFileSync(OUT, html);
-console.log(`emoji ok: ${have.length} pictures (${added} new)` + (missing.length ? `; no picture for: ${missing.join(', ')}` : ''));
+console.log(`emoji ok: ${have.length} pictures, ${have.filter(f=>f.endsWith('.webp')).length} in 3D (${added} new)` + (missing.length ? `; no picture for: ${missing.join(', ')}` : ''));

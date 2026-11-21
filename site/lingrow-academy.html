@@ -932,6 +932,153 @@ body.can-back .app-back{display:inline-block;}
 /* emoji pictures (self-hosted Fluent Emoji, see emoji_post.js) */
 img.emj{width:1em;height:1em;margin:0 .04em;vertical-align:-0.125em;display:inline-block;pointer-events:none;user-select:none;-webkit-user-drag:none;}
 span.ej{display:inline;}
+.flash-emoji{font-size:44px;line-height:1;margin-bottom:6px;}
+
+/* ---------- daily habit: streak, goal, reminders ---------- */
+.wk-day i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:var(--navy);}
+.wk-day.goal i{background:linear-gradient(135deg,var(--gold),var(--gold-light));border-color:#b5891f;box-shadow:0 0 10px rgba(236,184,58,.75);}
+.wk-day.shield i{background:#dfe6ff;border-color:#8fa2e8;font-size:12px;}
+.wk-day.today small{color:var(--navy);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;}
+.goal-ring .gr-bg{fill:none;stroke:#e4e6f0;stroke-width:7;}
+.goal-ring .gr-fg{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+.goal-ring .gr-fg.done{stroke:#2fa36b;}
+.goal-ring text{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:18px;fill:var(--navy);}
+.daily-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:var(--cream);border:2px solid var(--gold);border-radius:20px;padding:12px 16px;box-shadow:0 4px 0 #b5891f;}
+.dc-main{flex:1;min-width:0;}
+.dc-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
+.dc-top span{font-size:13px;font-weight:800;color:#6b6b85;}
+.dc-streak{font-family:'Baloo 2',sans-serif;font-size:24px;color:var(--navy);line-height:1;}
+.dc-streak.zero{filter:grayscale(1);opacity:.6;}
+.dc-shield{margin-left:auto;background:#eef1ff;border:1px solid #c5cff5;border-radius:999px;padding:1px 8px;color:var(--navy)!important;}
+.daily-card p{margin:3px 0 6px;font-size:13.5px;font-weight:700;color:var(--navy);}
+.dc-week .wk-day i,.habit-strip+.wk-row .wk-day i{width:20px;height:20px;font-size:11px;}
+.dc-week{display:flex;gap:7px;}
+.dc-week .wk-day small{font-size:10px;}
+.dc-set{align-self:flex-start;white-space:nowrap;}
+.habit-strip{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--navy-light);border-radius:16px;padding:8px 12px;box-shadow:0 2px 0 var(--gold);text-align:left;}
+.habit-strip b{display:block;font-family:'Baloo 2',sans-serif;font-size:16px;color:var(--navy);}
+.habit-strip small{font-size:12.5px;font-weight:800;color:#6b6b85;}
+.habit-strip.on-finish{max-width:340px;margin:10px auto 4px;}
+.habit-panel .habit-strip{margin-top:6px;}
+.habit-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;}
+.habit-stats div{background:#fff;border:2px solid var(--navy-light);border-radius:14px;padding:8px 6px;text-align:center;box-shadow:0 2px 0 var(--gold);}
+.habit-stats b{display:block;font-family:'Baloo 2',sans-serif;font-size:19px;color:var(--navy);}
+.habit-stats small{font-size:11.5px;font-weight:800;color:#6b6b85;}
+.goal-opts{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 6px;}
+.goal-opt{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:14px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 3px 0 #c9cbe0;}
+.goal-opt span{font-size:22px;}.goal-opt b{font-family:'Baloo 2',sans-serif;font-size:16px;}.goal-opt small{font-size:11px;font-weight:800;color:#6b6b85;}
+.goal-opt.on{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 3px 0 #b5891f;}
+.habit-h3{font-family:'Baloo 2',sans-serif;color:var(--navy);margin:16px 0 6px;font-size:19px;}
+.rem-row label{font-weight:800;color:var(--navy);display:flex;align-items:center;gap:10px;}
+.rem-row input{font:inherit;font-weight:800;font-size:17px;padding:6px 10px;border-radius:12px;border:2px solid var(--navy-light);color:var(--navy);background:#fff;}
+.rem-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.rem-note{font-size:12.5px;color:#6b6b85;font-weight:700;margin:10px 0 0;}
+body.adult .daily-card{box-shadow:0 3px 0 rgba(181,137,31,.5);}
+@media(max-width:560px){
+  .daily-card{flex-wrap:wrap;gap:10px;padding:12px;}
+  .dc-ring{order:0}.dc-main{flex:1 1 calc(100% - 80px);}
+  .dc-set{flex-basis:100%;text-align:center;}
+  .dc-week{gap:5px;}
+  .habit-stats{grid-template-columns:repeat(2,1fr);}
+  .goal-opts{grid-template-columns:repeat(3,1fr);}
+}
+.habit-panel{min-height:0!important;padding-bottom:20px;}
+
+/* ===== Rewards: wallet, energy, shop, outfits, themes, frames ===== */
+.rw-wallet{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:14px;color:var(--navy);background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:999px;padding:6px 12px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.25);white-space:nowrap;}
+.rw-wallet:hover{filter:brightness(1.06);}
+.rw-bar{display:flex;align-items:center;gap:8px;margin:8px 4px 0;}
+.rw-meter{position:relative;flex:1;height:22px;min-width:120px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;overflow:hidden;}
+.rw-meter i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#3ddc97,#b6f36a);border-radius:999px;transition:width .5s ease;}
+.rw-meter span{position:relative;display:block;text-align:center;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:13px;line-height:21px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55);}
+.rw-meter.big{height:28px;margin:8px 0 4px;background:#e6e7f2;border-color:#cfd2e6;}
+.rw-meter.big span{line-height:27px;font-size:14px;}
+.rw-chip{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:13px;color:var(--gold-light);background:rgba(5,10,48,.75);border:1.5px solid var(--gold);border-radius:999px;padding:3px 11px;cursor:pointer;white-space:nowrap;}
+.rw-chip:hover{background:var(--navy-light);}
+.hint-out{opacity:.18!important;filter:grayscale(1);pointer-events:none!important;transform:scale(.94);transition:opacity .3s,transform .3s;}
+.rw-reveal{outline:4px solid #3ddc97;outline-offset:3px;animation:none!important;}
+.rw-hintline{text-align:center;font-weight:700;color:#5a6086;margin:2px 0 8px;}
+/* out-of-energy window */
+.rw-modal{max-width:380px!important;}
+.rw-modal h3{font-family:'Baloo 2',sans-serif;font-size:24px;margin:4px 0 6px;color:var(--navy);}
+.rw-big{font-size:54px;line-height:1;}
+.rw-small{font-size:13px;color:#6b6f8e;font-weight:600;margin:4px 0;}
+.rw-actions{display:flex;flex-direction:column;gap:9px;margin-top:12px;}
+.rw-actions .btn[disabled]{opacity:.5;cursor:not-allowed;}
+/* coins at the end of a lesson */
+.rw-earn{display:flex;align-items:center;gap:12px;max-width:440px;margin:16px auto 4px;padding:10px 14px;border-radius:18px;background:linear-gradient(135deg,var(--gold-pale),#fff);border:2px solid var(--gold);text-align:left;animation:fxPop .6s cubic-bezier(.34,1.56,.64,1);}
+.rw-earn>span{font-size:34px;}.rw-earn div{flex:1;}.rw-earn b{display:block;font-family:'Baloo 2',sans-serif;font-size:21px;color:var(--navy);}
+.rw-earn small{font-size:12.5px;color:#6b6f8e;font-weight:600;}.rw-earn .btn{padding:9px 14px;font-size:14px;}
+/* shop */
+.rw-shop-hero{min-height:0!important;}
+.rw-hero-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.rw-hero-leo{flex:0 0 auto;}.rw-hero-txt{flex:1;min-width:220px;}
+.rw-balance{display:flex;align-items:baseline;gap:6px;font-family:'Baloo 2',sans-serif;color:var(--navy);}
+.rw-balance span{font-size:28px;}.rw-balance b{font-size:36px;line-height:1;}.rw-balance small{font-size:15px;font-weight:700;color:#6b6f8e;}
+.rw-profile{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.rw-how{margin-top:12px!important;}
+.rw-tester{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;}.rw-tester .btn{padding:6px 12px;font-size:13px;}
+.rw-tabs{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 6px;scrollbar-width:none;}
+.rw-tab{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:14px;color:#e8e9f5;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 14px;cursor:pointer;}
+.rw-tab.on{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+.rw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:8px;}
+.rw-item{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;background:var(--cream);border-radius:20px;padding:16px 14px 14px;border:3px solid transparent;box-shadow:0 8px 22px rgba(0,0,0,.25);}
+.rw-item.on{border-color:var(--gold);}
+.rw-item.own:not(.on){border-color:rgba(61,220,151,.6);}
+.rw-pic{width:74px;height:74px;border-radius:20px;background:linear-gradient(135deg,var(--navy2),var(--navy-light));display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 4px 0 rgba(0,0,0,.2);}
+.rw-pic.plain{background:none;box-shadow:none;}
+.rw-swatch{font-size:30px;}
+.rw-txt{flex:1;display:flex;flex-direction:column;gap:3px;}
+.rw-txt b{font-family:'Baloo 2',sans-serif;font-size:18px;color:var(--navy);line-height:1.15;}
+.rw-txt small{font-size:12.5px;color:#6b6f8e;font-weight:600;}
+.rw-have{font-size:12.5px;color:var(--navy);font-weight:700;}
+.rw-item .btn{width:100%;padding:9px 12px;font-size:15px;}
+.rw-item .btn[data-short]{opacity:.6;}
+.rw-season{position:absolute;top:10px;right:10px;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:#d4efff;color:#173a5e;border-radius:999px;padding:2px 8px;}
+/* phone / tablet: wallet strip on top of the course pages (the side menu shows it on PC) */
+.rw-mob{display:flex;align-items:center;gap:12px;margin:0 0 12px;padding:7px 14px 7px 8px;border-radius:999px;background:rgba(5,10,48,.7);border:1.5px solid var(--gold);color:var(--gold-light);text-decoration:none;font-family:'Baloo 2',sans-serif;font-size:15px;}
+.rw-mob .rw-go{margin-left:auto;font-weight:800;color:var(--navy);background:var(--gold);border-radius:999px;padding:2px 12px;}
+@media (min-width:1024px){.rw-mob{display:none;}}
+/* side menu profile + progress page avatar */
+.sn-profile{display:flex;align-items:center;gap:10px;padding:2px 8px 12px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.12);}
+.sn-profile b{display:block;font-family:'Baloo 2',sans-serif;color:var(--gold-light);font-size:17px;line-height:1.1;}
+.sn-profile small{color:#cfd2ee;font-weight:700;font-size:12px;}
+.rw-prog-ava{float:right;margin:-4px 0 6px 10px;}
+/* avatar + frames */
+.rw-ava{--s:64px;position:relative;display:inline-block;width:var(--s);height:var(--s);flex:0 0 auto;border-radius:50%;padding:3px;background:rgba(255,255,255,.25);}
+.rw-ava img{width:100%;height:100%;border-radius:50%;display:block;object-fit:cover;background:var(--navy);}
+.rw-ava em{position:absolute;right:-6px;bottom:-4px;font-style:normal;font-size:calc(var(--s)*.38);line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
+.rw-ava.fr-gold{padding:4px;background:linear-gradient(135deg,#b5891f,#ffd873,#ecb83a,#fff3d6,#b5891f);}
+.rw-ava.fr-leaf{padding:4px;background:repeating-conic-gradient(#2e8b57 0 18deg,#7ed957 18deg 36deg);}
+.rw-ava.fr-rainbow{padding:4px;background:conic-gradient(#ff5e5e,#ffb84d,#ffe74d,#5ee07a,#4dc3ff,#8a6bff,#ff5ec4,#ff5e5e);animation:rwSpin 6s linear infinite;}
+.rw-ava.fr-rainbow img{animation:rwSpin 6s linear infinite reverse;}
+.rw-ava.fr-star{padding:4px;background:radial-gradient(circle at 20% 20%,#fff 0 6%,transparent 7%),radial-gradient(circle at 80% 30%,#fff 0 5%,transparent 6%),radial-gradient(circle at 60% 85%,#fff 0 5%,transparent 6%),linear-gradient(135deg,#1c2670,#6a4bd8,#ecb83a);}
+.rw-ava.fr-fire{padding:4px;background:conic-gradient(#ff3d00,#ff9100,#ffd600,#ff9100,#ff3d00);box-shadow:0 0 14px rgba(255,120,0,.75);}
+.rw-ava.fr-ice{padding:4px;background:linear-gradient(135deg,#e0f7ff,#7fd3ff,#ffffff,#9fd8ff);box-shadow:0 0 14px rgba(127,211,255,.8);}
+@keyframes rwSpin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){.rw-ava,.rw-ava img{animation:none!important;}}
+/* Leo's outfit */
+.leo-rig{container-type:inline-size;}
+.leo-wear{position:absolute;transform:translate(-50%,-50%);line-height:1;pointer-events:none;z-index:3;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));white-space:nowrap;}
+.leo-wear.wear-head{transform:translate(-50%,-50%) rotate(-6deg);}
+.leo-wear.o_flowers{letter-spacing:-.15em;}
+/* app themes */
+body.theme-forest{--navy:#0b2a1c;--navy2:#12402a;--navy-light:#1f5c3d;--gold:#e3b341;--gold-light:#f5d77a;--gold-pale:#fbf3d9;--cream:#f8faf3;}
+body.theme-ocean{--navy:#052a3a;--navy2:#0a3f57;--navy-light:#146080;--gold:#ff9f6b;--gold-light:#ffc49f;--gold-pale:#fff0e6;--cream:#f6fbfc;}
+body.theme-sunset{--navy:#2a0b3a;--navy2:#42125a;--navy-light:#63207f;--gold:#ff8a3d;--gold-light:#ffb878;--gold-pale:#fff0e2;--cream:#fdf8f4;}
+body.theme-berry{--navy:#330a26;--navy2:#4d103a;--navy-light:#6e1d55;--gold:#f2b84b;--gold-light:#ffd98a;--gold-pale:#fff3dc;--cream:#fcf8f9;}
+body.theme-snow{--navy:#0e2741;--navy2:#173a5e;--navy-light:#26527f;--gold:#9fd8ff;--gold-light:#d4efff;--gold-pale:#eef8ff;--cream:#f7fbff;}
+body[class*="theme-"]{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 45%,var(--navy-light) 100%);}
+body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-mix(in srgb,var(--navy) 92%,transparent);}
+@media (max-width:600px){
+  .rw-wallet{padding:5px 9px;font-size:13px;}
+  .rw-grid{grid-template-columns:1fr 1fr;gap:9px;}
+  .rw-item{padding:12px 9px 10px;border-radius:16px;}
+  .rw-pic{width:58px;height:58px;font-size:32px;border-radius:16px;}
+  .rw-txt b{font-size:15.5px;}
+  .rw-item .btn{font-size:13.5px;padding:8px 6px;}
+  .rw-meter{min-width:0;}
+}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -1738,37 +1885,37 @@ let FORTUNE_ITEMS=[];
 
 /* ---------- vocabulary ---------- */
 const U1A=[
- {en:"wake up",pl:"budzić się",emoji:"⏰"},{en:"turn off the alarm",pl:"wyłączyć budzik",emoji:"🔕"},
- {en:"get up",pl:"wstawać",emoji:"🛏️"},{en:"open the curtains",pl:"odsłonić zasłony",emoji:"🪟"},
- {en:"make my bed",pl:"ścielić łóżko",emoji:"🛌"},{en:"have a shower",pl:"brać prysznic",emoji:"🚿"},
- {en:"wash my face",pl:"myć twarz",emoji:"🧼"},{en:"brush my teeth",pl:"myć zęby",emoji:"🪥"},
- {en:"brush my hair",pl:"czesać włosy",emoji:"💇"},{en:"get dressed",pl:"ubierać się",emoji:"👕"},
+ {en:"wake up",pl:"budzić się",emoji:"🥱⏰"},{en:"turn off the alarm",pl:"wyłączyć budzik",emoji:"🔕"},
+ {en:"get up",pl:"wstawać",emoji:"🛏️🧍"},{en:"open the curtains",pl:"odsłonić zasłony",emoji:"🪟☀️"},
+ {en:"make my bed",pl:"ścielić łóżko",emoji:"🛏️✨"},{en:"have a shower",pl:"brać prysznic",emoji:"🚿"},
+ {en:"wash my face",pl:"myć twarz",emoji:"🧼😊"},{en:"brush my teeth",pl:"myć zęby",emoji:"🪥"},
+ {en:"brush my hair",pl:"czesać włosy",emoji:"💇"},{en:"get dressed",pl:"ubierać się",emoji:"👕👖"},
 ];
 const U1B=[
  {en:"have breakfast",pl:"jeść śniadanie",emoji:"🥣"},{en:"drink juice",pl:"pić sok",emoji:"🧃"},
- {en:"pack my bag",pl:"pakować plecak",emoji:"🎒"},{en:"put on my shoes",pl:"zakładać buty",emoji:"👟"},
- {en:"put on my coat",pl:"zakładać kurtkę",emoji:"🧥"},{en:"leave home",pl:"wychodzić z domu",emoji:"🚪"},
- {en:"walk to school",pl:"iść pieszo do szkoły",emoji:"🚶"},{en:"catch the bus",pl:"złapać autobus",emoji:"🚌"},
- {en:"go to school",pl:"iść do szkoły",emoji:"🏫"},{en:"be late",pl:"spóźnić się",emoji:"⏳"},
+ {en:"pack my bag",pl:"pakować plecak",emoji:"📚🎒"},{en:"put on my shoes",pl:"zakładać buty",emoji:"👟"},
+ {en:"put on my coat",pl:"zakładać kurtkę",emoji:"🧥"},{en:"leave home",pl:"wychodzić z domu",emoji:"🚪🚶"},
+ {en:"walk to school",pl:"iść pieszo do szkoły",emoji:"🚶🏫"},{en:"catch the bus",pl:"złapać autobus",emoji:"🏃🚌"},
+ {en:"go to school",pl:"iść do szkoły",emoji:"🎒🏫"},{en:"be late",pl:"spóźnić się",emoji:"😰⏰"},
 ];
 const TIMES=[
  {en:"seven o'clock",pl:"siódma (pełna godzina)",emoji:"🕖"},{en:"half past seven",pl:"wpół do ósmej (7:30)",emoji:"🕢"},
  {en:"quarter past eight",pl:"kwadrans po ósmej (8:15)",emoji:"🕗"},{en:"quarter to nine",pl:"za kwadrans dziewiąta (8:45)",emoji:"🕘"},
- {en:"in the morning",pl:"rano",emoji:"🌅"},{en:"early",pl:"wcześnie",emoji:"🐓"},
+ {en:"in the morning",pl:"rano",emoji:"🌅"},{en:"early",pl:"wcześnie",emoji:"🐓🌅"},
 ];
 const U2A=[
- {en:"come home",pl:"wracać do domu",emoji:"🏠"},{en:"have lunch",pl:"jeść lunch",emoji:"🥪"},
- {en:"do homework",pl:"odrabiać lekcje",emoji:"📚"},{en:"play football",pl:"grać w piłkę nożną",emoji:"⚽"},
+ {en:"come home",pl:"wracać do domu",emoji:"🚶🏠"},{en:"have lunch",pl:"jeść lunch",emoji:"🥪"},
+ {en:"do homework",pl:"odrabiać lekcje",emoji:"✏️📓"},{en:"play football",pl:"grać w piłkę nożną",emoji:"⚽"},
  {en:"play computer games",pl:"grać w gry komputerowe",emoji:"🎮"},{en:"watch TV",pl:"oglądać telewizję",emoji:"📺"},
  {en:"ride my bike",pl:"jeździć na rowerze",emoji:"🚲"},{en:"go swimming",pl:"chodzić na basen",emoji:"🏊"},
- {en:"practise the piano",pl:"ćwiczyć na pianinie",emoji:"🎹"},{en:"walk the dog",pl:"wyprowadzać psa",emoji:"🐕"},
+ {en:"practise the piano",pl:"ćwiczyć na pianinie",emoji:"🎹"},{en:"walk the dog",pl:"wyprowadzać psa",emoji:"🚶🐕"},
 ];
 const U2B=[
- {en:"meet friends",pl:"spotykać się z przyjaciółmi",emoji:"👫"},{en:"help my mum",pl:"pomagać mamie",emoji:"🤝"},
+ {en:"meet friends",pl:"spotykać się z przyjaciółmi",emoji:"👋👫"},{en:"help my mum",pl:"pomagać mamie",emoji:"🤝👩"},
  {en:"cook dinner",pl:"gotować obiad/kolację",emoji:"🍳"},{en:"have dinner",pl:"jeść kolację",emoji:"🍝"},
- {en:"wash the dishes",pl:"zmywać naczynia",emoji:"🍽️"},{en:"take a bath",pl:"brać kąpiel",emoji:"🛁"},
- {en:"put on my pyjamas",pl:"zakładać piżamę",emoji:"👘"},{en:"listen to music",pl:"słuchać muzyki",emoji:"🎧"},
- {en:"read a book",pl:"czytać książkę",emoji:"📖"},{en:"go to bed",pl:"iść spać",emoji:"🌙"},
+ {en:"wash the dishes",pl:"zmywać naczynia",emoji:"🧽🍽️"},{en:"take a bath",pl:"brać kąpiel",emoji:"🛁"},
+ {en:"put on my pyjamas",pl:"zakładać piżamę",emoji:"😴👕"},{en:"listen to music",pl:"słuchać muzyki",emoji:"🎧"},
+ {en:"read a book",pl:"czytać książkę",emoji:"📖"},{en:"go to bed",pl:"iść spać",emoji:"🛌🌙"},
 ];
 const U3W=[
  {en:"always",pl:"zawsze (100%)",emoji:"💯"},{en:"usually",pl:"zwykle (80%)",emoji:"👍"},
@@ -1843,7 +1990,7 @@ const COURSE={
     {q:"🕣 8:30",opts:["half past eight","half past nine","eight o'clock"],correct:0},
    ]},
    {type:"fill",label:"Fill it",tag:"PRESENT SIMPLE",items:[
-    {before:"I",blank:"get up",after:"at seven o'clock.",bank:["get up","gets up","getting up"],emoji:"🛏️"},
+    {before:"I",blank:"get up",after:"at seven o'clock.",bank:["get up","gets up","🛏️🧍"],emoji:"🛏️"},
     {before:"We have breakfast",blank:"at",after:"eight.",bank:["at","in","on"],emoji:"🥣"},
     {before:"They",blank:"go",after:"to school by bus.",bank:["go","goes","going"],emoji:"🚌"},
     {before:"I have a shower",blank:"in",after:"the morning.",bank:["in","at","on"],emoji:"🚿"},
@@ -1896,13 +2043,13 @@ const COURSE={
    ]},
    {type:"quiz",label:"Big quiz",tag:"MORNING QUIZ",qs:[
     {q:"'brush my teeth' =",opts:["myć zęby","brać prysznic","ubierać się"],correct:0},
-    {q:"'ścielić łóżko' =",opts:["make my bed","do my bed","go to bed"],correct:0},
+    {q:"'ścielić łóżko' =",opts:["make my bed","do my bed","🛏️✨"],correct:0},
     {q:"What does Leo eat for breakfast?",opts:["Toast and a banana","Cereal","Nothing"],correct:0},
     {q:"I ___ dressed at seven.",opts:["get","gets","getting"],correct:0},
     {q:"We go to school ___ bus.",opts:["by","on","at"],correct:0},
     {q:"8:45 =",opts:["quarter to nine","quarter past nine","quarter past eight"],correct:0},
     {q:"Which one do you put on your feet?",opts:["shoes","coat","pyjamas"],correct:0},
-    {q:"'spóźnić się' =",opts:["be late","be early","be ready"],correct:0},
+    {q:"'spóźnić się' =",opts:["be late","be early","😰⏰"],correct:0},
    ]},
    {type:"wordle",label:"Wordle",words:[{word:"shower",emoji:"🚿"},{word:"teeth",emoji:"🪥"},{word:"school",emoji:"🏫"},{word:"juice",emoji:"🧃"},{word:"shoes",emoji:"👟"},{word:"alarm",emoji:"🔕"}]},
    {type:"wheel",label:"Fortune Wheel",items:U1A.concat(U1B)},
@@ -2019,7 +2166,7 @@ const COURSE={
     {q:"She ___ TV after dinner.",opts:["watches","watchs","watch"],correct:0},
     {q:"When does Mia go to sleep?",opts:["At nine","At ten","At five"],correct:0},
     {q:"Who washes the dishes?",opts:["Mia","Mum","Grandad"],correct:0},
-    {q:"'wyprowadzać psa' =",opts:["walk the dog","run the dog","go the dog"],correct:0},
+    {q:"'wyprowadzać psa' =",opts:["walk the dog","run the dog","🚶🐕"],correct:0},
    ]},
    {type:"errors",label:"Find the error",items:[
     {s:"Mia come home at three.",wrong:1,ok:"Mia comes home at three."},
@@ -2187,7 +2334,7 @@ const COURSE={
  const extra={
   u1l1:{wordle:W([["wake","⏰"],["alarm","🔕"],["shower","🚿"],["teeth","🪥"],["hair","💇"],["face","🧼"]]),wheel:U1A},
   u1l2:{wordle:W([["juice","🧃"],["shoes","👟"],["coat","🧥"],["school","🏫"],["late","⏳"],["walk","🚶"]]),wheel:U1B},
-  u1l3:{wordle:W([["seven","🕖"],["eight","🕗"],["early","🐓"],["half","🕢"],["past","⏩"]]),wheel:U1A.concat(U1B)},
+  u1l3:{wordle:W([["seven","🕖"],["eight","🕗"],["early","🐓🌅"],["half","🕢"],["past","⏩"]]),wheel:U1A.concat(U1B)},
   u1l4:{},
   u2l1:{wordle:W([["lunch","🥪"],["piano","🎹"],["games","🎮"],["bike","🚲"],["home","🏠"],["dog","🐕"]]),wheel:U2A},
   u2l2:{wordle:W([["dinner","🍝"],["dishes","🍽️"],["bath","🛁"],["music","🎧"],["book","📖"]])},
@@ -2208,17 +2355,17 @@ const COURSE={
 /* ---------- Unit tests (final quiz at the end of each unit) ---------- */
 COURSE.units[0].lessons.push({id:"u1test",test:true,title:"My Morning — Unit Test",emoji:"📝",intro:"The final test for Unit 1: vocabulary, grammar, mistakes and translation. Get 3 coins to become an Early Bird!",bonus:U1A.concat(U1B),zones:[
  {type:"quiz",label:"Vocabulary test",tag:"UNIT 1 TEST · VOCABULARY",done:"Vocabulary test done! 📝",qs:[
-  {q:"'budzić się' =",opts:["wake up","get up","make up"],correct:0},
+  {q:"'budzić się' =",opts:["wake up","get up","🥱⏰"],correct:0},
   {q:"'wyłączyć budzik' =",opts:["turn off the alarm","open the alarm","close the alarm"],correct:0},
-  {q:"'ścielić łóżko' =",opts:["make my bed","do my bed","go to bed"],correct:0},
+  {q:"'ścielić łóżko' =",opts:["make my bed","do my bed","🛏️✨"],correct:0},
   {q:"'czesać włosy' =",opts:["brush my hair","wash my hair","brush my teeth"],correct:0},
-  {q:"🧼 =",opts:["wash my face","have a shower","brush my teeth"],correct:0},
-  {q:"🪟 =",opts:["open the curtains","open the door","get dressed"],correct:0},
-  {q:"'pakować plecak' =",opts:["pack my bag","put my bag","catch my bag"],correct:0},
+  {q:"🧼 =",opts:["wash my face","have a shower","🧼😊"],correct:0},
+  {q:"🪟 =",opts:["open the curtains","open the door","🪟☀️"],correct:0},
+  {q:"'pakować plecak' =",opts:["pack my bag","put my bag","📚🎒"],correct:0},
   {q:"🧥 =",opts:["put on my coat","put on my shoes","get dressed"],correct:0},
-  {q:"'wychodzić z domu' =",opts:["leave home","go home","come home"],correct:0},
-  {q:"'spóźnić się' =",opts:["be late","be early","be ready"],correct:0},
-  {q:"🚶🏫 =",opts:["walk to school","catch the bus","go home"],correct:0},
+  {q:"'wychodzić z domu' =",opts:["leave home","go home","🚪🚶"],correct:0},
+  {q:"'spóźnić się' =",opts:["be late","be early","😰⏰"],correct:0},
+  {q:"🚶🏫 =",opts:["walk to school","catch the bus","🚶🏫"],correct:0},
   {q:"🧃 =",opts:["drink juice","have breakfast","drink milk"],correct:0},
  ]},
  {type:"quiz",label:"Grammar test",tag:"UNIT 1 TEST · GRAMMAR",done:"Grammar test done! 📝",qs:[
@@ -2247,17 +2394,17 @@ COURSE.units[0].lessons.push({id:"u1test",test:true,title:"My Morning — Unit T
 ]});
 COURSE.units[1].lessons.push({id:"u2test",test:true,title:"After School — Unit Test",emoji:"📝",intro:"The final test for Unit 2: afternoon & evening words, he/she/it, mistakes and translation. Get 3 coins to become a Busy Bee!",bonus:U2A.concat(U2B),zones:[
  {type:"quiz",label:"Vocabulary test",tag:"UNIT 2 TEST · VOCABULARY",done:"Vocabulary test done! 📝",qs:[
-  {q:"'odrabiać lekcje' =",opts:["do homework","make homework","play homework"],correct:0},
-  {q:"'wyprowadzać psa' =",opts:["walk the dog","run the dog","take the dog"],correct:0},
+  {q:"'odrabiać lekcje' =",opts:["do homework","make homework","✏️📓"],correct:0},
+  {q:"'wyprowadzać psa' =",opts:["walk the dog","run the dog","🚶🐕"],correct:0},
   {q:"🎹 =",opts:["practise the piano","listen to music","play football"],correct:0},
   {q:"🚲 =",opts:["ride my bike","drive my bike","go my bike"],correct:0},
   {q:"'chodzić na basen' =",opts:["go swimming","go swim","do swimming"],correct:0},
-  {q:"'zmywać naczynia' =",opts:["wash the dishes","cook the dishes","clean the dinner"],correct:0},
+  {q:"'zmywać naczynia' =",opts:["wash the dishes","cook the dishes","🧽🍽️"],correct:0},
   {q:"🛁 =",opts:["take a bath","have a shower","wash my face"],correct:0},
-  {q:"'pomagać mamie' =",opts:["help my mum","meet my mum","call my mum"],correct:0},
+  {q:"'pomagać mamie' =",opts:["help my mum","meet my mum","🤝👩"],correct:0},
   {q:"🎧 =",opts:["listen to music","watch TV","read a book"],correct:0},
-  {q:"👘🌙 =",opts:["put on my pyjamas","get dressed","put on my coat"],correct:0},
-  {q:"'wracać do domu' =",opts:["come home","leave home","go out"],correct:0},
+  {q:"👘🌙 =",opts:["put on my pyjamas","get dressed","😴👕"],correct:0},
+  {q:"'wracać do domu' =",opts:["come home","leave home","🚶🏠"],correct:0},
   {q:"🍳 =",opts:["cook dinner","have dinner","wash the dishes"],correct:0},
  ]},
  {type:"quiz",label:"Grammar test",tag:"UNIT 2 TEST · GRAMMAR",done:"Grammar test done! 📝",qs:[
@@ -2458,43 +2605,43 @@ COURSE.units.push({id:"a0",level:"A0",topic:"Hello!",title:"Hello!",emoji:"👋"
 /* ================= B1 · INTERMEDIATE — Jobs & Work ================= */
 const B1J=[
  {en:"nurse",pl:"pielęgniarka / pielęgniarz",emoji:"🧑‍⚕️"},{en:"engineer",pl:"inżynier",emoji:"👷"},
- {en:"lawyer",pl:"prawnik",emoji:"⚖️"},{en:"accountant",pl:"księgowy",emoji:"🧮"},
+ {en:"lawyer",pl:"prawnik",emoji:"🧑‍💼⚖️"},{en:"accountant",pl:"księgowy",emoji:"🧮"},
  {en:"plumber",pl:"hydraulik",emoji:"🔧"},{en:"journalist",pl:"dziennikarz",emoji:"📰"},
  {en:"pilot",pl:"pilot",emoji:"🧑‍✈️"},{en:"chef",pl:"szef kuchni",emoji:"🧑‍🍳"},
- {en:"vet",pl:"weterynarz",emoji:"🐾"},{en:"software developer",pl:"programista",emoji:"💻"},
- {en:"hairdresser",pl:"fryzjer",emoji:"💇"},{en:"firefighter",pl:"strażak",emoji:"🧑‍🚒"},
+ {en:"vet",pl:"weterynarz",emoji:"🧑‍⚕️🐕"},{en:"software developer",pl:"programista",emoji:"🧑‍💻"},
+ {en:"hairdresser",pl:"fryzjer",emoji:"💇✂️"},{en:"firefighter",pl:"strażak",emoji:"🧑‍🚒"},
 ];
 const B1W=[
- {en:"apply for a job",pl:"ubiegać się o pracę",emoji:"📨"},{en:"CV",pl:"CV, życiorys",emoji:"📄"},
- {en:"job interview",pl:"rozmowa kwalifikacyjna",emoji:"🤝"},{en:"salary",pl:"pensja",emoji:"💰"},
+ {en:"apply for a job",pl:"ubiegać się o pracę",emoji:"📄💼"},{en:"CV",pl:"CV, życiorys",emoji:"📄"},
+ {en:"job interview",pl:"rozmowa kwalifikacyjna",emoji:"💼🤝"},{en:"salary",pl:"pensja",emoji:"💰"},
  {en:"full-time",pl:"na pełen etat",emoji:"🕘"},{en:"part-time",pl:"na część etatu",emoji:"⏱️"},
- {en:"work overtime",pl:"pracować po godzinach",emoji:"🌃"},{en:"get promoted",pl:"dostać awans",emoji:"📈"},
+ {en:"work overtime",pl:"pracować po godzinach",emoji:"💼🌃"},{en:"get promoted",pl:"dostać awans",emoji:"📈💼"},
  {en:"colleague",pl:"współpracownik",emoji:"👥"},{en:"boss",pl:"szef",emoji:"🧑‍💼"},
- {en:"deadline",pl:"termin (ostateczny)",emoji:"⏰"},{en:"quit",pl:"rzucić (pracę)",emoji:"🚪"},
+ {en:"deadline",pl:"termin (ostateczny)",emoji:"⏰📄"},{en:"quit",pl:"rzucić (pracę)",emoji:"🚪💼"},
 ];
 COURSE.units.push({id:"b1",level:"B1",topic:"Jobs & Work",title:"Jobs & Work",emoji:"💼",badge:"Career Pro",sub:"Jobs, applying for work, Present Perfect and a job interview.",lessons:[
  {id:"b1l1",title:"What do you do?",emoji:"🧑‍🔧",intro:"Twelve jobs — and how to describe what people do at work.",bonus:B1J,zones:[
   {type:"cards",label:"Jobs",title:"Jobs",cards:B1J},
   {type:"find",label:"Find it",cards:B1J,rounds:10,title:"Which job is it? 🔎"},
   {type:"quiz",label:"Who am I?",tag:"WHO AM I?",qs:[
-   {q:"I look after sick animals.",opts:["vet","nurse","chef"],correct:0},
+   {q:"I look after sick animals.",opts:["vet","nurse","🧑‍⚕️🐕"],correct:0},
    {q:"I fix pipes and taps.",opts:["plumber","engineer","pilot"],correct:0},
    {q:"I write articles for a newspaper.",opts:["journalist","lawyer","accountant"],correct:0},
-   {q:"I help people in court.",opts:["lawyer","firefighter","hairdresser"],correct:0},
-   {q:"I write code and build apps.",opts:["software developer","accountant","journalist"],correct:0},
-   {q:"I cut and style hair.",opts:["hairdresser","chef","nurse"],correct:0},
+   {q:"I help people in court.",opts:["lawyer","firefighter","🧑‍💼⚖️"],correct:0},
+   {q:"I write code and build apps.",opts:["software developer","accountant","🧑‍💻"],correct:0},
+   {q:"I cut and style hair.",opts:["hairdresser","chef","💇✂️"],correct:0},
    {q:"I look after a company's money.",opts:["accountant","pilot","plumber"],correct:0},
    {q:"I fly planes.",opts:["pilot","engineer","vet"],correct:0},
   ]},
   {type:"match",label:"Match",pairs:B1J.slice(0,10)},
-  {type:"spell",label:"Spell it",words:WL([["nurse","🧑‍⚕️"],["lawyer","⚖️"],["plumber","🔧"],["pilot","🧑‍✈️"],["chef","🧑‍🍳"],["engineer","👷"],["journalist","📰"]])},
+  {type:"spell",label:"Spell it",words:WL([["nurse","🧑‍⚕️"],["lawyer","🧑‍💼⚖️"],["plumber","🔧"],["pilot","🧑‍✈️"],["chef","🧑‍🍳"],["engineer","👷"],["journalist","📰"]])},
   {type:"odd",label:"Odd one out",items:[
    {opts:["nurse","vet","doctor","plumber"],odd:3,why:"A plumber doesn't work in health care."},
    {opts:["chef","waiter","pilot","cook"],odd:2,why:"A pilot doesn't work in a restaurant."},
    {opts:["lawyer","judge","accountant","firefighter"],odd:3,why:"A firefighter isn't an office or court job."},
    {opts:["salary","boss","colleague","hairdresser"],odd:3,why:"A hairdresser is a job; the others are workplace words."},
   ]},
-  {type:"wordle",label:"Wordle",words:WL([["nurse","🧑‍⚕️"],["pilot","🧑‍✈️"],["lawyer","⚖️"],["plumber","🔧"]])},
+  {type:"wordle",label:"Wordle",words:WL([["nurse","🧑‍⚕️"],["pilot","🧑‍✈️"],["lawyer","🧑‍💼⚖️"],["plumber","🔧"]])},
   {type:"wheel",label:"Fortune Wheel",items:B1J},
  ]},
  {id:"b1l2",title:"Getting a job",emoji:"📨",intro:"CVs, interviews, salary, overtime, promotion — the language of work.",bonus:B1W,zones:[
@@ -2505,10 +2652,10 @@ COURSE.units.push({id:"b1",level:"B1",topic:"Jobs & Work",title:"Jobs & Work",em
    {before:"Please send us your",blank:"CV",after:"by Friday.",bank:["CV","salary","boss"],emoji:"📄"},
    {before:"She works",blank:"part-time",after:"— only mornings.",bank:["part-time","overtime","full-time"],emoji:"⏱️"},
    {before:"He often works",blank:"overtime",after:"to finish projects.",bank:["overtime","part-time","deadline"],emoji:"🌃"},
-   {before:"The",blank:"deadline",after:"for the report is Monday.",bank:["deadline","salary","colleague"],emoji:"⏰"},
+   {before:"The",blank:"deadline",after:"for the report is Monday.",bank:["deadline","salary","⏰📄"],emoji:"⏰"},
    {before:"After two years she got",blank:"promoted",after:".",bank:["promoted","applied","quit"],emoji:"📈"},
    {before:"My",blank:"colleagues",after:"are really friendly.",bank:["colleagues","bosses","salaries"],emoji:"👥"},
-   {before:"He decided to",blank:"quit",after:"his job and travel.",bank:["quit","apply","promote"],emoji:"🚪"},
+   {before:"He decided to",blank:"quit",after:"his job and travel.",bank:["quit","apply","🚪💼"],emoji:"🚪"},
   ]},
   {type:"match",label:"Match",pairs:B1W.slice(0,10)},
   {type:"tf",label:"True or false?",title:"True or False?",sub:"Read the job advert: 'Café Luna is looking for a part-time waiter (20 hours a week). Experience is useful but not necessary. Salary: £11 an hour. Send your CV to jobs@cafeluna.com by 15 May.'",tag:"JOB ADVERT",items:[
@@ -2517,7 +2664,7 @@ COURSE.units.push({id:"b1",level:"B1",topic:"Jobs & Work",title:"Jobs & Work",em
    {text:"The salary is £11 an hour.",answer:0},{text:"The deadline is 15 June.",answer:1},
   ]},
   {type:"memory",label:"Memory",pairs:memOf(B1W.slice(0,8))},
-  {type:"wordle",label:"Wordle",words:WL([["salary","💰"],["boss","🧑‍💼"],["quit","🚪"],["deadline","⏰"]])},
+  {type:"wordle",label:"Wordle",words:WL([["salary","💰"],["boss","🧑‍💼"],["quit","🚪💼"],["deadline","⏰📄"]])},
   {type:"wheel",label:"Fortune Wheel",items:B1W},
  ]},
  {id:"b1l3",title:"Have you ever…?",emoji:"✈️",intro:"Present Perfect for experience — and how it's different from the Past Simple.",bonus:B1J.concat(B1W),zones:[
@@ -2596,10 +2743,10 @@ COURSE.units.push({id:"b1",level:"B1",topic:"Jobs & Work",title:"Jobs & Work",em
  {id:"b1test",test:true,title:"B1 Unit Test",emoji:"📝",intro:"The final test for Jobs & Work: vocabulary, Present Perfect vs Past Simple, mistakes and translation.",bonus:B1J.concat(B1W),zones:[
   {type:"quiz",label:"Vocabulary test",tag:"B1 TEST · VOCABULARY",done:"Vocabulary test done! 📝",qs:[
    {q:"'księgowy' =",opts:["accountant","lawyer","engineer"],correct:0},{q:"'pensja' =",opts:["salary","deadline","CV"],correct:0},
-   {q:"'dostać awans' =",opts:["get promoted","get fired","get applied"],correct:0},{q:"'współpracownik' =",opts:["colleague","boss","client"],correct:0},
-   {q:"Someone who fixes taps:",opts:["plumber","pilot","vet"],correct:0},{q:"'pracować po godzinach' =",opts:["work overtime","work part-time","work over"],correct:0},
+   {q:"'dostać awans' =",opts:["get promoted","get fired","📈💼"],correct:0},{q:"'współpracownik' =",opts:["colleague","boss","client"],correct:0},
+   {q:"Someone who fixes taps:",opts:["plumber","pilot","vet"],correct:0},{q:"'pracować po godzinach' =",opts:["work overtime","work part-time","💼🌃"],correct:0},
    {q:"You ___ for a job.",opts:["apply","ask","make"],correct:0},{q:"'rzucić pracę' =",opts:["quit your job","throw your job","leave off"],correct:0},
-   {q:"20 hours a week =",opts:["part-time","full-time","overtime"],correct:0},{q:"'termin' (work) =",opts:["deadline","dateline","timeline"],correct:0},
+   {q:"20 hours a week =",opts:["part-time","full-time","overtime"],correct:0},{q:"'termin' (work) =",opts:["deadline","dateline","⏰📄"],correct:0},
   ]},
   {type:"quiz",label:"Grammar test",tag:"B1 TEST · GRAMMAR",done:"Grammar test done! 📝",qs:[
    {q:"I ___ in London in 2021.",opts:["worked","have worked","work"],correct:0},
@@ -2628,18 +2775,18 @@ COURSE.units.push({id:"b1",level:"B1",topic:"Jobs & Work",title:"Jobs & Work",em
 
 /* ================= B2 · UPPER-INTERMEDIATE — Technology & Media ================= */
 const B2M=[
- {en:"go viral",pl:"stać się viralem",emoji:"🚀"},{en:"fake news",pl:"fałszywe wiadomości",emoji:"🤥"},
+ {en:"go viral",pl:"stać się viralem",emoji:"📱🚀"},{en:"fake news",pl:"fałszywe wiadomości",emoji:"📰❌"},
  {en:"clickbait",pl:"clickbait, przynęta na kliknięcia",emoji:"🎣"},{en:"influencer",pl:"influencer",emoji:"🤳"},
- {en:"follower",pl:"obserwujący",emoji:"👣"},{en:"headline",pl:"nagłówek",emoji:"📰"},
+ {en:"follower",pl:"obserwujący",emoji:"📱👥"},{en:"headline",pl:"nagłówek",emoji:"📰"},
  {en:"source",pl:"źródło",emoji:"🔍"},{en:"biased",pl:"stronniczy",emoji:"⚖️"},
  {en:"reliable",pl:"wiarygodny",emoji:"✅"},{en:"subscribe",pl:"subskrybować",emoji:"🔔"},
- {en:"stream",pl:"transmitować na żywo / streamować",emoji:"📡"},{en:"algorithm",pl:"algorytm",emoji:"🧠"},
+ {en:"stream",pl:"transmitować na żywo / streamować",emoji:"🎥📡"},{en:"algorithm",pl:"algorytm",emoji:"🧠"},
 ];
 const B2T=[
- {en:"screen time",pl:"czas przed ekranem",emoji:"📱"},{en:"data privacy",pl:"prywatność danych",emoji:"🔒"},
- {en:"cyberbullying",pl:"cyberprzemoc",emoji:"😢"},{en:"artificial intelligence",pl:"sztuczna inteligencja",emoji:"🤖"},
- {en:"addicted to",pl:"uzależniony od",emoji:"📲"},{en:"keep up with",pl:"nadążać za",emoji:"🏃"},
- {en:"log in",pl:"zalogować się",emoji:"🔑"},{en:"back up",pl:"zrobić kopię zapasową",emoji:"💾"},
+ {en:"screen time",pl:"czas przed ekranem",emoji:"📱⏰"},{en:"data privacy",pl:"prywatność danych",emoji:"🔒"},
+ {en:"cyberbullying",pl:"cyberprzemoc",emoji:"😢📱"},{en:"artificial intelligence",pl:"sztuczna inteligencja",emoji:"🤖"},
+ {en:"addicted to",pl:"uzależniony od",emoji:"📲"},{en:"keep up with",pl:"nadążać za",emoji:"🏃📱"},
+ {en:"log in",pl:"zalogować się",emoji:"🔑💻"},{en:"back up",pl:"zrobić kopię zapasową",emoji:"💾"},
  {en:"update",pl:"aktualizować",emoji:"🔄"},{en:"device",pl:"urządzenie",emoji:"⌚"},
 ];
 COURSE.units.push({id:"b2",level:"B2",topic:"Technology & Media",title:"Technology & Media",emoji:"📡",badge:"Media Expert",sub:"News, social media, the passive voice and reported speech.",lessons:[
@@ -2671,7 +2818,7 @@ COURSE.units.push({id:"b2",level:"B2",topic:"Technology & Media",title:"Technolo
    {opts:["stream","post","share","newspaper"],odd:3,why:"'Newspaper' is a noun for print media; the others are online actions."},
    {opts:["fake news","clickbait","rumour","fact"],odd:3,why:"A fact is true; the others can be misleading."},
   ]},
-  {type:"wordle",label:"Wordle",words:WL([["viral","🚀"],["source","🔍"],["biased","⚖️"],["stream","📡"]])},
+  {type:"wordle",label:"Wordle",words:WL([["viral","🚀"],["source","🔍"],["biased","⚖️"],["stream","🎥📡"]])},
   {type:"wheel",label:"Fortune Wheel",items:B2M},
  ]},
  {id:"b2l2",title:"Life online",emoji:"🌐",intro:"Screen time, privacy, AI, cyberbullying — and phrasal verbs for technology.",bonus:B2T,zones:[
@@ -2684,7 +2831,7 @@ COURSE.units.push({id:"b2",level:"B2",topic:"Technology & Media",title:"Technolo
    {before:"You need a password to",blank:"log",after:"in.",bank:["log","back","keep"],emoji:"🔑"},
    {before:"Teenagers spend too much",blank:"screen",after:"time on their phones.",bank:["screen","device","data"],emoji:"📱"},
    {before:"Apps should protect our data",blank:"privacy",after:".",bank:["privacy","private","prevent"],emoji:"🔒"},
-   {before:"Schools must take",blank:"cyberbullying",after:"seriously.",bank:["cyberbullying","algorithm","updates"],emoji:"😢"},
+   {before:"Schools must take",blank:"cyberbullying",after:"seriously.",bank:["cyberbullying","algorithm","😢📱"],emoji:"😢"},
   ]},
   {type:"match",label:"Match",pairs:B2T},
   {type:"listen",label:"Listen",items:[
@@ -2775,15 +2922,15 @@ COURSE.units.push({id:"b2",level:"B2",topic:"Technology & Media",title:"Technolo
    {prompt:"'I will delete the app.' → Ola said she…",answers:["Ola said she would delete the app","she would delete the app"]},
   ]}]},
   {type:"writing",label:"Opinion",title:"Your opinion ✍️",sub:"Is screen time really so bad? Write a short opinion paragraph (min. 80 words). Use at least one passive and one reported-speech sentence.",starters:["In my opinion,…","On the one hand,… On the other hand,…","It is often said that…","Dr Kerr said that…","To sum up,…"],min:80},
-  {type:"wordle",label:"Wordle",words:WL([["screen","📱"],["scroll","📜"],["habit","🔁"],["sleep","😴"]])},
+  {type:"wordle",label:"Wordle",words:WL([["screen","📱"],["scroll","📱👆"],["habit","🔁📅"],["sleep","😴"]])},
   {type:"wheel",label:"Fortune Wheel",items:B2M.concat(B2T)},
  ]},
  {id:"b2test",test:true,title:"B2 Unit Test",emoji:"📝",intro:"The final test for Technology & Media: vocabulary, passive voice, reported speech and translation.",bonus:B2M.concat(B2T),zones:[
   {type:"quiz",label:"Vocabulary test",tag:"B2 TEST · VOCABULARY",done:"Vocabulary test done! 📝",qs:[
    {q:"'wiarygodny' =",opts:["reliable","biased","viral"],correct:0},{q:"'stronniczy' =",opts:["biased","reliable","addicted"],correct:0},
    {q:"'źródło' =",opts:["source","sauce","resource only"],correct:0},{q:"'nagłówek' =",opts:["headline","headset","heading off"],correct:0},
-   {q:"'zrobić kopię zapasową' =",opts:["back up","log in","keep up"],correct:0},{q:"'nadążać za' =",opts:["keep up with","catch on","log out"],correct:0},
-   {q:"'cyberprzemoc' =",opts:["cyberbullying","cyber crime only","clickbait"],correct:0},{q:"A video spreads fast → it…",opts:["goes viral","goes live","goes off"],correct:0},
+   {q:"'zrobić kopię zapasową' =",opts:["back up","log in","keep up"],correct:0},{q:"'nadążać za' =",opts:["keep up with","catch on","🏃📱"],correct:0},
+   {q:"'cyberprzemoc' =",opts:["cyberbullying","cyber crime only","😢📱"],correct:0},{q:"A video spreads fast → it…",opts:["goes viral","goes live","goes off"],correct:0},
    {q:"'uzależniony od' =",opts:["addicted to","added to","attached by"],correct:0},{q:"'urządzenie' =",opts:["device","advice","devise"],correct:0},
   ]},
   {type:"quiz",label:"Grammar test",tag:"B2 TEST · GRAMMAR",done:"Grammar test done! 📝",qs:[
@@ -2813,17 +2960,17 @@ COURSE.units.push({id:"b2",level:"B2",topic:"Technology & Media",title:"Technolo
 
 /* ================= C1 · ADVANCED — Work–Life Balance ================= */
 const C1I=[
- {en:"burn out",pl:"wypalić się",emoji:"🔥"},{en:"juggle",pl:"żonglować (obowiązkami)",emoji:"🤹"},
+ {en:"burn out",pl:"wypalić się",emoji:"🪫"},{en:"juggle",pl:"żonglować (obowiązkami)",emoji:"🤹"},
  {en:"cut corners",pl:"iść na skróty",emoji:"✂️"},{en:"call it a day",pl:"skończyć na dziś",emoji:"🌇"},
  {en:"up to my eyes",pl:"po uszy (w pracy)",emoji:"😵"},{en:"a rat race",pl:"wyścig szczurów",emoji:"🐀"},
  {en:"recharge my batteries",pl:"naładować baterie",emoji:"🔋"},{en:"switch off",pl:"wyłączyć się, odpocząć",emoji:"📴"},
  {en:"go the extra mile",pl:"dać z siebie więcej",emoji:"🏃"},{en:"on the back burner",pl:"odłożony na później",emoji:"🍳"},
- {en:"time-consuming",pl:"czasochłonny",emoji:"⏳"},{en:"flexible hours",pl:"elastyczne godziny",emoji:"🕰️"},
+ {en:"time-consuming",pl:"czasochłonny",emoji:"⏳😩"},{en:"flexible hours",pl:"elastyczne godziny",emoji:"🕰️"},
 ];
 const C1V=[
  {en:"wellbeing",pl:"dobrostan",emoji:"🧘"},{en:"productivity",pl:"produktywność",emoji:"📈"},
- {en:"workload",pl:"obciążenie pracą",emoji:"📚"},{en:"remote work",pl:"praca zdalna",emoji:"🏡"},
- {en:"commute",pl:"dojazd do pracy",emoji:"🚆"},{en:"boundaries",pl:"granice",emoji:"🚧"},
+ {en:"workload",pl:"obciążenie pracą",emoji:"📚"},{en:"remote work",pl:"praca zdalna",emoji:"🏡💻"},
+ {en:"commute",pl:"dojazd do pracy",emoji:"🚆🏢"},{en:"boundaries",pl:"granice",emoji:"🚧"},
  {en:"prioritise",pl:"ustalać priorytety",emoji:"🥇"},{en:"procrastinate",pl:"odkładać na później, zwlekać",emoji:"🦥"},
  {en:"sustainable",pl:"zrównoważony, do utrzymania",emoji:"♻️"},{en:"overwhelmed",pl:"przytłoczony",emoji:"😩"},
 ];
@@ -2856,7 +3003,7 @@ COURSE.units.push({id:"c1",level:"C1",topic:"Work–Life Balance",title:"Work–
    {opts:["time-consuming","demanding","tough","effortless"],odd:3,why:"'Effortless' means easy."},
    {opts:["juggle","balance","manage","neglect"],odd:3,why:"'Neglect' means not paying attention to something."},
   ]},
-  {type:"wordle",label:"Wordle",words:WL([["juggle","🤹"],["corner","✂️"],["burnout","🔥"],["switch","📴"]])},
+  {type:"wordle",label:"Wordle",words:WL([["juggle","🤹"],["corner","✂️"],["burnout","🪫"],["switch","📴"]])},
   {type:"wheel",label:"Fortune Wheel",items:C1I},
  ]},
  {id:"c1l2",title:"Wellbeing at work",emoji:"🧘",intro:"Precise vocabulary for discussing productivity, workload and wellbeing.",bonus:C1V,zones:[
@@ -2870,7 +3017,7 @@ COURSE.units.push({id:"c1",level:"C1",topic:"Work–Life Balance",title:"Work–
    {before:"Learn to",blank:"prioritise",after:"— not everything is urgent.",bank:["prioritise","procrastinate","prioritised"],emoji:"🥇"},
    {before:"This pace simply isn't",blank:"sustainable",after:".",bank:["sustainable","sustained","sustaining"],emoji:"♻️"},
    {before:"She felt completely",blank:"overwhelmed",after:"by emails.",bank:["overwhelmed","overworked out","overwhelming"],emoji:"😩"},
-   {before:"A long",blank:"commute",after:"eats into your free time.",bank:["commute","community","commitment"],emoji:"🚆"},
+   {before:"A long",blank:"commute",after:"eats into your free time.",bank:["commute","community","🚆🏢"],emoji:"🚆"},
   ]},
   {type:"match",label:"Match",pairs:C1V},
   {type:"quiz",label:"Word forms",tag:"WORD FORMATION",qs:[
@@ -2888,7 +3035,7 @@ COURSE.units.push({id:"c1",level:"C1",topic:"Work–Life Balance",title:"Work–
    {word:"Is this pace sustainable?",options:["Is this pace sustainable?","Is this place sustainable?","Is this pace suitable?"],correct:0},
   ]},
   {type:"memory",label:"Memory",pairs:memOf(C1V.slice(0,8))},
-  {type:"wordle",label:"Wordle",words:WL([["commute","🚆"],["remote","🏡"],["balance","⚖️"],["workload","📚"]])},
+  {type:"wordle",label:"Wordle",words:WL([["commute","🚆🏢"],["remote","🏡"],["balance","⚖️"],["workload","📚"]])},
   {type:"wheel",label:"Fortune Wheel",items:C1V},
  ]},
  {id:"c1l3",title:"Never have I…",emoji:"🎭",intro:"Advanced grammar: inversion for emphasis, and mixed conditionals.",bonus:C1I.concat(C1V),zones:[
@@ -2961,11 +3108,11 @@ COURSE.units.push({id:"c1",level:"C1",topic:"Work–Life Balance",title:"Work–
  ]},
  {id:"c1test",test:true,title:"C1 Unit Test",emoji:"📝",intro:"The final test for Work–Life Balance: idioms, advanced vocabulary, inversion, conditionals and translation.",bonus:C1I.concat(C1V),zones:[
   {type:"quiz",label:"Vocabulary test",tag:"C1 TEST · VOCABULARY",done:"Vocabulary test done! 📝",qs:[
-   {q:"'wypalić się' =",opts:["burn out","burn up","burn down"],correct:0},{q:"'iść na skróty' =",opts:["cut corners","cut costs","take a shortcut road"],correct:0},
+   {q:"'wypalić się' =",opts:["burn out","burn up","🪫"],correct:0},{q:"'iść na skróty' =",opts:["cut corners","cut costs","take a shortcut road"],correct:0},
    {q:"'odłożony na później' =",opts:["on the back burner","on the front line","up to my eyes"],correct:0},{q:"'przytłoczony' =",opts:["overwhelmed","overjoyed","overtaken"],correct:0},
-   {q:"'zwlekać' =",opts:["procrastinate","prioritise","participate"],correct:0},{q:"'dojazd do pracy' =",opts:["commute","community","compute"],correct:0},
+   {q:"'zwlekać' =",opts:["procrastinate","prioritise","participate"],correct:0},{q:"'dojazd do pracy' =",opts:["commute","community","🚆🏢"],correct:0},
    {q:"'dać z siebie więcej' =",opts:["go the extra mile","go the distance off","go over the top"],correct:0},{q:"'dobrostan' =",opts:["wellbeing","welfare state","wellness only"],correct:0},
-   {q:"'czasochłonny' =",opts:["time-consuming","time-wasting","timeless"],correct:0},{q:"'skończyć na dziś' =",opts:["call it a day","call it off","call it a night out"],correct:0},
+   {q:"'czasochłonny' =",opts:["time-consuming","time-wasting","⏳😩"],correct:0},{q:"'skończyć na dziś' =",opts:["call it a day","call it off","call it a night out"],correct:0},
   ]},
   {type:"quiz",label:"Grammar test",tag:"C1 TEST · GRAMMAR",done:"Grammar test done! 📝",qs:[
    {q:"Never ___ such a demanding boss.",opts:["have I had","I have had","had I have"],correct:0},
@@ -3050,12 +3197,12 @@ mkUnit({id:"aa0",level:"A0",track:"adults",topic:"First Contact",title:"Nice to 
  sets:[
   {title:"Greetings",label:"Greetings",words:V([
    ["hello","cześć / dzień dobry","👋"],["good morning","dzień dobry (rano)","🌅"],["good evening","dobry wieczór","🌆"],["goodbye","do widzenia","🖐️"],
-   ["How are you?","Jak się masz?","🙂"],["I'm fine, thanks","Dobrze, dziękuję","👍"],["Nice to meet you","Miło cię poznać","🤝"],["What's your name?","Jak masz na imię?","❓"],
+   ["How are you?","Jak się masz?","🙂❓"],["I'm fine, thanks","Dobrze, dziękuję","👍"],["Nice to meet you","Miło cię poznać","🤝"],["What's your name?","Jak masz na imię?","❓"],
    ["Where are you from?","Skąd jesteś?","🌍"],["See you later","Do zobaczenia","👀"],["excuse me","przepraszam (zaczepiając)","🙋"],["sorry","przepraszam (za błąd)","😔"]])},
   {title:"Personal details",label:"Details",findTitle:"Which detail is it? 🔎",words:V([
-   ["first name","imię","🪪"],["surname","nazwisko","🔤"],["age","wiek","🎂"],["address","adres","🏠"],
-   ["phone number","numer telefonu","📱"],["email","e-mail","📧"],["job","praca, zawód","💼"],["married","żonaty / zamężna","💍"],
-   ["single","stanu wolnego","🙋"],["country","kraj","🗺️"],["city","miasto","🏙️"],["nationality","narodowość","🛂"]])},
+   ["first name","imię","🪪"],["surname","nazwisko","👨‍👩‍👧"],["age","wiek","🎂"],["address","adres","🏠📍"],
+   ["phone number","numer telefonu","📱🔢"],["email","e-mail","📧"],["job","praca, zawód","💼"],["married","żonaty / zamężna","💍"],
+   ["single","stanu wolnego","🧍"],["country","kraj","🗺️"],["city","miasto","🏙️"],["nationality","narodowość","🛂"]])},
  ],
  l1:{title:"Hello there",emoji:"👋",intro:"Twelve everyday phrases for meeting people — at work, in a hotel, anywhere.",quizTag:"WHAT DO YOU SAY?",quizLabel:"What do you say?",quiz:[
    {q:"You meet a colleague at 8 a.m.",opts:["Good morning!","Good evening!","Goodbye!"],correct:0},
@@ -3075,8 +3222,8 @@ mkUnit({id:"aa0",level:"A0",track:"adults",topic:"First Contact",title:"Nice to 
   ],
   wordle:[["hello","👋"],["sorry","😔"],["thanks","🙏"],["later","👀"]]},
  l2:{title:"Filling in a form",emoji:"📝",intro:"Name, surname, address, phone number… the details every form asks for.",fillTag:"A FORM",fill:[
-   {before:"My",blank:"surname",after:"is Kowalski.",bank:["surname","age","address"],emoji:"🔤"},
-   {before:"My",blank:"phone number",after:"is 601 234 567.",bank:["phone number","email","city"],emoji:"📱"},
+   {before:"My",blank:"surname",after:"is Kowalski.",bank:["surname","age","👨‍👩‍👧"],emoji:"🔤"},
+   {before:"My",blank:"phone number",after:"is 601 234 567.",bank:["phone number","email","📱🔢"],emoji:"📱"},
    {before:"I live in Gdańsk. It's a",blank:"city",after:"by the sea.",bank:["city","country","job"],emoji:"🏙️"},
    {before:"I'm a nurse. That's my",blank:"job",after:".",bank:["job","age","name"],emoji:"💼"},
    {before:"I'm 34. That's my",blank:"age",after:".",bank:["age","address","surname"],emoji:"🎂"},
@@ -3087,7 +3234,7 @@ mkUnit({id:"aa0",level:"A0",track:"adults",topic:"First Contact",title:"Nice to 
   tf:{sub:"Read the form: 'First name: Marta. Surname: Nowak. Age: 29. City: Poznań. Job: accountant. Married: no. Email: marta.n@post.pl'",tag:"A FORM",items:[
    {text:"Her surname is Marta.",answer:1},{text:"She is 29.",answer:0},{text:"She lives in Poznań.",answer:0},
    {text:"She is a teacher.",answer:1},{text:"She is married.",answer:1},{text:"She has an email address.",answer:0}]},
-  wordle:[["email","📧"],["single","🙋"],["city","🏙️"],["address","🏠"]]},
+  wordle:[["email","📧"],["single","🧍"],["city","🏙️"],["address","🏠📍"]]},
  grammar:{title:"I am, you are",emoji:"🧩",label:"To be",intro:"The most important verb in English: am / is / are — plus questions and negatives.",boxTitle:"The verb 'to be'",
   html:`<p>Use <b>am / is / are</b> for names, age, jobs, countries and feelings.</p>${TBL(["Positive","Negative","Question"],[["I <b>am</b> (I'm) a doctor.","I'm <b>not</b> a doctor.","<b>Am</b> I late?"],["You / We / They <b>are</b> (you're)","You <b>aren't</b> …","<b>Are</b> you from Spain?"],["He / She / It <b>is</b> (she's)","She <b>isn't</b> …","<b>Is</b> he married?"]])}<p style="margin-top:12px;">Short answers: <b>Yes, I am. / No, she isn't.</b></p><p style="margin-top:8px;">Age: <b>I am 30.</b> ❌ I have 30 years.</p>`,
   quizTag:"AM, IS OR ARE?",quiz:[
@@ -3171,7 +3318,7 @@ mkUnit({id:"aa1",level:"A1",track:"adults",topic:"Food & Drink",title:"Food & Dr
  sets:[
   {title:"Food",label:"Food",words:V([
    ["bread","chleb","🍞"],["cheese","ser","🧀"],["chicken","kurczak","🍗"],["fish","ryba","🐟"],["rice","ryż","🍚"],["pasta","makaron","🍝"],
-   ["vegetables","warzywa","🥦"],["fruit","owoce","🍎"],["eggs","jajka","🥚"],["soup","zupa","🍲"],["salad","sałatka","🥗"],["dessert","deser","🍰"]])},
+   ["vegetables","warzywa","🥕🥦"],["fruit","owoce","🍎🍌"],["eggs","jajka","🥚"],["soup","zupa","🍲"],["salad","sałatka","🥗"],["dessert","deser","🍰"]])},
   {title:"In a café",label:"Café",findTitle:"Which phrase is it? 🔎",words:V([
    ["coffee","kawa","☕"],["tea","herbata","🍵"],["water","woda","💧"],["juice","sok","🧃"],["menu","menu, karta","📋"],["the bill","rachunek","🧾"],
    ["waiter","kelner","🤵"],["table for two","stolik dla dwojga","🍽️"],["I'd like…","Poproszę… / Chciałbym…","🙋"],["How much is it?","Ile to kosztuje?","💶"],["delicious","pyszny","😋"],["tip","napiwek","🪙"]])},
@@ -3181,8 +3328,8 @@ mkUnit({id:"aa1",level:"A1",track:"adults",topic:"Food & Drink",title:"Food & Dr
    {q:"Italians cook it with tomato sauce.",opts:["pasta","soup","fruit"],correct:0},
    {q:"Hens give us these.",opts:["eggs","fish","salad"],correct:0},
    {q:"You eat it hot, with a spoon.",opts:["soup","bread","dessert"],correct:0},
-   {q:"Carrots, onions and broccoli are…",opts:["vegetables","fruit","desserts"],correct:0},
-   {q:"Apples, bananas and pears are…",opts:["fruit","vegetables","fish"],correct:0},
+   {q:"Carrots, onions and broccoli are…",opts:["vegetables","fruit","🥕🥦"],correct:0},
+   {q:"Apples, bananas and pears are…",opts:["fruit","vegetables","🍎🍌"],correct:0},
    {q:"Cake or ice cream at the end of a meal:",opts:["dessert","salad","rice"],correct:0},
    {q:"It lives in water.",opts:["fish","chicken","cheese"],correct:0},
   ],
@@ -3296,11 +3443,11 @@ mkUnit({id:"aa2",level:"A2",track:"adults",topic:"Travel",title:"Travel",emoji:"
  sets:[
   {title:"Getting around",label:"Transport",words:V([
    ["plane","samolot","✈️"],["train","pociąg","🚆"],["bus","autobus","🚌"],["taxi","taksówka","🚕"],["ferry","prom","⛴️"],["car","samochód","🚗"],
-   ["ticket","bilet","🎫"],["platform","peron","🚉"],["luggage","bagaż","🧳"],["passport","paszport","🛂"],["delay","opóźnienie","⏳"],["return ticket","bilet w obie strony","🔁"]])},
+   ["ticket","bilet","🎫"],["platform","peron","🚉"],["luggage","bagaż","🧳"],["passport","paszport","🛂"],["delay","opóźnienie","⏳"],["return ticket","bilet w obie strony","🎫🔁"]])},
   {title:"At the hotel & airport",label:"Hotel",findTitle:"Which phrase is it? 🔎",words:V([
    ["book a room","zarezerwować pokój","🛏️"],["check in","zameldować się / odprawić","🛎️"],["check out","wymeldować się","🧾"],["single room","pokój jednoosobowy","1️⃣"],
-   ["double room","pokój dwuosobowy","2️⃣"],["reception","recepcja","🏨"],["key","klucz","🔑"],["boarding pass","karta pokładowa","🎟️"],
-   ["gate","wyjście (na lotnisku)","🛄"],["flight","lot","🛫"],["sightseeing","zwiedzanie","🗺️"],["souvenir","pamiątka","🎁"]])},
+   ["double room","pokój dwuosobowy","2️⃣"],["reception","recepcja","🏨"],["key","klucz","🔑"],["boarding pass","karta pokładowa","🎟️✈️"],
+   ["gate","wyjście (na lotnisku)","🛄"],["flight","lot","🛫"],["sightseeing","zwiedzanie","📸🏛️"],["souvenir","pamiątka","🎁"]])},
  ],
  l1:{title:"On the move",emoji:"🚆",intro:"Twelve words for getting from A to B — tickets, platforms, delays.",quizTag:"WHICH ONE?",quizLabel:"Which one?",quiz:[
    {q:"You need it to fly to another country.",opts:["passport","platform","ferry"],correct:0},
@@ -3308,7 +3455,7 @@ mkUnit({id:"aa2",level:"A2",track:"adults",topic:"Travel",title:"Travel",emoji:"
    {q:"You wait for the train here.",opts:["platform","gate","reception"],correct:0},
    {q:"Your bags and suitcases =",opts:["luggage","ticket","delay"],correct:0},
    {q:"The train is 40 minutes late. There's a…",opts:["delay","return","platform"],correct:0},
-   {q:"A ticket there and back:",opts:["return ticket","single room","boarding pass"],correct:0},
+   {q:"A ticket there and back:",opts:["return ticket","single room","🎫🔁"],correct:0},
    {q:"A yellow car that takes you anywhere — for money:",opts:["taxi","bus","ferry"],correct:0},
    {q:"The fastest way to go from Warsaw to Lisbon:",opts:["plane","bus","ferry"],correct:0},
   ],
@@ -3325,9 +3472,9 @@ mkUnit({id:"aa2",level:"A2",track:"adults",topic:"Travel",title:"Travel",emoji:"
    {before:"Please leave your",blank:"key",after:"at reception.",bank:["key","gate","flight"],emoji:"🔑"},
    {before:"We'd like a",blank:"double room",after:"with a sea view.",bank:["double room","single room","boarding pass"],emoji:"2️⃣"},
    {before:"Your flight leaves from",blank:"gate",after:"12.",bank:["gate","platform","reception"],emoji:"🚪"},
-   {before:"Show your",blank:"boarding pass",after:"before you get on the plane.",bank:["boarding pass","souvenir","room"],emoji:"🎟️"},
+   {before:"Show your",blank:"boarding pass",after:"before you get on the plane.",bank:["boarding pass","souvenir","🎟️✈️"],emoji:"🎟️"},
    {before:"We bought a small",blank:"souvenir",after:"for my mum.",bank:["souvenir","flight","delay"],emoji:"🎁"},
-   {before:"We went",blank:"sightseeing",after:"in the old town.",bank:["sightseeing","check in","reception"],emoji:"🗺️"},
+   {before:"We went",blank:"sightseeing",after:"in the old town.",bank:["sightseeing","check in","📸🏛️"],emoji:"🗺️"},
   ],
   tf:{sub:"Read the booking: 'Hotel Bryza, Sopot. Double room, 2 adults. Check-in: Fri 14 June from 15:00. Check-out: Sun 16 June by 11:00. Breakfast included. Free parking.'",tag:"A BOOKING",items:[
    {text:"It's a single room.",answer:1},{text:"They stay two nights.",answer:0},{text:"Check-in is from 3 p.m.",answer:0},
@@ -3424,15 +3571,15 @@ mkUnit({id:"bb1",level:"B1",track:"adults",topic:"Health & Fitness",title:"Healt
  sets:[
   {title:"At the doctor's",label:"Health",words:V([
    ["headache","ból głowy","🤕"],["sore throat","ból gardła","😷"],["a cold","przeziębienie","🤧"],["the flu","grypa","🤒"],["temperature","gorączka, temperatura","🌡️"],["cough","kaszel","😮‍💨"],
-   ["prescription","recepta","📝"],["painkiller","środek przeciwbólowy","💊"],["appointment","wizyta (umówiona)","📅"],["pharmacy","apteka","🏥"],["recover","wyzdrowieć","💪"],["injury","uraz, kontuzja","🩹"]])},
+   ["prescription","recepta","📝💊"],["painkiller","środek przeciwbólowy","💊"],["appointment","wizyta (umówiona)","🩺📅"],["pharmacy","apteka","🏥"],["recover","wyzdrowieć","💪"],["injury","uraz, kontuzja","🩹"]])},
   {title:"A healthy lifestyle",label:"Lifestyle",findTitle:"Which habit is it? 🔎",words:V([
-   ["work out","ćwiczyć","🏋️"],["go jogging","biegać (rekreacyjnie)","🏃"],["stretch","rozciągać się","🧘"],["lose weight","schudnąć","⚖️"],["put on weight","przytyć","🍔"],["balanced diet","zbilansowana dieta","🥗"],
-   ["junk food","niezdrowe jedzenie","🍟"],["get enough sleep","wysypiać się","😴"],["cut down on","ograniczyć","✂️"],["give up","rzucić (nałóg)","🚭"],["stay in shape","utrzymywać formę","🤸"],["stressed","zestresowany","😣"]])},
+   ["work out","ćwiczyć","🏋️"],["go jogging","biegać (rekreacyjnie)","🏃"],["stretch","rozciągać się","🧘"],["lose weight","schudnąć","⚖️⬇️"],["put on weight","przytyć","⚖️⬆️"],["balanced diet","zbilansowana dieta","🥗"],
+   ["junk food","niezdrowe jedzenie","🍔🍟"],["get enough sleep","wysypiać się","😴"],["cut down on","ograniczyć","📉"],["give up","rzucić (nałóg)","🚭"],["stay in shape","utrzymywać formę","🤸"],["stressed","zestresowany","😣"]])},
  ],
  l1:{title:"I don't feel well",emoji:"🤒",intro:"Symptoms, illnesses and the language of a visit to the doctor's.",quizTag:"WHAT'S WRONG?",quizLabel:"What's wrong?",quiz:[
    {q:"Your head hurts. You've got a…",opts:["headache","sore throat","cough"],correct:0},
    {q:"It hurts when you swallow. You've got a…",opts:["sore throat","temperature","injury"],correct:0},
-   {q:"The doctor writes this for your medicine.",opts:["prescription","appointment","pharmacy"],correct:0},
+   {q:"The doctor writes this for your medicine.",opts:["prescription","appointment","📝💊"],correct:0},
    {q:"You buy medicine here.",opts:["pharmacy","reception","surgery bill"],correct:0},
    {q:"Your body is 39°C. You've got a high…",opts:["temperature","cold","injury"],correct:0},
    {q:"You broke your arm playing football. It's an…",opts:["injury","illness","appointment"],correct:0},
@@ -3448,11 +3595,11 @@ mkUnit({id:"bb1",level:"B1",track:"adults",topic:"Health & Fitness",title:"Healt
   wordle:[["cough","😮‍💨"],["throat","😷"],["injury","🩹"],["flu","🤒"]]},
  l2:{title:"Staying in shape",emoji:"🥗",intro:"Habits, diets and phrasal verbs for a healthier life.",fillTag:"HEALTHY HABITS",fill:[
    {before:"I",blank:"work out",after:"at the gym three times a week.",bank:["work out","give up","put on"],emoji:"🏋️"},
-   {before:"He wants to",blank:"lose weight",after:"before summer.",bank:["lose weight","put on weight","stretch"],emoji:"⚖️"},
-   {before:"You should",blank:"cut down on",after:"sugar.",bank:["cut down on","give up on","work out"],emoji:"✂️"},
+   {before:"He wants to",blank:"lose weight",after:"before summer.",bank:["lose weight","put on weight","⚖️⬇️"],emoji:"⚖️"},
+   {before:"You should",blank:"cut down on",after:"sugar.",bank:["cut down on","give up on","📉"],emoji:"✂️"},
    {before:"My dad finally",blank:"gave up",after:"smoking.",bank:["gave up","cut down","worked out"],emoji:"🚭"},
    {before:"Always",blank:"stretch",after:"before you run.",bank:["stretch","recover","lose"],emoji:"🧘"},
-   {before:"Too much",blank:"junk food",after:"is bad for your heart.",bank:["junk food","balanced diet","sleep"],emoji:"🍟"},
+   {before:"Too much",blank:"junk food",after:"is bad for your heart.",bank:["junk food","balanced diet","🍔🍟"],emoji:"🍟"},
    {before:"Adults need to",blank:"get enough sleep",after:"— seven to nine hours.",bank:["get enough sleep","stay up","go jogging"],emoji:"😴"},
    {before:"She cycles every day to",blank:"stay in shape",after:".",bank:["stay in shape","put on weight","be stressed"],emoji:"🚴"},
   ],
@@ -3533,7 +3680,7 @@ mkUnit({id:"bb1",level:"B1",track:"adults",topic:"Health & Fitness",title:"Healt
    {prompt:"Rzuciłem palenie.",answers:["I gave up smoking","I have given up smoking","I've given up smoking","I quit smoking"]},
   ],
   writing:{label:"Advice",title:"Give some advice ✍️",sub:"A friend is always tired and stressed. Write an email with advice (min. 70 words). Use should, have to and mustn't.",starters:["Hi …, I'm sorry to hear that…","I think you should…","You shouldn't…","You don't have to…, but…","Most importantly, you mustn't…","Take care,"],min:70},
-  wordle:[["energy","⚡"],["habit","🔁"],["kilos","⚖️"],["walk","🚶"]]},
+  wordle:[["energy","⚡"],["habit","🔁📅"],["kilos","⚖️"],["walk","🚶"]]},
  test:{grammar:[
    {q:"You ___ eat less sugar.",opts:["should","should to","musts"],correct:0},{q:"You ___ park here — it's illegal.",opts:["mustn't","don't have to","should"],correct:0},
    {q:"He ___ work on Saturdays.",opts:["has to","have to","must to"],correct:0},{q:"We ___ hurry — we have lots of time.",opts:["don't have to","mustn't","must"],correct:0},
@@ -3555,20 +3702,20 @@ mkUnit({id:"bb1",level:"B1",track:"adults",topic:"Health & Fitness",title:"Healt
 mkUnit({id:"bb2",level:"B2",track:"adults",topic:"Environment",title:"Our Planet",emoji:"🌍",badge:"Planet Guardian",sub:"Climate, waste and green living — plus second & third conditionals and 'I wish'.",
  sets:[
   {title:"Environmental issues",label:"Issues",words:V([
-   ["climate change","zmiana klimatu","🌡️"],["global warming","globalne ocieplenie","🔥"],["pollution","zanieczyszczenie","🏭"],["emissions","emisje","💨"],["fossil fuels","paliwa kopalne","⛽"],["deforestation","wylesianie","🪓"],
-   ["drought","susza","🏜️"],["flood","powódź","🌊"],["endangered species","gatunki zagrożone","🐼"],["greenhouse gases","gazy cieplarniane","☁️"],["carbon footprint","ślad węglowy","👣"],["extreme weather","ekstremalna pogoda","⛈️"]])},
+   ["climate change","zmiana klimatu","🌍🌡️"],["global warming","globalne ocieplenie","🌍🔥"],["pollution","zanieczyszczenie","🏭"],["emissions","emisje","🏭💨"],["fossil fuels","paliwa kopalne","⛽"],["deforestation","wylesianie","🪓🌲"],
+   ["drought","susza","🏜️"],["flood","powódź","🌊🏠"],["endangered species","gatunki zagrożone","🐼"],["greenhouse gases","gazy cieplarniane","🌍☁️"],["carbon footprint","ślad węglowy","👣"],["extreme weather","ekstremalna pogoda","🌪️"]])},
   {title:"Green living",label:"Solutions",findTitle:"Which solution is it? 🔎",words:V([
-   ["renewable energy","energia odnawialna","♻️"],["solar panels","panele słoneczne","☀️"],["wind farm","farma wiatrowa","🌬️"],["recycle","poddawać recyklingowi","🔄"],["reduce waste","ograniczać odpady","🗑️"],["single-use plastic","plastik jednorazowy","🥤"],
-   ["public transport","transport publiczny","🚋"],["sustainable","zrównoważony","🌱"],["eco-friendly","ekologiczny","🍃"],["compost","kompostować","🪱"],["switch off","wyłączać","🔌"],["second-hand","używany, z drugiej ręki","👕"]])},
+   ["renewable energy","energia odnawialna","⚡🌱"],["solar panels","panele słoneczne","☀️"],["wind farm","farma wiatrowa","🌬️"],["recycle","poddawać recyklingowi","♻️"],["reduce waste","ograniczać odpady","🗑️⬇️"],["single-use plastic","plastik jednorazowy","🥤"],
+   ["public transport","transport publiczny","🚌🚋"],["sustainable","zrównoważony","🌱"],["eco-friendly","ekologiczny","🍃"],["compost","kompostować","🪱"],["switch off","wyłączać","🔌"],["second-hand","używany, z drugiej ręki","👕♻️"]])},
  ],
  l1:{title:"A planet under pressure",emoji:"🌡️",intro:"Precise vocabulary for the biggest environmental problems of our time.",quizTag:"DEFINE IT",quizLabel:"Definitions",quiz:[
    {q:"A long period with little or no rain:",opts:["drought","flood","emissions"],correct:0},
    {q:"Coal, oil and gas:",opts:["fossil fuels","renewable energy","greenhouse gases"],correct:0},
-   {q:"Cutting down large areas of forest:",opts:["deforestation","pollution","recycling"],correct:0},
+   {q:"Cutting down large areas of forest:",opts:["deforestation","pollution","🪓🌲"],correct:0},
    {q:"The total CO₂ your lifestyle produces:",opts:["carbon footprint","global warming","wind farm"],correct:0},
    {q:"Animals that could disappear forever:",opts:["endangered species","extreme weather","emissions"],correct:0},
-   {q:"Gases that trap heat in the atmosphere:",opts:["greenhouse gases","fossil fuels","drought"],correct:0},
-   {q:"When a river covers the streets with water:",opts:["flood","drought","pollution"],correct:0},
+   {q:"Gases that trap heat in the atmosphere:",opts:["greenhouse gases","fossil fuels","🌍☁️"],correct:0},
+   {q:"When a river covers the streets with water:",opts:["flood","drought","🌊🏠"],correct:0},
    {q:"Dirty air, water or soil:",opts:["pollution","sustainable","compost"],correct:0},
   ],
   odd:[
@@ -3577,13 +3724,13 @@ mkUnit({id:"bb2",level:"B2",track:"adults",topic:"Environment",title:"Our Planet
    {opts:["pollution","deforestation","emissions","recycling"],odd:3,why:"Recycling helps; the others are problems."},
    {opts:["tiger","panda","polar bear","pigeon"],odd:3,why:"Pigeons aren't an endangered species."},
   ],
-  wordle:[["flood","🌊"],["drought","🏜️"],["climate","🌡️"],["carbon","👣"]]},
+  wordle:[["flood","🌊🏠"],["drought","🏜️"],["climate","🌡️"],["carbon","👣"]]},
  l2:{title:"Living greener",emoji:"♻️",intro:"Renewable energy, waste and everyday choices — the language of solutions.",fillTag:"GREEN COLLOCATIONS",fill:[
    {before:"We installed",blank:"solar panels",after:"on our roof last year.",bank:["solar panels","wind farm","fossil fuels"],emoji:"☀️"},
    {before:"Most supermarkets have stopped selling",blank:"single-use plastic",after:"bags.",bank:["single-use plastic","second-hand","renewable"],emoji:"🥤"},
    {before:"Please",blank:"switch off",after:"the lights when you leave.",bank:["switch off","switch over","switch up"],emoji:"🔌"},
-   {before:"I buy most of my clothes",blank:"second-hand",after:".",bank:["second-hand","single-use","eco-system"],emoji:"👕"},
-   {before:"Taking",blank:"public transport",after:"reduces your carbon footprint.",bank:["public transport","fossil fuels","extreme weather"],emoji:"🚋"},
+   {before:"I buy most of my clothes",blank:"second-hand",after:".",bank:["second-hand","single-use","👕♻️"],emoji:"👕"},
+   {before:"Taking",blank:"public transport",after:"reduces your carbon footprint.",bank:["public transport","fossil fuels","🚌🚋"],emoji:"🚋"},
    {before:"The new",blank:"wind farm",after:"powers 50,000 homes.",bank:["wind farm","flood","drought"],emoji:"🌬️"},
    {before:"We",blank:"compost",after:"all our food scraps.",bank:["compost","pollute","emit"],emoji:"🪱"},
    {before:"Tourism needs to become more",blank:"sustainable",after:".",bank:["sustainable","endangered","disposable"],emoji:"🌱"},
@@ -3596,7 +3743,7 @@ mkUnit({id:"bb2",level:"B2",track:"adults",topic:"Environment",title:"Our Planet
    {word:"Our carbon footprint is far too high.",options:["Our carbon footprint is far too high.","Our carbon footprint is fairly high.","Our car and footprint are too high."],correct:0},
    {word:"They banned single-use plastic.",options:["They banned single-use plastic.","They planned single-use plastic.","They banned single-use packets."],correct:0},
   ],
-  wordle:[["solar","☀️"],["recycle","🔄"],["waste","🗑️"],["green","🍃"]]},
+  wordle:[["solar","☀️"],["recycle","♻️"],["waste","🗑️"],["green","🍃"]]},
  grammar:{title:"If we had acted…",emoji:"🔀",label:"Conditionals",intro:"Second and third conditionals — and 'I wish / If only' for regrets.",boxTitle:"2nd & 3rd conditionals · wish",
   html:`${TBL(["Type","Form","Use"],[["<b>2nd</b>","If + past simple, <b>would</b> + verb","unreal present / future: <i>If I <b>had</b> a garden, I <b>would grow</b> vegetables.</i>"],["<b>3rd</b>","If + past perfect, <b>would have</b> + past participle","unreal past: <i>If we <b>had acted</b> earlier, we <b>would have prevented</b> it.</i>"],["<b>wish</b> (present)","wish + past simple","<i>I <b>wish</b> I <b>lived</b> nearer work.</i>"],["<b>wish</b> (past)","wish + past perfect","<i>I <b>wish</b> I <b>hadn't bought</b> a diesel car.</i>"]])}<p style="margin-top:12px;">2nd conditional with <b>be</b>: <i>If I <b>were</b> the mayor, I'd ban cars.</i></p><p style="margin-top:8px;color:#c0392b;font-weight:700;">❌ If I would have known… ✅ If I had known…</p>`,
   quizTag:"WHICH FORM?",quiz:[
@@ -3687,17 +3834,17 @@ mkUnit({id:"bb2",level:"B2",track:"adults",topic:"Environment",title:"Our Planet
 mkUnit({id:"cc1",level:"C1",track:"adults",topic:"Cities & Society",title:"Cities & Society",emoji:"🏙️",badge:"Urban Thinker",sub:"Urban life, social issues, cleft sentences and participle clauses.",
  sets:[
   {title:"Urban life",label:"Urban",words:V([
-   ["gentrification","gentryfikacja","🏗️"],["urban sprawl","rozlewanie się miast","🏘️"],["affordable housing","przystępne mieszkania","🏠"],["commute","dojeżdżać (do pracy)","🚆"],["infrastructure","infrastruktura","🌉"],["overcrowded","przepełniony","👥"],
-   ["vibrant","tętniący życiem","🎭"],["run-down","zaniedbany","🏚️"],["green space","teren zielony","🌳"],["rent","czynsz","💸"],["skyline","panorama miasta","🌆"],["amenities","udogodnienia","🏪"]])},
+   ["gentrification","gentryfikacja","🏗️"],["urban sprawl","rozlewanie się miast","🏘️"],["affordable housing","przystępne mieszkania","🏠💶"],["commute","dojeżdżać (do pracy)","🚆🏢"],["infrastructure","infrastruktura","🌉"],["overcrowded","przepełniony","👥"],
+   ["vibrant","tętniący życiem","🎭"],["run-down","zaniedbany","🏚️"],["green space","teren zielony","🌳"],["rent","czynsz","🏠💸"],["skyline","panorama miasta","🌆"],["amenities","udogodnienia","🏪"]])},
   {title:"Society & debate",label:"Society",findTitle:"Which expression is it? 🔎",words:V([
-   ["inequality","nierówność","⚖️"],["social cohesion","spójność społeczna","🤝"],["marginalised","zmarginalizowany","🚷"],["grassroots","oddolny","🌱"],["policy","polityka (zasady)","📜"],["stakeholder","interesariusz","🧑‍🤝‍🧑"],
+   ["inequality","nierówność","⚖️"],["social cohesion","spójność społeczna","🤝🏘️"],["marginalised","zmarginalizowany","🚷"],["grassroots","oddolny","🌱"],["policy","polityka (zasady)","📜"],["stakeholder","interesariusz","🧑‍🤝‍🧑"],
    ["to tackle","zmierzyć się z (problemem)","🛠️"],["to exacerbate","pogłębiać, zaostrzać","📈"],["to alleviate","łagodzić","🩹"],["widespread","powszechny","🌐"],["unprecedented","bezprecedensowy","🆕"],["a double-edged sword","miecz obosieczny","🗡️"]])},
  ],
  l1:{title:"City living",emoji:"🌆",intro:"Precise vocabulary to describe neighbourhoods, housing and the pressures of modern cities.",quizTag:"IN CONTEXT",quizLabel:"In context",quiz:[
    {q:"Wealthier people move in, rents rise and locals are pushed out:",opts:["gentrification","urban sprawl","infrastructure"],correct:0},
    {q:"The city keeps spreading into the countryside:",opts:["urban sprawl","skyline","amenities"],correct:0},
    {q:"Shops, gyms, schools and clinics nearby:",opts:["amenities","stakeholders","policies"],correct:0},
-   {q:"Homes that ordinary people can pay for:",opts:["affordable housing","run-down housing","green space"],correct:0},
+   {q:"Homes that ordinary people can pay for:",opts:["affordable housing","run-down housing","🏠💶"],correct:0},
    {q:"The trains are so full you can't move. They're…",opts:["overcrowded","vibrant","widespread"],correct:0},
    {q:"Roads, bridges, pipes and power lines:",opts:["infrastructure","skyline","commute"],correct:0},
    {q:"A neighbourhood full of energy, culture and nightlife is…",opts:["vibrant","run-down","marginalised"],correct:0},
@@ -3709,7 +3856,7 @@ mkUnit({id:"cc1",level:"C1",track:"adults",topic:"Cities & Society",title:"Citie
    {opts:["parks","squares","green space","overcrowding"],odd:3,why:"Overcrowding is a problem, not a public space."},
    {opts:["commute","travel to work","get to the office","gentrify"],odd:3,why:"'Gentrify' isn't about getting to work."},
   ],
-  wordle:[["commute","🚆"],["rent","💸"],["skyline","🌆"],["sprawl","🏘️"]]},
+  wordle:[["commute","🚆🏢"],["rent","🏠💸"],["skyline","🌆"],["sprawl","🏘️"]]},
  l2:{title:"Who is the city for?",emoji:"⚖️",intro:"Formal vocabulary for discussing inequality, policy and community action.",fillTag:"COLLOCATIONS",fill:[
    {before:"The council has launched a scheme to",blank:"tackle",after:"homelessness.",bank:["tackle","exacerbate","widespread"],emoji:"🛠️"},
    {before:"Rising rents have",blank:"exacerbated",after:"inequality in the city.",bank:["exacerbated","alleviated","tackled"],emoji:"📈"},
@@ -3718,7 +3865,7 @@ mkUnit({id:"cc1",level:"C1",track:"adults",topic:"Cities & Society",title:"Citie
    {before:"Tourism is",blank:"a double-edged sword",after:": it brings money but pushes up prices.",bank:["a double-edged sword","a policy","an amenity"],emoji:"🗡️"},
    {before:"All",blank:"stakeholders",after:"— residents, businesses and the council — were consulted.",bank:["stakeholders","skylines","policies"],emoji:"🧑‍🤝‍🧑"},
    {before:"The housing crisis has reached an",blank:"unprecedented",after:"level.",bank:["unprecedented","affordable","overcrowded"],emoji:"📈"},
-   {before:"Mixed neighbourhoods can strengthen",blank:"social cohesion",after:".",bank:["social cohesion","urban sprawl","rent"],emoji:"🤝"},
+   {before:"Mixed neighbourhoods can strengthen",blank:"social cohesion",after:".",bank:["social cohesion","urban sprawl","🤝🏘️"],emoji:"🤝"},
   ],
   tf:{sub:"Read the summary: 'A 2025 city report found that average rents rose 31% in five years, while wages rose 12%. One in four residents now spends over half their income on housing. The report recommends rent caps and 5,000 new council flats, but does not estimate the cost.'",tag:"REPORT SUMMARY",items:[
    {text:"Rents rose faster than wages.",answer:0},{text:"Wages rose by 31%.",answer:1},{text:"25% of residents spend more than half their income on housing.",answer:0},
@@ -3772,7 +3919,7 @@ mkUnit({id:"cc1",level:"C1",track:"adults",topic:"Cities & Society",title:"Citie
    {q:"___ the city, we went straight to the old town.",opts:["Having reached","Reached","Reaching to"],correct:0},
    {q:"The reason ___ I moved is the rent.",opts:["why","what","because"],correct:0},
   ],
-  wordle:[["cleft","🎯"],["focus","🔍"],["clause","📝"],["reason","💡"]]},
+  wordle:[["cleft","🎯"],["focus","🎯"],["clause","📝"],["reason","💡"]]},
  reading:{title:"The 15-minute city",emoji:"⏱️",intro:"Read an essay on the '15-minute city', analyse its argument and write your own.",storyTitle:"The 15-Minute City: Utopia or Trap?",label:"Essay",paras:[
    "<b>The 15-Minute City: Utopia or Trap?</b>",
    "Few urban ideas have provoked as much debate in recent years as the '15-minute city' — the notion that every resident should be able to reach work, school, shops, healthcare and green space within a quarter of an hour on foot or by bike. What its supporters promise is nothing less than a quieter, healthier and more neighbourly form of urban life.",
@@ -3942,13 +4089,13 @@ mkUnit({id:"ka2",level:"A2",track:"kids",topic:"Holidays",title:"Summer Holidays
  sets:[
   {title:"Holiday places & things",label:"Holiday",words:V([
    ["beach","plaża","🏖️"],["sea","morze","🌊"],["mountains","góry","⛰️"],["lake","jezioro","🏞️"],["forest","las","🌲"],["tent","namiot","⛺"],
-   ["suitcase","walizka","🧳"],["sunglasses","okulary przeciwsłoneczne","🕶️"],["sun cream","krem z filtrem","🧴"],["swimsuit","strój kąpielowy","🩱"],["map","mapa","🗺️"],["postcard","pocztówka","💌"]])},
+   ["suitcase","walizka","🧳"],["sunglasses","okulary przeciwsłoneczne","🕶️"],["sun cream","krem z filtrem","🧴☀️"],["swimsuit","strój kąpielowy","🩱"],["map","mapa","🗺️"],["postcard","pocztówka","💌"]])},
   {title:"Holiday activities",label:"Fun",findTitle:"What are they doing? 🔎",words:V([
-   ["swim","pływać","🏊"],["build a sandcastle","budować zamek z piasku","🏰"],["go hiking","chodzić po górach","🥾"],["go camping","jechać pod namiot","🏕️"],["take photos","robić zdjęcia","📸"],["eat ice cream","jeść lody","🍦"],
-   ["ride a bike","jeździć na rowerze","🚲"],["go fishing","łowić ryby","🎣"],["play volleyball","grać w siatkówkę","🏐"],["visit a castle","zwiedzać zamek","🏯"],["sunbathe","opalać się","😎"],["sleep late","spać długo","😴"]])},
+   ["swim","pływać","🏊"],["build a sandcastle","budować zamek z piasku","🏖️🏰"],["go hiking","chodzić po górach","🥾"],["go camping","jechać pod namiot","🏕️"],["take photos","robić zdjęcia","📸"],["eat ice cream","jeść lody","🍦"],
+   ["ride a bike","jeździć na rowerze","🚲"],["go fishing","łowić ryby","🎣"],["play volleyball","grać w siatkówkę","🏐"],["visit a castle","zwiedzać zamek","🏯"],["sunbathe","opalać się","😎"],["sleep late","spać długo","😴☀️"]])},
  ],
  l1:{title:"Pack your bag!",emoji:"🧳",intro:"Beach or mountains? Twelve words for holiday places and things to pack.",quizTag:"WHAT DO YOU NEED?",quizLabel:"What do you need?",quiz:[
-   {q:"It's very sunny. You need…",opts:["sun cream","a tent","a map"],correct:0},
+   {q:"It's very sunny. You need…",opts:["sun cream","a tent","🧴☀️"],correct:0},
    {q:"You want to swim. You need a…",opts:["swimsuit","postcard","suitcase"],correct:0},
    {q:"You sleep outside in a…",opts:["tent","lake","sea"],correct:0},
    {q:"You put your clothes in a…",opts:["suitcase","forest","beach"],correct:0},
@@ -3969,12 +4116,12 @@ mkUnit({id:"ka2",level:"A2",track:"kids",topic:"Holidays",title:"Summer Holidays
   ],
   wordle:[["beach","🏖️"],["tent","⛺"],["lake","🏞️"],["map","🗺️"],["forest","🌲"]]},
  l2:{title:"Holiday fun",emoji:"🏐",intro:"Swim, hike, camp, fish… twelve things to do on holiday!",fillTag:"HOLIDAY FUN",fill:[
-   {before:"We",blank:"build a sandcastle",after:"on the beach.",bank:["build a sandcastle","go fishing","sleep late"],emoji:"🏰"},
+   {before:"We",blank:"build a sandcastle",after:"on the beach.",bank:["build a sandcastle","go fishing","🏖️🏰"],emoji:"🏰"},
    {before:"In the mountains we",blank:"go hiking",after:".",bank:["go hiking","swim","sunbathe"],emoji:"🥾"},
    {before:"Dad and I",blank:"go fishing",after:"on the lake.",bank:["go fishing","take photos","ride a bike"],emoji:"🎣"},
    {before:"Mum likes to",blank:"take photos",after:"of everything!",bank:["take photos","eat ice cream","go camping"],emoji:"📸"},
    {before:"It's hot! Let's",blank:"eat ice cream",after:".",bank:["eat ice cream","go hiking","visit a castle"],emoji:"🍦"},
-   {before:"On holiday I can",blank:"sleep late",after:"— no school!",bank:["sleep late","swim","build"],emoji:"😴"},
+   {before:"On holiday I can",blank:"sleep late",after:"— no school!",bank:["sleep late","swim","😴☀️"],emoji:"😴"},
    {before:"We",blank:"play volleyball",after:"with our new friends.",bank:["play volleyball","go fishing","sunbathe"],emoji:"🏐"},
    {before:"We",blank:"visit a castle",after:"with a king's room inside!",bank:["visit a castle","ride a bike","go camping"],emoji:"🏯"},
   ],
@@ -4051,7 +4198,7 @@ mkUnit({id:"ka2",level:"A2",track:"kids",topic:"Holidays",title:"Summer Holidays
    {q:"We ___ at the lake.",opts:["were","was"],correct:0},{q:"It ___ sunny.",opts:["was","were"],correct:0},
    {q:"go →",opts:["went","goed","gone"],correct:0},{q:"swim →",opts:["swam","swimmed","swum"],correct:0},
    {q:"I ___ volleyball.",opts:["played","play","plaied"],correct:0},{q:"They ___ at home.",opts:["weren't","wasn't","isn't"],correct:0},
-   {q:"🏕️ =",opts:["go camping","go fishing","go hiking"],correct:0},{q:"🧴 =",opts:["sun cream","suitcase","swimsuit"],correct:0}],
+   {q:"🏕️ =",opts:["go camping","go fishing","go hiking"],correct:0},{q:"🧴 =",opts:["sun cream","suitcase","🧴☀️"],correct:0}],
   errors:[
    {s:"I were at the seaside.",wrong:1,ok:"I was at the seaside."},
    {s:"We eated pizza.",wrong:1,ok:"We ate pizza."},
@@ -4152,7 +4299,7 @@ function loadProgress(){
     if(typeof d.maxCombo==='number') maxCombo=d.maxCombo;
     if(typeof d.soundOn==='boolean') soundOn=d.soundOn;
     if(typeof d.musicOn==='boolean') musicOn=d.musicOn;
-    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[],profile:d.C.profile||null};
+    if(d.C && typeof d.C==='object') C={lessons:d.C.lessons||{},active:d.C.active||null,placed:d.C.placed||{},review:d.C.review||{},days:d.C.days||[],profile:d.C.profile||null,hab:d.C.hab||null};
   }catch(e){}
 }
 function resetProgress(){
@@ -4227,7 +4374,7 @@ function rLessonFinish(){
   const pts=Math.max(0,score-lessonStartScore);
   const prev=C.lessons[l.id]||{stars:0,points:0,done:false};
   const firstTime=!prev.done;
-  const _today=new Date().toISOString().slice(0,10);C.days=C.days||[];if(!C.days.includes(_today))C.days.push(_today);
+  const _today=localDay();C.days=C.days||[];if(!C.days.includes(_today))C.days.push(_today);
   const cleared=l.review?finishReview():0;
   if(!l.review) C.lessons[l.id]={done:true,stars:Math.max(prev.stars,stars),points:Math.max(prev.points,pts)};
   C.active=null; saveProgress();
@@ -4616,10 +4763,9 @@ function streakOf(days){const set=new Set(days||[]);let n=0;const d=new Date();
 function progressHtml(){
   const days=C.days||[], streak=streakOf(days), all=ALL_LESSONS, done=all.filter(l=>lessonDone(l.id)).length;
   const coins=all.reduce((s,l)=>s+((C.lessons[l.id]&&C.lessons[l.id].stars)||0),0);
-  const week=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=d.toISOString().slice(0,10);return `<div class="wk-day ${days.includes(k)?'on':''}"><i></i><small>${['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()]}</small></div>`;}).join('');
   let h=`<div class="panel prog-hero">${zoneTag('MY PROGRESS')}<h2 class="title">${USER?'👤 '+((USER.user_metadata&&USER.user_metadata.name)||USER.email.split('@')[0]):'My progress'}</h2>
     <div class="prog-stats"><div><b>🔥 ${streak}</b><small>day streak</small></div><div><b>${done}/${all.length}</b><small>lessons</small></div><div><b><img class="mini-coin" src="${LEMUR_COIN}" alt="" style="width:20px;height:20px;vertical-align:-3px"> ${coins}</b><small>coins</small></div><div><b>${score}</b><small>points</small></div></div>
-    <div class="wk-row">${week}</div>
+    <div class="wk-row">${weekDots()}</div>
     ${cloudOn()&&!USER?`<p class="sub" style="margin-top:12px;">Progress is saved on this device only. <a href="#" onclick="openAuth('up');return false;">Create a free account</a> to keep it on every device.</p>`:''}</div>`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id); if(!ls.length) return;
@@ -4841,11 +4987,12 @@ function setLang(l){LANG=l;if(l==='en')restoreLang();try{localStorage.setItem('l
 })();
 
 /* ---------- one emoji style everywhere ----------
-   Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji (flat), stored in site/emoji/,
+   Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji 3D, stored in site/emoji/,
    so a word looks the same on iPhone, Android, Windows and Mac. Flags come from Twemoji.
    The list of available pictures is filled in at build time by emoji_post.js. */
-const EMOJI_KEYS=["1f0cf","1f193","1f195","1f1ea-1f1f8","1f1ec-1f1e7","1f1f5-1f1f1","1f303","1f305","1f306","1f307","1f308","1f309","1f30a","1f30d","1f310","1f319","1f31f","1f320","1f321","1f327","1f32c","1f331","1f332","1f333","1f338","1f33f","1f340","1f343","1f345","1f347","1f34a","1f34c","1f34e","1f354","1f355","1f357","1f35a","1f35d","1f35e","1f35f","1f366","1f36c","1f370","1f372","1f373","1f375","1f37d","1f381","1f382","1f388","1f389","1f392","1f399","1f39f","1f3a1","1f3a3","1f3a7","1f3a8","1f3ab","1f3ad","1f3ae","1f3af","1f3b5","1f3b9","1f3c3","1f3c5","1f3c6","1f3ca","1f3cb","1f3d0","1f3d5","1f3d6","1f3d7","1f3d8","1f3d9","1f3da","1f3db","1f3dc","1f3de","1f3e0","1f3e1","1f3e2","1f3e5","1f3e8","1f3ea","1f3eb","1f3ed","1f3ef","1f3f0","1f400","1f401","1f404","1f405","1f407","1f408","1f408-200d-2b1b","1f40a","1f40d","1f40e","1f411","1f412","1f413","1f414","1f415","1f416","1f418","1f41c","1f41f","1f426","1f427","1f431","1f436","1f437","1f438","1f43b","1f43c","1f43e","1f440","1f449","1f44b","1f44d","1f455","1f458","1f45f","1f463","1f464","1f465","1f466","1f467","1f468","1f468-200d-1f469-200d-1f467","1f469","1f469-200d-1f9b0","1f46b","1f474","1f475","1f476","1f477","1f487","1f48a","1f48c","1f48d","1f49b","1f4a1","1f4a7","1f4a8","1f4aa","1f4ac","1f4af","1f4b0","1f4b6","1f4b8","1f4bb","1f4bc","1f4be","1f4c4","1f4c5","1f4c6","1f4c8","1f4ca","1f4cb","1f4d0","1f4d4","1f4d6","1f4da","1f4dc","1f4dd","1f4de","1f4e1","1f4e2","1f4e7","1f4e8","1f4f0","1f4f1","1f4f2","1f4f4","1f4f7","1f4f8","1f4fa","1f500","1f501","1f504","1f507","1f50a","1f50b","1f50c","1f50d","1f50e","1f511","1f512","1f513","1f514","1f515","1f51f","1f522","1f524","1f525","1f527","1f528","1f534","1f535","1f555","1f556","1f557","1f558","1f55b","1f562","1f563","1f570","1f576","1f590","1f5d1","1f5d3","1f5e1","1f5e3","1f5fa","1f60b","1f60c","1f60e","1f614","1f622","1f623","1f629","1f62e-200d-1f4a8","1f634","1f635","1f637","1f642","1f64b","1f64c","1f64f","1f680","1f686","1f689","1f68b","1f68c","1f695","1f697","1f6a7","1f6aa","1f6ab","1f6ad","1f6b2","1f6b4","1f6b6","1f6b7","1f6bf","1f6c1","1f6c2","1f6c4","1f6cc","1f6cd","1f6ce","1f6cf","1f6e0","1f6e3","1f6eb","1f7e0","1f7e1","1f7e2","1f7e3","1f7e4","1f90f","1f912","1f915","1f916","1f91d","1f924","1f925","1f927","1f933","1f935","1f937","1f938","1f939","1f947","1f957","1f95a","1f963","1f964","1f966","1f96a","1f97e","1f981","1f986","1f989","1f98a","1f992","1f993","1f9a5","1f9b8","1f9c0","1f9c3","1f9d1-200d-1f373","1f9d1-200d-1f3eb","1f9d1-200d-1f4bc","1f9d1-200d-1f527","1f9d1-200d-1f692","1f9d1-200d-1f91d-200d-1f9d1","1f9d1-200d-2695","1f9d1-200d-2708","1f9d2","1f9d4","1f9d8","1f9e0","1f9e5","1f9e9","1f9ea","1f9ed","1f9ee","1f9f3","1f9f4","1f9fa","1f9fc","1f9fe","1fa71","1fa79","1fa93","1fa99","1fa9f","1faa5","1faaa","1fab1","231a","23e9","23ea","23f0","23f1","23f3","2600","2601","2615","267b","2693","2695","2696","2699","26a0","26a1","26aa","26ab","26bd","26c8","26f0","26f4","26fa","26fd","2702","2705","2708","2709","270d","2728","2744","274c","2753","2754","2757","2795","2796","2b06","2b50","30-20e3","31-20e3","32-20e3","33-20e3","34-20e3","35-20e3","36-20e3","37-20e3","38-20e3","39-20e3"];
-const EMOJI_SET=new Set(EMOJI_KEYS);
+const EMOJI_KEYS=["1f0cf.webp","1f193.webp","1f195.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31f.webp","1f320.webp","1f321.webp","1f327.webp","1f32a.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f338.webp","1f33c.webp","1f33f.webp","1f340.webp","1f343.webp","1f345.webp","1f347.webp","1f34a.webp","1f34c.webp","1f34e.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f366.webp","1f36c.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f380.webp","1f381.webp","1f382.webp","1f388.webp","1f389.webp","1f392.webp","1f393.webp","1f399.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3ab.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b5.webp","1f3b6.webp","1f3b9.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3d0.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e5.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f446.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f455.webp","1f456.webp","1f458.webp","1f45f.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f469-200d-1f467.webp","1f468.webp","1f469-200d-1f9b0.webp","1f469.webp","1f46b.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f487.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f49b.webp","1f4a1.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ac.webp","1f4af.webp","1f4b0.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4d0.webp","1f4d3.webp","1f4d4.webp","1f4d6.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f7.webp","1f4f8.webp","1f4fa.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f519.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f534.webp","1f535.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55b.webp","1f562.webp","1f563.webp","1f570.webp","1f575.webp","1f576.webp","1f590.webp","1f5bc.webp","1f5d1.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5fa.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60e.webp","1f614.webp","1f61e.webp","1f622.webp","1f623.webp","1f629.webp","1f62e-200d-1f4a8.webp","1f630.webp","1f634.webp","1f635.webp","1f637.webp","1f642.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f695.webp","1f697.webp","1f6a7.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6eb.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f90f.webp","1f912.webp","1f915.webp","1f916.webp","1f91d.webp","1f924.webp","1f927.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f947.webp","1f955.webp","1f957.webp","1f95a.webp","1f95b.webp","1f963.webp","1f964.webp","1f966.webp","1f96a.webp","1f971.webp","1f973.webp","1f97e.webp","1f981.webp","1f986.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f99c.webp","1f9a5.webp","1f9b8.webp","1f9c0.webp","1f9c3.webp","1f9ca.webp","1f9cd.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d2.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e5.webp","1f9e9.webp","1f9ea.webp","1f9ed.webp","1f9ee.webp","1f9f3.webp","1f9f4.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa79.webp","1fa7a.webp","1fa93.webp","1fa99.webp","1fa9f.webp","1faa5.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab9.webp","1fad8.webp","231a.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","2600.webp","2601.webp","2615.webp","267b.webp","2693.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26f0.webp","26f4.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270b.webp","270d.webp","270f.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2795.webp","2796.webp","2b06.webp","2b07.webp","2b50.webp","30-20e3.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
+const EMOJI_FILE=new Map(EMOJI_KEYS.map(f=>[f.replace(/\.\w+$/,''),f]));
+const EMOJI_SET={get size(){return EMOJI_FILE.size;},has:k=>EMOJI_FILE.has(k)};
 const EMOJI_RX=/\p{RI}\p{RI}|[#*0-9]️?⃣|\p{Extended_Pictographic}(?:️|\p{EMod})?(?:‍\p{Extended_Pictographic}(?:️|\p{EMod})?)*/gu;
 const EMOJI_SKIP='script,style,textarea,select,option,title,svg,.ej,[data-noemoji]';
 function emojiKey(m){if(!/\p{Emoji_Presentation}|️|⃣|\p{RI}/u.test(m))return null;
@@ -4854,7 +5001,7 @@ function emojiFill(el,text){
   el.textContent='';let last=0;EMOJI_RX.lastIndex=0;let m;
   while(m=EMOJI_RX.exec(text)){const k=emojiKey(m[0]);if(!k)continue;
     if(m.index>last)el.appendChild(document.createTextNode(text.slice(last,m.index)));
-    const im=document.createElement('img');im.className='emj';im.alt=m[0];im.draggable=false;im.decoding='async';im.src='emoji/'+k+'.svg';
+    const im=document.createElement('img');im.className='emj';im.alt=m[0];im.draggable=false;im.decoding='async';im.src='emoji/'+EMOJI_FILE.get(k);
     im.onerror=function(){this.replaceWith(document.createTextNode(this.alt));};
     el.appendChild(im);last=m.index+m[0].length;}
   if(last<text.length)el.appendChild(document.createTextNode(text.slice(last)));
@@ -5293,6 +5440,621 @@ initCloud();
     setTimeout(()=>{ready=true;updateBack();},300);
   });
 })();
+
+
+/* ---------- Daily habit: day streak, daily goal, streak shields, reminders ----------
+   Everything lives in C.hab so it syncs with the rest of the progress:
+   C.hab = {goal:minutes, goalAt:ms, daily:{'YYYY-MM-DD':{s:seconds,l:lessons,g:goalMet}}, frozen:[days kept by a shield], got:[rewards already given]}
+   Reminder settings are per device (localStorage 'leogrowReminder'). */
+const GOAL_OPTS=[[5,'🌱','Easy','Na luzie'],[10,'🌿','Regular','Regularnie'],[15,'🌳','Serious','Na serio'],[20,'🔥','Intense','Intensywnie'],[30,'🚀','Pro','Pro']];
+const STREAK_MILESTONES={3:5,7:10,14:20,30:40,50:50,100:100,200:150,365:365}; // day → bonus coins
+const GOAL_COINS=3, SHIELD_MAX=2;
+function localDay(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function _dayShift(k,n){const [y,m,d]=k.split('-').map(Number);return localDay(new Date(y,m-1,d+n));}
+function HAB(){C.hab=C.hab||{};const h=C.hab;h.daily=h.daily||{};h.frozen=h.frozen||[];h.got=h.got||[];return h;}
+const goalMin=()=>HAB().goal||10;
+const todayRec=()=>{const h=HAB(),k=localDay();return h.daily[k]||(h.daily[k]={s:0,l:0,g:false});};
+const todayMin=()=>Math.floor(((HAB().daily[localDay()]||{}).s||0)/60);
+const goalMetOn=k=>{const r=HAB().daily[k];return !!(r&&r.g);};
+function activeSet(){return new Set([...(C.days||[]),...HAB().frozen]);}
+/* a day counts when you finished a lesson or reached your goal; shield days keep the chain */
+streakOf=function(days){const set=new Set([...(days||[]),...HAB().frozen]);let k=localDay();if(!set.has(k))k=_dayShift(k,-1);let n=0;while(set.has(k)){n++;k=_dayShift(k,-1);}return n;};
+function streakStart(){const set=activeSet();let k=localDay();if(!set.has(k))k=_dayShift(k,-1);let s=null;while(set.has(k)){s=k;k=_dayShift(k,-1);}return s;}
+const _shopFreezes=()=>typeof shopCount==='function'?(shopCount('freeze')||0):0;
+function _earn(n,why){if(typeof shopEarn==='function'){try{shopEarn(n,why);}catch(e){}}}
+function shieldsLeft(){const h=HAB();return Math.max(0,Math.min(SHIELD_MAX,h.got.filter(x=>x.startsWith('sh:')).length-h.got.filter(x=>x.startsWith('fu:')).length));}
+const _coinTxt=(n,pl)=>typeof shopEarn==='function'?(pl?` +${n} monet`:` +${n} coins`):'';
+function bestStreak(){const set=activeSet(),ks=[...set].sort();let best=0,run=0,prev=null;ks.forEach(k=>{run=prev&&_dayShift(prev,1)===k?run+1:1;best=Math.max(best,run);prev=k;});return best;}
+function markActiveToday(){C.days=C.days||[];const k=localDay();if(!C.days.includes(k))C.days.push(k);}
+/* rewards for reaching streak milestones; a new shield every 7 days of streak (max 2 kept) */
+function checkStreakRewards(){
+  const h=HAB(),n=streakOf(C.days),st=streakStart();if(!n||!st)return;
+  Object.keys(STREAK_MILESTONES).map(Number).forEach(m=>{const key='m'+m+':'+st;if(n>=m&&!h.got.includes(key)){h.got.push(key);_earn(STREAK_MILESTONES[m],'streak-'+m+'-'+st);
+    setTimeout(()=>{_comboToastText(T2(`🔥 ${m}-day streak!`+_coinTxt(STREAK_MILESTONES[m]),`🔥 ${m} dni z rzędu!`+_coinTxt(STREAK_MILESTONES[m],1)));if(typeof burstConfetti==='function')burstConfetti();},2200);}});
+  if(n>=7&&n%7===0){const key='sh:'+localDay();if(!h.got.includes(key)&&shieldsLeft()<SHIELD_MAX){h.got.push(key);setTimeout(()=>_comboToastText(T2('🛡️ You earned a streak shield!','🛡️ Masz nową tarczę serii!')),4200);}}
+}
+/* missed a day or two? a saved shield fills the gap so the streak survives */
+function applyShields(){
+  const h=HAB(),set=activeSet(),y=_dayShift(localDay(),-1);if(set.has(y)||set.has(localDay())||!set.size)return;
+  const last=[...set].sort().pop();if(!last||last>y)return;
+  const gap=[];let k=_dayShift(last,1);while(k<=y&&gap.length<=SHIELD_MAX+5){gap.push(k);k=_dayShift(k,1);}
+  const free=shieldsLeft();if(!gap.length||gap.length>free+_shopFreezes())return;
+  const before=streakOf(C.days);for(let i=free;i<gap.length;i++)if(!shopUse('freeze'))return;gap.slice(0,free).forEach(d=>h.got.push('fu:'+d));h.frozen.push(...gap);const after=streakOf(C.days);
+  if(after>before){saveProgress();setTimeout(()=>_comboToastText(T2(`🛡️ A shield saved your ${after}-day streak!`,`🛡️ Tarcza uratowała Twoją serię: ${after} dni!`)),1200);}
+}
+function setGoal(m){const h=HAB();h.goal=m;h.goalAt=Date.now();const r=todayRec();if(!r.g&&r.s>=m*60)goalReached(true);saveProgress();sfxWhoosh&&sfxWhoosh();}
+function goalReached(quiet){
+  const r=todayRec(),k=localDay(),h=HAB();if(r.g)return;r.g=true;markActiveToday();
+  if(!h.got.includes('g:'+k)){h.got.push('g:'+k);_earn(GOAL_COINS,'goal-'+k);}
+  checkStreakRewards();saveProgress();pushReminderState();
+  if(!quiet){_comboToastText(T2('🎯 Daily goal reached!'+_coinTxt(GOAL_COINS),'🎯 Dzienny cel osiągnięty!'+_coinTxt(GOAL_COINS,1)));if(typeof burstConfetti==='function')burstConfetti();}
+}
+/* learning time: counted while a lesson is open, on screen, and you touched it in the last 90 s */
+let _habLastAct=Date.now();
+['pointerdown','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{_habLastAct=Date.now();},{passive:true,capture:true}));
+setInterval(()=>{
+  if(!activeLesson||document.visibilityState!=='visible'||Date.now()-_habLastAct>90000)return;
+  const r=todayRec();r.s+=5;
+  if(!r.g&&r.s>=goalMin()*60)goalReached();
+  else if(r.s%60===0)saveProgress(true);
+},5000);
+/* lesson finished: count it, fix the day key to local time, give streak rewards, show today's goal */
+const _finishOld=rLessonFinish;
+rLessonFinish=function(){
+  const r=todayRec();r.l=(r.l||0)+1;markActiveToday();
+  const html=_finishOld();
+  markActiveToday();checkStreakRewards();saveProgress();pushReminderState();
+  return html.replace('<div class="star-row">',goalStripHtml(true)+'<div class="star-row">');
+};
+/* sync: keep the best of both devices */
+const _mergeOld=mergeProgress;
+mergeProgress=function(a,b){
+  const out=_mergeOld(a,b),ha=(a.C&&a.C.hab)||{},hb=(b.C&&b.C.hab)||{};
+  const pick=(ha.goalAt||0)>=(hb.goalAt||0)?ha:hb,daily={};
+  [ha,hb].forEach(x=>Object.entries(x.daily||{}).forEach(([k,r])=>{const o=daily[k]||{s:0,l:0,g:false};daily[k]={s:Math.max(o.s,r.s||0),l:Math.max(o.l,r.l||0),g:o.g||!!r.g};}));
+  const keep=localDay(new Date(Date.now()-400*864e5)); // keep about a year of daily records
+  Object.keys(daily).forEach(k=>{if(k<keep)delete daily[k];});
+  out.C.hab={goal:pick.goal||ha.goal||hb.goal,goalAt:pick.goalAt||0,daily,frozen:[...new Set([...(ha.frozen||[]),...(hb.frozen||[])])].sort(),got:[...new Set([...(ha.got||[]),...(hb.got||[])])]};
+  return out;
+};
+const _pullOld=pullAndMerge;
+pullAndMerge=async function(){const ok=await _pullOld.apply(this,arguments);if(ok){applyShields();pushReminderState();if(!activeLesson)renderCourse();}return ok;};
+setTimeout(()=>{if(typeof USER==='undefined'||!USER)applyShields();},4000);
+
+/* ---------- what you see ---------- */
+function goalRing(size){
+  const g=goalMin(),m=Math.min(todayMin(),g),p=g?m/g:0,R=size/2-5,L=2*Math.PI*R,done=todayRec().g;
+  return `<svg class="goal-ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${R}" class="gr-bg"/><circle cx="${size/2}" cy="${size/2}" r="${R}" class="gr-fg ${done?'done':''}" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-(done?1:p))}" transform="rotate(-90 ${size/2} ${size/2})"/><text x="50%" y="53%" text-anchor="middle" dominant-baseline="middle">${done?'✓':m}</text></svg>`;
+}
+function goalStripHtml(onFinish){
+  const g=goalMin(),m=todayMin(),done=todayRec().g,n=streakOf(C.days);
+  const txt=done?T2(`Daily goal done · ${m} min today`,`Dzienny cel zrobiony · dziś ${m} min`):T2(`Today: ${m} / ${g} min`,`Dziś: ${m} / ${g} min`);
+  return `<div class="habit-strip ${onFinish?'on-finish':''}">${goalRing(46)}<div><b>${txt}</b><small>🔥 ${n} ${T2(n===1?'day streak':'day streak','dni z rzędu')}${shieldsLeft()?` · 🛡️ ${shieldsLeft()}`:''}</small></div></div>`;
+}
+function weekDots(){
+  const set=activeSet(),fr=new Set(HAB().frozen),names=LANG==='pl'?['Nd','Pn','Wt','Śr','Cz','Pt','So']:['Su','Mo','Tu','We','Th','Fr','Sa'];
+  return [...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=localDay(d);
+    const cls=fr.has(k)?'shield':goalMetOn(k)?'goal':set.has(k)?'on':'';return `<div class="wk-day ${cls} ${i===6?'today':''}"><i>${fr.has(k)?'🛡️':goalMetOn(k)?'★':''}</i><small>${names[d.getDay()]}</small></div>`;}).join('');
+}
+function dailyCardHtml(){
+  const n=streakOf(C.days),done=todayRec().g,practisedToday=activeSet().has(localDay());
+  const msg=done?T2('Goal done for today — see you tomorrow!','Cel na dziś zrobiony — do jutra!')
+    :practisedToday?T2(`Keep going to reach your ${goalMin()} min goal.`,`Ucz się dalej, aby dobić do celu ${goalMin()} min.`)
+    :n?T2(`Do a lesson today to keep your ${n}-day streak.`,`Zrób dziś lekcję, aby utrzymać serię ${n} dni.`)
+    :T2('Do one lesson today to start a streak.','Zrób dziś jedną lekcję, aby zacząć serię.');
+  const rem=reminderCfg();
+  return `<div class="daily-card"><div class="dc-ring">${goalRing(64)}</div><div class="dc-main">
+    <div class="dc-top"><b class="dc-streak ${n?'':'zero'}">🔥 ${n}</b><span>${T2('day streak','dni z rzędu')}</span>${shieldsLeft()?`<span class="dc-shield" title="${T2('Streak shields','Tarcze serii')}">🛡️ ${shieldsLeft()}</span>`:''}</div>
+    <p>${msg}</p><div class="dc-week">${weekDots()}</div></div>
+    <button class="chip-btn dc-set" onclick="openHabits()">${rem.on?'🔔 '+rem.time:'🎯 '+T2('Goal & reminder','Cel i przypomnienie')}</button></div>`;
+}
+/* home screens and My progress get the daily card */
+const _myHomeOld=myHomeHtml;
+myHomeHtml=function(p){return dailyCardHtml()+_myHomeOld(p);};
+const _homeOld=homeHtml;
+homeHtml=function(){const h=_homeOld();const a='<div class="me-card"';return h.includes(a)?h.replace(a,dailyCardHtml()+a):dailyCardHtml()+h;};
+const _progOld=progressHtml;
+progressHtml=function(){
+  let h=_progOld();
+  const b=bestStreak(),totalMin=Math.round(Object.values(HAB().daily).reduce((s,r)=>s+(r.s||0),0)/60),goals=Object.values(HAB().daily).filter(r=>r.g).length;
+  const panel=`<div class="panel habit-panel">${zoneTag(T2('DAILY HABIT','CODZIENNY NAWYK'))}${goalStripHtml()}
+    <div class="habit-stats"><div><b>🏆 ${b}</b><small>${T2('best streak','najdłuższa seria')}</small></div><div><b>🎯 ${goals}</b><small>${T2('goals reached','osiągnięte cele')}</small></div><div><b>⏱️ ${totalMin}</b><small>${T2('minutes learnt','minut nauki')}</small></div><div><b>🛡️ ${shieldsLeft()}/${SHIELD_MAX}</b><small>${T2('shields','tarcze')}</small></div></div>
+    <p class="sub" style="margin:10px 0 0;">${T2('Every 7 days in a row you earn a 🛡️ shield. If you miss a day, a shield saves your streak.','Za każde 7 dni z rzędu dostajesz 🛡️ tarczę. Gdy opuścisz dzień, tarcza uratuje serię.')}</p>
+    <button class="btn btn-gold lesson-btn" style="margin-top:12px;" onclick="openHabits()">🎯 ${T2('Daily goal & reminder','Dzienny cel i przypomnienie')}</button></div>`;
+  const i=h.indexOf('<h2 class="section-title">');
+  return i<0?h+panel:h.slice(0,i)+panel+h.slice(i);
+};
+/* settings get a row for the goal */
+const _settingsOld=openSettings;
+openSettings=function(){_settingsOld();const l=document.querySelector('#authModal .set-list');if(!l)return;
+  const r=document.createElement('div');r.className='set-row';r.innerHTML=`<b>🎯 ${T2('Daily goal','Dzienny cel')}</b><div class="set-ctl"><button class="seg" onclick="openHabits()">${goalMin()} min${reminderCfg().on?' · 🔔 '+reminderCfg().time:''}</button></div>`;
+  l.insertBefore(r,l.children[1]||null);};
+
+/* the goal & reminder window */
+function openHabits(){
+  const g=goalMin(),rem=reminderCfg(),perm=('Notification' in window)?Notification.permission:'unsupported';
+  const opts=GOAL_OPTS.map(([m,e,en,pl])=>`<button class="goal-opt ${m===g?'on':''}" onclick="setGoal(${m});openHabits()"><span>${e}</span><b>${m} min</b><small>${T2(en,pl)}</small></button>`).join('');
+  const notifNote=perm==='denied'?T2('Notifications are blocked for this site. Allow them in your browser settings, or use the calendar button.','Powiadomienia są zablokowane dla tej strony. Włącz je w ustawieniach przeglądarki albo użyj przycisku kalendarza.')
+    :perm==='unsupported'||(isIOS&&!isStandalone())?T2('This browser can\'t show reminders. The calendar reminder works everywhere.','Ta przeglądarka nie pokaże przypomnień. Przypomnienie w kalendarzu działa wszędzie.')
+    :T2('Leogrow reminds you only if you haven\'t reached your goal yet that day.','Leogrow przypomni tylko wtedy, gdy danego dnia cel nie jest jeszcze osiągnięty.');
+  authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag(T2('DAILY GOAL','DZIENNY CEL'))}<h2 class="title">🎯 ${T2('How much a day?','Ile dziennie?')}</h2>
+    <p class="sub">${T2('Pick a goal you can keep every day. You can change it any time.','Wybierz cel, który dasz radę utrzymać każdego dnia. Możesz go zmienić w każdej chwili.')}</p>
+    <div class="goal-opts">${opts}</div>
+    <h3 class="habit-h3">🔔 ${T2('Daily reminder','Codzienne przypomnienie')}</h3>
+    <div class="rem-row"><label>${T2('Remind me at','Przypomnij o')} <input type="time" id="remTime" value="${rem.time}" onchange="setReminderTime(this.value)"></label></div>
+    <div class="rem-btns">
+      ${rem.on?`<button class="btn secondary lesson-btn" onclick="setReminderOn(false)">🔕 ${T2('Turn off','Wyłącz')}</button>`:`<button class="btn btn-gold lesson-btn" onclick="enableReminder()">🔔 ${T2('Turn on reminders','Włącz przypomnienia')}</button>`}
+      <button class="btn secondary lesson-btn" onclick="downloadReminderIcs()">📅 ${T2('Add to my calendar','Dodaj do kalendarza')}</button>
+    </div><p class="rem-note">${notifNote}</p>`);
+}
+/* ---------- reminders ---------- */
+function reminderCfg(){try{return Object.assign({on:false,time:'18:00'},JSON.parse(localStorage.getItem('leogrowReminder')||'{}'));}catch(e){return {on:false,time:'18:00'};}}
+function saveReminderCfg(c){try{localStorage.setItem('leogrowReminder',JSON.stringify(c));}catch(e){}pushReminderState();if(!activeLesson)renderCourse();}
+function setReminderTime(t){if(!/^\d\d:\d\d$/.test(t))return;const c=reminderCfg();c.time=t;saveReminderCfg(c);if(c.on)_comboToastText(T2('🔔 Reminder set for ','🔔 Przypomnienie ustawione na ')+t);}
+function setReminderOn(on){const c=reminderCfg();c.on=on;saveReminderCfg(c);openHabits();}
+async function enableReminder(){
+  if(!('Notification' in window)||(isIOS&&!isStandalone())){_comboToastText(T2('📅 Use the calendar reminder on this device','📅 Na tym urządzeniu użyj przypomnienia w kalendarzu'));return;}
+  let p=Notification.permission;if(p==='default'){try{p=await Notification.requestPermission();}catch(e){}}
+  if(p!=='granted'){openHabits();return;}
+  const c=reminderCfg();c.on=true;saveReminderCfg(c);
+  try{const reg=await navigator.serviceWorker.ready;if(reg.periodicSync){try{await reg.periodicSync.register('leogrow-daily',{minInterval:60*60*1000});}catch(e){}}}catch(e){}
+  _comboToastText(T2('🔔 Reminder on — ','🔔 Przypomnienie włączone — ')+c.time);openHabits();
+}
+/* the service worker reads this to decide whether to remind you (it can wake up even when the app is closed, on Android) */
+function pushReminderState(){
+  try{if(!('caches' in window))return;const c=reminderCfg();
+    const st={on:c.on,time:c.time,done:todayRec().g,today:localDay(),streak:streakOf(C.days),goal:goalMin(),lang:LANG,notified:localStorage.getItem('leogrowNotified')||''};
+    caches.open('leogrow-state').then(ch=>ch.put('./__reminder',new Response(JSON.stringify(st),{headers:{'Content-Type':'application/json'}}))).catch(()=>{});}catch(e){}
+}
+function reminderText(){const n=streakOf(C.days),m=Math.max(0,goalMin()-todayMin());
+  return n?{t:T2(`🔥 Keep your ${n}-day streak!`,`🔥 Utrzymaj serię ${n} dni!`),b:T2(`${m} minutes of English and today's goal is done.`,`${m} minut angielskiego i dzisiejszy cel zrobiony.`)}
+          :{t:T2('Time for English with Leo! 🦁','Czas na angielski z Leo! 🦁'),b:T2(`Just ${goalMin()} minutes today. Let's go!`,`Tylko ${goalMin()} minut dzisiaj. Do dzieła!`)};}
+/* while the app is open in the background: remind at the chosen time */
+setInterval(async()=>{
+  const c=reminderCfg();if(!c.on||!('Notification' in window)||Notification.permission!=='granted')return;
+  const now=new Date(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  let last='';try{last=localStorage.getItem('leogrowNotified')||'';}catch(e){}
+  if(hm<c.time||last===localDay()||todayRec().g||document.visibilityState==='visible')return;
+  try{localStorage.setItem('leogrowNotified',localDay());}catch(e){}pushReminderState();
+  const {t,b}=reminderText();
+  try{const reg=await navigator.serviceWorker.ready;reg.showNotification(t,{body:b,icon:'lingrow-icon-192.png',badge:'lingrow-icon-192.png',tag:'leogrow-daily'});}catch(e){try{new Notification(t,{body:b,icon:'lingrow-icon-192.png'});}catch(_){}}
+},60000);
+/* calendar reminder: works on every phone and computer, even when the app is closed */
+function downloadReminderIcs(){
+  const c=reminderCfg(),[hh,mm]=c.time.split(':'),d=localDay().replace(/-/g,''),url=location.origin+location.pathname.replace(/[^/]*$/,'');
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Leogrow//Daily reminder//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:leogrow-daily-'+d+'@leogrow','DTSTAMP:'+stamp,
+    `DTSTART:${d}T${hh}${mm}00`,'DURATION:PT'+goalMin()+'M',
+    'RRULE:FREQ=DAILY','SUMMARY:'+T2('🔥 Leogrow — '+goalMin()+' min of English','🔥 Leogrow — '+goalMin()+' min angielskiego'),
+    'DESCRIPTION:'+T2('Keep your streak going! ','Utrzymaj serię! ')+url,'URL:'+url,
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Leogrow','TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='leogrow-reminder.ics';document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+  _comboToastText(T2('📅 Open the file to add the daily reminder','📅 Otwórz plik, aby dodać codzienne przypomnienie'));
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')pushReminderState();});
+setTimeout(pushReminderState,3000);
+
+
+/* =====================================================================
+   Rewards: coin wallet, shop, 3 tries per question, stamina (energy)
+   Data lives in C.w and syncs with the rest of the progress.
+   ===================================================================== */
+const SHOP_ITEMS=[
+ // power-ups (used up)
+ {id:'freeze',cat:'power',give:['freeze',1],icon:'🧊',price:50,en:'Streak freeze',pl:'Zamrożenie serii',d:'Keeps your streak safe if you miss a day.',dp:'Chroni Twoją serię, gdy opuścisz dzień.'},
+ {id:'hint5',cat:'power',give:['hint',5],icon:'💡',price:40,en:'Hint pack ×5',pl:'Podpowiedzi ×5',d:'Hide a wrong answer, or show a letter in Wordle and spelling.',dp:'Ukryj złą odpowiedź albo pokaż literę w Wordle i literowaniu.'},
+ {id:'spin3',cat:'power',give:['spin',3],icon:'🎡',price:25,en:'3 extra wheel spins',pl:'3 dodatkowe obroty koła',d:'Spin the Fortune Wheel more times. Right answers on extra spins pay +3 🪙.',dp:'Więcej obrotów Koła Fortuny. Dobra odpowiedź po dodatkowym obrocie daje +3 🪙.'},
+ {id:'energy',cat:'power',now:true,icon:'⚡',price:30,en:'Energy refill',pl:'Pełna energia',d:'Fills your energy to the top right away.',dp:'Od razu napełnia energię do pełna.'},
+ // Leo's wardrobe (one per slot)
+ {id:'o_cap',cat:'leo',slot:'head',icon:'🧢',price:80,en:'Baseball cap',pl:'Czapka z daszkiem'},
+ {id:'o_tophat',cat:'leo',slot:'head',icon:'🎩',price:120,en:'Top hat',pl:'Cylinder'},
+ {id:'o_sunhat',cat:'leo',slot:'head',icon:'👒',price:100,en:'Summer hat',pl:'Letni kapelusz'},
+ {id:'o_grad',cat:'leo',slot:'head',icon:'🎓',price:180,en:'Graduation cap',pl:'Biret'},
+ {id:'o_crown',cat:'leo',slot:'head',icon:'👑',price:250,en:'Royal crown',pl:'Korona'},
+ {id:'o_flowers',cat:'leo',slot:'head',icon:'🌸',price:110,en:'Spring flower crown',pl:'Wiosenny wianek',season:true},
+ {id:'o_glasses',cat:'leo',slot:'face',icon:'👓',price:90,en:'Reading glasses',pl:'Okulary'},
+ {id:'o_shades',cat:'leo',slot:'face',icon:'🕶️',price:110,en:'Cool sunglasses',pl:'Okulary przeciwsłoneczne'},
+ {id:'o_bow',cat:'leo',slot:'neck',icon:'🎀',price:70,en:'Bow',pl:'Kokarda'},
+ {id:'o_scarf',cat:'leo',slot:'neck',icon:'🧣',price:100,en:'Winter scarf',pl:'Zimowy szalik',season:true},
+ {id:'o_medal',cat:'leo',slot:'neck',icon:'🏅',price:140,en:'Gold medal',pl:'Złoty medal'},
+ // app themes
+ {id:'t_classic',cat:'theme',free:true,icon:'🌌',price:0,en:'Classic navy & gold',pl:'Klasyczny granat i złoto',sw:['#050a30','#ecb83a']},
+ {id:'t_forest',cat:'theme',icon:'🌲',price:150,en:'Forest',pl:'Las',sw:['#0b2a1c','#e3b341']},
+ {id:'t_ocean',cat:'theme',icon:'🌊',price:150,en:'Ocean',pl:'Ocean',sw:['#052a3a','#ff9f6b']},
+ {id:'t_sunset',cat:'theme',icon:'🌅',price:200,en:'Sunset',pl:'Zachód słońca',sw:['#2a0b3a','#ff8a3d']},
+ {id:'t_berry',cat:'theme',icon:'🍇',price:200,en:'Berry',pl:'Jagoda',sw:['#330a26','#f2b84b']},
+ {id:'t_snow',cat:'theme',icon:'❄️',price:250,en:'Winter snow',pl:'Zimowy śnieg',sw:['#0e2741','#9fd8ff'],season:true},
+ // bonus lessons
+ {id:'b_idioms',cat:'lesson',icon:'🦜',price:120,en:'Everyday idioms',pl:'Codzienne idiomy',d:'“Piece of cake”, “break the ice” and 8 more.',dp:'„Piece of cake”, „break the ice” i 8 innych.'},
+ {id:'b_slang',cat:'lesson',icon:'🇬🇧',price:120,en:'British slang',pl:'Brytyjski slang',d:'Cheers, mate! Words people really say in the UK.',dp:'Cheers, mate! Słowa, których naprawdę używa się w UK.'},
+ {id:'b_phrasal',cat:'lesson',icon:'🎉',price:120,en:'Phrasal verb party',pl:'Impreza czasowników frazowych',d:'Get up, give up, find out and more.',dp:'Get up, give up, find out i inne.'},
+ {id:'b_rhymes',cat:'lesson',icon:'🎶',price:120,en:'Songs, rhymes & tongue twisters',pl:'Piosenki, rymy i łamańce językowe',d:'Sing a chant, find rhymes and twist your tongue.',dp:'Zaśpiewaj rymowankę, znajdź rymy i połam język.'},
+ // profile frames
+ {id:'f_gold',cat:'frame',icon:'🟡',price:60,en:'Gold ring',pl:'Złota obwódka'},
+ {id:'f_leaf',cat:'frame',icon:'🍃',price:90,en:'Leafy',pl:'Liście'},
+ {id:'f_rainbow',cat:'frame',icon:'🌈',price:120,en:'Rainbow',pl:'Tęcza'},
+ {id:'f_star',cat:'frame',icon:'✨',price:150,en:'Starry',pl:'Gwiazdki'},
+ {id:'f_fire',cat:'frame',icon:'🔥',price:200,en:'Fire',pl:'Ogień'},
+ {id:'f_ice',cat:'frame',icon:'🧊',price:200,en:'Ice',pl:'Lód'},
+ // profile badges
+ {id:'g_globe',cat:'badge',icon:'🌍',price:80,en:'Globetrotter',pl:'Obieżyświat'},
+ {id:'g_rocket',cat:'badge',icon:'🚀',price:80,en:'Rocket learner',pl:'Rakieta'},
+ {id:'g_lion',cat:'badge',icon:'🦁',price:100,en:'Brave heart',pl:'Odważne serce'},
+ {id:'g_brain',cat:'badge',icon:'🧠',price:100,en:'Big brain',pl:'Mózgowiec'},
+ {id:'g_target',cat:'badge',icon:'🎯',price:120,en:'Sharp shooter',pl:'Snajper'},
+ {id:'g_dragon',cat:'badge',icon:'🐉',price:250,en:'Dragon',pl:'Smok'},
+ {id:'g_gem',cat:'badge',icon:'💎',price:300,en:'Diamond',pl:'Diament'},
+];
+const SHOP_CATS=[
+ {id:'power',icon:'⚡',en:'Power-ups',pl:'Wzmocnienia'},
+ {id:'leo',icon:'👒',en:"Leo's wardrobe",pl:'Szafa Leo'},
+ {id:'theme',icon:'🎨',en:'App themes',pl:'Motywy aplikacji'},
+ {id:'lesson',icon:'📚',en:'Bonus lessons',pl:'Lekcje bonusowe'},
+ {id:'frame',icon:'🖼️',en:'Profile frames',pl:'Ramki profilu'},
+ {id:'badge',icon:'🏷️',en:'Profile badges',pl:'Odznaki profilu'},
+];
+const SHOP_BY=Object.fromEntries(SHOP_ITEMS.map(i=>[i.id,i]));
+const SLOT_OF={leo:null,theme:'theme',frame:'frame',badge:'badge'};
+
+/* ---------- wallet ---------- */
+function W(){C.w=C.w||{};const w=C.w;w.e=w.e||{};w.p=w.p||{};w.u=w.u||{};w.eq=w.eq||{};return w;}
+const _uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function coins(){const w=W();let n=0;for(const k in w.e)n+=+w.e[k]||0;for(const k in w.p)n-=+(w.p[k][1])||0;return Math.max(0,n);}
+function owned(id){const it=SHOP_BY[id];if(it&&it.free)return true;const w=W();for(const k in w.p)if(w.p[k][0]===id)return true;return false;}
+function shopCount(key){const w=W();let n=0;for(const k in w.p){const it=SHOP_BY[w.p[k][0]];if(it&&it.give&&it.give[0]===key)n+=it.give[1];}for(const k in w.u)if(w.u[k]===key)n--;return Math.max(0,n);}
+function shopUse(key){if(shopCount(key)<=0)return false;W().u[_uid()]=key;saveProgress();renderWallet();return true;}
+function shopEarn(n,why){n=Math.round(+n||0);if(n<=0)return 0;const w=W(),k=why?String(why):_uid();if(w.e[k])return 0;w.e[k]=n;saveProgress();renderWallet();return n;}
+function mergeW(a,b){a=a||{};b=b||{};const o={e:Object.assign({},a.e,b.e),p:Object.assign({},a.p,b.p),u:Object.assign({},a.u,b.u)};
+  o.eq=((a.eq&&a.eq.t)||0)>=((b.eq&&b.eq.t)||0)?(a.eq||{}):(b.eq||{});
+  const ea=a.en,eb=b.en;o.en=ea&&eb?(((ea.s||0)>=(eb.s||0))?ea:eb):(ea||eb);if(!o.en)delete o.en;return o;}
+(function(){
+  const _lp=loadProgress; loadProgress=function(){_lp();try{const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(d&&d.C&&d.C.w)C.w=d.C.w;}catch(e){}};
+  const _mp=mergeProgress; mergeProgress=function(a,b){const o=_mp(a,b);o.C.w=mergeW(a.C&&a.C.w,b.C&&b.C.w);return o;};
+})();
+
+/* ---------- stamina (energy) ---------- */
+const EN_MAX=20, EN_MS=3*60*1000;
+// tester accounts never get blocked; local tester mode (file / ?tester) keeps stamina so it can be tested
+const energyFree=()=>(typeof isTesterAccount==='function'&&isTesterAccount())||(typeof isPremium==='function'&&isPremium()&&!TESTER);
+function energyNow(){const w=W(),now=Date.now();let en=w.en;if(!en||typeof en.v!=='number'){en=w.en={v:EN_MAX,t:now,s:now};}
+  if(en.v>=EN_MAX){en.v=EN_MAX;en.t=now;return EN_MAX;}
+  const g=Math.floor((now-en.t)/EN_MS);if(g>0){en.v=Math.min(EN_MAX,en.v+g);en.t=en.v>=EN_MAX?now:en.t+g*EN_MS;}
+  return en.v;}
+function energyNextMs(){const v=energyNow();if(v>=EN_MAX)return 0;return Math.max(0,EN_MS-(Date.now()-W().en.t));}
+function energySet(v){energyNow();const en=W().en,now=Date.now();if(en.v>=EN_MAX&&v<EN_MAX)en.t=now;en.v=Math.max(0,Math.min(EN_MAX,v));en.s=now;saveProgress();renderWallet();}
+const energyCounts=()=>!!(activeLesson&&!activeLesson.review)&&!energyFree();
+let _lastSpend=0;
+function spendEnergy(){
+  if(!energyCounts())return;const now=Date.now();if(now-_lastSpend<300)return;_lastSpend=now;
+  const v=energyNow();energySet(v-1);
+  if(v-1<=0)setTimeout(()=>showNoEnergy(),700);
+}
+const _fmtMs=ms=>{const s=Math.ceil(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+(function(){const _rw=registerWrongAnswer;registerWrongAnswer=function(){const r=_rw.apply(this,arguments);spendEnergy();return r;};})();
+
+function showNoEnergy(lesson){
+  if(energyFree())return;
+  let m=document.getElementById('noEnergy');if(!m){m=document.createElement('div');m.id='noEnergy';m.className='bonus-overlay rw-overlay';document.body.appendChild(m);}
+  m._lesson=lesson||null;
+  const draw=()=>{
+    const v=energyNow(),c=coins(),rv=PROF()?reviewWords(PROF().track).length:0;
+    m.innerHTML=`<div class="bonus-modal rw-modal"><div class="rw-big">${v>0?'⚡':'😴'}</div>
+      <h3>${v>0?T2('Energy is back!','Energia wróciła!'):T2('Out of energy','Brak energii')}</h3>
+      <div class="rw-meter big"><i style="width:${v/EN_MAX*100}%"></i><span>⚡ ${v}/${EN_MAX}</span></div>
+      <p>${v>0?T2('You can carry on.','Możesz grać dalej.'):T2('Every wrong try uses 1 ⚡. Leo needs a little rest.','Każda błędna próba zabiera 1 ⚡. Leo potrzebuje chwili odpoczynku.')}</p>
+      <p class="rw-small">${T2('+1 ⚡ every 3 minutes','+1 ⚡ co 3 minuty')}${v<EN_MAX?` · ${T2('next in','następna za')} <b id="enNext">${_fmtMs(energyNextMs())}</b>`:''}</p>
+      <div class="rw-actions">
+        ${v>0?`<button class="btn btn-gold" onclick="closeNoEnergy(true)">${T2('Continue →','Dalej →')}</button>`:''}
+        <button class="btn ${v>0?'secondary':'btn-gold'}" ${c<30?'disabled':''} onclick="buyItem('energy');closeNoEnergy(true)">⚡ ${T2('Refill','Napełnij')} · 30 🪙</button>
+        ${c<30?`<p class="rw-small">${T2('You have','Masz')} ${c} 🪙</p>`:''}
+        ${rv?`<button class="btn secondary" onclick="closeNoEnergy();if(activeLesson)showCourse();openReview(PROF().track)">🔁 ${T2('Practise review words (no energy needed)','Powtórz trudne słowa (bez energii)')}</button>`:''}
+        <button class="btn secondary" onclick="closeNoEnergy();if(activeLesson)showCourse()">🗺️ ${T2('Back to course','Wróć do kursu')}</button>
+        ${TESTER?`<button class="btn secondary" onclick="energySet(${EN_MAX});closeNoEnergy(true)">🧪 ${T2('Tester: refill free','Tester: napełnij za darmo')}</button>`:''}
+      </div></div>`;
+  };
+  draw();m.classList.add('show');
+  clearInterval(m._t);let last=energyNow();
+  m._t=setInterval(()=>{const v=energyNow();if(v!==last){last=v;draw();}else{const e=document.getElementById('enNext');if(e)e.textContent=_fmtMs(energyNextMs());}},1000);
+}
+function closeNoEnergy(go){const m=document.getElementById('noEnergy');if(!m)return;clearInterval(m._t);m.classList.remove('show');
+  if(go&&m._lesson&&energyNow()>0){const l=m._lesson;m._lesson=null;openLesson(l);}}
+
+/* ---------- wallet chips (top bar + lesson bar) ---------- */
+function renderWallet(){
+  const row=document.querySelector('#lessonView .xp-bar-row');
+  if(row&&!document.getElementById('rwBar')){const d=document.createElement('div');d.id='rwBar';d.className='rw-bar';row.parentNode.insertBefore(d,row.nextSibling);}
+  const bar=document.getElementById('rwBar');
+  if(bar){const v=energyNow(),free=energyFree();
+    bar.innerHTML=`<div class="rw-meter" title="${T2('Energy','Energia')}"><i style="width:${free?100:v/EN_MAX*100}%"></i><span>⚡ ${free?'∞':v+'/'+EN_MAX}</span></div>
+      <button class="rw-chip" onclick="useHint()" title="${T2('Use a hint','Użyj podpowiedzi')}">💡 <b>${shopCount('hint')}</b></button>
+      <button class="rw-chip" onclick="openShop()" title="Shop">🪙 <b>${coins()}</b></button>`;}
+}
+setInterval(()=>{if(activeLesson)renderWallet();},20000);
+
+/* ---------- 3 tries per question ---------- */
+let TRIES={};
+function tryMiss(k,max){k=current+':'+k;TRIES[k]=(TRIES[k]||0)+1;const left=max-TRIES[k];
+  if(left>0)setTimeout(()=>_comboToastText(T2(`✋ Not quite — ${left} ${left===1?'try':'tries'} left`,`✋ Jeszcze nie — ${left===1?'została 1 próba':'zostały '+left+' próby'}`)),60);
+  return left;}
+const _maxT=n=>Math.max(1,Math.min(3,n-1));
+const _optEls=()=>[...document.querySelectorAll('#panel .opts .opt')];
+function _lockOpts(){_optEls().forEach(o=>o.style.pointerEvents='none');}
+(function(){
+  // Find it
+  const _cb=cbPick;cbPick=function(k,el){if(CB.ans)return;const t=CB.order[CB.i];if(CB.opts[k]===t)return _cb(k,el);
+    if(el.classList.contains('wrong')||el.classList.contains('hint-out'))return;
+    const left=tryMiss('cb'+CB.i,_maxT(CB.opts.length));_cb(k,el);el.style.pointerEvents='none';
+    if(left<=0){CB.ans=true;const r=_optEls()[CB.opts.indexOf(t)];if(r)r.classList.add('correct');_lockOpts();setTimeout(()=>{CB.i++;setPanel(cbRender());},1300);}};
+  // Balloon pop
+  const _bp=bpPick;bpPick=function(idx,el){if(BP.answered)return;if(BP.opts[idx]===BP.correctCard)return _bp(idx,el);
+    const left=tryMiss('bp'+BP.i,_maxT(BP.opts.length));_bp(idx,el);
+    if(left<=0){BP.answered=true;const r=document.querySelector(`#balloonField .balloon[onclick^="bpPick(${BP.opts.indexOf(BP.correctCard)},"]`);
+      document.querySelectorAll('#balloonField .balloon').forEach(b=>b.style.pointerEvents='none');if(r)r.classList.add('rw-reveal');
+      setTimeout(()=>{BP.i++;setPanel(bpRender());},1400);}};
+  // Whack-a-Leo
+  const _wm=wmPick;wmPick=function(idx,el){if(WM.answered)return;const it=WM.qs[WM.i];if(idx===it.correct)return _wm(idx,el);
+    const left=tryMiss('wm'+WM.i,_maxT(it.opts.length));if(left<=0)return _wm(idx,el);
+    sfxWhack();el.classList.add('mole-wrong');el.style.pointerEvents='none';registerWrongAnswer();};
+  // Fill the gap (word bank)
+  const _fb=fbPick;fbPick=function(k){if(FB.filled!==null||!FB.bank||FB.bank[k].used)return;const it=FB.items[FB.idx];if(FB.bank[k].w===it.blank)return _fb(k);
+    const left=tryMiss('fb'+FB.idx,_maxT(FB.bank.length));if(left<=0)return _fb(k);
+    FB.bank[k].used=true;setPanel(fbRender());const m=$('fbMsg');if(m){m.textContent=T2(`Not “${FB.bank[k].w}” — try again!`,`Nie „${FB.bank[k].w}” — spróbuj jeszcze raz!`);m.style.color='#c0392b';}registerWrongAnswer();};
+  // Spell it
+  const _us=usPick;usPick=function(k){if(!US.used||US.used[k]||US.lock)return _us(k);const it=US.words[US.i];
+    if(US.ans.length+1===it.word.length&&(US.ans.join('')+US.letters[k])!==it.word){
+      const left=tryMiss('us'+US.i,3);registerWrongAnswer();
+      if(left<=0){US.used[k]=true;US.ans.push(US.letters[k]);US.lock=true;setPanel(usRender());const m=$('usMsg');if(m){m.textContent=T2('The word is: ','To słowo to: ')+it.word;m.style.color='#c0392b';}
+        if(typeof missWord==='function'&&typeof WORD_IDX!=='undefined')missWord(WORD_IDX.en[it.word.toLowerCase()]);
+        setTimeout(()=>{US.i++;US.letters=null;US.lock=false;setPanel(usRender());},1800);return;}}
+    return _us(k);};
+  // Build the sentence
+  const _sb=sbPick;sbPick=function(k){const was=SB.built?SB.built.length:0;const r=_sb(k);const it=SB.items[SB.idx];
+    if(SB.pool&&!SB.locked&&SB.built.length===SB.pool.length&&was<SB.built.length&&SB.built.map(x=>SB.pool[x].t).join(' ')!==it.s){
+      const left=tryMiss('sb'+SB.idx,3);registerWrongAnswer();const m=$('sbMsg');
+      if(left<=0){SB.locked=true;if(m)m.innerHTML=T2('The answer: ','Odpowiedź: ')+'<b>'+esc(it.s)+'</b>';setTimeout(()=>{SB.idx++;SB.pool=null;SB.locked=false;setPanel(sbRender());},2400);}}
+    return r;};
+  // True / false (/ not given)
+  const _tf=tfPick;tfPick=function(i,j,el){const it=TFS.items[i];if(j===it.answer)return _tf(i,j,el);
+    const left=tryMiss('tf'+i,_maxT(TFS.labels.length));if(left<=0)return _tf(i,j,el);el.classList.add('wrong');el.style.pointerEvents='none';};
+  // Quiz
+  const _qp=quizPick;quizPick=function(id,k,el){const st=QS[id];if(!st||!st.cur||!st.cur[k])return _qp(id,k,el);if(st.cur[k].ok)return _qp(id,k,el);
+    if(el.classList.contains('wrong')||el.classList.contains('hint-out'))return;
+    const left=tryMiss('q'+id+st.i,_maxT(st.cur.length));if(left>0){el.classList.add('wrong');el.style.pointerEvents='none';return;}
+    const ok=st.cur.findIndex(x=>x.ok),els=_optEls();const r=_qp(id,k,el);if(els[ok])els[ok].classList.add('correct');return r;};
+  // Error hunt
+  const _eh=ehPick;ehPick=function(j){if(EH.ans)return;const it=EH.items[EH.idx];if(j===it.wrong)return _eh(j);const c=$('chip'+j);if(c&&c.classList.contains('bad'))return;
+    const left=tryMiss('eh'+EH.idx,_maxT(it.s.split(' ').length));if(left<=0)return _eh(j);
+    if(c){c.classList.add('bad');c.style.pointerEvents='none';}};
+  // Odd one out
+  const _oo=ooPick;ooPick=function(k,el){if(OO.ans)return;const it=OO.items[OO.idx];if(k===it.odd)return _oo(k,el);
+    const left=tryMiss('oo'+OO.idx,_maxT(it.opts.length));if(left<=0)return _oo(k,el);el.classList.add('wrong');el.style.pointerEvents='none';};
+  // Listen and choose
+  const _lc=lcPick;lcPick=function(k,el){if(LC.ans)return;if(LC.cur[k].ok)return _lc(k,el);
+    const left=tryMiss('lc'+LC.idx,_maxT(LC.cur.length));if(left>0){el.classList.add('wrong');el.style.pointerEvents='none';return;}
+    const ok=LC.cur.findIndex(x=>x.ok),els=_optEls();const r=_lc(k,el);if(els[ok])els[ok].classList.add('correct');return r;};
+  // Typed translation
+  const _tr=trCheck;trCheck=function(id,i){const inp=$(id+'-in-'+i);const was=inp&&inp.disabled;const r=_tr(id,i);
+    if(inp&&!was&&!inp.disabled&&inp.value.trim()&&inp.classList.contains('wrong')){const left=tryMiss('tr'+id+i,3);const m=$(id+'-msg-'+i);
+      if(left<=0){trShow(id,i);if(m){m.textContent=T2('Answer: ','Odpowiedź: ')+TR[id][i].answers[0];m.className='gap-msg bad';}}
+      else if(m)m.textContent=T2(`Try again! 🔄 (${left} left)`,`Spróbuj jeszcze raz! 🔄 (zostało: ${left})`);}
+    return r;};
+  // Fortune wheel: 3 tries per spin, 3 free spins per wheel, extra spins from the shop
+  const _wc=wheelCheck;wheelCheck=function(){if(FW.solved)return _wc();const inp=$('wheelInput');const r=_wc();
+    if(FW.solved){if(FW.extra){FW.extra=false;const n=shopEarn(3);if(n)setTimeout(()=>_comboToastText('🎡 +3 🪙'),400);}return r;}
+    if(inp&&inp.value.trim()){const left=tryMiss('fw'+(FW.spins||0),3);if(left<=0){const it=FORTUNE_ITEMS[FW.currentIdx];FW.solved=true;FW.extra=false;inp.value=it.en;inp.disabled=true;const m=$('wheelMsg');if(m)m.textContent=T2(`It's “${it.en}” (${it.pl}).`,`To „${it.en}” (${it.pl}).`);}}
+    return r;};
+  const _sw=spinWheel;spinWheel=function(){if(FW.spinning)return;FW.spins=FW.spins||0;
+    if(FW.spins>=3){if(!shopUse('spin')){const card=$('wheelResult');if(card){card.innerHTML=`<div class="wheel-result-emoji">🎡</div><p class="rw-small" style="margin:6px 0 10px">${T2('That was your 3 free spins. Get extra spins in the shop!','To były 3 darmowe obroty. Dodatkowe kupisz w sklepie!')}</p><button class="btn btn-gold" onclick="openShop()">🛍️ ${T2('Shop','Sklep')}</button>`;card.classList.add('show');}return;}
+      FW.extra=true;_comboToastText(T2(`🎡 Extra spin! (${shopCount('spin')} left)`,`🎡 Dodatkowy obrót! (zostało: ${shopCount('spin')})`));}
+    FW.spins++;_sw();const s=$('spinsLeft');if(s)s.textContent=spinsText();};
+  const _rf=rFortuneWheel;rFortuneWheel=function(){return _rf().replace('<div class="wheel-result-card"',`<p class="rw-small" id="spinsLeft">${spinsText()}</p><div class="wheel-result-card"`);};
+})();
+function spinsText(){const f=Math.max(0,3-(FW.spins||0)),x=shopCount('spin');return T2(`Free spins left: ${f}`,`Darmowe obroty: ${f}`)+(x?` · ${T2('extra','dodatkowe')}: ${x} 🎡`:'');}
+
+/* ---------- hints ---------- */
+function _hideWrong(els,isWrong){const c=els.filter((e,i)=>isWrong(i,e)&&!e.classList.contains('wrong')&&!e.classList.contains('hint-out')&&!e.classList.contains('bad')&&e.style.pointerEvents!=='none');
+  if(!c.length)return false;const e=c[Math.floor(Math.random()*c.length)];e.classList.add('hint-out');e.style.pointerEvents='none';return true;}
+function useHint(){
+  if(!activeLesson||!zones[current])return;
+  if(shopCount('hint')<=0){_comboToastText(T2('💡 No hints left — get more in the shop','💡 Brak podpowiedzi — kup je w sklepie'));return;}
+  const z=zones[current].type;let ok=false;
+  const idxOf=e=>{const m=(e.getAttribute('onclick')||'').match(/\((?:'[^']*',)?(\d+)/);return m?+m[1]:-1;};
+  try{
+    if(z==='find'&&!CB.ans){const t=CB.order[CB.i];ok=_hideWrong(_optEls(),i=>CB.opts[i]!==t);}
+    else if(z==='quiz'){const st=QS[activeLesson.id+'-'+current];if(st&&st.cur)ok=_hideWrong(_optEls(),i=>!st.cur[i].ok);}
+    else if(z==='listen'&&!LC.ans)ok=_hideWrong(_optEls(),i=>!LC.cur[i].ok);
+    else if(z==='odd'&&!OO.ans){const it=OO.items[OO.idx];ok=_hideWrong(_optEls(),i=>i!==it.odd);}
+    else if(z==='whack'&&!WM.answered){const it=WM.qs[WM.i];ok=_hideWrong([...document.querySelectorAll('.mole-field .mole')],i=>i!==it.correct);}
+    else if(z==='balloon'&&!BP.answered){const c=BP.opts.indexOf(BP.correctCard);ok=_hideWrong([...document.querySelectorAll('#balloonField .balloon')],(i,e)=>idxOf(e)!==c);}
+    else if(z==='errors'&&!EH.ans){const it=EH.items[EH.idx];ok=_hideWrong([...document.querySelectorAll('#panel .chip')],(i,e)=>e.id!=='chip'+it.wrong);}
+    else if(z==='fill'&&FB.filled===null&&FB.bank){const it=FB.items[FB.idx];const c=FB.bank.map((b,k)=>k).filter(k=>!FB.bank[k].used&&FB.bank[k].w!==it.blank);
+      if(c.length){FB.bank[c[Math.floor(Math.random()*c.length)]].used=true;setPanel(fbRender());ok=true;}}
+    else if(z==='spell'&&US.ans&&!US.lock){const it=US.words[US.i];if(US.ans.join('')===it.word.slice(0,US.ans.length)){const L=it.word[US.ans.length];const k=US.letters.findIndex((l,i)=>l===L&&!US.used[i]);if(k>=0){W().u[_uid()]='hint';usPick(k);_hintDone();return;}}
+      else{_comboToastText(T2('🔄 Reset the word first','🔄 Najpierw zresetuj słowo'));return;}}
+    else if(z==='build'&&SB.pool&&!SB.locked){const it=SB.items[SB.idx],ws=it.s.split(' '),b=SB.built.map(x=>SB.pool[x].t);
+      if(b.join(' ')===ws.slice(0,b.length).join(' ')){const k=SB.pool.findIndex(p=>!p.used&&p.t===ws[b.length]);if(k>=0){W().u[_uid()]='hint';sbPick(k);_hintDone();return;}}
+      else{_comboToastText(T2('↺ Start over first','↺ Najpierw zacznij od nowa'));return;}}
+    else if(z==='wordle'&&!WD.done){WD.hints=WD.hints||[];const known=new Set(WD.hints);WD.guesses.forEach(g=>g.states.forEach((s,i)=>{if(s==='correct')known.add(i);}));
+      const c=[...Array(WD.len).keys()].filter(i=>!known.has(i));if(c.length){WD.hints.push(c[0]);setPanel(wdRender());ok=true;}}
+  }catch(e){console.warn(e);}
+  if(!ok){_comboToastText(T2('💡 Hints work in choice games, spelling, sentences and Wordle','💡 Podpowiedzi działają w zadaniach wyboru, literowaniu, zdaniach i Wordle'));return;}
+  W().u[_uid()]='hint';_hintDone();
+}
+function _hintDone(){sfxPop();saveProgress();renderWallet();_comboToastText(T2(`💡 Hint used · ${shopCount('hint')} left`,`💡 Podpowiedź · zostało: ${shopCount('hint')}`));}
+(function(){const _wr=wdRender;wdRender=function(){let h=_wr();if(WD.hints&&WD.hints.length&&!WD.done){
+  h=h.replace('<div class="wordle-grid">',`<p class="rw-hintline">💡 ${WD.hints.map(i=>T2(`letter ${i+1} is <b>${WD.word[i]}</b>`,`litera ${i+1} to <b>${WD.word[i]}</b>`)).join(' · ')}</p><div class="wordle-grid">`);}return h;};})();
+
+/* ---------- coins for lessons ---------- */
+let _RUN=null;
+(function(){
+  const _ol=openLesson;openLesson=function(id){
+    const l=typeof id==='object'?id:(ALL_LESSONS.find(x=>x.id===id)||BONUS_LESSONS.find(x=>x.id===id));
+    if(l&&!l.review&&!energyFree()&&energyNow()<=0&&(l.bonus_lesson||lessonUnlocked(l.id))){showNoEnergy(l);return;}
+    TRIES={};if(typeof FW!=='undefined'){FW.spins=0;FW.extra=false;}
+    if(l&&l.bonus_lesson){const p=PROF()||{track:'kids',level:'A1'};l.unit.track=p.track;l.unit.level=p.level;}
+    const r=_ol(l||id);if(activeLesson)_RUN={id:activeLesson.id,paid:false};setTimeout(renderWallet,0);return r;};
+  const _lu=lessonUnlocked;lessonUnlocked=function(id){const b=BONUS_LESSONS.find(x=>x.id===id);return b?owned(b.shop):_lu(id);};
+  const _fin=rLessonFinish;rLessonFinish=function(){
+    const l=activeLesson,first=!lessonDone(l.id),stars=lessonStarsNow(),pts=Math.max(0,score-lessonStartScore);
+    let h=_fin();
+    if(_RUN&&_RUN.id===l.id&&!_RUN.paid){_RUN.paid=true;
+      let n=Math.round(pts/5)+(l.review?0:stars*3+(first?10:0));if(l.test)n*=2;n=Math.max(n,3);
+      _RUN.n=shopEarn(n,'L:'+l.id+':'+_uid());if(!energyFree())energySet(energyNow()+3);}
+    const n=_RUN&&_RUN.n;
+    if(n)h=h.replace('<div class="nav-row" style="justify-content:center',`<div class="rw-earn"><span>🪙</span><div><b>+${n} ${T2('coins','monet')}</b><small>${T2('Spend them in the shop','Wydaj je w sklepie')} · ${T2('you have','masz')} ${coins()} 🪙${energyFree()?'':' · +3 ⚡'}</small></div><button class="btn btn-gold" onclick="openShop()">🛍️ ${T2('Shop','Sklep')}</button></div><div class="nav-row" style="justify-content:center`);
+    if(l.bonus_lesson){h=h.replace(/<button class="btn btn-gold" id="nextLessonBtn"[^>]*>[^<]*<\/button>/,'').replace(/ — <b>[^<]*<\/b> is now unlocked! 🔓/,'');}
+    return h;};
+})();
+
+/* ---------- Leo's outfit ---------- */
+const _OUT_POS={head:[0,-1.75,2.5],face:[0,0.1,2.3],neck:[0.15,2.25,2.1]};
+function outfitHtml(age){const eq=W().eq,rig=LEO_AGES[age];if(!rig||!rig.e)return '';const[a,b]=rig.e,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,d=b[0]-a[0];
+  return ['neck','face','head'].map(s=>{const it=SHOP_BY[eq[s]];if(!it)return '';const[px,py,sz]=_OUT_POS[s];
+    const ic=it.id==='o_flowers'?'🌸🌼🌸':it.icon;
+    return `<span class="leo-wear wear-${s} ${it.id}" style="left:${cx+px*d}%;top:${cy+py*d}%;font-size:${sz*d*(it.id==='o_flowers'?0.45:1)}cqw">${ic}</span>`;}).join('');}
+(function(){const _lg=leoGrow;leoGrow=function(h){h=_lg(h);const eq=W().eq;if(!eq.head&&!eq.face&&!eq.neck)return h;
+  const s=h.indexOf('<div class="leo-rig">');if(s<0)return h;const e=h.indexOf('</div>',s);const m=h.slice(s,e).match(/data-age="(\w+)"/);
+  return h.slice(0,e)+outfitHtml(m?m[1]:'teen')+h.slice(e);};})();
+
+/* ---------- themes, frames, badges ---------- */
+function applyTheme(){const t=W().eq.theme;document.body.className=document.body.className.replace(/\btheme-\w+/g,'').trim();if(t&&t!=='t_classic')document.body.classList.add('theme-'+t.slice(2));}
+function avatarHtml(size){const eq=W().eq,f=eq.frame?SHOP_BY[eq.frame]:null,b=eq.badge?SHOP_BY[eq.badge]:null;size=size||64;
+  return `<span class="rw-ava ${f?'fr-'+f.id.slice(2):''}" style="--s:${size}px"><img src="${LEMUR_COIN}" alt="">${b?`<em title="${T2(b.en,b.pl)}">${b.icon}</em>`:''}</span>`;}
+
+/* ---------- buying & wearing ---------- */
+function buyItem(id){const it=SHOP_BY[id];if(!it)return;
+  if(!it.give&&!it.now&&owned(id)){wearItem(id);return;}
+  if(it.now&&id==='energy'&&!energyFree()&&energyNow()>=EN_MAX){_comboToastText(T2('⚡ Your energy is already full','⚡ Energia jest już pełna'));return;}
+  const c=coins();if(c<it.price){_comboToastText(T2(`🪙 You need ${it.price-c} more coins`,`🪙 Brakuje Ci ${it.price-c} monet`));sfxWrong();return;}
+  W().p[_uid()]=[id,it.price];
+  if(id==='energy')energySet(EN_MAX);
+  if(it.slot||SLOT_OF[it.cat])wearItem(id,true);
+  saveProgress();sfxCorrect();burstConfetti();
+  _comboToastText(T2(`🎉 You got: ${it.en}!`,`🎉 Masz: ${it.pl}!`));
+  if(!activeLesson&&VIEW.track==='shop')renderCourse();renderWallet();}
+function wearItem(id,quiet){const it=SHOP_BY[id];if(!it||!owned(id))return;const slot=it.slot||SLOT_OF[it.cat];if(!slot)return;const eq=W().eq;
+  eq[slot]=eq[slot]===id&&slot!=='theme'?null:id;eq.t=Date.now();if(slot==='theme')applyTheme();saveProgress();if(!quiet){sfxPop();if(!activeLesson&&VIEW.track==='shop')renderCourse();}}
+function openShop(cat){if(typeof closeNoEnergy==='function')closeNoEnergy();if(activeLesson)showCourse();SHOP_TAB=cat||SHOP_TAB;nav('shop');}
+let SHOP_TAB='power';
+function shopTab(c){SHOP_TAB=c;sfxPop();renderCourse();}
+
+function shopItemCard(it){
+  const own=owned(it.id),eq=W().eq,slot=it.slot||SLOT_OF[it.cat],wearing=slot&&eq[slot]===it.id||(it.id==='t_classic'&&!eq.theme);
+  const name=T2(it.en,it.pl),desc=it.d?T2(it.d,it.dp):'';
+  let pic=`<div class="rw-pic">${it.id==='o_flowers'?'🌸':it.icon}</div>`;
+  if(it.cat==='theme')pic=`<div class="rw-pic rw-swatch" style="background:linear-gradient(135deg,${it.sw[0]} 55%,${it.sw[1]} 55%)">${it.icon}</div>`;
+  if(it.cat==='frame')pic=`<div class="rw-pic plain"><span class="rw-ava fr-${it.id.slice(2)}" style="--s:52px"><img src="${LEMUR_COIN}" alt=""></span></div>`;
+  let btn;
+  if(it.cat==='lesson'&&own){const l=BONUS_LESSONS.find(x=>x.shop===it.id),done=l&&lessonDone(l.id);btn=`<button class="btn btn-gold" onclick="openLesson('${l.id}')">${done?'↻ '+T2('Play again','Zagraj znowu'):'▶ '+T2('Start','Start')}</button>`;}
+  else if(slot&&own)btn=`<button class="btn ${wearing?'btn-navy':'secondary'}" onclick="wearItem('${it.id}')">${wearing?(it.cat==='theme'?'✓ '+T2('In use','Używany'):'✓ '+T2('Wearing · take off','Założone · zdejmij')):(it.cat==='theme'?T2('Use','Użyj'):T2('Wear','Załóż'))}</button>`;
+  else btn=`<button class="btn btn-gold" ${coins()<it.price?'data-short="1"':''} onclick="buyItem('${it.id}')">🪙 ${it.price}</button>`;
+  const have=it.give?`<span class="rw-have">${T2('You have','Masz')}: <b>${shopCount(it.give[0])}</b></span>`:'';
+  return `<div class="rw-item ${wearing?'on':''} ${own&&!it.give&&!it.now?'own':''}">${it.season?`<span class="rw-season">${T2('Seasonal','Sezonowe')}</span>`:''}${pic}<div class="rw-txt"><b>${name}</b>${desc?`<small>${desc}</small>`:''}${have}</div>${btn}</div>`;
+}
+function shopHtml(){
+  const v=energyNow(),free=energyFree(),c=coins();
+  const items=SHOP_ITEMS.filter(i=>i.cat===SHOP_TAB);
+  return `<div class="panel rw-shop-hero">${zoneTag(T2('SHOP','SKLEP'))}
+    <div class="rw-hero-row">
+      <div class="rw-hero-leo">${renderLemur('big',[T2('Looking good!','Świetnie wyglądam!'),T2('New hat? 🎩','Nowy kapelusz? 🎩'),T2('Spend your coins!','Wydaj monety!')],110)}</div>
+      <div class="rw-hero-txt"><h2 class="title">${T2('Rewards shop','Sklep z nagrodami')} 🛍️</h2>
+        <div class="rw-balance"><span>🪙</span><b>${c}</b><small>${T2('coins','monet')}</small></div>
+        <div class="rw-meter big"><i style="width:${free?100:v/EN_MAX*100}%"></i><span>⚡ ${T2('Energy','Energia')} ${free?'∞':v+'/'+EN_MAX}</span></div>
+        <p class="rw-small">${free?T2('Premium: unlimited energy','Premium: nieograniczona energia'):(v<EN_MAX?T2(`+1 ⚡ every 3 min · next in ${_fmtMs(energyNextMs())}`,`+1 ⚡ co 3 min · następna za ${_fmtMs(energyNextMs())}`):T2('Energy full · each wrong try uses 1 ⚡','Energia pełna · każda błędna próba zabiera 1 ⚡'))}</p>
+        <div class="rw-profile">${avatarHtml(54)}<small>${T2('Your profile picture','Twoje zdjęcie profilowe')}</small></div>
+      </div></div>
+    <p class="rw-small rw-how">${T2('Earn coins by finishing lessons: more points and stars = more coins. Unit tests pay double.','Zdobywaj monety, kończąc lekcje: więcej punktów i gwiazdek = więcej monet. Testy na koniec działu płacą podwójnie.')}</p>
+    ${TESTER?`<div class="rw-tester">🧪 <button class="btn secondary" onclick="shopEarn(500,'tester-'+Date.now());renderCourse()">+500 🪙</button><button class="btn secondary" onclick="energySet(0);renderCourse()">⚡ → 0</button><button class="btn secondary" onclick="energySet(${EN_MAX});renderCourse()">⚡ → ${EN_MAX}</button></div>`:''}
+  </div>
+  <div class="rw-tabs">${SHOP_CATS.map(c=>`<button class="rw-tab ${SHOP_TAB===c.id?'on':''}" onclick="shopTab('${c.id}')"><span>${c.icon}</span>${T2(c.en,c.pl)}</button>`).join('')}</div>
+  <div class="rw-grid">${items.map(shopItemCard).join('')}</div>`;
+}
+(function(){
+  const _rc=renderCourse;renderCourse=function(){
+    if(VIEW.track==='shop'){document.body.classList.toggle('adult',!!(PROF()&&PROF().track==='adults'));
+      $('courseView').innerHTML=courseShell(testerBar()+`<div class="crumbs"><a href="#" onclick="nav();return false;">🏠 Home</a><span>›</span><b>🛍️ ${T2('Shop','Sklep')}</b></div>`+shopHtml());
+      if(LANG==='pl'&&typeof applyLang==='function')applyLang();renderWallet();return;}
+    _rc();const m=document.querySelector('#courseView .course-main');if(m)m.insertAdjacentHTML('afterbegin',mobWallet());renderWallet();};
+  const _sn=sideNav;sideNav=function(){let h=_sn();
+    const shop=`<a href="#" class="sn-item ${VIEW.track==='shop'?'on':''}" onclick="nav('shop');return false;"><span>🛍️</span><b>${T2('Shop','Sklep')}</b><small>🪙 ${coins()}</small></a>`;
+    h=h.replace('<div class="sn-title">Menu</div>',`<div class="sn-profile">${avatarHtml(40)}<div><b>🪙 ${coins()}</b><small>⚡ ${energyFree()?'∞':energyNow()+'/'+EN_MAX}</small></div></div><div class="sn-title">Menu</div>`);
+    const i=h.indexOf('My progress</b>');if(i>=0){const e=h.indexOf('</a>',i)+4;h=h.slice(0,e)+shop+h.slice(e);}else h=h.replace('</aside>',shop+'</aside>');
+    return h;};
+  if(typeof myHomeHtml==='function'){const _mh=myHomeHtml;myHomeHtml=function(p){return _mh(p).replace('📊 My progress</button></div>',`📊 My progress</button><button class="btn secondary" onclick="nav('shop')">🛍️ ${T2('Shop','Sklep')} · 🪙 ${coins()}</button></div>`);};}
+  if(typeof progressHtml==='function'){const _ph=progressHtml;progressHtml=function(){return _ph().replace(/(MY PROGRESS<\/span>)?(<h2 class="title">)/,(m,a,b)=>(a||'')+`<div class="rw-prog-ava">${avatarHtml(72)}</div>`+b);};}
+})();
+Object.assign(PL_UI,{"🛍️ Shop":"🛍️ Sklep"});
+
+function mobWallet(){const v=energyNow(),f=energyFree();return `<a href="#" class="rw-mob" onclick="nav('shop');return false;">${avatarHtml(30)}<b>🪙 ${coins()}</b><b>⚡ ${f?'∞':v+'/'+EN_MAX}</b><span class="rw-go">🛍️ ${T2('Shop','Sklep')} ›</span></a>`;}
+/* ---------- bonus lessons (unlocked in the shop) ---------- */
+const BONUS_LESSONS=[
+ {id:'bonus-idioms',shop:'b_idioms',title:'Everyday idioms',emoji:'🦜',intro:'Ten idioms English speakers use every day. They don’t mean what the words say!',zones:(()=>{const W=[
+   {en:'piece of cake',pl:'bułka z masłem',emoji:'🍰'},{en:'break the ice',pl:'przełamać lody',emoji:'🧊'},{en:'under the weather',pl:'nie czuć się najlepiej',emoji:'🤒'},
+   {en:'hit the books',pl:'wziąć się do nauki',emoji:'📚'},{en:'once in a blue moon',pl:'raz na ruski rok',emoji:'🌕'},{en:'cost an arm and a leg',pl:'kosztować majątek',emoji:'💸'},
+   {en:"it's raining cats and dogs",pl:'leje jak z cebra',emoji:'🌧️'},{en:'spill the beans',pl:'wygadać się',emoji:'🫘'},{en:'call it a day',pl:'skończyć na dziś',emoji:'🛑'},{en:'on cloud nine',pl:'w siódmym niebie',emoji:'☁️'}];
+   return [{type:'cards',label:'Idioms',title:'Ten everyday idioms',cards:W},{type:'find',label:'Find it',cards:W,rounds:8},{type:'match',label:'Match',pairs:W.slice(0,8)},
+    {type:'quiz',label:'What does it mean?',tag:'IDIOMS',done:'Idiom master! 🦜',qs:[
+     {q:'The test was a piece of cake. The test was…',opts:['very easy','very hard','about food'],correct:0},
+     {q:'I feel under the weather. I…',opts:['feel a bit ill','love the rain','am outside'],correct:0},
+     {q:'That phone cost an arm and a leg. It was…',opts:['very expensive','cheap','broken'],correct:0},
+     {q:"Don't spill the beans! Don't…",opts:['tell the secret','cook dinner','drop the food'],correct:0},
+     {q:'I see my cousin once in a blue moon. I see him…',opts:['very rarely','every night','in the sky'],correct:0},
+     {q:"Let's call it a day. Let's…",opts:['stop working for today','phone someone','start again'],correct:0},
+     {q:'She passed her exam and she is on cloud nine. She is…',opts:['very happy','very tired','on a plane'],correct:0},
+     {q:'A game is a good way to break the ice. It helps people…',opts:['feel relaxed together','get cold','break things'],correct:0}]},
+    {type:'fill',label:'Fill the gap',items:[
+     {before:"Take an umbrella — it's raining cats and",blank:'dogs',after:'!',bank:['dogs','mice','birds'],emoji:'🌧️'},
+     {before:'Tomorrow is the exam, so tonight I have to hit the',blank:'books',after:'.',bank:['books','wall','ball'],emoji:'📚'},
+     {before:"It's 9 pm. Let's call it a",blank:'day',after:'.',bank:['day','night','friend'],emoji:'🛑'},
+     {before:'Learning colours? That’s a piece of',blank:'cake',after:'!',bank:['cake','pizza','bread'],emoji:'🍰'}]},
+    {type:'typed',label:'Write it',tag:'TYPE IT',title:'Write the idiom in English ✍️',blocks:[{id:'bi1',label:'🇵🇱 → 🇬🇧',items:W.slice(0,6).map(w=>({prompt:`${w.emoji} ${w.pl}`,answers:[w.en]}))}]}];})()},
+ {id:'bonus-slang',shop:'b_slang',title:'British slang',emoji:'🇬🇧',intro:'Cheers, mate! Twelve words you will hear on the streets of London.',zones:(()=>{const W=[
+   {en:'cheers',pl:'dzięki',emoji:'🙌'},{en:'mate',pl:'kumpel',emoji:'🤝'},{en:'brilliant',pl:'super',emoji:'🌟'},{en:'knackered',pl:'wykończony',emoji:'😩'},
+   {en:'gutted',pl:'załamany',emoji:'😞'},{en:'skint',pl:'spłukany',emoji:'🪹'},{en:'quid',pl:'funt (pieniądz)',emoji:'💷'},{en:'loo',pl:'toaleta',emoji:'🚽'},
+   {en:'cuppa',pl:'filiżanka herbaty',emoji:'🍵'},{en:'chuffed',pl:'bardzo zadowolony',emoji:'😊'},{en:'posh',pl:'elegancki, snobistyczny',emoji:'🎩'},{en:'fancy',pl:'mieć ochotę na',emoji:'😋'}];
+   return [{type:'cards',label:'Slang',title:'Twelve British slang words',cards:W},{type:'find',label:'Find it',cards:W,rounds:8},{type:'match',label:'Match',pairs:W.slice(0,8)},
+    {type:'quiz',label:'Slang quiz',tag:'SLANG',done:'Proper British! 🇬🇧',qs:[
+     {q:"I'm knackered. I'm…",opts:['very tired','very hungry','very late'],correct:0},
+     {q:'Do you fancy a cuppa? Do you want…',opts:['a cup of tea','a cake','a coat'],correct:0},
+     {q:'It costs five quid. It costs five…',opts:['pounds','minutes','dollars'],correct:0},
+     {q:"I can't come, I'm skint. I have…",opts:['no money','no time','no shoes'],correct:0},
+     {q:'Where is the loo? Where is the…',opts:['toilet','kitchen','bus'],correct:0},
+     {q:"She was chuffed with her mark. She was…",opts:['pleased','angry','bored'],correct:0},
+     {q:'We lost the final. I’m gutted! I’m…',opts:['really sad','really hungry','really happy'],correct:0},
+     {q:'This hotel is very posh. It is…',opts:['elegant and expensive','dirty','tiny'],correct:0}]},
+    {type:'tf',label:'True or false?',items:[{text:"'Cheers' can mean 'thanks'.",answer:0},{text:"'Mate' means 'teacher'.",answer:1},{text:"A 'quid' is money.",answer:0},{text:"If you're 'skint', you are rich.",answer:1},{text:"'Brilliant' means 'great'.",answer:0}]},
+    {type:'build',label:'Build it',items:[{s:'Cheers mate that was brilliant',pl:'Dzięki, kolego, to było super'},{s:'Do you fancy a cuppa',pl:'Masz ochotę na herbatkę?'},{s:'I am knackered after school',pl:'Jestem wykończony po szkole'}]}];})()},
+ {id:'bonus-phrasal',shop:'b_phrasal',title:'Phrasal verb party',emoji:'🎉',intro:'Verb + little word = new meaning. Let’s party with ten phrasal verbs!',zones:(()=>{const W=[
+   {en:'get up',pl:'wstawać',emoji:'⏰'},{en:'give up',pl:'poddać się',emoji:'🏳️'},{en:'look for',pl:'szukać',emoji:'🔍'},{en:'turn on',pl:'włączyć',emoji:'💡'},
+   {en:'turn off',pl:'wyłączyć',emoji:'🔌'},{en:'find out',pl:'dowiedzieć się',emoji:'🕵️'},{en:'put on',pl:'założyć',emoji:'🧥'},{en:'look after',pl:'opiekować się',emoji:'🐶'},
+   {en:'come back',pl:'wrócić',emoji:'🔙'},{en:'run out of',pl:'skończyć się (zabraknąć)',emoji:'🥛'}];
+   return [{type:'cards',label:'Verbs',title:'Ten phrasal verbs',cards:W},{type:'find',label:'Find it',cards:W,rounds:8},{type:'memory',label:'Memory',pairs:W.slice(0,6).map(w=>({emoji:w.emoji,word:w.en}))},
+    {type:'fill',label:'Fill the gap',items:[
+     {before:'Please turn',blank:'off',after:'the light. I want to sleep.',bank:['off','up','for'],emoji:'🔌'},
+     {before:"I'm looking",blank:'for',after:'my keys. Where are they?',bank:['for','after','up'],emoji:'🔑'},
+     {before:"Don't give",blank:'up',after:"! You can do it!",bank:['up','on','back'],emoji:'💪'},
+     {before:'It’s cold. Put',blank:'on',after:'your coat.',bank:['on','off','out'],emoji:'🧥'},
+     {before:'Can you look',blank:'after',after:'my cat this weekend?',bank:['after','for','at'],emoji:'🐱'},
+     {before:"We've run out",blank:'of',after:'milk.',bank:['of','off','up'],emoji:'🥛'}]},
+    {type:'errors',label:'Error hunt',items:[{s:'I get on at seven every morning.',wrong:2,ok:'I get up at seven every morning.'},{s:'Please turn up the TV, I want to sleep.',wrong:2,ok:'Please turn off the TV, I want to sleep.'},{s:'She is looking at her lost phone.',wrong:3,ok:'She is looking for her lost phone.'}]},
+    {type:'wordle',label:'Wordle',words:[{word:'after',emoji:'🐶'},{word:'found',emoji:'🕵️'},{word:'climb',emoji:'🧗'}]}];})()},
+ {id:'bonus-rhymes',shop:'b_rhymes',title:'Songs, rhymes & tongue twisters',emoji:'🎶',intro:'Sing Leo’s week song, find words that rhyme and try famous tongue twisters!',zones:[
+   {type:'reading',label:"Leo's song",title:"Leo's week song 🎶",paras:['<b>Monday, Tuesday</b>, off we go,<br><b>Wednesday, Thursday</b>, nice and slow,','<b>Friday</b> — hey! — the week is done,<br><b>Saturday, Sunday</b>, time for fun!','Clap your hands and count to seven,<br>one, two, three… we’re up in heaven! 👏']},
+   {type:'fill',label:'Sing along',tag:'SING IT',items:[
+     {before:'Monday, Tuesday, off we',blank:'go',after:',',bank:['go','slow','fun'],emoji:'🎶'},
+     {before:'Wednesday, Thursday, nice and',blank:'slow',after:',',bank:['slow','go','done'],emoji:'🐢'},
+     {before:'Friday — hey! — the week is',blank:'done',after:',',bank:['done','fun','seven'],emoji:'🎉'},
+     {before:'Saturday, Sunday, time for',blank:'fun',after:'!',bank:['fun','done','go'],emoji:'🥳'}]},
+   {type:'odd',label:'Rhymes',items:[{opts:['cat','hat','bat','dog'],odd:3,why:'cat, hat, bat rhyme — dog does not.'},{opts:['cake','lake','bike','snake'],odd:2,why:'cake, lake, snake rhyme — bike does not.'},{opts:['moon','spoon','soon','sun'],odd:3,why:'moon, spoon, soon rhyme — sun does not.'},{opts:['bear','chair','hair','bird'],odd:3,why:'bear, chair, hair rhyme — bird does not.'},{opts:['night','light','kite','note'],odd:3,why:'night, light, kite rhyme — note does not.'}]},
+   {type:'quiz',label:'Rhyme time',tag:'RHYME TIME',done:'You’ve got rhythm! 🎶',qs:[{q:"What rhymes with 'tree'?",opts:['bee','tray','true'],correct:0},{q:"What rhymes with 'rain'?",opts:['train','run','ring'],correct:0},{q:"What rhymes with 'house'?",opts:['mouse','horse','hose'],correct:0},{q:"What rhymes with 'fish'?",opts:['dish','fast','fresh'],correct:0},{q:"What rhymes with 'star'?",opts:['car','stay','stir'],correct:0}]},
+   {type:'build',label:'Tongue twisters',items:[{s:'She sells seashells by the seashore',pl:'Łamaniec: ona sprzedaje muszelki nad morzem'},{s:'Red lorry yellow lorry',pl:'Łamaniec: czerwona ciężarówka, żółta ciężarówka'},{s:'Peter Piper picked a peck of pickled peppers',pl:'Łamaniec: Peter Piper zebrał garść marynowanych papryczek'}]},
+   {type:'listen',label:'Listen',items:[{word:'She sells seashells',options:['She sells seashells','She smells sea shells','See shells sell'],correct:0},{word:'Red lorry, yellow lorry',options:['Red lorry, yellow lorry','Red lolly, yellow lolly','Read Laura, hello Laura'],correct:0},{word:'Clap your hands',options:['Clap your hands','Clean your hands','Cut your hands'],correct:0}]}]},
+];
+BONUS_LESSONS.forEach(l=>{l.bonus_lesson=true;l.num='Bonus';l.bonus=l.zones[0].cards||U1A;l.unit={track:'kids',level:'A1',lessons:[{id:'__bonus'}],badge:'',title:'Bonus'};});
+
+/* ---------- start ---------- */
+(function(){const _lp=loadProgress;loadProgress=function(){_lp();applyTheme();shopEarn(30,'welcome');setTimeout(renderWallet,0);};})();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){
