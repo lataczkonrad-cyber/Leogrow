@@ -55,3 +55,5 @@ body.onboarding .lemur-corner{display:none;}
   .ob-sum>div{flex-direction:row;justify-content:space-between;align-items:center;padding:10px 14px;}
 }
 @media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
+.tester-bar .ob-replay{margin-left:8px;}
+.ob-tester{font-size:12px;font-weight:800;color:#9a6c0c;margin:0 0 6px;}
