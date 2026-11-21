@@ -160,7 +160,7 @@ async function enableReminder(){
 /* the service worker reads this to decide whether to remind you (it can wake up even when the app is closed, on Android) */
 function pushReminderState(){
   try{if(!('caches' in window))return;const c=reminderCfg();
-    const st={on:c.on,time:c.time,done:todayRec().g,today:localDay(),streak:streakOf(C.days),goal:goalMin(),lang:LANG,notified:localStorage.getItem('leogrowNotified')||''};
+    const st={on:c.on,time:c.time,done:todayRec().g,today:localDay(),streak:streakOf(C.days),goal:goalMin(),lang:LANG,tz:(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone;}catch(e){return '';}})(),notified:localStorage.getItem('leogrowNotified')||''};
     caches.open('leogrow-state').then(ch=>ch.put('./__reminder',new Response(JSON.stringify(st),{headers:{'Content-Type':'application/json'}}))).catch(()=>{});}catch(e){}
 }
 function reminderText(){const n=streakOf(C.days),m=Math.max(0,goalMin()-todayMin());
