@@ -12,7 +12,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   // accounts, progress and Premium status must always be fresh: never serve them from the cache
-  if (url.hostname.endsWith('.supabase.co') || url.pathname.startsWith('/.netlify/')) return;
+  if (url.hostname.endsWith('.supabase.co') || url.hostname === 'accounts.google.com' || url.pathname.startsWith('/.netlify/')) return;
   // the app page: try the network first so updates arrive, fall back to the saved copy offline
   if (req.mode === 'navigate' || url.pathname.endsWith('.html')) {
     e.respondWith(fetch(req,{cache:'no-store'}).then(r => { const copy = r.clone(); caches.open(VERSION).then(c => c.put('./lingrow-academy.html', copy)); return r; })
