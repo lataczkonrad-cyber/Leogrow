@@ -6,6 +6,8 @@ import leo_age
 ARM_CUT=300.; ARM_PIVOT=(292.,455.)   # shoulder
 TAIL_PIVOT=(628.,955.)
 EYES_1024=[(355,288,32,30),(466,292,36,33)]   # x, y, half-width, half-height of each eye (lid size)
+def _mf(m,f,n): return np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(f(n)))>127
+def _soft(m,r): return np.asarray(Image.fromarray((np.clip(m,0,1)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)/255.
 def _navy(a):
     r,g,b=a[...,0],a[...,1],a[...,2]
     return (b>r+18)&(b>g+10)&(r<110)
@@ -85,7 +87,22 @@ def split(img):
     ext=rows&(xx>=(ARM_CUT-16)*s)&(xx<(ARM_CUT+ARM_OVER)*s)&~isbg&~gold&(mw<0.3)
     amx=np.asarray(Image.fromarray(((seen|ext)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(5)).filter(ImageFilter.GaussianBlur(0.8*s))).astype(np.float32)/255.
     amx=np.maximum(amx*np.clip(((ARM_CUT+ARM_OVER)*s-xx)/(ARM_OVER*s),0,1)*(xx>=(ARM_CUT-16)*s),am)
-    arm=a.copy(); arm[...,3]=a[...,3]*amx
+    # the hand: the drawing was clipped by a straight vertical cut at its left side, and a thin white
+    # sticker rim shows along the fingers. Round the cut side into a natural curve and drop the rim.
+    HX,HY0,HY1,HD=108.,292.,386.,16.
+    hc=(HY0+HY1)/2; hh=(HY1-HY0)/2
+    t=np.clip((yy/s-hc)/hh,-1,1); edge=HX+np.where(t<0,HD,5.)*(1-np.sqrt(1-t*t))+2.0
+    inhand=(yy>=HY0*s-4)&(yy<=HY1*s+4)&(xx<(HX+40)*s)
+    cut=np.clip((xx/s-edge)/1.6,0,1)
+    amx=np.where(inhand,amx*cut,amx)
+    rim=(xx<205*s)&(yy<372*s)&(a[...,:3].mean(-1)>140)
+    rim|=(xx>160*s)&(xx<188*s)&(yy>318*s)&(yy<356*s)&(a[...,:3].mean(-1)>80)   # rim in the dip between thumb and fingers
+    amx=amx*(1-_soft(_mf(rim,ImageFilter.MaxFilter,3),0.8*s))
+    nb=(xx>150*s)&(xx<195*s)&(yy>312*s)&(yy<360*s)   # tidy the dip: drop thin strands, keep a smooth outline
+    op=Image.fromarray((np.clip(amx,0,1)*255).astype(np.uint8)).filter(ImageFilter.MinFilter(7)).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(0.9*s))
+    amx=np.where(nb,np.minimum(amx,np.asarray(op).astype(np.float32)/255.),amx)
+    shade=np.where(inhand,np.clip(1-(xx/s-edge)/5.,0,1)*0.35,0)[...,None]   # a little shadow on the new edge
+    arm=a.copy(); arm[...,:3]=arm[...,:3]*(1-shade); arm[...,3]=a[...,3]*amx
     aw=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(21)).filter(ImageFilter.GaussianBlur(3*s))).astype(np.float32)/255.*(xx<ARM_CUT*s+3)
     ah=np.clip(np.maximum(am*1.1,aw*(isbg|(a[...,:3].max(-1)<150))),0,1)[...,None]
     near=np.asarray(Image.fromarray((am*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(61))).astype(np.float32)/255.
