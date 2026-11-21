@@ -21,6 +21,8 @@ export default async req => {
       success_url: site + '/?premium=ok',
       cancel_url: site + '/?premium=cancel',
       locale: pl ? 'pl' : 'en',
+      // Leogrow sells as itself (BLIK, Przelewy24, lower fees), not through Stripe Managed Payments
+      managed_payments: { enabled: false },
       line_items: [{
         quantity: 1,
         price_data: {
