@@ -309,7 +309,7 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
 .leo-lid{position:absolute;border-radius:50%;background:radial-gradient(ellipse closest-side,#141419 70%,rgba(20,20,25,0) 100%);transform:scaleY(0);transform-origin:50% 0;pointer-events:none;}
 .leo-rig.blink .leo-lid{animation:leoBlink .19s ease-in-out;}
 @keyframes leoBreath{0%,100%{transform:scale(1,1);}50%{transform:scale(1.006,1.016);}}
-@keyframes leoTail{0%{transform:rotate(-2deg);}40%{transform:rotate(2.4deg);}65%{transform:rotate(1.6deg);}100%{transform:rotate(4.5deg);}}
+@keyframes leoTail{0%{transform:rotate(-1.5deg);}45%{transform:rotate(1deg);}70%{transform:rotate(.6deg);}100%{transform:rotate(2deg);}}
 @keyframes leoBlink{0%{transform:scaleY(0);}45%,60%{transform:scaleY(1);}100%{transform:scaleY(0);}}
 /* gentler, more natural reactions (no spinning tiles) */
 @keyframes leoJump{0%,100%{transform:translateY(0);}30%{transform:translateY(-9px);}55%{transform:translateY(0) scale(1.01,.99);}75%{transform:translateY(-3px);}}

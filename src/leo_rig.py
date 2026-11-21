@@ -8,6 +8,18 @@ TAIL_PIVOT=(628.,955.)
 EYES_1024=[(355,288,32,30),(466,292,36,33)]   # x, y, half-width, half-height of each eye (lid size)
 def _mf(m,f,n): return np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(f(n)))>127
 def _soft(m,r): return np.asarray(Image.fromarray((np.clip(m,0,1)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)/255.
+def _fblur(x,r):
+    """float gaussian-ish blur (three box passes), no 8-bit rounding"""
+    x=np.asarray(x,np.float32); k=max(1,int(round(r*0.9)))
+    for _ in range(3):
+        for ax in (0,1):
+            c=np.cumsum(np.pad(x,[(k+1,k)] if x.ndim==1 else ([(k+1,k),(0,0)] if ax==0 else [(0,0),(k+1,k)])+([(0,0)] if x.ndim==3 else []),mode='edge'),axis=ax)
+            x=(np.take(c,range(2*k+1,c.shape[ax]),axis=ax)-np.take(c,range(0,c.shape[ax]-2*k-1),axis=ax))/(2*k+1)
+    return x
+def _fill_from(a,mask,r):
+    """colour of the background behind a region: average of nearby masked pixels"""
+    m=mask.astype(np.float32); w=_fblur(m,r)+1e-6
+    return np.stack([_fblur(a[...,c]*m,r)/w for c in range(3)],-1)
 def _navy(a):
     r,g,b=a[...,0],a[...,1],a[...,2]
     return (b>r+18)&(b>g+10)&(r<110)
@@ -64,8 +76,8 @@ def add_fingers(a,hand,s=1.0):
         rgb=np.where(inside[...,None],samp*np.clip(shade,0.35,1)[...,None],rgb)
     # smooth away streaks from the ray sampling, keep the hand's dark tone, add a little fur grain
     Lm=rgb.mean(-1,keepdims=True); rgb=np.where(Lm>75,rgb*75/np.maximum(Lm,1),rgb)
-    def g(x): return np.asarray(Image.fromarray(np.clip(x,0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.4*s))).astype(np.float32)
-    m=(al>0).astype(np.float32); wm=g(m*255)/255.+1e-3
+    def g(x): return _fblur(x,0.9*s)
+    m=(al>0).astype(np.float32); wm=g(m)+1e-3
     rgb=np.stack([g(rgb[...,c]*m)/wm for c in range(3)],-1)
     rng=np.random.default_rng(7); rgb=np.clip(rgb+rng.normal(0,3,(H,W,1)),0,255)
     return rgb,al
@@ -84,16 +96,27 @@ def clean_rim(img,width=3):
     rim=rim|halo
     H,W=bg.shape; yy,xx=np.mgrid[0:H,0:W]; sc=W/1024.
     rim&=~((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc))   # leave the cap and its badge alone
-    bgf=far.astype(np.float32)
-    def blur(x,r): return np.asarray(Image.fromarray(np.clip(x,0,255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r))).astype(np.float32)
-    w=blur(bgf*255,9)/255.+1e-4
-    fill=np.stack([blur(a[...,c]*bgf,9)/w for c in range(3)],-1)
+    fill=_fill_from(a,far,10)
     k=_soft(rim,0.7)[...,None]
     out=a.copy(); out[...,:3]=a[...,:3]*(1-k)+fill*k
+    # smooth the jagged cut-out edge: let the outermost pixel row fade into the background
+    fg=~(bg|rim)&(A>200)
+    edge=np.clip(_fblur(fg.astype(np.float32),1.1)*1.6-0.3,0,1)[...,None]
+    keep=(gold|((xx>315*sc)&(xx<515*sc)&(yy>110*sc)&(yy<255*sc)))[...,None]
+    e=np.where(keep|~fg[...,None],1.0,edge)
+    out[...,:3]=out[...,:3]*e+fill*(1-e)
     return Image.fromarray(np.clip(out,0,255).astype(np.uint8),'RGBA'),rim
 def split(img):
     """returns (body without tail, tail layer) as RGBA images of the same size"""
     im,_=clean_rim(img); a=np.asarray(im).astype(np.float32); m,mw=tail_mask(im)   # white sticker outline removed first
+    # where the tail was cut from the fur next to it (straight vertical cuts), fade it in instead of a hard line
+    H0,W0=m.shape; y0,x0=np.mgrid[0:H0,0:W0].astype(np.float32); s0=W0/1024.
+    xc=np.where(y0<700*s0,648*s0,np.where(y0<870*s0,700*s0,622*s0))
+    # the tail layer reaches a few px past the cut, under the fur in front of it, so no dark line shows there
+    xi=np.clip(np.round(xc+3*s0).astype(int),0,W0-1)
+    rowtail=m[np.arange(H0)[:,None].repeat(W0,1),xi]>0.5
+    under=rowtail&(x0>=xc-20*s0)&(x0<xc+2*s0)&~_navy(np.asarray(im).astype(np.float32))&(np.asarray(im)[...,3]>200)
+    mt=np.maximum(m,under.astype(np.float32))
     # fill where the tail was with the surrounding background (smooth push-pull fill)
     bg=(_navy(a)&(mw<0.01)).astype(np.float32)
     # smooth model of the navy background: a quadratic fit over nearby background pixels
@@ -107,7 +130,7 @@ def split(img):
     dark=np.asarray(Image.fromarray((dark*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32)/255.
     hole=np.clip(np.maximum(m*1.1,mw*np.maximum(dark,_navy(a))),0,1)[...,None]
     body=a.copy(); body[...,:3]=a[...,:3]*(1-hole)+fill*hole
-    tail=a.copy(); tail[...,3]=a[...,3]*m
+    tail=a.copy(); tail[...,3]=a[...,3]*mt
     # the arm and leg next to the tail go on top, so the tail tucks in behind them as it sways
     H,W=m.shape; yy,xx=np.mgrid[0:H,0:W]; s=W/1024.
     band=((xx>540*s)&(xx<706*s)&(yy>440*s)).astype(np.float32)
@@ -173,9 +196,7 @@ def split(img):
     zone=np.asarray(Image.fromarray((zone*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2*s))).astype(np.float32)/255.
     ah=np.maximum(ah,zone[...,None])
     nearL=(isbg)&(xx<330*s)&(yy>150*s)&(yy<620*s)&(near<0.5)
-    fillA=np.zeros_like(fill)
-    for c in range(3):
-        coef,*_=np.linalg.lstsq(A[nearL],a[...,c][nearL],rcond=None); fillA[...,c]=A@coef
+    fillA=_fill_from(a,isbg&(near<0.5)&(mw<0.01),40)   # same background tone as around it, so no box shows
     body[...,:3]=body[...,:3]*(1-ah)+fillA*ah
     d=np.hypot(xx-ARM_PIVOT[0]*s,yy-ARM_PIVOT[1]*s)
     capm=(~isbg&(am<0.5)&(d<130*s)&(xx>=(ARM_CUT-2)*s)&(mw<0.5)).astype(np.float32)
