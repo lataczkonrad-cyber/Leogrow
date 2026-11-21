@@ -946,7 +946,7 @@ span.ej{display:inline;}
 .daily-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:var(--cream);border:2px solid var(--gold);border-radius:20px;padding:12px 16px;box-shadow:0 4px 0 #b5891f;}
 .dc-main{flex:1;min-width:0;}
 .dc-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
-.dc-top span{font-size:13px;font-weight:800;color:#6b6b85;}
+.dc-top>span{font-size:13px;font-weight:800;color:#6b6b85;}
 .dc-streak{font-family:'Baloo 2',sans-serif;font-size:24px;color:var(--navy);line-height:1;}
 .dc-streak.zero{filter:grayscale(1);opacity:.6;}
 .dc-shield{margin-left:auto;background:#eef1ff;border:1px solid #c5cff5;border-radius:999px;padding:1px 8px;color:var(--navy)!important;}
@@ -1095,8 +1095,9 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
   .course-layout .sn-title{font-size:14px;padding-bottom:8px;}
   .course-layout .sn-profile b{font-size:19px;}.course-layout .sn-profile small{font-size:13.5px;}
 }
-@media(min-width:1280px){
-  .course-layout{grid-template-columns:262px minmax(0,1fr) 320px;gap:24px;}
+@media(min-width:1024px){.course-layout{grid-template-columns:250px minmax(0,1fr);}}
+@media(min-width:1440px){
+  .course-layout{grid-template-columns:262px minmax(0,1fr) 330px;gap:26px;}
   .side-panels{display:flex;flex-direction:column;gap:14px;position:sticky;top:88px;}
   .course-main .daily-card{display:none;}
 }
