@@ -1352,6 +1352,8 @@ body.onboarding .lemur-corner{display:none;}
   .ob-sum>div{flex-direction:row;justify-content:space-between;align-items:center;padding:10px 14px;}
 }
 @media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
+.tester-bar .ob-replay{margin-left:8px;}
+.ob-tester{font-size:12px;font-weight:800;color:#9a6c0c;margin:0 0 6px;}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -12511,6 +12513,9 @@ function obFinish(open){
   if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
 }
 function obSkip(){OB.done=true;obSave();VIEW={track:null,level:null};renderCourse();}
+/* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
+function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
+  OB={step:'hello',track:null,done:false,started:true,preview:true};obSave();VIEW={track:null,level:null};renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
 function obReset(){OB={step:'hello',track:null,done:false,started:false};obSave();}
 
 const OB_LV_PL={Starter:'Start od zera',Beginner:'Początkujący',Elementary:'Podstawowy',Intermediate:'Średni','Upper-intermediate':'Średnio zaawansowany',Advanced:'Zaawansowany'};
@@ -12564,7 +12569,7 @@ function obHtml(){
     <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
     ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
   } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.track?'start':'who'; obSave(); return obHtml(); }
-  return `<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
+  return testerBar()+`<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
 }
 
 /* the course page shows the welcome until it is finished or skipped */
@@ -12585,7 +12590,18 @@ function obHtml(){
   };
   /* tester: "See the new-learner home" also shows the welcome again */
   const _tj=testerJumpHtml;
-  testerJumpHtml=function(){return _tj().replace('C.profile=null;saveProgress(true);nav()','C.profile=null;saveProgress(true);obReset();nav()');};
+  testerJumpHtml=function(){return _tj().replace('C.profile=null;saveProgress(true);nav()','C.profile=null;saveProgress(true);obReset();nav()')
+    .replace(/<\/div>$/,`<p style="margin-top:8px;"><button class="btn btn-gold lesson-btn" onclick="obReplay()">👋 ${T2('Show the welcome again','Pokaż powitanie jeszcze raz')}</button></p></div>`);};
+  /* tester bar on every page: a button that replays the welcome */
+  const _tb=testerBar;
+  testerBar=function(){const h=_tb(),btn=`<button class="btn secondary lesson-btn ob-replay" onclick="obReplay()">👋 ${T2('Welcome screen','Ekran powitalny')}</button>`;
+    if(h) return h.replace(/<\/div>$/,btn+'</div>');
+    return TESTER?`<div class="tester-bar on"><span>🧪 <b>${T2('Tester','Tester')}</b></span>${btn}</div>`:'';};
+  /* settings: the same, for testers */
+  const _os=openSettings;
+  openSettings=function(){_os.apply(this,arguments);if(!(TESTER_ALLOWED||TESTER))return;const l=document.querySelector('#authModal .set-list');if(!l)return;
+    const r=document.createElement('div');r.className='set-row';r.innerHTML=`<b>👋 ${T2('Welcome screen','Ekran powitalny')}</b><div class="set-ctl"><button class="seg" onclick="obReplay()">${T2('Show again','Pokaż ponownie')}</button></div>`;
+    const d=l.querySelector('.set-row.danger');l.insertBefore(r,d||null);};
 })();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
