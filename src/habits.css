@@ -11,7 +11,7 @@
 .daily-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:var(--cream);border:2px solid var(--gold);border-radius:20px;padding:12px 16px;box-shadow:0 4px 0 #b5891f;}
 .dc-main{flex:1;min-width:0;}
 .dc-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;}
-.dc-top span{font-size:13px;font-weight:800;color:#6b6b85;}
+.dc-top>span{font-size:13px;font-weight:800;color:#6b6b85;}
 .dc-streak{font-family:'Baloo 2',sans-serif;font-size:24px;color:var(--navy);line-height:1;}
 .dc-streak.zero{filter:grayscale(1);opacity:.6;}
 .dc-shield{margin-left:auto;background:#eef1ff;border:1px solid #c5cff5;border-radius:999px;padding:1px 8px;color:var(--navy)!important;}

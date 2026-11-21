@@ -5,8 +5,8 @@ import re
 SRC=os.path.join(HERE,'lesson-technology.html')
 OUT=os.path.join(SITE,'lingrow-academy.html')
 src=open(SRC).read()
-css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'premium.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
-course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()
+css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
+course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()
 
 
 import base64,io
@@ -209,9 +209,8 @@ _LEO_JS=("const LEO_CLIPS="+__import__('json').dumps(LEO_CLIPS)+";const LEO_SAY=
  "const f=LEO_SAY[_leoKey(e.textContent)];if(!f)return;window._leoTalking=true;"
  "setTimeout(()=>_leoPlay(f),250);}catch(e){}}\n")
 engine=engine.replace("function _ttsSpeak(t){",_LEO_JS+"function _ttsSpeak(t){",1)
-for _o,_n in [("  sfxCorrect();\n  saveProgress();","  sfxCorrect();\n  leoSay('praise',(combo===3||combo%5===0)?1:0.15);\n  saveProgress();"),
-              ("  combo=0;\n  sfxWrong();","  combo=0;\n  sfxWrong();\n  leoSay('wrong',0.4,600);"),
-              ("function sfxBigWin(){","function sfxBigWin(){\n  leoSay('win',1,900);"),
+# Leo talks only at the start (first-page intro) and at the end of a lesson
+for _o,_n in [("function sfxBigWin(){","function sfxBigWin(){\n  leoSay('win',1,900);"),
               # the Listen step waits until Leo has read the instruction, then plays the sentence
               ("setTimeout(()=>{if($('lcBtn'))lcSay();},350)","setTimeout(function _t(){if(window._leoTalking)return setTimeout(_t,150);if($('lcBtn'))lcSay();},350)"),
               # a new lesson step: Leo reads its grey intro / instruction text
