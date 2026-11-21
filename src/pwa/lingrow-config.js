@@ -3,5 +3,6 @@
 window.LINGROW_CONFIG = window.LINGROW_CONFIG || {
   supabaseUrl: "https://dqksrcffgkngjbkkfhby.supabase.co",
   supabaseAnonKey: "sb_publishable_3DqjA-lTMKMDAavURFcHog_syyO5u8U",   // publishable key (or legacy anon key)
-  google: false          // true once Google sign-in is switched on in Supabase
+  google: null,          // null = show the Google button when it is switched on in Supabase (true/false to force)
+  apple: null            // same for Apple
 };

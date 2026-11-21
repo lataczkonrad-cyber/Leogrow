@@ -364,3 +364,12 @@ span.ej{display:inline;}
 .sp-words .miss{color:#c0392b;text-decoration:underline wavy;}
 .sp-heard{margin:6px 0 2px;color:#5b5f7a;font-size:14px;}
 .sp-verdict{margin:4px 0 0;font-weight:800;color:var(--navy);}
+/* Google / Apple sign-in */
+.oauth-box{margin:12px 0 4px;}
+.oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;font:700 15px 'Montserrat',sans-serif;cursor:pointer;transition:transform .12s,box-shadow .12s;}
+.oauth-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(5,10,48,.15);}
+.oauth-btn:disabled{opacity:.6;cursor:wait;transform:none;}
+.oauth-google{background:#fff;color:#1f1f1f;border:2px solid #dadce0;}
+.oauth-apple{background:#000;color:#fff;border:2px solid #000;}
+.oauth-or{display:flex;align-items:center;gap:10px;margin:12px 0 2px;color:#8b8ba0;font-size:12.5px;font-weight:700;}
+.oauth-or::before,.oauth-or::after{content:"";flex:1;height:1px;background:#d9d9e3;}
