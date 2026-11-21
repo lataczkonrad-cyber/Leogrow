@@ -20,7 +20,7 @@ def _imuri(im,size=480,q=86):
 import belly
 _LEO_BASE=belly.furry_belly(Image.open(os.path.join(HERE,'brand','icon-rounded.png')))
 import leo_rig
-LEO_AGES={n:{'b':_imuri(r['body']),'t':_imuri(r['tail'],q=88),'f':_imuri(r['front'],q=88),'a':_imuri(r['arm'],q=88),'c':_imuri(r['cap'],q=88),'s':r['shoulder'],'p':r['pivot'],'e':r['eyes']} for n,r in leo_rig.make_rigs(_LEO_BASE).items()}
+LEO_AGES={n:{'b':_imuri(r['body']),'t':_imuri(r['tail'],q=88),'f':_imuri(r['front'],q=88),'a':_imuri(r['arm'],q=88),'r':_imuri(r['rest'],q=88),'c':_imuri(r['cap'],q=88),'s':r['shoulder'],'p':r['pivot'],'e':r['eyes']} for n,r in leo_rig.make_rigs(_LEO_BASE).items()}
 course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps(LEO_AGES)+';',1)
 LEO_NEW=_imuri(_LEO_BASE,560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
 course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1

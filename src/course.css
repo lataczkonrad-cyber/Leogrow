@@ -327,6 +327,12 @@ body.tester .topbar::after{content:"🧪 TESTER";position:absolute;left:50%;top:
  0%{transform:rotate(-106deg);} 22%{transform:rotate(-4deg);} 30%{transform:rotate(7deg);} 38%{transform:rotate(-5deg);}
  46%{transform:rotate(7deg);} 54%{transform:rotate(-5deg);} 62%{transform:rotate(5deg);} 72%{transform:rotate(-2deg);} 100%{transform:rotate(-106deg);}
 }
+/* at rest Leo's hand hangs relaxed (like his other hand); it opens into the waving palm as the arm goes up */
+.leo-arm-wave{opacity:0;}
+.leo-rig.waving .leo-arm-rest{animation:leoWave 2.6s cubic-bezier(.45,0,.4,1) both,leoHandRest 2.6s linear both!important;}
+.leo-rig.waving .leo-arm-wave{animation:leoWave 2.6s cubic-bezier(.45,0,.4,1) both,leoHandWave 2.6s linear both!important;}
+@keyframes leoHandRest{0%,4%{opacity:1;}14%,86%{opacity:0;}96%,100%{opacity:1;}}
+@keyframes leoHandWave{0%,4%{opacity:0;}14%,86%{opacity:1;}96%,100%{opacity:0;}}
 @media (prefers-reduced-motion: reduce){.leo-rig.waving .leo-arm{animation:none!important;}}
 
 /* --- Text never spills out of answer cards (fitText in course.js shrinks what still doesn't fit) --- */
