@@ -962,6 +962,7 @@ span.ej{display:inline;}
 .oauth-apple{background:#000;color:#fff;border:2px solid #000;}
 .oauth-or{display:flex;align-items:center;gap:10px;margin:12px 0 2px;color:#8b8ba0;font-size:12.5px;font-weight:700;}
 .oauth-or::before,.oauth-or::after{content:"";flex:1;height:1px;background:#d9d9e3;}
+.gis-btn{display:none;justify-content:center;margin:8px 0;min-height:44px;}.gis-btn.on{display:flex;}
 
 /* ---------- daily habit: streak, goal, reminders ---------- */
 .wk-day i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:var(--navy);}
@@ -1294,6 +1295,63 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
 body.adult .ch-bob,body.adult .ch-wiggle{animation-duration:4s;}
 @media (prefers-reduced-motion: reduce){.ch-bob,.ch-wiggle,.ch-rays,.ch-shake{animation:none!important;}}
 .panel.ch-hero,.panel.ch-week,.panel.ch-hist{min-height:0;margin-bottom:18px;}
+/* ---------- first-run welcome ---------- */
+.ob-wrap{max-width:620px;margin:6px auto 28px;padding:0 2px;}
+.ob-panel{text-align:center;padding:16px 20px 24px;min-height:0!important;}
+.ob-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;min-height:32px;}
+.ob-link{font:inherit;font-weight:800;font-size:14px;color:#6b6b85;background:none;border:0;cursor:pointer;padding:6px 4px;}
+.ob-link:hover{color:var(--navy);}
+.ob-dots{display:flex;gap:7px;}
+.ob-dots i{width:28px;height:8px;border-radius:8px;background:#dcdde9;}
+.ob-dots i.done{background:var(--gold-light);}
+.ob-dots i.on{background:var(--gold);box-shadow:0 2px 0 #b5891f;}
+.ob-panel .title{margin:8px 0 6px;}
+.ob-panel .sub{max-width:460px;margin:0 auto 10px;}
+.ob-leo{display:flex;justify-content:center;margin:0 0 4px;}
+.ob-leo .lemur-wrap{margin:4px auto 6px;}
+.ob-q{font-weight:800;color:var(--navy);margin:18px 0 8px;}
+.ob-langs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.ob-pill{font:inherit;font-weight:800;font-size:16px;cursor:pointer;padding:10px 18px;border-radius:999px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 3px 0 #c9cbe0;}
+.ob-pill.on{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 3px 0 #b5891f;}
+.ob-main{display:block;width:100%;max-width:360px;margin:22px auto 0;font-size:18px;}
+.ob-later{display:block;margin:12px auto 0;}
+.ob-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.ob-card{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px 18px;border-radius:22px;border:3px solid var(--navy-light);background:var(--cream);color:var(--navy);box-shadow:0 6px 0 var(--gold);transition:transform .18s,box-shadow .18s;}
+.ob-card:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--gold);}
+.ob-ico{font-size:56px;line-height:1;margin:4px 0 2px;}
+.ob-ico img{width:72px;height:72px;}
+.ob-card b{font-family:'Baloo 2',sans-serif;font-size:20px;line-height:1.15;}
+.ob-card small{font-size:13px;color:#4a4a63;font-weight:600;}
+.ob-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;text-align:left;}
+.ob-row{font:inherit;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:2px solid var(--navy-light);background:#fff;color:var(--navy);box-shadow:0 4px 0 #c9cbe0;transition:transform .15s;}
+.ob-row:hover{transform:translateY(-2px);}
+.ob-row.gold{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 4px 0 #b5891f;}
+.ob-row>span{font-size:30px;flex:0 0 auto;}
+.ob-row>div{flex:1;min-width:0;display:flex;flex-direction:column;}
+.ob-row b{font-family:'Baloo 2',sans-serif;font-size:19px;}
+.ob-row small{color:#4a4a63;font-weight:600;font-size:13px;}
+.ob-row>i{font-style:normal;font-size:26px;font-weight:800;color:var(--gold);}
+.ob-levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;}
+.ob-lv{font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border-radius:16px;border:2px solid #dcdde9;background:#fff;color:var(--navy);}
+.ob-lv:hover{border-color:var(--gold);}
+.ob-lv .level-code{width:46px;height:46px;font-size:20px;border-radius:12px;}
+.ob-lv b{font-size:12px;}
+.ob-goals{margin-top:16px;}
+.ob-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px;}
+.ob-sum>div{background:var(--gold-pale);border:2px solid var(--gold);border-radius:16px;padding:10px 6px;display:flex;flex-direction:column;gap:2px;}
+.ob-sum small{font-size:12px;font-weight:800;color:#9a6c0c;text-transform:uppercase;letter-spacing:.04em;}
+.ob-sum b{color:var(--navy);font-size:15px;}
+.ob-acc{margin:16px 0 0;font-size:14px;color:#4a4a63;}
+.ob-acc a{font-weight:800;color:var(--navy-light);}
+body.onboarding .lemur-corner{display:none;}
+@media (max-width:560px){
+  .ob-panel{padding:12px 14px 20px;}
+  .ob-ico img{width:60px;height:60px;}
+  .ob-card b{font-size:17px;}
+  .ob-sum{grid-template-columns:1fr;}
+  .ob-sum>div{flex-direction:row;justify-content:space-between;align-items:center;padding:10px 14px;}
+}
+@media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -8804,10 +8862,36 @@ const G_ICON='<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"
 const A_ICON='<svg viewBox="0 0 384 512" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.5 71.9 26.1 2 49.9-11.4 69.4-34.3z"/></svg>';
 function oauthButtons(){
   if(!OAUTH.google&&!OAUTH.apple) return '<div id="auOauth"></div>';
+  if(OAUTH.google) setTimeout(mountGoogleButton,0);
   return `<div id="auOauth" class="oauth-box">
-    ${OAUTH.google?`<button class="oauth-btn oauth-google" onclick="oauthSignIn('google',this)">${G_ICON}<span>${T2('Continue with Google','Kontynuuj z Google')}</span></button>`:''}
+    ${OAUTH.google?`<div id="gisBtn" class="gis-btn"></div><button id="gOauthBtn" class="oauth-btn oauth-google" onclick="oauthSignIn('google',this)">${G_ICON}<span>${T2('Continue with Google','Kontynuuj z Google')}</span></button>`:''}
     ${OAUTH.apple?`<button class="oauth-btn oauth-apple" onclick="oauthSignIn('apple',this)">${A_ICON}<span>${T2('Continue with Apple','Kontynuuj z Apple')}</span></button>`:''}
     <div class="oauth-or"><span>${T2('or with email','lub e-mailem')}</span></div></div>`;
+}
+/* Google's own sign-in window (shows "leogrow.netlify.app", not the Supabase address).
+   Needs googleClientId in lingrow-config.js; falls back to the normal redirect button if Google's script can't load. */
+let _gisLoad=null,_gisNonce=null;
+function loadGis(){if(window.google&&google.accounts&&google.accounts.id)return Promise.resolve();
+  return _gisLoad=_gisLoad||new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=()=>res();s.onerror=()=>{_gisLoad=null;rej();};document.head.appendChild(s);});}
+async function sha256hex(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function mountGoogleButton(){
+  const box=document.getElementById('gisBtn'),fb=document.getElementById('gOauthBtn');
+  if(!box||!LINGROW_CFG.googleClientId||!(window.crypto&&crypto.subtle)) return;
+  try{await loadGis();}catch(e){return;}
+  if(!document.body.contains(box)) return;
+  const raw=[...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,'0')).join('');
+  _gisNonce=raw;
+  google.accounts.id.initialize({client_id:LINGROW_CFG.googleClientId,nonce:await sha256hex(raw),callback:gisCallback,ux_mode:'popup',use_fedcm_for_button:true});
+  const w=Math.min(400,Math.max(200,Math.round(box.parentElement.getBoundingClientRect().width)||320));
+  box.innerHTML='';
+  google.accounts.id.renderButton(box,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',logo_alignment:'center',width:w,locale:LANG==='pl'?'pl':'en'});
+  box.classList.add('on');if(fb)fb.style.display='none';
+}
+async function gisCallback(resp){
+  const msg=$('auMsg');if(msg){msg.style.color='';msg.textContent='…';}
+  const {error}=await SUPA.auth.signInWithIdToken({provider:'google',token:resp.credential,nonce:_gisNonce});
+  if(error){if(msg)msg.textContent=T2('Couldn\'t log in with Google: ','Nie udało się zalogować przez Google: ')+authError(error);mountGoogleButton();return;}
+  closeAuth();setTimeout(()=>_comboToastText(T2('✅ Logged in with Google — welcome, '+userName()+'!','✅ Zalogowano przez Google — witaj, '+userName()+'!')),600);
 }
 async function oauthSignIn(provider,btn){
   const msg=$('auMsg');if(btn)btn.disabled=true;if(msg){msg.style.color='';msg.textContent='…';}
@@ -9893,7 +9977,7 @@ async function enableReminder(){
 /* the service worker reads this to decide whether to remind you (it can wake up even when the app is closed, on Android) */
 function pushReminderState(){
   try{if(!('caches' in window))return;const c=reminderCfg();
-    const st={on:c.on,time:c.time,done:todayRec().g,today:localDay(),streak:streakOf(C.days),goal:goalMin(),lang:LANG,notified:localStorage.getItem('leogrowNotified')||''};
+    const st={on:c.on,time:c.time,done:todayRec().g,today:localDay(),streak:streakOf(C.days),goal:goalMin(),lang:LANG,tz:(()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone;}catch(e){return '';}})(),notified:localStorage.getItem('leogrowNotified')||''};
     caches.open('leogrow-state').then(ch=>ch.put('./__reminder',new Response(JSON.stringify(st),{headers:{'Content-Type':'application/json'}}))).catch(()=>{});}catch(e){}
 }
 function reminderText(){const n=streakOf(C.days),m=Math.max(0,goalMin()-todayMin());
@@ -9924,6 +10008,75 @@ function downloadReminderIcs(){
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')pushReminderState();});
 setTimeout(pushReminderState,3000);
+
+/* ---------- Streak reminders by push: they arrive even when Leogrow is fully closed ----------
+   Turning on the daily reminder also subscribes this device to push (Android, PC, and iPhone/iPad once Leogrow is on the Home Screen).
+   The server (netlify/functions/push-remind.mjs) sends at the chosen time if today's goal isn't reached yet.
+   The app keeps the server up to date: time, goal, streak, and whether today's goal is done. */
+const PUSH_FN='/.netlify/functions/push';
+const pushSupported=()=>window.isSecureContext&&/^https?:$/.test(location.protocol)&&'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
+function _b64ToBytes(s){s=s.replace(/-/g,'+').replace(/_/g,'/');const r=atob(s+'='.repeat((4-s.length%4)%4));return Uint8Array.from(r,c=>c.charCodeAt(0));}
+function _lastDay(pred){const ks=[...activeSet()].filter(k=>k<=localDay()&&pred(k)).sort();return ks.pop()||'';}
+function pushStateNow(){const c=reminderCfg();let tz='Europe/Warsaw';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||tz;}catch(e){}
+  return {on:c.on,time:c.time,tz,lang:LANG,goal:goalMin(),streak:streakOf(C.days),active_day:_lastDay(()=>true),done_day:todayRec().g?localDay():''};}
+async function _pushToken(){try{if(typeof SUPA!=='undefined'&&SUPA&&USER){const {data}=await SUPA.auth.getSession();return data.session&&data.session.access_token||'';}}catch(e){}return '';}
+async function _pushSub(make){
+  const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+  if(sub||!make)return sub;
+  const r=await fetch(PUSH_FN);const j=await r.json();if(!r.ok||!j.key)throw new Error(j.error||'no key');
+  return reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:_b64ToBytes(j.key)});
+}
+async function _pushSave(sub,test){
+  const tok=await _pushToken(),state=pushStateNow();
+  const r=await fetch(PUSH_FN,{method:'POST',headers:Object.assign({'Content-Type':'application/json'},tok?{Authorization:'Bearer '+tok}:{}),body:JSON.stringify({action:'save',sub:sub.toJSON(),state,test:!!test})});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||('push '+r.status));
+  try{localStorage.setItem('leogrowPushSent',JSON.stringify({k:JSON.stringify(state),at:Date.now()}));localStorage.setItem('leogrowPush','on');}catch(e){}
+  return j;
+}
+/* called after the reminder is switched on (from the tap, so iPhone allows it) */
+async function pushSubscribe(){
+  clearTimeout(_pushT);if(!pushSupported()||Notification.permission!=='granted')return false;
+  try{const sub=await _pushSub(true);await _pushSave(sub,true);return true;}
+  catch(e){console.warn('Leogrow push:',e);try{localStorage.setItem('leogrowPush','fail');}catch(_){}return false;}
+}
+async function pushOff(){
+  try{localStorage.removeItem('leogrowPush');localStorage.removeItem('leogrowPushSent');}catch(e){}
+  if(!pushSupported())return;
+  try{const sub=await _pushSub(false);if(!sub)return;
+    await fetch(PUSH_FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'off',endpoint:sub.endpoint})}).catch(()=>{});
+    await sub.unsubscribe();}catch(e){}
+}
+/* keep the server's copy fresh, but only send when something changed (or once every 6 hours) */
+let _pushT=0;
+function pushSync(){
+  clearTimeout(_pushT);
+  _pushT=setTimeout(async()=>{
+    const c=reminderCfg();if(!c.on||!pushSupported()||Notification.permission!=='granted')return;
+    let last={};try{last=JSON.parse(localStorage.getItem('leogrowPushSent')||'{}');}catch(e){}
+    if(last.k===JSON.stringify(pushStateNow())&&Date.now()-(last.at||0)<6*3600e3)return;
+    try{const sub=await _pushSub(true);if(sub)await _pushSave(sub,false);}catch(e){console.warn('Leogrow push sync:',e);}
+  },1500);
+}
+/* hook into the existing reminder settings */
+const _enableRemOld=enableReminder;
+enableReminder=async function(){
+  const had=reminderCfg().on;await _enableRemOld();
+  if(reminderCfg().on&&!had){const ok=await pushSubscribe();if(!ok&&pushSupported())_comboToastText(T2('🔔 Reminders work while Leogrow is open. For closed-app reminders, try again later.','🔔 Przypomnienia działają, gdy Leogrow jest otwarty. Dla zamkniętej aplikacji spróbuj później.'));if(!activeLesson&&document.getElementById('remTime'))openHabits();}
+};
+const _setRemOnOld=setReminderOn;
+setReminderOn=function(on){_setRemOnOld(on);if(!on)pushOff();};
+const _pushStateOld=pushReminderState;
+pushReminderState=function(){_pushStateOld();pushSync();};
+/* a phone that had the reminder on before push existed gets subscribed quietly (permission is already granted) */
+setTimeout(()=>{try{if(reminderCfg().on&&!localStorage.getItem('leogrowPush')&&pushSupported()&&Notification.permission==='granted')pushSubscribe();}catch(e){}},6000);
+/* clearer note in the goal & reminder window */
+const _openHabitsOld=openHabits;
+openHabits=function(){
+  _openHabitsOld();const n=document.querySelector('#authModal .rem-note');if(!n)return;
+  if(isIOS&&!isStandalone())n.innerHTML=T2('On iPhone and iPad, reminders work once Leogrow is on your Home Screen: tap <b>Share</b> ⬆️ then <b>Add to Home Screen</b>, open Leogrow from there and turn reminders on. The calendar reminder works everywhere.','Na iPhonie i iPadzie przypomnienia działają, gdy Leogrow jest na ekranie początkowym: stuknij <b>Udostępnij</b> ⬆️, potem <b>Do ekranu początkowego</b>, otwórz Leogrow stamtąd i włącz przypomnienia. Przypomnienie w kalendarzu działa wszędzie.');
+  else if(reminderCfg().on&&Notification.permission==='granted'){let p='';try{p=localStorage.getItem('leogrowPush')||'';}catch(e){}
+    n.textContent=p==='on'?T2('🔔 Leo reminds you at this time, even when the app is closed, only if today\'s goal isn\'t done yet.','🔔 Leo przypomni o tej godzinie, nawet gdy aplikacja jest zamknięta, tylko jeśli dzisiejszy cel nie jest zrobiony.'):n.textContent;}
+};
 
 
 /* =====================================================================
@@ -10804,6 +10957,112 @@ function chestPanelHtml(){const n=chestsUnopened().length,st=challengeState(),d=
     ${st.map(s=>`<div class="ch-mini ${s.done?'done':''}"><span>${s.done?'✅':s.c.icon}</span><div><small>${LANG==='pl'?s.c.pl(s.c.n):s.c.en(s.c.n)}</small><div class="ch-bar sm"><i style="width:${s.v/s.c.n*100}%"></i></div></div></div>`).join('')}
     <button class="btn ${n?'btn-gold':'secondary'} sp-btn" onclick="${n?`openChest('${chestsUnopened()[0]}')`:"nav('chests')"}">${n?`🎁 ${T2('Open','Otwórz')} (${n})`:T2('See all','Zobacz wszystko')+' →'}</button></div>`;}
 Object.assign(PL_UI,{"🎁 Chests":"🎁 Skrzynie"});
+
+/* ---------- First run: a short welcome for new learners ----------
+   Steps: hello (language) → who is learning → where to start (A0, a level, or the placement test) → daily goal → ready.
+   Shown only to a learner with no course yet and no finished lessons. Progress through the steps is kept in
+   localStorage 'leogrowOnboard' = {step, track, done}. "Skip" leaves it for good and shows the full home page. */
+const OB_KEY=TESTER_SITE?'leogrowTesterOnboard':'leogrowOnboard';
+let OB={step:'hello',track:null,done:false,started:false};
+try{Object.assign(OB,JSON.parse(localStorage.getItem(OB_KEY)||'{}'));}catch(e){}
+function obSave(){try{localStorage.setItem(OB_KEY,JSON.stringify(OB));}catch(e){}}
+function obActive(){
+  if(OB.done) return false;
+  // an existing learner (a course or finished lessons, maybe from the cloud) never sees the welcome
+  if(!OB.started&&(PROF()||Object.values(C.lessons||{}).some(r=>r&&r.done))){OB.done=true;obSave();return false;}
+  return !VIEW.track&&!(typeof PT!=='undefined'&&PT);
+}
+function obGo(step){OB.step=step;OB.started=true;obSave();if(typeof sfxWhoosh==='function')sfxWhoosh();renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
+function obWho(t){OB.track=t;obGo('start');}
+function obLevel(lv){setProfile(OB.track,lv,true);obGo('goal');}
+function obPlacement(){
+  OB.step='pt';OB.started=true;obSave();startPlacement();
+  if(PT){PT.who=OB.track;renderPlacement();}
+}
+function obGoal(m){setGoal(m);obGo('ready');}
+function obFinish(open){
+  OB.done=true;obSave();
+  const p=PROF(), nx=p&&(nextInLevel(p.track,p.level)||nextLessonToDo(p.track));
+  VIEW={track:null,level:null};
+  if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
+}
+function obSkip(){OB.done=true;obSave();VIEW={track:null,level:null};renderCourse();}
+function obReset(){OB={step:'hello',track:null,done:false,started:false};obSave();}
+
+const OB_LV_PL={Starter:'Start od zera',Beginner:'Początkujący',Elementary:'Podstawowy',Intermediate:'Średni','Upper-intermediate':'Średnio zaawansowany',Advanced:'Zaawansowany'};
+const obLvName=L=>LANG==='pl'&&OB_LV_PL[L.name]||L.name;
+function obDots(){
+  const steps=['who','start','goal','ready'], i=steps.indexOf(OB.step==='pt'?'start':OB.step);
+  return `<div class="ob-dots">${steps.map((s,k)=>`<i class="${k<i?'done':k===i?'on':''}"></i>`).join('')}</div>`;
+}
+function obTop(back){
+  return `<div class="ob-top">${back?`<button class="ob-link" onclick="obGo('${back}')">← ${T2('Back','Wstecz')}</button>`:'<span></span>'}${OB.step==='hello'?'':obDots()}<button class="ob-link" onclick="obSkip()">${T2('Skip','Pomiń')}</button></div>`;
+}
+function obHtml(){
+  const t=TRACKS.find(x=>x.id===OB.track), adult=OB.track==='adults';
+  const leo=(msgs,size)=>`<div class="ob-leo">${renderLemur('big',msgs,size||(adult?96:120),adult?'idle':'cheer')}</div>`;
+  let h='';
+  if(OB.step==='hello'){
+    h=obTop()+leo([T2("Hi! I'm Leo! 👋","Cześć! Jestem Leo! 👋"),T2("Let's set you up!","Zaczynamy!")],130)+
+    `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
+    <p class="sub">${T2('Three quick questions and you are ready for your first lesson.','Trzy krótkie pytania i możesz zacząć pierwszą lekcję.')}</p>
+    <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
+    <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
+    <button class="btn btn-gold ob-main" onclick="obGo('who')">${T2("Let's start →","Zaczynamy →")}</button>`;
+  } else if(OB.step==='who'){
+    h=obTop('hello')+`<span class="zone-tag">${T2('STEP 1 OF 3','KROK 1 Z 3')}</span><h2 class="title">${T2('Who is learning?','Kto się uczy?')}</h2>
+    <p class="sub">${T2('Each section has its own lessons and style.','Każda część ma własne lekcje i styl.')}</p><div class="ob-cards">`+
+    TRACKS.map(x=>`<button class="ob-card ${x.id}" onclick="obWho('${x.id}')"><span class="ob-ico">${x.emoji}</span>
+      <b>${x.id==='kids'?T2('A kid','Dziecko'):T2('A teen or adult','Nastolatek lub dorosły')}</b>
+      <small>${x.id==='kids'?T2('Ages 6–12 · games, music and coins · A0–A2','6–12 lat · gry, muzyka i monety · A0–A2'):T2('Ages 13+ · real-life topics, calm style · A0–C1','13+ lat · tematy z życia, spokojny styl · A0–C1')}</small></button>`).join('')+`</div>`;
+  } else if(OB.step==='start'&&t){
+    const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
+    h=obTop('who')+`<span class="zone-tag">${T2('STEP 2 OF 3','KROK 2 Z 3')}</span><h2 class="title">${T2('Where do you want to start?','Od czego zaczynamy?')}</h2>
+    <div class="ob-list">
+      <button class="ob-row" onclick="obLevel('${lvls[0]}')"><span>🌱</span><div><b>${T2("I'm new to English","Dopiero zaczynam")}</b><small>${T2('Start from the very first words','Zacznij od pierwszych słówek')} · ${lvls[0]}</small></div><i>›</i></button>
+      <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
+    </div>
+    <p class="ob-q">${T2('Or pick your level:','Albo wybierz swój poziom:')}</p>
+    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
+  } else if(OB.step==='goal'){
+    const g=goalMin();
+    h=obTop(PROF()?'start':'who')+`<span class="zone-tag">${T2('STEP 3 OF 3','KROK 3 Z 3')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>
+    <p class="sub">${T2('Pick a goal you can keep every day. You can change it any time in ⚙️ Settings.','Wybierz cel, który dasz radę utrzymać każdego dnia. Zmienisz go w każdej chwili w ⚙️ Ustawieniach.')}</p>
+    <div class="goal-opts ob-goals">${GOAL_OPTS.map(([m,e,en,pl])=>`<button class="goal-opt ${m===g&&HAB().goalAt?'on':''}" onclick="obGoal(${m})"><span>${e}</span><b>${m} min</b><small>${T2(en,pl)}</small></button>`).join('')}</div>`;
+  } else if(OB.step==='ready'&&PROF()){
+    const p=PROF(), tt=TRACKS.find(x=>x.id===p.track), L=LEVELS.find(x=>x.id===p.level), nx=nextInLevel(p.track,p.level)||nextLessonToDo(p.track);
+    const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
+    h=obTop('goal')+leo(p.track==='adults'?[T2('All set.','Gotowe.'),T2('Enjoy your first lesson.','Miłej pierwszej lekcji.')]:[T2('All set! 🎉','Gotowe! 🎉'),T2("Let's learn together!","Uczymy się razem!")])+
+    `<h2 class="title">${T2("You're ready!","Wszystko gotowe!")}</h2>
+    <div class="ob-sum"><div><small>${T2('Course','Kurs')}</small><b>${tt.emoji} ${tt.id==='kids'?T2('Kids','Dzieci'):T2('Teens & Adults','Młodzież i dorośli')}</b></div>
+      <div><small>${T2('Level','Poziom')}</small><b>${p.level} · ${obLvName(L)}</b></div><div><small>${T2('Daily goal','Dzienny cel')}</small><b>🎯 ${goalMin()} min</b></div></div>
+    ${nx?`<button class="btn btn-gold ob-main" onclick="obFinish(true)">▶ ${T2('Start my first lesson','Zacznij pierwszą lekcję')}</button>`:''}
+    <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
+    ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
+  } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.track?'start':'who'; obSave(); return obHtml(); }
+  return `<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
+}
+
+/* the course page shows the welcome until it is finished or skipped */
+(function(){
+  const _rc=renderCourse;
+  renderCourse=function(){
+    /* the placement test started from the welcome comes back to it: "Start A1 →" picks the level, then the goal step follows */
+    if(!OB.done&&OB.step==='pt'){ if(PROF()) {OB.step='goal';obSave();} else if(!(typeof PT!=='undefined'&&PT)) {OB.step='start';obSave();} }
+    if(obActive()){
+      document.body.classList.toggle('adult',OB.track==='adults');
+      document.body.classList.add('onboarding');
+      $('courseView').innerHTML=obHtml();
+      if(LANG==='pl'&&typeof applyLang==='function') applyLang();
+      return;
+    }
+    document.body.classList.remove('onboarding');
+    return _rc.apply(this,arguments);
+  };
+  /* tester: "See the new-learner home" also shows the welcome again */
+  const _tj=testerJumpHtml;
+  testerJumpHtml=function(){return _tj().replace('C.profile=null;saveProgress(true);nav()','C.profile=null;saveProgress(true);obReset();nav()');};
+})();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){
