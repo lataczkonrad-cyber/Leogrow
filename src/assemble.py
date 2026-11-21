@@ -7,6 +7,11 @@ OUT=os.path.join(SITE,'lingrow-academy.html')
 src=open(SRC).read()
 css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
 course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()
+# more topic units (units_*.js) go in just before the CEFR levels block, so they are sorted, scaled and numbered like the rest
+import glob as _glob
+_more=''.join(open(f).read()+'\n' for f in sorted(_glob.glob(os.path.join(HERE,'units_*.js'))))
+assert course_js.count('/* ---------- CEFR levels')==1
+course_js=course_js.replace('/* ---------- CEFR levels',_more+'/* ---------- CEFR levels',1)
 
 
 import base64,io
