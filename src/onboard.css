@@ -85,3 +85,5 @@ body.onboarding .lemur-corner{display:none;}
 @media (min-width:900px){.ob-wrap{max-width:720px}.ob-crew{padding:28px 26px 14px}.ob-mate figcaption b{font-size:14px}.ob-mate figcaption span{font-size:13px}}
 @media (max-width:560px){.ob-crew{margin:0 -4px 14px;padding:16px 4px 10px}.ob-mate figcaption span{font-size:9.5px}.ob-mate figcaption b{font-size:11px;padding:0 7px}.ob-crew::after{bottom:38px}}
 .ob-row>div{text-align:left;align-items:flex-start;}
+.ob-mate figcaption span{white-space:normal;text-align:center;max-width:100%;overflow-wrap:anywhere;padding:0 1px;}
+@media (max-width:560px){.ob-mate figcaption span{min-height:2.3em;line-height:1.15;}}

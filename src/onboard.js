@@ -36,7 +36,7 @@ function obReset(){OB={step:'hello',track:null,done:false,started:false};obSave(
 const OB_LV_PL={Starter:'Start od zera',Beginner:'Początkujący',Elementary:'Podstawowy',Intermediate:'Średni','Upper-intermediate':'Średnio zaawansowany',Advanced:'Zaawansowany'};
 const obLvName=L=>LANG==='pl'&&OB_LV_PL[L.name]||L.name;
 /* all five Leos on a navy stage, smallest to biggest, each gently bobbing */
-const OB_CREW=[['baby','Baby Leo','Mały Leo','A0'],['little','Little Leo','Malutki Leo','A1'],['kid','Kid Leo','Leo uczeń','A2'],['adult','Student Leo','Leo student','B1'],['senior','Professor Leo','Profesor Leo','C1']];
+const OB_CREW=[['baby','Baby Leo','Mały Leo','A0'],['little','Kid Leo','Młody Leo','A1'],['kid','Teen Leo','Leo Nastolatek','A2'],['adult','Adult Leo','Dorosły Leo','B1–B2'],['senior','Master Leo','Mistrz Leo','C1']];
 function obCrew(){
   return `<div class="ob-crew" aria-label="${T2('Leo grows with you','Leo rośnie z Tobą')}"><i class="ob-spark s1">✦</i><i class="ob-spark s2">✦</i><i class="ob-spark s3">✦</i><i class="ob-spark s4">✦</i>
     <div class="ob-crew-row">${OB_CREW.map(([k,en,pl,lv],i)=>{const r=LEO_AGES[k];return r?`<figure class="ob-mate m${i}"><img src="${r.c}" alt="${T2(en,pl)}" draggable="false"><figcaption><b>${lv}</b><span>${T2(en,pl)}</span></figcaption></figure>`:'';}).join('')}</div></div>`;
@@ -56,7 +56,7 @@ function obHtml(){
     const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
     h=obTop()+obCrew()+
     `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title ob-hello-title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
-    <p class="sub">${T2('English from your very first words to C1. Leo grows up with you, from Baby Leo to Professor Leo.','Angielski od pierwszych słówek aż do C1. Leo dorasta razem z Tobą: od Małego Leo do Profesora Leo.')}</p>
+    <p class="sub">${T2('English from your very first words to C1. Leo grows up with you, from Baby Leo to Master Leo.','Angielski od pierwszych słówek aż do C1. Leo dorasta razem z Tobą: od Małego Leo do Mistrza Leo.')}</p>
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
     <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>

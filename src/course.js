@@ -3546,9 +3546,10 @@ function goHome(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)s
 /* ---------- Leo grows with the learner ---------- */
 const LEO_AGES={};  // filled in by the build: Leo at different ages
 const LEO_STAGES={ // [size, which Leo, name EN, name PL]
- kids:{A0:[.62,'baby','Baby Leo','Mały Leo'],A1:[.72,'little','Little Leo','Malutki Leo'],A2:[.82,'kid','Kid Leo','Leo uczeń']},
- adults:{A0:[.86,'teen','Teen Leo','Nastoletni Leo'],A1:[.92,'teen','Teen Leo','Nastoletni Leo'],A2:[.98,'adult','Young Leo','Młody Leo'],
-         B1:[1.04,'adult','Student Leo','Leo student'],B2:[1.1,'senior','Grown-up Leo','Dorosły Leo'],C1:[1.16,'senior','Professor Leo','Profesor Leo']}};
+ kids:{A0:[.62,'baby','Baby Leo','Mały Leo'],A1:[.72,'little','Kid Leo','Młody Leo'],A2:[.82,'kid','Teen Leo','Leo Nastolatek']},
+ adults:{A0:[.86,'teen','Teen Leo','Leo Nastolatek'],A1:[.92,'teen','Teen Leo','Leo Nastolatek'],A2:[.98,'teen','Teen Leo','Leo Nastolatek'],
+         B1:[1.04,'adult','Adult Leo','Dorosły Leo'],B2:[1.1,'adult','Adult Leo','Dorosły Leo'],C1:[1.16,'senior','Master Leo','Mistrz Leo']}};
+/* one name per picture, growing in order (names chosen by the user 2026-11-22): Baby A0 → Kid A1 → Teen A2 → Adult B1–B2 → Master C1 */
 function leoContext(){
   if(activeLesson&&activeLesson.unit) return {track:activeLesson.unit.track,level:activeLesson.unit.level};
   if(typeof PT!=='undefined'&&PT) return null;
