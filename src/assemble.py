@@ -5,8 +5,8 @@ import re
 SRC=os.path.join(HERE,'lesson-technology.html')
 OUT=os.path.join(SITE,'lingrow-academy.html')
 src=open(SRC).read()
-css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
-course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()
+css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+open(os.path.join(HERE,'chests.css')).read()+open(os.path.join(HERE,'onboard.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
+course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'push.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()+'\n'+open(os.path.join(HERE,'chests.js')).read()+'\n'+open(os.path.join(HERE,'onboard.js')).read()
 # more topic units (units_*.js) go in just before the CEFR levels block, so they are sorted, scaled and numbered like the rest
 import glob as _glob
 _more=''.join(open(f).read()+'\n' for f in sorted(_glob.glob(os.path.join(HERE,'units_*.js'))))
@@ -19,15 +19,23 @@ from PIL import Image
 def _uri(name,size,q=88):
     im=Image.open(os.path.join(HERE,'brand',name)).convert('RGBA');im.thumbnail((size,size),Image.LANCZOS)
     b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
-import sys as _sys; _sys.path.insert(0,HERE); import leo_age
+import sys as _sys; _sys.path.insert(0,HERE)
 def _imuri(im,size=480,q=86):
     im=im.copy();im.thumbnail((size,size),Image.LANCZOS);b=io.BytesIO();im.save(b,'WEBP',quality=q,method=6);return 'data:image/webp;base64,'+base64.b64encode(b.getvalue()).decode()
-import belly
-_LEO_BASE=belly.furry_belly(Image.open(os.path.join(HERE,'brand','icon-rounded.png')))
-import leo_rig
-LEO_AGES={n:{'b':_imuri(r['body']),'t':_imuri(r['tail'],q=88),'f':_imuri(r['front'],q=88),'a':_imuri(r['arm'],q=88),'c':_imuri(r['cap'],q=88),'s':r['shoulder'],'p':r['pivot'],'e':r['eyes']} for n,r in leo_rig.make_rigs(_LEO_BASE).items()}
-course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps(LEO_AGES)+';',1)
-LEO_NEW=_imuri(_LEO_BASE,560); BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
+# Leo the lemur at five ages (brand/lemurs/, see lemurs.py): layers for the tail sway + eye boxes for blinking
+import lemurs
+_RIGS=lemurs.make_all(512); _done={}
+def _rig(r):
+    k=id(r)
+    if k not in _done: _done[k]={'w':_imuri(r['w']),'b':_imuri(r['b']),'t':_imuri(r['t'],q=88),'f':_imuri(r['f'],q=88),'p':r['p'],'e':r['e']}
+    return _done[k]
+LEO_AGES={n:_rig(r) for n,r in _RIGS.items()}
+_first={}; _alias=''
+for n,r in _RIGS.items():
+    if id(r) in _first: _alias+='LEO_AGES.%s=LEO_AGES.%s;'%(n,_first[id(r)])
+    else: _first[id(r)]=n
+course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps({n:v for n,v in LEO_AGES.items() if n in _first.values()})+';'+_alias,1)
+LEO_NEW=LEO_AGES['adult']['w']; BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
 course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1
 head,rest=src.split('<body>',1)
 head=head.replace('<title>Leogrow — Unit 3: Technology for All</title>','<title>Leogrow — English A0–C1</title>')

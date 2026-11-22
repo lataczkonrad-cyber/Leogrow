@@ -2398,6 +2398,18 @@ COURSE.units.sort((a,b)=>LEVELS.findIndex(l=>l.id===a.level)-LEVELS.findIndex(l=
  });
 })();
 
+/* ---------- Speaking practice: every lesson with new words gets a "Say it" step ---------- */
+COURSE.units.forEach(u=>u.lessons.forEach(l=>{
+ if(l.test||l.review||l.zones.some(z=>z.type==='speak'))return;
+ const ci=l.zones.findIndex(z=>z.type==='cards');if(ci<0)return;
+ const cards=l.zones[ci].cards||[];
+ const items=cards.slice(0,5).map(c=>({en:c.say||c.en,emoji:c.emoji||'',pl:c.pl||''}));
+ const lz=l.zones.find(z=>z.type==='listen');
+ if(lz)lz.items.slice(0,2).forEach(it=>items.push({en:it.word,emoji:'💬',pl:''}));
+ if(items.length<3)return;
+ l.zones.splice(Math.min(ci+2,l.zones.length),0,{type:"speak",label:"Say it",items});
+}));
+
 const ALL_LESSONS=[];
 COURSE.units.forEach((u,ui)=>u.lessons.forEach((l,li)=>{l.unit=u;l.num=`${ui+1}.${li+1}`;ALL_LESSONS.push(l);}));
 
@@ -2432,7 +2444,8 @@ function resetProgress(){
 }
 const lessonDone=id=>!!(C.lessons[id]&&C.lessons[id].done);
 /* tester tools: always available when the file is opened directly; on the website only with ?tester in the address */
-const TESTER_ALLOWED=location.protocol==='file:'||TESTER_SITE;
+/* tester accounts: a real logged-in account (Supabase app_metadata.tester = true) also gets every lesson, level and premium option open — see 'Tester accounts' below */
+let TESTER_ALLOWED=location.protocol==='file:'||TESTER_SITE;
 let TESTER=TESTER_ALLOWED; try{ const t=localStorage.getItem('lingrowTester'); if(t==='0') TESTER=false; if(t==='1'&&TESTER_ALLOWED) TESTER=true; }catch(e){}
 function setTester(on){TESTER=on;try{localStorage.setItem('lingrowTester',on?'1':'0');}catch(e){}document.body.classList.toggle('tester',TESTER);renderCourse();}
 function skipLesson(){ if(!activeLesson) return; sfxWhoosh(); go(zones.length-1); }
@@ -2461,6 +2474,7 @@ function renderZone(i){
     case "fill":    return fbInit(z.items,"Fill the gap","Choose the correct word.",z.tag||"FILL IT");
     case "build":   return sbInit(z.items,"Build the sentence","Build the sentence from the tiles.","BUILD IT");
     case "tf":      return tfInit(z.items,z.title||"True or False?",z.sub||"",z.tag||"TRUE / FALSE",z.labels);
+    case "speak":   return spInit(z.items);
     case "listen":  return lcInit(z.items,"Listen and choose","Listen and choose the same sentence.","LISTEN");
     case "quiz":    return quizRender(l.id+'-'+i,z.qs,z.tag||'QUIZ',z.done||"Quiz complete! 🎯");
     case "odd":     return ooInit(z.items,"Odd one out","Which one doesn't belong?","ODD ONE OUT");
@@ -2589,7 +2603,7 @@ function coinRow(n,size){return [1,2,3].map(k=>k<=n?`<img class="mini-coin" styl
 
 /* ---------- Tracks: Kids / Adults, each with its own level screens ---------- */
 const TRACKS=[
- {id:"kids",name:"Kids",emoji:"🧒",tag:"FOR KIDS",levels:["A0","A1","A2"],desc:"Ages 6–12 · playful lessons with Leo, games, music and lots of coins.",cta:"Let's play!"},
+ {id:"kids",name:"Kids",emoji:"🧒",tag:"FOR KIDS",levels:["A0","A1","A2"],desc:"Ages 3–12 · playful lessons with Leo, games, music and lots of coins.",cta:"Let's play!"},
  {id:"adults",name:"Teens & Adults",emoji:"🧑‍💼",tag:"FOR TEENS & ADULTS",levels:["A0","A1","A2","B1","B2","C1"],desc:"Ages 13+ · from your first words to C1 — real-life topics, grammar in depth, calm focused style.",cta:"Start learning"},
 ];
 const trackOfLevel=lv=>TRACKS.find(t=>t.levels.includes(lv))||TRACKS[0];
@@ -2612,7 +2626,7 @@ try{const v=JSON.parse(localStorage.getItem('lingrowView')||'null');if(v&&typeof
 function nav(track,level){if(typeof PT!=='undefined')PT=null;VIEW={track:track||null,level:level||null};try{localStorage.setItem('lingrowView',JSON.stringify(VIEW));}catch(e){}sfxWhoosh();renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
 const statsOf=ls=>({total:ls.length,done:ls.filter(l=>lessonDone(l.id)).length,coins:ls.reduce((s,l)=>s+((C.lessons[l.id]&&C.lessons[l.id].stars)||0),0)});
 
-function testerBar(){if(!TESTER_ALLOWED)return '';return `<div class="tester-bar ${TESTER?'on':''}"><span>🧪 <b>Tester mode ${TESTER?'ON':'OFF'}</b> — ${TESTER?'every lesson is unlocked and has a ⏭ Skip button.':'lessons unlock in order, like for real learners.'}</span><button class="btn ${TESTER?'secondary':'btn-gold'} lesson-btn" onclick="setTester(${!TESTER})">${TESTER?'Turn off':'Turn on'}</button></div>`;}
+function testerBar(){if(!TESTER_ALLOWED)return '';const acc=typeof testerAccount==='function'&&testerAccount();return `<div class="tester-bar ${TESTER?'on':''}"><span>🧪 <b>${acc?'Tester account':'Tester mode'} ${TESTER?'ON':'OFF'}</b> — ${TESTER?(acc?'everything is open: every level, lesson and premium option, no daily limit. Progress saves to your account.':'every lesson is unlocked and has a ⏭ Skip button.'):'lessons unlock in order, like for real learners.'}</span><button class="btn ${TESTER?'secondary':'btn-gold'} lesson-btn" onclick="setTester(${!TESTER})">${TESTER?'Turn off':'Turn on'}</button></div>`;}
 function crumbs(){
   const t=TRACKS.find(x=>x.id===VIEW.track);
   let h=`<div class="crumbs"><a href="#" onclick="nav();return false;">🏠 Home</a>`;
@@ -2729,9 +2743,66 @@ function sideNav(){
 }
 function courseShell(h){return `<div class="course-layout">${sideNav()}<main class="course-main">${h}</main></div>`;}
 /* ---------- Accounts & progress sync (Supabase) ---------- */
-const LINGROW_CFG=Object.assign({supabaseUrl:"",supabaseAnonKey:"",google:false},window.LINGROW_CONFIG||{}); // filled in when the project is connected
+const LINGROW_CFG=Object.assign({supabaseUrl:"",supabaseAnonKey:"",google:null,apple:null},window.LINGROW_CONFIG||{}); // filled in when the project is connected
 let SUPA=null, USER=null, _syncTimer=null, _authMode='in';
 const cloudOn=()=>!TESTER_SITE&&!!(LINGROW_CFG.supabaseUrl&&LINGROW_CFG.supabaseAnonKey);
+/* names: Google gives name/full_name, Apple often gives only an email (sometimes a private relay one) */
+function userName(full){const m=(USER&&USER.user_metadata)||{},e=(USER&&USER.email)||'';
+  const n=(m.name||m.full_name||[m.given_name,m.family_name].filter(Boolean).join(' ')||'').trim();
+  if(n) return n; if(full&&e) return e; if(e&&!/privaterelay\.appleid\.com$/i.test(e)) return e.split('@')[0]; return T2('Learner','Uczeń');}
+function providerTag(){const p=USER&&USER.app_metadata&&USER.app_metadata.provider;return p==='google'?' · Google':p==='apple'?' · Apple':'';}
+/* Google / Apple buttons appear by themselves once the provider is switched on in Supabase.
+   lingrow-config.js can force them: google:true/false, apple:true/false (null = ask Supabase). */
+let OAUTH={google:LINGROW_CFG.google===true,apple:LINGROW_CFG.apple===true};
+try{const c=JSON.parse(localStorage.getItem('lg_oauth')||'null');if(c){if(LINGROW_CFG.google==null)OAUTH.google=!!c.google;if(LINGROW_CFG.apple==null)OAUTH.apple=!!c.apple;}}catch(e){}
+async function loadProviders(){
+  try{const r=await fetch(LINGROW_CFG.supabaseUrl.replace(/\/$/,'')+'/auth/v1/settings',{headers:{apikey:LINGROW_CFG.supabaseAnonKey}});if(!r.ok)return;
+    const ex=((await r.json())||{}).external||{};
+    OAUTH={google:LINGROW_CFG.google==null?!!ex.google:LINGROW_CFG.google===true,apple:LINGROW_CFG.apple==null?!!ex.apple:LINGROW_CFG.apple===true};
+    try{localStorage.setItem('lg_oauth',JSON.stringify({google:!!ex.google,apple:!!ex.apple}));}catch(e){}
+    const box=document.getElementById('auOauth');if(box)box.outerHTML=oauthButtons();
+  }catch(e){}}
+const G_ICON='<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+const A_ICON='<svg viewBox="0 0 384 512" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.5 71.9 26.1 2 49.9-11.4 69.4-34.3z"/></svg>';
+function oauthButtons(){
+  if(!OAUTH.google&&!OAUTH.apple) return '<div id="auOauth"></div>';
+  if(OAUTH.google) setTimeout(mountGoogleButton,0);
+  return `<div id="auOauth" class="oauth-box">
+    ${OAUTH.google?`<div id="gisBtn" class="gis-btn"></div><button id="gOauthBtn" class="oauth-btn oauth-google" onclick="oauthSignIn('google',this)">${G_ICON}<span>${T2('Continue with Google','Kontynuuj z Google')}</span></button>`:''}
+    ${OAUTH.apple?`<button class="oauth-btn oauth-apple" onclick="oauthSignIn('apple',this)">${A_ICON}<span>${T2('Continue with Apple','Kontynuuj z Apple')}</span></button>`:''}
+    <div class="oauth-or"><span>${T2('or with email','lub e-mailem')}</span></div></div>`;
+}
+/* Google's own sign-in window (shows "leogrow.netlify.app", not the Supabase address).
+   Needs googleClientId in lingrow-config.js; falls back to the normal redirect button if Google's script can't load. */
+let _gisLoad=null,_gisNonce=null;
+function loadGis(){if(window.google&&google.accounts&&google.accounts.id)return Promise.resolve();
+  return _gisLoad=_gisLoad||new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=()=>res();s.onerror=()=>{_gisLoad=null;rej();};document.head.appendChild(s);});}
+async function sha256hex(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function mountGoogleButton(){
+  const box=document.getElementById('gisBtn'),fb=document.getElementById('gOauthBtn');
+  if(!box||!LINGROW_CFG.googleClientId||!(window.crypto&&crypto.subtle)) return;
+  try{await loadGis();}catch(e){return;}
+  if(!document.body.contains(box)) return;
+  const raw=[...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,'0')).join('');
+  _gisNonce=raw;
+  google.accounts.id.initialize({client_id:LINGROW_CFG.googleClientId,nonce:await sha256hex(raw),callback:gisCallback,ux_mode:'popup',use_fedcm_for_button:true});
+  const w=Math.min(400,Math.max(200,Math.round(box.parentElement.getBoundingClientRect().width)||320));
+  box.innerHTML='';
+  google.accounts.id.renderButton(box,{type:'standard',theme:'outline',size:'large',text:'continue_with',shape:'rectangular',logo_alignment:'center',width:w,locale:LANG==='pl'?'pl':'en'});
+  box.classList.add('on');if(fb)fb.style.display='none';
+}
+async function gisCallback(resp){
+  const msg=$('auMsg');if(msg){msg.style.color='';msg.textContent='…';}
+  const {error}=await SUPA.auth.signInWithIdToken({provider:'google',token:resp.credential,nonce:_gisNonce});
+  if(error){if(msg)msg.textContent=T2('Couldn\'t log in with Google: ','Nie udało się zalogować przez Google: ')+authError(error);mountGoogleButton();return;}
+  closeAuth();setTimeout(()=>_comboToastText(T2('✅ Logged in with Google — welcome, '+userName()+'!','✅ Zalogowano przez Google — witaj, '+userName()+'!')),600);
+}
+async function oauthSignIn(provider,btn){
+  const msg=$('auMsg');if(btn)btn.disabled=true;if(msg){msg.style.color='';msg.textContent='…';}
+  try{sessionStorage.setItem('lg_oauth_from',provider);}catch(e){}
+  const {error}=await SUPA.auth.signInWithOAuth({provider,options:{redirectTo:siteUrl()}});
+  if(error){if(btn)btn.disabled=false;if(msg)msg.textContent=/not enabled|unsupported provider/i.test(error.message)?T2('This sign-in option isn\'t switched on yet. Use email for now.','Ta opcja logowania nie jest jeszcze włączona. Na razie użyj e-maila.'):authError(error);}
+}
 function loadSupabase(){ // works with both key types: the new 'sb_publishable_…' key and the legacy 'anon' key
   const srcs=['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js','https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js'];
   return new Promise((res,rej)=>{if(window.supabase)return res();const next=i=>{if(i>=srcs.length)return rej();const s=document.createElement('script');s.src=srcs[i];s.onload=()=>res();s.onerror=()=>next(i+1);document.head.appendChild(s);};next(0);});}
@@ -2739,10 +2810,12 @@ async function initCloud(){
   if(!cloudOn()) return;
   try{await loadSupabase();}catch(e){return;} // offline: keep working locally
   const back=handleAuthRedirect();
+  loadProviders();
   SUPA=window.supabase.createClient(LINGROW_CFG.supabaseUrl,LINGROW_CFG.supabaseAnonKey,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true,flowType:'implicit'}});
   SUPA.auth.onAuthStateChange((ev,session)=>{const u=session&&session.user||null;const was=USER&&USER.id;USER=u;renderAccountBtn();
     if(ev==='PASSWORD_RECOVERY'){openNewPassword();}
-    if(u&&u.id!==was){pullAndMerge();if(back&&back!=='error'&&back!=='recovery')setTimeout(()=>_comboToastText(T2('✅ Email confirmed — you\'re logged in!','✅ E-mail potwierdzony — jesteś zalogowany!')),900);}
+    if(u&&u.id!==was){pullAndMerge();if(back==='oauth'){const pv=(u.app_metadata&&u.app_metadata.provider)==='apple'?'Apple':'Google';setTimeout(()=>_comboToastText(T2('✅ Logged in with '+pv+' — welcome, '+userName()+'!','✅ Zalogowano przez '+pv+' — witaj, '+userName()+'!')),900);}
+      else if(back&&back!=='error'&&back!=='recovery')setTimeout(()=>_comboToastText(T2('✅ Email confirmed — you\'re logged in!','✅ E-mail potwierdzony — jesteś zalogowany!')),900);}
     if(back&&/access_token|code=/.test(location.href))setTimeout(()=>history.replaceState(null,'',siteUrl()),50);});
   const {data}=await SUPA.auth.getSession(); USER=data.session&&data.session.user||null; renderAccountBtn(); if(USER) pullAndMerge();
 }
@@ -2775,7 +2848,7 @@ async function pullAndMerge(){
 async function pushNow(quiet){
   if(!SUPA||!USER) return false;
   clearTimeout(_syncTimer);_syncTimer=null;
-  try{const {error}=await SUPA.from('progress').upsert({user_id:USER.id,display_name:(USER.user_metadata&&USER.user_metadata.name)||USER.email,data:localSnapshot(),updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  try{const {error}=await SUPA.from('progress').upsert({user_id:USER.id,display_name:userName(true),data:localSnapshot(),updated_at:new Date().toISOString()},{onConflict:'user_id'});
     if(error) throw error; _lastSync=new Date();_syncErr=null;return true;}
   catch(e){_syncFail(e);return false;}
 }
@@ -2789,7 +2862,7 @@ function renderAccountBtn(){
   let b=document.getElementById('accountBtn');
   if(!cloudOn()){if(b)b.remove();return;}
   if(!b){b=document.createElement('button');b.id='accountBtn';b.className='account-btn';b.onclick=()=>USER?openAccount():openAuth('in');const ctl=document.querySelector('.topbar-controls');ctl.insertBefore(b,ctl.firstChild);}
-  b.textContent=USER?'👤 '+((USER.user_metadata&&USER.user_metadata.name)||USER.email.split('@')[0]):'👤 Log in';
+  b.textContent=USER?'👤 '+userName():'👤 Log in';
   b.title=USER?'Your account':'Log in or create an account';
 }
 function authModal(inner){let m=document.getElementById('authModal');if(!m){m=document.createElement('div');m.id='authModal';m.className='auth-overlay';m.onclick=e=>{if(e.target===m)closeAuth();};document.body.appendChild(m);}m.innerHTML=`<div class="auth-box panel">${inner}</div>`;m.classList.add('show');}
@@ -2798,12 +2871,12 @@ function openAuth(mode){
   _authMode=mode;const up=mode==='up';
   authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag(up?'NEW ACCOUNT':'WELCOME BACK')}
     <h2 class="title">${up?'Create your account':'Log in'}</h2><p class="sub">${up?'Save your progress and continue on any device — PC or phone.':'Your lessons, coins and review words follow you to every device.'}</p>
+    ${oauthButtons()}
     ${up?`<input class="auth-in" id="auName" placeholder="Your name" autocomplete="name">`:''}
     <input class="auth-in" id="auEmail" type="email" placeholder="Email" autocomplete="email">
     <input class="auth-in" id="auPass" type="password" placeholder="Password (min. 6 characters)" autocomplete="${up?'new-password':'current-password'}" onkeydown="if(event.key==='Enter')doAuth()">
     <p class="auth-msg" id="auMsg"></p>
     <button class="btn btn-gold auth-go" onclick="doAuth()">${up?'Create account →':'Log in →'}</button>
-    ${LINGROW_CFG.google?`<button class="btn secondary auth-go" onclick="googleAuth()">Continue with Google</button>`:''}
     <p class="auth-switch">${up?'Already have an account? <a href="#" onclick="openAuth(\'in\');return false;">Log in</a>':'New here? <a href="#" onclick="openAuth(\'up\');return false;">Create an account</a>'}${up?'':' · <a href="#" onclick="resetPass();return false;">Forgot password?</a>'}</p>
     <p class="auth-note">Your progress on this device is kept and added to your account.</p>`);
   setTimeout(()=>{const e=$(up?'auName':'auEmail');if(e)e.focus();},50);
@@ -2851,10 +2924,13 @@ function handleAuthRedirect(){
   if(err){
     const exp=/expired|invalid/i.test(err)||(h.get('error_code')||q.get('error_code')||'').includes('otp_expired');
     history.replaceState(null,'',siteUrl());
+    let fromP=null;try{fromP=sessionStorage.getItem('lg_oauth_from');sessionStorage.removeItem('lg_oauth_from');}catch(e){}
+    if(fromP){setTimeout(()=>{openAuth('in');const m=$('auMsg');if(m)m.textContent=/denied|cancel/i.test(err)?T2('Sign-in was cancelled.','Logowanie anulowane.'):T2('Couldn\'t log in with '+(fromP==='apple'?'Apple':'Google')+': ','Nie udało się zalogować przez '+(fromP==='apple'?'Apple':'Google')+': ')+err;},400);return 'error';}
     setTimeout(()=>{openAuth('in');const m=$('auMsg');if(m)m.textContent=exp?T2('That email link has expired or was already used. Log in — or if your email isn\'t confirmed yet, we can send a new link.','Ten link wygasł albo został już użyty. Zaloguj się — a jeśli e-mail nie jest potwierdzony, wyślemy nowy link.'):err;},400);
     return 'error';
   }
-  if(h.get('access_token')||q.get('code')) return h.get('type')||'signup';
+  let from=null;try{from=sessionStorage.getItem('lg_oauth_from');sessionStorage.removeItem('lg_oauth_from');}catch(e){}
+  if(h.get('access_token')||q.get('code')) return h.get('type')||((from||h.get('provider_token'))?'oauth':'signup');
   return null;
 }
 function openNewPassword(){
@@ -2864,12 +2940,11 @@ function openNewPassword(){
 }
 async function saveNewPassword(){const p=$('auNewPass').value,msg=$('auMsg');if(p.length<6){msg.textContent=T2('At least 6 characters.','Min. 6 znaków.');return;}
   const {error}=await SUPA.auth.updateUser({password:p});if(error){msg.textContent=authError(error);return;}closeAuth();_comboToastText(T2('🔑 Password changed','🔑 Hasło zmienione'));}
-async function googleAuth(){await SUPA.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.href.split('#')[0]}});}
 async function resetPass(){const email=$('auEmail').value.trim(),msg=$('auMsg');if(!email){msg.textContent='Type your email first.';return;}
   const {error}=await SUPA.auth.resetPasswordForEmail(email,{redirectTo:siteUrl()});msg.textContent=error?error.message:'📧 We sent you a link to set a new password.';}
 function openAccount(){
   const all=ALL_LESSONS.length,done=ALL_LESSONS.filter(l=>lessonDone(l.id)).length;
-  authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('YOUR ACCOUNT')}<h2 class="title">👤 ${(USER.user_metadata&&USER.user_metadata.name)||'Learner'}</h2><p class="sub">${USER.email}</p>
+  authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('YOUR ACCOUNT')}<h2 class="title">👤 ${userName()}</h2><p class="sub">${USER.email||''}${providerTag()}</p>
    <p class="sub">${done}/${all} lessons · ${score} points</p>
    <p class="sub" id="syncState">${_syncErr?'⚠️ '+_syncErr:_lastSync?'☁️ '+T2('Last saved to cloud: ','Ostatni zapis w chmurze: ')+_lastSync.toLocaleTimeString():'☁️ …'}</p>
    <button class="btn btn-gold auth-go" onclick="syncNowBtn(this)">↻ Sync now</button>
@@ -2877,6 +2952,31 @@ function openAccount(){
 }
 async function syncNowBtn(b){b.disabled=true;b.textContent='…';const ok=await pullAndMerge();b.disabled=false;b.textContent='↻ Sync now';const el=$('syncState');if(el)el.textContent=ok?'✅ '+T2('Saved to cloud: ','Zapisano w chmurze: ')+_lastSync.toLocaleTimeString():'⚠️ '+_syncErr;}
 async function logOut(){await pushNow();await SUPA.auth.signOut();USER=null;closeAuth();renderAccountBtn();_comboToastText('👋 Logged out — progress stays on this device');}
+
+/* ---------- Tester accounts ----------
+   Mark an account as a tester in Supabase (SQL editor):
+     update auth.users set raw_app_meta_data = raw_app_meta_data || '{"tester":true}' where email = 'you@example.com';
+   That account then works like a normal learner (cloud sync, streaks, progress, shop) but every level,
+   lesson, unit test and premium option is open, with no daily limit. Learners can't set app_metadata themselves. */
+const _TESTER_LOCAL=TESTER_ALLOWED; // file copy or /tester page
+let _testerChecked=null;
+const testerAccount=()=>!!(USER&&USER.app_metadata&&USER.app_metadata.tester===true);
+function isTesterAccount(){return testerAccount();}
+function applyAccountTester(){
+  const was=TESTER, acc=testerAccount();
+  if(acc){ if(!TESTER_ALLOWED){TESTER_ALLOWED=true;let t=null;try{t=localStorage.getItem('lingrowTester');}catch(e){}TESTER=t!=='0';} }
+  else if(!_TESTER_LOCAL&&TESTER_ALLOWED){TESTER_ALLOWED=false;TESTER=false;}
+  document.body.classList.toggle('tester',TESTER);
+  document.body.classList.toggle('tester-account',acc);
+  if(was!==TESTER&&!activeLesson) renderCourse();
+  // the saved session can be old: ask Supabase once per login for the account's current flags
+  if(USER&&SUPA&&_testerChecked!==USER.id){_testerChecked=USER.id;
+    SUPA.auth.getUser().then(({data})=>{const u=data&&data.user;if(!u||!USER||u.id!==USER.id)return;
+      const before=testerAccount();USER.app_metadata=u.app_metadata||{};if(testerAccount()!==before)applyAccountTester();}).catch(()=>{});}
+  if(!USER) _testerChecked=null;
+}
+const _renderAccountBtnNoTester=renderAccountBtn;
+renderAccountBtn=function(){const r=_renderAccountBtnNoTester.apply(this,arguments);applyAccountTester();return r;};
 
 
 /* ---------- My progress dashboard ---------- */
@@ -2886,7 +2986,7 @@ function streakOf(days){const set=new Set(days||[]);let n=0;const d=new Date();
 function progressHtml(){
   const days=C.days||[], streak=streakOf(days), all=ALL_LESSONS, done=all.filter(l=>lessonDone(l.id)).length;
   const coins=all.reduce((s,l)=>s+((C.lessons[l.id]&&C.lessons[l.id].stars)||0),0);
-  let h=`<div class="panel prog-hero">${zoneTag('MY PROGRESS')}<h2 class="title">${USER?'👤 '+((USER.user_metadata&&USER.user_metadata.name)||USER.email.split('@')[0]):'My progress'}</h2>
+  let h=`<div class="panel prog-hero">${zoneTag('MY PROGRESS')}<h2 class="title">${USER?'👤 '+userName():'My progress'}</h2>
     <div class="prog-stats"><div><b>🔥 ${streak}</b><small>day streak</small></div><div><b>${done}/${all.length}</b><small>lessons</small></div><div><b><img class="mini-coin" src="${LEMUR_COIN}" alt="" style="width:20px;height:20px;vertical-align:-3px"> ${coins}</b><small>coins</small></div><div><b>${score}</b><small>points</small></div></div>
     <div class="wk-row">${weekDots()}</div>
     ${cloudOn()&&!USER?`<p class="sub" style="margin-top:12px;">Progress is saved on this device only. <a href="#" onclick="openAuth('up');return false;">Create a free account</a> to keep it on every device.</p>`:''}</div>`;
@@ -2952,7 +3052,7 @@ function renderPlacement(){
   let h=crumbs().replace('</div>','<span>›</span><b>Placement test</b></div>');
   if(!PT.who){
     h+=`<div class="panel placement"><div style="text-align:center;">${zoneTag('PLACEMENT TEST')}<h2 class="title">Find your level</h2><p class="sub">18 quick questions, about 3 minutes. They get harder as you go — just skip the ones you don't know.</p><p class="sub" style="font-weight:800;">First: who is learning?</p></div>
-      <div class="opts"><div class="opt" onclick="plWho('kids')">🧒 A kid (6–12)</div><div class="opt" onclick="plWho('adults')">🧑‍💼 A teen or adult</div></div></div>`;
+      <div class="opts"><div class="opt" onclick="plWho('kids')">🧒 A kid (3–12)</div><div class="opt" onclick="plWho('adults')">🧑‍💼 A teen or adult</div></div></div>`;
   } else if(PT.i<PT.qs.length){
     const q=PT.qs[PT.i];
     h+=`<div class="panel placement">${zoneTag('PLACEMENT TEST')}<div class="unit-progress" style="margin:10px 0 14px;"><div style="width:${PT.i/PT.qs.length*100}%"></div></div>
@@ -2979,7 +3079,7 @@ function homeHtml(){
     <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).b||LEO_CHEER}" alt="">`;
+    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).w||LEO_CHEER}" alt="">`;
     h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
       ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
       <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
@@ -3031,13 +3131,16 @@ function renderCourse(){
 let LANG='en'; try{LANG=localStorage.getItem('lingrowLang')||'en';}catch(e){}
 const PL_UI={
  "Tester mode ON":"Tryb testera WŁ.","Tester mode OFF":"Tryb testera WYŁ.",
+ "Tester account ON":"Konto testera WŁ.","Tester account OFF":"Konto testera WYŁ.",
+ "— everything is open: every level, lesson and premium option, no daily limit. Progress saves to your account.":"— wszystko jest otwarte: każdy poziom, lekcja i opcja Premium, bez dziennego limitu. Postęp zapisuje się na Twoim koncie.",
+ "Every lesson is unlocked for your tester account. Progress, coins and streaks save to this account like for a real learner.":"Każda lekcja jest odblokowana na Twoim koncie testera. Postęp, monety i serie zapisują się na tym koncie jak u prawdziwego ucznia.",
  "— every lesson is unlocked and has a ⏭ Skip button.":"— każda lekcja jest odblokowana i ma przycisk ⏭ Pomiń.",
  "— lessons unlock in order, like for real learners.":"— lekcje odblokowują się po kolei, jak u prawdziwych uczniów.",
  "Turn off":"Wyłącz","Turn on":"Włącz","🗺️ Course":"🗺️ Kurs","⏭ Skip":"⏭ Pomiń","🏠 Home":"🏠 Start",
  "Who is learning today?":"Kto się dziś uczy?","Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
  "Not sure where to start?":"Nie wiesz, od czego zacząć?","Take the 3-minute placement test and we'll find your level.":"Zrób 3-minutowy test, a znajdziemy Twój poziom.",
  "Find my level →":"Znajdź mój poziom →","FOR KIDS":"DLA DZIECI","FOR TEENS & ADULTS":"DLA MŁODZIEŻY I DOROSŁYCH","Kids 🧒":"Dzieci 🧒","🧒 Kids":"🧒 Dzieci","Teens & Adults 🧑‍💼":"Młodzież i dorośli 🧑‍💼","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli",
- "Ages 6–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 6–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
+ "Ages 3–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 3–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
  "Ages 13+ · from your first words to C1 — real-life topics, grammar in depth, calm focused style.":"Wiek 13+ · od pierwszych słów do C1 — prawdziwe tematy, gramatyka, spokojny styl.",
  "Let's play! →":"Gramy! →","Start learning →":"Zacznij naukę →","Reset my progress":"Zresetuj mój postęp",
  "lessons":"lekcje","coins":"monety","points":"punkty","Choose your level":"Wybierz poziom","Coming soon":"Wkrótce",
@@ -3047,7 +3150,7 @@ const PL_UI={
  "Simple everyday life: routines, home, school, free time.":"Proste życie codzienne: rutyna, dom, szkoła, czas wolny.",
  "Talk about habits, past events and plans.":"Mów o nawykach, przeszłości i planach.",
  "Start →":"Start →","Continue →":"Kontynuuj →","↻ Play again":"↻ Zagraj jeszcze raz","All levels":"Wszystkie poziomy",
- "Find your level":"Znajdź swój poziom","First: who is learning?":"Najpierw: kto się uczy?","🧒 A kid (6–12)":"🧒 Dziecko (6–12)","🧑‍💼 A teen or adult":"🧑‍💼 Nastolatek lub dorosły",
+ "Find your level":"Znajdź swój poziom","First: who is learning?":"Najpierw: kto się uczy?","🧒 A kid (3–12)":"🧒 Dziecko (3–12)","🧑‍💼 A teen or adult":"🧑‍💼 Nastolatek lub dorosły",
  "18 quick questions, about 3 minutes. They get harder as you go — just skip the ones you don't know.":"18 szybkich pytań, ok. 3 minuty. Są coraz trudniejsze — pomiń te, których nie wiesz.",
  "I don't know → skip":"Nie wiem → pomiń","Placement test":"Test poziomujący","PLACEMENT TEST":"TEST POZIOMUJĄCY","YOUR RESULT":"TWÓJ WYNIK","↻ Try again":"↻ Spróbuj ponownie",
  "Start":"Start","Finish!":"Koniec!","Let's start! 🚀":"Zaczynamy! 🚀","Ready? 🚀":"Gotowy? 🚀","← Back":"← Wstecz","Next →":"Dalej →",
@@ -3400,7 +3503,7 @@ const _sideNavMine=function(){
 const _sideNavAll=sideNav;
 sideNav=function(){return TESTER?_sideNavAll():_sideNavMine();};
 function testerJumpHtml(){
-  return `<div class="panel tester-jump">${zoneTag('🧪 TESTER')}<h2 class="title">Jump to any level</h2><p class="sub">Every lesson is unlocked here. Progress in the tester version is separate and never touches your real account.</p>`+
+  return `<div class="panel tester-jump">${zoneTag('🧪 TESTER')}<h2 class="title">Jump to any level</h2><p class="sub">${typeof testerAccount==='function'&&testerAccount()?'Every lesson is unlocked for your tester account. Progress, coins and streaks save to this account like for a real learner.':'Every lesson is unlocked here. Progress in the tester version is separate and never touches your real account.'}</p>`+
    TRACKS.map(t=>`<div class="tj-row"><b>${t.emoji} ${t.name}</b><div class="set-ctl">${t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length).map(lv=>`<button class="seg ${PROF()&&PROF().track===t.id&&PROF().level===lv?'on':''}" onclick="nav('${t.id}','${lv}')">${lv}</button>`).join('')}</div></div>`).join('')+
    `<p style="margin-top:12px;"><button class="btn secondary lesson-btn" onclick="C.profile=null;saveProgress(true);nav()">See the new-learner home</button></p></div>`;
 }
@@ -3409,7 +3512,7 @@ function openSettings(){
   const p=PROF(), tr=p?p.track:null, t=TRACKS.find(x=>x.id===tr);
   const seg=(on,click,label)=>`<button class="seg ${on?'on':''}" onclick="${click}">${label}</button>`;
   let acc='';
-  if(cloudOn()) acc=USER?`<div class="set-row"><b>👤 Account</b><div class="set-ctl"><span class="set-note">${(USER.user_metadata&&USER.user_metadata.name)||USER.email}</span>${seg(false,"closeAuth();openAccount()",'Sync & log out')}</div></div>`
+  if(cloudOn()) acc=USER?`<div class="set-row"><b>👤 Account</b><div class="set-ctl"><span class="set-note">${userName(true)}</span>${seg(false,"closeAuth();openAccount()",'Sync & log out')}</div></div>`
                      :`<div class="set-row"><b>👤 Account</b><div class="set-ctl">${seg(false,"openAuth('in')",'Log in')}${seg(false,"openAuth('up')",'Create account')}</div></div>`;
   authModal(`<button class="auth-x" onclick="closeAuth()">✕</button>${zoneTag('SETTINGS')}<h2 class="title">⚙️ Settings</h2>
    <div class="set-list">
@@ -3457,12 +3560,12 @@ function leoContext(){
 }
 function leoGrow(h){
   const c=leoContext(), st=c&&LEO_STAGES[c.track]&&LEO_STAGES[c.track][c.level];
-  const rig=LEO_AGES[st?st[1]:'teen']; if(!rig||!rig.b) return h;
+  const rig=LEO_AGES[st?st[1]:'adult']; if(!rig||!rig.b) return h;
   if(st) h=h.replace('class="lemur-wrap"',`class="lemur-wrap" style="--leo-s:${st[0]}"`);
   // Leo as layers: body, a swaying tail and eyelids for blinking
   const lids=rig.e.map(([x,y,rx,ry])=>`<span class="leo-lid" style="left:${x-rx}%;top:${y-ry}%;width:${2*rx}%;height:${2*ry}%"></span>`).join('');
   h=h.replace(/<img class="(lemur-img[^"]*)" id="(lemurImgBase-[^"]+)" src="[^"]*"([^>]*)>/,(m,cls,id,rest)=>
-    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'teen'}" src="${rig.b}"${rest}>${rig.a?`<img class="leo-arm" src="${rig.a}" alt="" draggable="false" style="transform-origin:${rig.s[0]}% ${rig.s[1]}%"><img class="leo-cap" src="${rig.c}" alt="" draggable="false">`:''}<img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
+    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'adult'}" src="${rig.b}"${rest}>${rig.a?`<img class="leo-arm" src="${rig.a}" alt="" draggable="false" style="transform-origin:${rig.s[0]}% ${rig.s[1]}%"><img class="leo-cap" src="${rig.c}" alt="" draggable="false">`:''}<img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
   if(st) h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
   return h;
 }
@@ -3566,3 +3669,80 @@ initCloud();
     setTimeout(()=>{ready=true;updateBack();},300);
   });
 })();
+
+
+/* ---------- Speaking practice ("Say it"): tap 🎤, say the word or sentence, ElevenLabs Speech to
+   Text writes down what it heard (netlify/functions/stt.mjs), and we compare it with the answer.
+   It checks the words, not the accent. ---------- */
+let SP={items:[],idx:0,score:0,state:'idle',rec:null,chunks:[],heard:'',ok:false,off:false};
+const SP_NUM=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+function spWords(t){return String(t||'').toLowerCase().replace(/[’`]/g,"'").replace(/[^a-z0-9' ]+/g,' ').split(/\s+/).filter(Boolean).map(w=>/^\d+$/.test(w)&&SP_NUM[+w]?SP_NUM[+w]:w.replace(/^'+|'+$/g,''));}
+/* which answer words were heard (in order, ignoring extra words like "um") */
+function spCompare(answer,heard){
+  const a=spWords(answer),h=spWords(heard);let j=0;
+  const res=a.map(w=>{let k=j;while(k<h.length&&h[k]!==w&&!(h[k].replace(/'/g,'')===w.replace(/'/g,'')))k++;if(k<h.length){j=k+1;return {w,ok:true};}return {w,ok:false};});
+  return {res,ok:res.length>0&&res.every(r=>r.ok)};
+}
+function spInit(items){SP={items,idx:0,score:0,state:'idle',rec:null,chunks:[],heard:'',ok:false,off:SP.off};return spRender();}
+function spRender(){
+  if(SP.idx>=SP.items.length)return doneScreen('SAY IT',SP.score,SP.items.length);
+  const it=SP.items[SP.idx];
+  const canRec=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+  let fb='';
+  if(SP.state==='rec')fb=`<p class="sp-status sp-live">🔴 ${T2('Listening… tap again when you finish','Słucham… kliknij ponownie, gdy skończysz')}</p>`;
+  else if(SP.state==='busy')fb=`<p class="sp-status">⏳ ${T2('Checking…','Sprawdzam…')}</p>`;
+  else if(SP.state==='done'){
+    const c=spCompare(it.en,SP.heard);
+    fb=`<div class="sp-result ${c.ok?'good':'bad'}"><div class="sp-words">${c.res.map(r=>`<span class="${r.ok?'ok':'miss'}">${r.w}</span>`).join(' ')}</div>`
+      +`<p class="sp-heard">${T2('I heard:','Usłyszałem:')} <b>${SP.heard?SP.heard.replace(/</g,'&lt;'):'…'}</b></p>`
+      +`<p class="sp-verdict">${c.ok?'✅ '+T2('Perfect!','Świetnie!'):'🔁 '+T2('Almost — the red words were off. Try again!','Prawie — czerwone słowa były niewyraźne. Spróbuj jeszcze raz!')}</p></div>`;
+  }
+  else if(SP.state==='error')fb=`<p class="sp-status sp-err">${SP.err}</p>`;
+  const next=SP.off||(SP.state==='done'&&spCompare(it.en,SP.heard).ok);
+  return `${zoneTag('SAY IT')}<h2 class="title">${T2('Say it','Powiedz to')} 🎤</h2>`
+   +`<p class="sub">${T2('Listen, then tap the microphone and say it in English.','Posłuchaj, potem kliknij mikrofon i powiedz to po angielsku.')} (${SP.idx+1} / ${SP.items.length})</p>`
+   +`<div class="sp-card"><div class="sp-emoji">${it.emoji||''}</div><div class="sp-text">${it.en}</div>${it.pl?`<div class="sp-pl">${it.pl}</div>`:''}</div>`
+   +`<div class="sp-btns"><button class="btn secondary" onclick="speak(SP.items[SP.idx].en)">🔊 ${T2('Listen','Posłuchaj')}</button>`
+   +(canRec&&!SP.off?`<button class="btn btn-navy sp-mic ${SP.state==='rec'?'on':''}" onclick="spMic()" ${SP.state==='busy'?'disabled':''}>${SP.state==='rec'?'⏹ '+T2('Stop','Stop'):'🎤 '+T2('Speak','Mów')}</button>`:'')+`</div>`
+   +(canRec?'':`<p class="sp-status sp-err">${T2('Your browser can’t record here. Say it out loud, then tap Next.','Ta przeglądarka nie nagrywa dźwięku. Powiedz to na głos i kliknij Dalej.')}</p>`)
+   +(SP.off?`<p class="sp-status">${T2('The speaking check isn’t switched on yet. Say it out loud, then tap Next.','Sprawdzanie mowy nie jest jeszcze włączone. Powiedz to na głos i kliknij Dalej.')}</p>`:'')
+   +fb
+   +`<div class="nav-row"><button class="btn secondary" onclick="go(current-1)">← ${T2('Back','Wstecz')}</button>`
+   +`<button class="btn ${next?'btn-gold':'secondary'}" onclick="spNext()">${next?T2('Next →','Dalej →'):T2('Skip →','Pomiń →')}</button></div>`;
+}
+function spPaint(){setPanel(spRender());}
+function spNext(){
+  if(SP.rec&&SP.rec.state==='recording'){try{SP.rec.onstop=null;SP.rec.stop();}catch(e){}}
+  if(SP.off&&SP.state!=='done')SP.score++;      // check not available: practise freely, no penalty
+  SP.idx++;SP.state='idle';SP.heard='';spPaint();
+}
+async function spMic(){
+  if(SP.state==='rec'){try{SP.rec.stop();}catch(e){}return;}
+  if(SP.state==='busy')return;
+  try{if(typeof _vAud!=='undefined'&&_vAud&&!_vAud.paused)_vAud.pause();}catch(e){}
+  let stream;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}});}
+  catch(e){SP.state='error';SP.err=T2('Allow the microphone for this site, then try again.','Zezwól tej stronie na użycie mikrofonu i spróbuj ponownie.');spPaint();return;}
+  const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(m=>window.MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(m))||'';
+  const rec=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);
+  SP.rec=rec;SP.chunks=[];SP.state='rec';spPaint();
+  const it=SP.items[SP.idx];
+  const limit=setTimeout(()=>{if(rec.state==='recording')rec.stop();},Math.min(9000,2500+it.en.length*120));
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)SP.chunks.push(e.data);};
+  rec.onstop=async()=>{
+    clearTimeout(limit);stream.getTracks().forEach(t=>t.stop());
+    const blob=new Blob(SP.chunks,{type:(rec.mimeType||mime||'audio/webm').split(';')[0]});
+    SP.state='busy';spPaint();
+    try{
+      const r=await fetch('/.netlify/functions/stt',{method:'POST',headers:{'Content-Type':blob.type||'audio/webm'},body:blob});
+      const d=await r.json().catch(()=>({}));
+      if(r.status===503||d.error==='not_set_up'){SP.off=true;SP.state='idle';spPaint();return;}
+      if(!r.ok)throw new Error(d.error||r.status);
+      SP.heard=d.text||'';SP.state='done';
+      const c=spCompare(it.en,SP.heard);
+      if(c.ok){if(!it._scored){it._scored=true;SP.score++;}addScore(5);}else registerWrongAnswer();
+    }catch(e){SP.state='error';SP.err=T2('Couldn’t check that one. Check your internet and try again.','Nie udało się sprawdzić. Sprawdź internet i spróbuj ponownie.');}
+    spPaint();
+  };
+  rec.start();
+}

@@ -8,7 +8,7 @@ cd src && python3 assemble.py && python3 pwa_post.py && node emoji_post.js
 ```
 
 When the app changes, bump `VERSION` in `src/pwa/lingrow-sw.js` so phones pick up the update.
-Supabase setup SQL: `supabase-setup.sql`.
+Supabase setup SQL: `supabase-setup.sql`. Streak reminders (push): see `PUSH_SETUP.md`.
 z
 
 ## Emoji pictures
