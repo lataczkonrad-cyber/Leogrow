@@ -1644,6 +1644,72 @@ body.in-lesson .trail{flex:0 0 auto;}
 .lemur-corner .lemur-wrap{--leo-s:1!important;}
 /* Teens & Adults lessons get their own Leo in the corner too (tablet and PC; phones show Leo in the card) */
 @media(min-width:561px){body.adult.in-lesson .lemur-corner{display:block;}}
+/* ---------- Leo grows up: full-screen celebration ---------- */
+.lg-over{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin;
+  background:radial-gradient(ellipse at 50% 42%,#0d2a7a 0%,#04124a 45%,#000b3b 100%);color:#fff;overflow:hidden;cursor:pointer;
+  animation:lgIn .35s ease-out both;padding:16px;text-align:center;-webkit-tap-highlight-color:transparent}
+.lg-over.lg-bye{animation:lgOut .25s ease-in both}
+@keyframes lgIn{from{opacity:0}to{opacity:1}} @keyframes lgOut{to{opacity:0;transform:scale(1.03)}}
+body.lg-open{overflow:hidden}
+.lg-rays{position:absolute;left:50%;top:42%;width:180vmax;height:180vmax;margin:-90vmax 0 0 -90vmax;pointer-events:none;opacity:0;
+  background:repeating-conic-gradient(from 0deg,rgba(255,206,84,.16) 0deg 7deg,transparent 7deg 20deg);
+  -webkit-mask:radial-gradient(circle,#000 0,#000 18%,transparent 55%);mask:radial-gradient(circle,#000 0,#000 18%,transparent 55%);
+  animation:lgRaysIn .6s ease-out 1.55s forwards,lgSpin 24s linear infinite}
+@keyframes lgRaysIn{to{opacity:1}} @keyframes lgSpin{to{transform:rotate(360deg)}}
+.lg-glow{position:absolute;left:50%;top:42%;width:70vmin;height:70vmin;margin:-35vmin 0 0 -35vmin;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,214,102,.55),rgba(255,180,40,.12) 45%,transparent 70%);opacity:.25;animation:lgGlow 1.5s ease-in .2s forwards}
+@keyframes lgGlow{to{opacity:1}}
+.lg-skip{position:absolute;top:max(14px,env(safe-area-inset-top));right:16px;z-index:3;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;padding:8px 16px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.lg-skip:hover{background:rgba(255,255,255,.22)}
+.lg-stage{position:relative;width:min(56vmin,420px);height:min(56vmin,420px);flex:none}
+.lg-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;user-select:none}
+/* old Leo: appears, wiggles, glows and turns to light */
+.lg-old{transform-origin:50% 100%;animation:lgOld 1.65s ease-in-out both}
+@keyframes lgOld{0%{transform:scale(.62);opacity:0;filter:none}
+  15%{transform:scale(.8);opacity:1;filter:drop-shadow(0 0 0 rgba(255,210,90,0))}
+  35%{transform:scale(.8) rotate(-4deg)} 48%{transform:scale(.82) rotate(4deg)} 60%{transform:scale(.8) rotate(-5deg);filter:drop-shadow(0 0 18px rgba(255,210,90,.8))}
+  72%{transform:scale(.83) rotate(5deg);filter:brightness(1.6) drop-shadow(0 0 26px #ffd25a)}
+  90%{transform:scale(.86);filter:brightness(0) invert(1) drop-shadow(0 0 30px #fff);opacity:1}
+  100%{transform:scale(.9);filter:brightness(0) invert(1) drop-shadow(0 0 40px #fff);opacity:0}}
+/* new Leo: comes out of the light, a little bigger */
+.lg-new{transform-origin:50% 100%;opacity:0;animation:lgNew 1.1s cubic-bezier(.2,1.4,.4,1) 1.55s forwards}
+@keyframes lgNew{0%{opacity:1;transform:scale(.88);filter:brightness(0) invert(1) drop-shadow(0 0 40px #fff)}
+  45%{transform:scale(1.08);filter:brightness(2) drop-shadow(0 0 30px #ffd25a)}
+  100%{opacity:1;transform:scale(1);filter:drop-shadow(0 0 22px rgba(255,206,84,.55))}}
+.lg-ring{position:absolute;left:50%;top:55%;width:20%;height:20%;margin:-10% 0 0 -10%;border-radius:50%;border:4px solid #ffd25a;opacity:0;pointer-events:none;
+  box-shadow:0 0 30px #ffd25a,inset 0 0 20px #fff;animation:lgRing .9s ease-out 1.5s both}
+@keyframes lgRing{0%{opacity:1;transform:scale(.3)}100%{opacity:0;transform:scale(5)}}
+.lg-sparks{position:absolute;left:50%;top:55%;width:0;height:0;pointer-events:none}
+.lg-sp{position:absolute;left:0;top:0;font-style:normal;color:#ffd25a;font-size:clamp(16px,3.4vmin,30px);text-shadow:0 0 10px #ffb400;opacity:0;
+  animation:lgSpark 1.3s ease-out calc(1.55s + var(--dl)) both}
+.lg-sp:nth-child(3n){color:#fff}
+@keyframes lgSpark{0%{opacity:1;transform:rotate(var(--a)) translateY(0) scale(.4)}
+  70%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(1.1) rotate(180deg)}}
+.lg-text{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px}
+.lg-text>*{opacity:0;animation:lgUp .5s cubic-bezier(.2,1.3,.4,1) both}
+.lg-tag{letter-spacing:.14em;font-weight:800;font-size:13px;color:#ffd25a;animation-delay:2.1s!important}
+.lg-text h2{margin:0;font-size:clamp(28px,5.2vmin,46px);line-height:1.1;color:#fff;animation-delay:2.2s!important}
+.lg-name{font-size:clamp(30px,6.4vmin,58px);line-height:1.1;font-weight:900;animation-delay:2.35s!important;
+  background:linear-gradient(100deg,#ffb400 0%,#ffe9a3 30%,#ffc93c 50%,#fff3c4 70%,#ffb400 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 0 rgba(0,0,0,.25))}
+.lg-over:not(.lg-bye) .lg-name{animation:lgUp .5s cubic-bezier(.2,1.3,.4,1) 2.35s both,lgShine 2.6s linear 2.9s infinite}
+@keyframes lgShine{to{background-position:-250% 0}}
+.lg-from{margin:2px 0 8px;font-size:16px;color:rgba(255,255,255,.82);animation-delay:2.5s!important}
+.lg-from b{color:#ffd25a}
+.lg-go{font-size:18px;padding:14px 28px;animation-delay:2.65s!important}
+@keyframes lgUp{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+/* skipped (or reduced motion): straight to the end */
+.lg-over.lg-end .lg-old{animation:none;opacity:0}
+.lg-over.lg-end .lg-new{animation:none;opacity:1;filter:drop-shadow(0 0 22px rgba(255,206,84,.55))}
+.lg-over.lg-end .lg-ring,.lg-over.lg-end .lg-sp{animation:none;opacity:0}
+.lg-over.lg-end .lg-rays{animation:lgSpin 24s linear infinite;opacity:1}
+.lg-over.lg-end .lg-glow{animation:none;opacity:1}
+.lg-over.lg-end .lg-text>*{animation:none;opacity:1}
+.lg-over.lg-end:not(.lg-bye) .lg-name{animation:lgShine 2.6s linear infinite}
+@media (max-height:560px){.lg-stage{width:min(42vmin,300px);height:min(42vmin,300px)}.lg-from{display:none}}
+@media (prefers-reduced-motion:reduce){.lg-rays,.lg-over.lg-end .lg-rays,.lg-over .lg-name{animation:none!important}}
+.tester-bar .lg-test{margin-left:8px}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -12993,6 +13059,60 @@ function obHtml(){
     if(s&&activeLesson){try{s.innerHTML=renderLemur('corner',lemurCornerMsgs,118);}catch(e){}}
   };
 })();
+
+/* ---------- Leo grows up (2026-11-22): a short celebration when a finished level brings the next lemur ----------
+   Shown once per level change, on the lesson finish screen, when the last lesson of a level is done and the next level
+   has a different Leo picture (Baby → Kid → Teen → Adult → Master). Tap to skip; Leo does not speak here (voice rule). */
+const LG_FULL=k=>(typeof LEO_FULL!=='undefined'&&(LEO_FULL[k]||(k==='teen'&&LEO_FULL.kid)))||(LEO_AGES[k]&&(LEO_AGES[k].c||LEO_AGES[k].w));
+function lgNextLevel(tid,lv){const t=TRACKS.find(x=>x.id===tid);if(!t)return null;const i=t.levels.indexOf(lv);
+  return t.levels.slice(i+1).find(x=>levelUnitsLessons(tid,x).length)||null;}
+/* the Leo that comes with the next level, if it is a new picture */
+function lgGrowth(tid,lv){const nx=lgNextLevel(tid,lv);if(!nx)return null;const a=leoStage(tid,lv),b=leoStage(tid,nx);
+  return a&&b&&a.rig.w!==b.rig.w?{track:tid,from:lv,to:nx,a,b}:null;}
+let _LG_RUN=null,_LG_MOVE=null;
+(function(){
+  const _ol=openLesson;openLesson=function(id){const r=_ol.apply(this,arguments);const l=activeLesson;
+    _LG_RUN=l&&!l.review&&!l.bonus_lesson&&l.unit?{id:l.id,track:l.unit.track,level:l.unit.level,was:levelUnitsLessons(l.unit.track,l.unit.level).every(x=>lessonDone(x.id))}:null;return r;};
+  const _fin=rLessonFinish;rLessonFinish=function(){const h=_fin(),l=activeLesson,R=_LG_RUN;
+    if(l&&R&&R.id===l.id&&!R.was&&levelUnitsLessons(R.track,R.level).every(x=>lessonDone(x.id))){R.was=true;
+      const g=lgGrowth(R.track,R.level),key=g&&g.track+':'+g.to;C.lg=C.lg||{};
+      if(g&&!C.lg[key]){C.lg[key]=Date.now();saveProgress();_LG_MOVE={track:g.track,level:g.to};setTimeout(()=>leoGrowUp(g),1500);}}
+    return h;};
+  /* back on the course after growing up: you are now on the next level, with the new Leo */
+  const _sc=showCourse;showCourse=function(){const r=_sc.apply(this,arguments);
+    if(_LG_MOVE){const m=_LG_MOVE;_LG_MOVE=null;setProfile(m.track,m.level,true);renderCourse();}return r;};
+  const _mp=mergeProgress;mergeProgress=function(a,b){const o=_mp(a,b);o.C.lg=Object.assign({},a.C&&a.C.lg,b.C&&b.C.lg);return o;};
+})();
+function lgChime(){if(typeof soundOn!=='undefined'&&!soundOn)return;if(typeof _tone!=='function')return;
+  [[523.25,0],[659.25,.12],[783.99,.24],[1046.5,.36],[1318.5,.5]].forEach(([f,d])=>{try{_tone(f,d,.5,'triangle',.05);}catch(e){}});}
+function leoGrowUp(g){
+  closeLeoGrowUp(true);
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sp=[...Array(18)].map((_,i)=>{const a=i*20+(i%2?8:0),d=34+(i%3)*9;return `<i class="lg-sp" style="--a:${a}deg;--d:${d}vmin;--dl:${(i%4)*.05}s">${i%3?'✦':'✧'}</i>`;}).join('');
+  const el=document.createElement('div');el.id='leoGrow';el.className='lg-over'+(reduce?' lg-end':'');el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');
+  el.setAttribute('aria-label',T2('Leo grew up!','Leo dorósł!'));
+  el.innerHTML=`<div class="lg-rays"></div><div class="lg-glow"></div>
+   <button class="lg-skip" onclick="event.stopPropagation();closeLeoGrowUp()">${T2('Skip','Pomiń')} ✕</button>
+   <div class="lg-stage"><img class="lg-old" src="${LG_FULL(g.a.key)}" alt="${g.a.name}" draggable="false"><img class="lg-new" src="${LG_FULL(g.b.key)}" alt="${g.b.name}" draggable="false"><div class="lg-ring"></div><div class="lg-sparks">${sp}</div></div>
+   <div class="lg-text"><small class="lg-tag">${T2('LEVEL '+g.from+' COMPLETE','POZIOM '+g.from+' UKOŃCZONY')}</small>
+     <h2>${T2('Leo grew up!','Leo dorósł!')}</h2><b class="lg-name">${g.b.name}</b>
+     <p class="lg-from"><span>${g.a.name}</span> → <span>${g.b.name}</span> · ${T2('next level','następny poziom')} <b>${g.to}</b></p>
+     <button class="btn btn-gold lg-go" onclick="event.stopPropagation();closeLeoGrowUp()">${T2('Meet ','Poznaj: ')}${g.b.name} →</button></div>`;
+  /* first tap jumps to the end, the next one closes */
+  el.onclick=()=>{if(!el.classList.contains('lg-end')){el.classList.add('lg-end');}else closeLeoGrowUp();};
+  document.body.appendChild(el);document.body.classList.add('lg-open');
+  if(!reduce){setTimeout(()=>{if(el.isConnected&&!el.classList.contains('lg-end'))lgChime();},1550);setTimeout(()=>el.classList.add('lg-end'),3400);}
+  else lgChime();
+  setTimeout(()=>{const b=el.querySelector('.lg-go');b&&b.focus({preventScroll:true});},reduce?50:2600);
+}
+function closeLeoGrowUp(now){const el=document.getElementById('leoGrow');if(!el)return;document.body.classList.remove('lg-open');
+  if(now){el.remove();return;}el.classList.add('lg-bye');setTimeout(()=>el.remove(),260);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('leoGrow'))closeLeoGrowUp();});
+/* tester: replay every grow-up moment in turn */
+const LG_DEMO=[['kids','A0'],['kids','A1'],['adults','A2'],['adults','B2']];let _lgDemo=0;
+function leoGrowDemo(){const [t,l]=LG_DEMO[_lgDemo++%LG_DEMO.length];const g=lgGrowth(t,l);if(g)leoGrowUp(g);}
+(function(){const _tb=testerBar;testerBar=function(){const h=_tb();if(!h||!TESTER)return h;
+  return h.replace(/<\/div>$/,`<button class="btn secondary lesson-btn lg-test" onclick="leoGrowDemo()">🌱 ${T2('Leo grows up','Leo rośnie')}</button></div>`);};})();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){
