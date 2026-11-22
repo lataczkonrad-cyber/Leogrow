@@ -1489,6 +1489,34 @@ body.onboarding .lemur-corner{display:none;}
 @media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
 .tester-bar .ob-replay{margin-left:8px;}
 .ob-tester{font-size:12px;font-weight:800;color:#9a6c0c;margin:0 0 6px;}
+/* hello: the five Leos on a navy stage */
+.ob-crew{position:relative;overflow:hidden;margin:2px -6px 16px;padding:22px 10px 12px;border-radius:24px;border:3px solid var(--gold);
+  background:radial-gradient(120% 90% at 50% 100%,#24308a 0%,#0b1556 45%,#000b3b 100%);box-shadow:0 6px 0 #b5891f,inset 0 -30px 50px rgba(236,184,58,.12);}
+.ob-crew::after{content:"";position:absolute;left:6%;right:6%;bottom:46px;height:22px;border-radius:50%;background:radial-gradient(closest-side,rgba(236,184,58,.45),rgba(236,184,58,0));pointer-events:none;}
+.ob-crew-row{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;gap:0;}
+.ob-mate{margin:0;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;}
+.ob-mate img{display:block;width:100%;height:auto;transform-origin:50% 100%;animation:obBob 3.6s ease-in-out infinite;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));}
+.ob-mate.m0{flex-grow:.62}.ob-mate.m1{flex-grow:.74}.ob-mate.m2{flex-grow:.88}.ob-mate.m3{flex-grow:1}.ob-mate.m4{flex-grow:1.06}
+.ob-mate.m1 img{animation-delay:-.7s}.ob-mate.m2 img{animation-delay:-1.4s}.ob-mate.m3 img{animation-delay:-2.1s}.ob-mate.m4 img{animation-delay:-2.8s}
+.ob-mate figcaption{margin-top:4px;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.1;}
+.ob-mate figcaption b{font-family:'Baloo 2',sans-serif;font-size:12px;color:var(--navy);background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:999px;padding:1px 9px;box-shadow:0 2px 0 #b5891f;}
+.ob-mate figcaption span{font-size:11px;font-weight:700;color:#e9e3cf;white-space:nowrap;margin-top:3px;}
+@keyframes obBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ob-spark{position:absolute;z-index:0;font-style:normal;color:var(--gold-light);opacity:.75;font-size:14px;animation:obTw 2.8s ease-in-out infinite;}
+.ob-spark.s1{left:7%;top:14%}.ob-spark.s2{left:30%;top:7%;font-size:10px;animation-delay:-1s}.ob-spark.s3{right:26%;top:12%;font-size:11px;animation-delay:-1.8s}.ob-spark.s4{right:6%;top:30%;animation-delay:-.5s}
+@keyframes obTw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.ob-mate img,.ob-spark{animation:none}}
+.ob-hello .zone-tag{margin-top:2px;}
+.ob-hello .ob-top{min-height:0;margin-bottom:6px;}
+/* start: Teens & Adults / Kids switch */
+.ob-course{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin:12px auto 2px;max-width:440px;border-radius:18px;background:#eceaf3;border:2px solid #dcdde9;}
+.ob-course button{font:inherit;font-weight:800;font-size:15px;color:var(--navy);cursor:pointer;border:0;border-radius:14px;padding:8px 6px;background:transparent;display:flex;flex-direction:column;align-items:center;line-height:1.15;}
+.ob-course button small{font-size:11px;font-weight:700;color:#6b6b85;margin-top:2px;}
+.ob-course button.on{background:linear-gradient(135deg,var(--gold),var(--gold-light));box-shadow:0 3px 0 #b5891f;}
+.ob-course button.on small{color:#5a3f05;}
+@media (min-width:900px){.ob-wrap{max-width:720px}.ob-crew{padding:28px 26px 14px}.ob-mate figcaption b{font-size:14px}.ob-mate figcaption span{font-size:13px}}
+@media (max-width:560px){.ob-crew{margin:0 -4px 14px;padding:16px 4px 10px}.ob-mate figcaption span{font-size:9.5px}.ob-mate figcaption b{font-size:11px;padding:0 7px}.ob-crew::after{bottom:38px}}
+.ob-row>div{text-align:left;align-items:flex-start;}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
@@ -1565,8 +1593,6 @@ body.in-lesson .trail{flex:0 0 auto;}
   body.in-lesson .trail-dot{padding:5px 10px 5px 40px;font-size:14px;}
   body.in-lesson .trail-dot::before{width:22px;height:22px;font-size:11.5px;left:9px;}
 }
-/* grown-up lessons have no Leo in the corner, so the step menu can run lower */
-@media(min-width:1024px){body.adult.in-lesson .trail{max-height:calc(100vh - 200px);}}
 /* ---------- PC: everything bigger so the lesson fills the screen ---------- */
 @media(min-width:1280px) and (min-height:700px){
   body.in-lesson #lessonView>.panel{zoom:1.15;}
@@ -1602,6 +1628,10 @@ body.in-lesson .trail{flex:0 0 auto;}
   body.in-lesson .trail-dot{padding:7px 12px 7px 44px;font-size:15.5px;}
   body.in-lesson .trail-dot::before{width:24px;height:24px;font-size:12px;}
 }
+/* corner Leo keeps the same size whichever Leo it is */
+.lemur-corner .lemur-wrap{--leo-s:1!important;}
+/* Teens & Adults lessons get their own Leo in the corner too (tablet and PC; phones show Leo in the card) */
+@media(min-width:561px){body.adult.in-lesson .lemur-corner{display:block;}}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -10915,21 +10945,11 @@ function renderPlacement(){
   $('courseView').innerHTML=courseShell(h);
 }
 
-/* screen 1: home — pick Kids or Adults */
+/* screen 1: home. The old "Who is learning today?" page is gone (user asked 2026-11-22): a learner without a course
+   gets one (the section they have done most lessons in, else Teens & Adults) and sees their own home */
 function homeHtml(){
-  let h=`<div class="panel course-hero"><div class="hero-text">${zoneTag('LEOGROW')}<h2 class="title">Who is learning today?</h2><p class="sub">Pick your section — each one has its own levels, lessons and style.</p></div>
-    <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div>${installCard()}<div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
-  TRACKS.forEach(t=>{
-    const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).w||LEO_CHEER}" alt="">`;
-    h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
-      ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
-      <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
-      <div class="course-bar"><div style="width:${s.total?Math.round(s.done/s.total*100):0}%"></div></div>
-      <p class="track-meta">${s.done}/${s.total} lessons · ${s.coins} coins</p>
-      <button class="btn btn-gold">${t.cta} →</button></div>`;
-  });
-  return h+`</div>`;
+  if(!PROF()){const n=id=>trackLessons(id).filter(l=>lessonDone(l.id)).length;setProfile(n('kids')>n('adults')?'kids':'adults',null,true);}
+  return myHomeHtml(PROF());
 }
 /* screen 2: a track — one card per level */
 function trackHtml(t){
@@ -10979,7 +10999,7 @@ const PL_UI={
  "— every lesson is unlocked and has a ⏭ Skip button.":"— każda lekcja jest odblokowana i ma przycisk ⏭ Pomiń.",
  "— lessons unlock in order, like for real learners.":"— lekcje odblokowują się po kolei, jak u prawdziwych uczniów.",
  "Turn off":"Wyłącz","Turn on":"Włącz","🗺️ Course":"🗺️ Kurs","⏭ Skip":"⏭ Pomiń","🏠 Home":"🏠 Start",
- "Who is learning today?":"Kto się dziś uczy?","Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
+"Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
  "Not sure where to start?":"Nie wiesz, od czego zacząć?","Take the 3-minute placement test and we'll find your level.":"Zrób 3-minutowy test, a znajdziemy Twój poziom.",
  "Find my level →":"Znajdź mój poziom →","FOR KIDS":"DLA DZIECI","FOR TEENS & ADULTS":"DLA MŁODZIEŻY I DOROSŁYCH","Kids 🧒":"Dzieci 🧒","🧒 Kids":"🧒 Dzieci","Teens & Adults 🧑‍💼":"Młodzież i dorośli 🧑‍💼","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli",
  "Ages 3–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 3–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
@@ -11294,7 +11314,7 @@ function myHomeHtml(p){
 function myLevelsHtml(){
   const p=PROF();
   let h=`<div class="panel level-intro">${zoneTag('MY LEVELS')}<h2 class="title">Choose your level</h2><p class="sub">Your progress is saved on every level — switching never loses anything.</p></div>`;
-  h+=`<div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div>`;
+  h+=`${installCard()}<div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div>`;
   TRACKS.forEach(t=>{
     h+=`<h2 class="section-title">${t.emoji} ${t.name}</h2><div class="level-grid">`;
     t.levels.forEach(lv=>{
@@ -12754,11 +12774,6 @@ function leoHeadImg(track,level,cls){const s=leoStage(track,level);return s&&s.r
 /* the different Leos a track goes through, in order (one per picture) */
 function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leoStage(t.id,l);if(s&&!seen[s.rig.w]){seen[s.rig.w]=1;out.push(Object.assign({level:l},s));}});return out;}
 (function(){
-  /* home: all five Leos side by side at the top */
-  const _home=homeHtml; homeHtml=function(){let h=_home();
-    const i=h.indexOf('<div class="hero-leo">'),j=h.indexOf('<div class="placement-card"');
-    if(i>0&&j>i) h=h.slice(0,i)+`<div class="leo-lineup"><img src="${LEO_LINEUP}" alt="Leo grows from a baby to a grown-up" draggable="false"><p>${T2('Leo grows with you: from Baby Leo at A0 to Professor Leo at C1','Leo rośnie razem z Tobą: od Małego Leo (A0) do Profesora Leo (C1)')}</p></div></div>`+h.slice(j);
-    return h.replace('<div class="panel course-hero">','<div class="panel course-hero home-hero">');};
   /* a track: its Leos in the hero, and each level card shows the Leo you get there */
   const _track=trackHtml; trackHtml=function(t){let h=_track(t);
     const trio=leoTrackStages(t).map(s=>`<button class="lt-leo" onclick="nav('${t.id}','${s.level}')"><img src="${s.rig.w}" alt="" draggable="false"><span>${s.name}</span><small>${s.level}</small></button>`).join('');
@@ -12800,9 +12815,10 @@ function fitSidePanels(){const sp=document.querySelector('.side-panels');if(!sp|
   window.addEventListener('resize',()=>requestAnimationFrame(fitSidePanels));})();
 
 /* ---------- First run: a short welcome for new learners ----------
-   Steps: hello (language) → who is learning → where to start (A0, a level, or the placement test) → daily goal → ready.
+   Steps: hello (all five Leos + language) → where to start (course switch, A0, a level, or the placement test) → daily goal → ready.
+   There is no separate "who is learning" screen (user asked 2026-11-22): Teens & Adults is the default, Kids is a switch on the start step.
    Shown only to a learner with no course yet and no finished lessons. Progress through the steps is kept in
-   localStorage 'leogrowOnboard' = {step, track, done}. "Skip" leaves it for good and shows the full home page. */
+   localStorage 'leogrowOnboard' = {step, track, done}. "Skip" leaves it for good with Teens & Adults A0 (changeable in Settings). */
 const OB_KEY=TESTER_SITE?'leogrowTesterOnboard':'leogrowOnboard';
 let OB={step:'hello',track:null,done:false,started:false};
 try{Object.assign(OB,JSON.parse(localStorage.getItem(OB_KEY)||'{}'));}catch(e){}
@@ -12814,7 +12830,7 @@ function obActive(){
   return !VIEW.track&&!(typeof PT!=='undefined'&&PT);
 }
 function obGo(step){OB.step=step;OB.started=true;obSave();if(typeof sfxWhoosh==='function')sfxWhoosh();renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
-function obWho(t){OB.track=t;obGo('start');}
+function obWho(t){OB.track=t;obSave();renderCourse();}
 function obLevel(lv){setProfile(OB.track,lv,true);obGo('goal');}
 function obPlacement(){
   OB.step='pt';OB.started=true;obSave();startPlacement();
@@ -12827,7 +12843,7 @@ function obFinish(open){
   VIEW={track:null,level:null};
   if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
 }
-function obSkip(){OB.done=true;obSave();VIEW={track:null,level:null};renderCourse();}
+function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
   OB={step:'hello',track:null,done:false,started:true,preview:true};obSave();VIEW={track:null,level:null};renderCourse();window.scrollTo({top:0,behavior:'smooth'});}
@@ -12835,8 +12851,14 @@ function obReset(){OB={step:'hello',track:null,done:false,started:false};obSave(
 
 const OB_LV_PL={Starter:'Start od zera',Beginner:'Początkujący',Elementary:'Podstawowy',Intermediate:'Średni','Upper-intermediate':'Średnio zaawansowany',Advanced:'Zaawansowany'};
 const obLvName=L=>LANG==='pl'&&OB_LV_PL[L.name]||L.name;
+/* all five Leos on a navy stage, smallest to biggest, each gently bobbing */
+const OB_CREW=[['baby','Baby Leo','Mały Leo','A0'],['little','Little Leo','Malutki Leo','A1'],['kid','Kid Leo','Leo uczeń','A2'],['adult','Student Leo','Leo student','B1'],['senior','Professor Leo','Profesor Leo','C1']];
+function obCrew(){
+  return `<div class="ob-crew" aria-label="${T2('Leo grows with you','Leo rośnie z Tobą')}"><i class="ob-spark s1">✦</i><i class="ob-spark s2">✦</i><i class="ob-spark s3">✦</i><i class="ob-spark s4">✦</i>
+    <div class="ob-crew-row">${OB_CREW.map(([k,en,pl,lv],i)=>{const r=LEO_AGES[k];return r?`<figure class="ob-mate m${i}"><img src="${r.c}" alt="${T2(en,pl)}" draggable="false"><figcaption><b>${lv}</b><span>${T2(en,pl)}</span></figcaption></figure>`:'';}).join('')}</div></div>`;
+}
 function obDots(){
-  const steps=['who','start','goal','ready'], i=steps.indexOf(OB.step==='pt'?'start':OB.step);
+  const steps=['start','goal','ready'], i=steps.indexOf(OB.step==='pt'?'start':OB.step);
   return `<div class="ob-dots">${steps.map((s,k)=>`<i class="${k<i?'done':k===i?'on':''}"></i>`).join('')}</div>`;
 }
 function obTop(back){
@@ -12847,21 +12869,19 @@ function obHtml(){
   const leo=(msgs,size)=>`<div class="ob-leo">${renderLemur('big',msgs,size||(adult?96:120),adult?'idle':'cheer')}</div>`;
   let h='';
   if(OB.step==='hello'){
-    h=obTop()+leo([T2("Hi! I'm Leo! 👋","Cześć! Jestem Leo! 👋"),T2("Let's set you up!","Zaczynamy!")],130)+
-    `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
-    <p class="sub">${T2('Three quick questions and you are ready for your first lesson.','Trzy krótkie pytania i możesz zacząć pierwszą lekcję.')}</p>
+    const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
+    h=obTop()+obCrew()+
+    `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title ob-hello-title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
+    <p class="sub">${T2('English from your very first words to C1. Leo grows up with you, from Baby Leo to Professor Leo.','Angielski od pierwszych słówek aż do C1. Leo dorasta razem z Tobą: od Małego Leo do Profesora Leo.')}</p>
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
-    <button class="btn btn-gold ob-main" onclick="obGo('who')">${T2("Let's start →","Zaczynamy →")}</button>`;
-  } else if(OB.step==='who'){
-    h=obTop('hello')+`<span class="zone-tag">${T2('STEP 1 OF 3','KROK 1 Z 3')}</span><h2 class="title">${T2('Who is learning?','Kto się uczy?')}</h2>
-    <p class="sub">${T2('Each section has its own lessons and style.','Każda część ma własne lekcje i styl.')}</p><div class="ob-cards">`+
-    TRACKS.map(x=>`<button class="ob-card ${x.id}" onclick="obWho('${x.id}')"><span class="ob-ico">${x.emoji}</span>
-      <b>${x.id==='kids'?T2('A kid','Dziecko'):T2('A teen or adult','Nastolatek lub dorosły')}</b>
-      <small>${x.id==='kids'?T2('Ages 3–12 · games, music and coins · A0–A2','3–12 lat · gry, muzyka i monety · A0–A2'):T2('Ages 13+ · real-life topics, calm style · A0–C1','13+ lat · tematy z życia, spokojny styl · A0–C1')}</small></button>`).join('')+`</div>`;
-  } else if(OB.step==='start'&&t){
+    <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
+    ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}`;
+  } else if(OB.step==='start'){
+    if(!t){OB.track='adults';return obHtml();}
     const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
-    h=obTop('who')+`<span class="zone-tag">${T2('STEP 2 OF 3','KROK 2 Z 3')}</span><h2 class="title">${T2('Where do you want to start?','Od czego zaczynamy?')}</h2>
+    h=obTop('hello')+`<span class="zone-tag">${T2('STEP 1 OF 2','KROK 1 Z 2')}</span><h2 class="title">${T2('Where do you want to start?','Od czego zaczynamy?')}</h2>
+    <div class="ob-course" role="group"><button class="${t.id==='adults'?'on':''}" onclick="obWho('adults')">${T2('Teens & Adults','Młodzież i dorośli')}<small>13+ · A0–C1</small></button><button class="${t.id==='kids'?'on':''}" onclick="obWho('kids')">${T2('Kids','Dzieci')}<small>${T2('3–12 years','3–12 lat')} · A0–A2</small></button></div>
     <div class="ob-list">
       <button class="ob-row" onclick="obLevel('${lvls[0]}')"><span>🌱</span><div><b>${T2("I'm new to English","Dopiero zaczynam")}</b><small>${T2('Start from the very first words','Zacznij od pierwszych słówek')} · ${lvls[0]}</small></div><i>›</i></button>
       <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
@@ -12870,7 +12890,7 @@ function obHtml(){
     <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
   } else if(OB.step==='goal'){
     const g=goalMin();
-    h=obTop(PROF()?'start':'who')+`<span class="zone-tag">${T2('STEP 3 OF 3','KROK 3 Z 3')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>
+    h=obTop('start')+`<span class="zone-tag">${T2('STEP 2 OF 2','KROK 2 Z 2')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>
     <p class="sub">${T2('Pick a goal you can keep every day. You can change it any time in ⚙️ Settings.','Wybierz cel, który dasz radę utrzymać każdego dnia. Zmienisz go w każdej chwili w ⚙️ Ustawieniach.')}</p>
     <div class="goal-opts ob-goals">${GOAL_OPTS.map(([m,e,en,pl])=>`<button class="goal-opt ${m===g&&HAB().goalAt?'on':''}" onclick="obGoal(${m})"><span>${e}</span><b>${m} min</b><small>${T2(en,pl)}</small></button>`).join('')}</div>`;
   } else if(OB.step==='ready'&&PROF()){
@@ -12883,7 +12903,7 @@ function obHtml(){
     ${nx?`<button class="btn btn-gold ob-main" onclick="obFinish(true)">▶ ${T2('Start my first lesson','Zacznij pierwszą lekcję')}</button>`:''}
     <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
     ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
-  } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.track?'start':'who'; obSave(); return obHtml(); }
+  } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.step==='ready'?'start':'hello'; obSave(); return obHtml(); }
   return testerBar()+`<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
 }
 
@@ -12903,6 +12923,9 @@ function obHtml(){
     document.body.classList.remove('onboarding');
     return _rc.apply(this,arguments);
   };
+  /* the placement test never asks "who is learning?": it uses your course (or the welcome's switch) */
+  const _sp=startPlacement;
+  startPlacement=function(){_sp.apply(this,arguments);if(PT&&!PT.who){PT.who=(PROF()&&PROF().track)||OB.track||'adults';renderPlacement();}};
   /* tester: "See the new-learner home" also shows the welcome again */
   const _tj=testerJumpHtml;
   testerJumpHtml=function(){return _tj().replace('C.profile=null;saveProgress(true);nav()','C.profile=null;saveProgress(true);obReset();nav()')
@@ -12945,6 +12968,17 @@ function obHtml(){
 (function(){
   const _go=go;
   go=function(i){_go(i);const p=document.getElementById('panel');if(p&&zones[current])p.setAttribute('data-zone',zones[current].key);};
+})();
+/* the Leo in the bottom-left corner is the lesson's own Leo (Baby Leo, Kid Leo, Professor Leo...) */
+(function(){
+  const _ol=openLesson;
+  openLesson=function(id){
+    _ol(id);
+    // a lesson started from the welcome screens is not part of the welcome: show Leo in the corner
+    if(activeLesson) document.body.classList.remove('onboarding');
+    const s=document.getElementById('lemurCornerSlot');
+    if(s&&activeLesson){try{s.innerHTML=renderLemur('corner',lemurCornerMsgs,118);}catch(e){}}
+  };
 })();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);

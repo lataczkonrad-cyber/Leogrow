@@ -25,3 +25,14 @@
   const _go=go;
   go=function(i){_go(i);const p=document.getElementById('panel');if(p&&zones[current])p.setAttribute('data-zone',zones[current].key);};
 })();
+/* the Leo in the bottom-left corner is the lesson's own Leo (Baby Leo, Kid Leo, Professor Leo...) */
+(function(){
+  const _ol=openLesson;
+  openLesson=function(id){
+    _ol(id);
+    // a lesson started from the welcome screens is not part of the welcome: show Leo in the corner
+    if(activeLesson) document.body.classList.remove('onboarding');
+    const s=document.getElementById('lemurCornerSlot');
+    if(s&&activeLesson){try{s.innerHTML=renderLemur('corner',lemurCornerMsgs,118);}catch(e){}}
+  };
+})();

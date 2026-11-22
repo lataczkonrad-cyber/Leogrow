@@ -3080,21 +3080,11 @@ function renderPlacement(){
   $('courseView').innerHTML=courseShell(h);
 }
 
-/* screen 1: home — pick Kids or Adults */
+/* screen 1: home. The old "Who is learning today?" page is gone (user asked 2026-11-22): a learner without a course
+   gets one (the section they have done most lessons in, else Teens & Adults) and sees their own home */
 function homeHtml(){
-  let h=`<div class="panel course-hero"><div class="hero-text">${zoneTag('LEOGROW')}<h2 class="title">Who is learning today?</h2><p class="sub">Pick your section — each one has its own levels, lessons and style.</p></div>
-    <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
-  TRACKS.forEach(t=>{
-    const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).w||LEO_CHEER}" alt="">`;
-    h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
-      ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
-      <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
-      <div class="course-bar"><div style="width:${s.total?Math.round(s.done/s.total*100):0}%"></div></div>
-      <p class="track-meta">${s.done}/${s.total} lessons · ${s.coins} coins</p>
-      <button class="btn btn-gold">${t.cta} →</button></div>`;
-  });
-  return h+`</div>`;
+  if(!PROF()){const n=id=>trackLessons(id).filter(l=>lessonDone(l.id)).length;setProfile(n('kids')>n('adults')?'kids':'adults',null,true);}
+  return myHomeHtml(PROF());
 }
 /* screen 2: a track — one card per level */
 function trackHtml(t){
@@ -3144,7 +3134,7 @@ const PL_UI={
  "— every lesson is unlocked and has a ⏭ Skip button.":"— każda lekcja jest odblokowana i ma przycisk ⏭ Pomiń.",
  "— lessons unlock in order, like for real learners.":"— lekcje odblokowują się po kolei, jak u prawdziwych uczniów.",
  "Turn off":"Wyłącz","Turn on":"Włącz","🗺️ Course":"🗺️ Kurs","⏭ Skip":"⏭ Pomiń","🏠 Home":"🏠 Start",
- "Who is learning today?":"Kto się dziś uczy?","Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
+"Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
  "Not sure where to start?":"Nie wiesz, od czego zacząć?","Take the 3-minute placement test and we'll find your level.":"Zrób 3-minutowy test, a znajdziemy Twój poziom.",
  "Find my level →":"Znajdź mój poziom →","FOR KIDS":"DLA DZIECI","FOR TEENS & ADULTS":"DLA MŁODZIEŻY I DOROSŁYCH","Kids 🧒":"Dzieci 🧒","🧒 Kids":"🧒 Dzieci","Teens & Adults 🧑‍💼":"Młodzież i dorośli 🧑‍💼","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli",
  "Ages 3–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 3–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
