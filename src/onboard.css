@@ -87,3 +87,13 @@ body.onboarding .lemur-corner{display:none;}
 .ob-row>div{text-align:left;align-items:flex-start;}
 .ob-mate figcaption span{white-space:normal;text-align:center;max-width:100%;overflow-wrap:anywhere;padding:0 1px;}
 @media (max-width:560px){.ob-mate figcaption span{min-height:2.3em;line-height:1.15;}}
+/* whole Leos, head to toes, at their drawn sizes (2026-11-22: feet were cropped before) */
+.ob-crew{--stage:200px;}
+.ob-crew-row{gap:6px;}
+.ob-mate{flex:0 1 auto;}
+.ob-mate img{width:auto;max-width:100%;height:calc(var(--stage)*var(--k));object-fit:contain;}
+.ob-mate.m0{--k:.37}.ob-mate.m1{--k:.58}.ob-mate.m2{--k:.82}.ob-mate.m3{--k:1}.ob-mate.m4{--k:.96}
+.ob-crew-row{justify-content:space-evenly;}
+.ob-mate figcaption{min-width:64px;}
+@media (max-width:900px){.ob-crew{--stage:170px}}
+@media (max-width:560px){.ob-crew{--stage:118px}.ob-crew-row{gap:2px}.ob-mate figcaption{min-width:0;width:100%}}
