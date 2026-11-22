@@ -111,3 +111,5 @@ body.in-lesson .trail{flex:0 0 auto;}
   body.in-lesson .trail-dot{padding:7px 12px 7px 44px;font-size:15.5px;}
   body.in-lesson .trail-dot::before{width:24px;height:24px;font-size:12px;}
 }
+/* corner Leo keeps the same size whichever Leo it is */
+.lemur-corner .lemur-wrap{--leo-s:1!important;}
