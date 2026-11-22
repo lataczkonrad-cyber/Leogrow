@@ -153,3 +153,17 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
   .course-layout .sn-item>span img{width:22px;height:22px;}
   .course-layout .sn-item small{font-size:12px;}
 }
+/* laptops (mouse, 1100–1439px wide): all three columns too, a bit narrower. Tablets (touch) keep menu + page. */
+@media(min-width:1100px) and (max-width:1439px) and (hover:hover) and (pointer:fine){
+  .course-layout{grid-template-columns:210px minmax(0,1fr) 290px;gap:18px;}
+  .side-panels{display:flex;flex-direction:column;gap:10px;position:sticky;top:88px;}
+  .course-main .daily-card{display:none;}
+  body .ch-mob{display:none!important;}
+  .course-layout .sn-item{font-size:14.5px;padding:8px 10px;gap:9px;}
+  .course-layout .sn-item b{white-space:normal;overflow:visible;line-height:1.15;}
+  .course-layout .sn-item small{font-size:11.5px;}
+  .side-panels .sp-card{padding:11px 12px;}
+  .sp-leo-big{width:80px;height:80px;}
+  .sp-stat b{font-size:15px;}.sp-stat span{font-size:17px;}
+}
+@media(min-width:1100px) and (max-width:1279px) and (hover:hover) and (pointer:fine){.course-layout{grid-template-columns:196px minmax(0,1fr) 262px;gap:14px;}body:not(.in-lesson) .app{padding-left:14px;padding-right:14px;}}

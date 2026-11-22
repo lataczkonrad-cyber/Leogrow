@@ -44,7 +44,14 @@ def make(pose,size=512):
     k=size/S; res=lambda im:im.resize((size,size),Image.LANCZOS)
     pct=lambda x,y:(round((x+ox)/S*100,2),round((y+oy)/S*100,2))
     eyes=[[*pct(cx,cy),round(rx/S*100,2),round(ry/S*100,2)] for cx,cy,rx,ry in [(x,y,rx*1.3,ry*1.4) for x,y,rx,ry in cfg['eyes']]]
-    return {'w':res(on_navy(full)),'b':res(on_navy(bodyL)),'t':res(tailL),'f':res(bodyL),'p':list(pct(*cfg['pivot'])),'e':eyes}
+    # head only (for menus and small icons): a square around the eyes
+    (x1,y1,*_),(x2,y2,*_)=cfg['eyes']; hx,hy=(x1+x2)/2,(y1+y2)/2; hs=abs(x2-x1)*3.3+40
+    head=cut.crop((int(hx-hs/2),int(hy-hs*0.56),int(hx+hs/2),int(hy+hs*0.44))).resize((160,160),Image.LANCZOS)
+    from PIL import ImageDraw
+    disc=Image.new('RGBA',(160,160),BG+(255,)); disc.alpha_composite(head)          # round navy badge
+    m=Image.new('L',(160,160),0); ImageDraw.Draw(m).ellipse([0,0,159,159],fill=255)
+    head=Image.new('RGBA',(160,160),(0,0,0,0)); head.paste(disc,(0,0),m)
+    return {'h':head,'c':res(full),'w':res(on_navy(full)),'b':res(on_navy(bodyL)),'t':res(tailL),'f':res(bodyL),'p':list(pct(*cfg['pivot'])),'e':eyes}
 # which picture each stage of Leo uses (stage names come from LEO_STAGES in course.js)
 STAGES={'baby':'sitting','little':'waving-small','kid':'arms-crossed','teen':'arms-crossed','adult':'waving-tall','senior':'hand-on-hip'}
 def make_all(size=512):
@@ -63,3 +70,13 @@ if __name__=='__main__':
         px,py=r['p']; d.ellipse([i*260+px*2.56-4,260+py*2.56-4,i*260+px*2.56+4,260+py*2.56+4],fill='lime')
         for x,y,rx,ry in r['e']: d.rectangle([i*260+(x-rx)*2.56,(y-ry)*2.56,i*260+(x+rx)*2.56,(y+ry)*2.56],outline='lime')
     W.save(out)
+
+def lineup(height=300):
+    """all five Leos side by side, smallest to biggest, on navy (sizes as drawn)"""
+    cuts=[Image.open(os.path.join(D,p+'.png')).convert('RGBA') for p in POSES]
+    H=max(c.height for c in cuts); k=height/H; gap=int(14*k)
+    cuts=[c.resize((max(1,int(c.width*k)),max(1,int(c.height*k))),Image.LANCZOS) for c in cuts]
+    pad=int(40*k); W=sum(c.width for c in cuts)+gap*(len(cuts)-1)+2*pad
+    out=Image.new('RGBA',(W,height+pad),BG+(255,)); x=pad   # on Leo's navy (edges were un-mixed from it)
+    for c in cuts: out.alpha_composite(c,(x,height+pad//2-c.height)); x+=c.width+gap
+    return out
