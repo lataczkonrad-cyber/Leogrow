@@ -102,7 +102,10 @@ function openPremium(why){
       <button class="btn secondary auth-go" onclick="openAuth('in')">${T2('I have an account','Mam już konto')}</button>`;
   }else{
     const t=onTrial()?`<p class="prem-state">⭐ ${T2('Your free trial ends on','Twój okres próbny kończy się')} <b>${new Date(trialUntil()).toLocaleDateString(LANG==='pl'?'pl-PL':'en-GB')}</b>.</p>`:'';
-    body=t+`<div class="prem-plans">
+    body=t+`<label class="prem-consent"><input type="checkbox" id="premConsent" onchange="const m=$('premMsg');if(m&&this.checked)m.textContent=''"><span>${T2(
+      'I accept the <a href="terms.html?lang=en" target="_blank">Terms</a> and the <a href="privacy.html?lang=en" target="_blank">Privacy policy</a>. I want Premium to start right away and I understand that I lose my 14-day right of withdrawal once it starts.',
+      'Akceptuję <a href="terms.html?lang=pl" target="_blank">Regulamin</a> i <a href="privacy.html?lang=pl" target="_blank">Politykę prywatności</a>. Chcę, aby Premium zaczęło działać od razu, i przyjmuję do wiadomości, że z chwilą rozpoczęcia tracę prawo odstąpienia od umowy w ciągu 14 dni.')}</span></label>
+    <div class="prem-plans">
       <button class="prem-plan" onclick="buyPremium('year',this)"><i>${T2('BEST VALUE · 34% LESS','NAJLEPSZA CENA · 34% TANIEJ')}</i><b>${PREMIUM.price.year}</b><small>${T2('a year · first 3 days free','rocznie · pierwsze 3 dni za darmo')}</small><em>${T2('About 16,58 zł a month · 34% less than paying monthly · Card, Apple Pay, Google Pay','Ok. 16,58 zł miesięcznie · 34% taniej niż co miesiąc · Karta, Apple Pay, Google Pay')}</em></button>
       <button class="prem-plan" onclick="buyPremium('month',this)"><i>${T2('MONTHLY','MIESIĘCZNIE')}</i><b>${PREMIUM.price.month}</b><small>${T2('a month · first 3 days free','miesięcznie · pierwsze 3 dni za darmo')}</small><em>${T2('Card, Apple Pay, Google Pay','Karta, Apple Pay, Google Pay')}</em></button>
     </div>
@@ -125,8 +128,10 @@ async function _premFetch(path,body){
   return j.url;
 }
 async function buyPremium(plan,btn){
-  const msg=$('premMsg'); document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
-  try{ await pushNow(true); location.href=await _premFetch('checkout',{plan,lang:LANG}); }
+  const msg=$('premMsg'), ok=$('premConsent');
+  if(ok&&!ok.checked){ if(msg) msg.textContent=T2('Please tick the box above first.','Najpierw zaznacz pole powyżej.'); ok.parentNode.classList.add('need'); return; }
+  document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=true); if(msg) msg.textContent='…';
+  try{ await pushNow(true); location.href=await _premFetch('checkout',{plan,lang:LANG,consent:true}); }
   catch(e){ if(msg) msg.textContent=e.message; document.querySelectorAll('.prem-plan,.prem-once').forEach(b=>b.disabled=false); }
 }
 async function managePremium(btn){
@@ -186,3 +191,13 @@ openAccount=function(){
     else _comboToastText(T2('Payment received. Premium will appear in a minute — refresh the page.','Płatność otrzymana. Premium pojawi się za chwilę — odśwież stronę.'));
   }; setTimeout(tick,1500);
 })();
+
+/* ---------- Terms & privacy links ---------- */
+const legalLinks=()=>`<p class="legal-links"><a href="terms.html?lang=${LANG}" target="_blank">${T2('Terms','Regulamin')}</a> · <a href="privacy.html?lang=${LANG}" target="_blank">${T2('Privacy','Prywatność')}</a></p>`;
+const _openSettingsPlain=openSettings;
+openSettings=function(){const r=_openSettingsPlain.apply(this,arguments);const box=document.querySelector('#authModal .auth-box');if(box&&!box.querySelector('.legal-links'))box.insertAdjacentHTML('beforeend',legalLinks());return r;};
+const _openAuthPlain=openAuth;
+openAuth=function(mode){const r=_openAuthPlain.apply(this,arguments);const box=document.querySelector('#authModal .auth-box');
+  if(box&&mode==='up'&&!box.querySelector('.legal-links'))box.insertAdjacentHTML('beforeend',`<p class="legal-links">${T2('By creating an account you accept the','Zakładając konto, akceptujesz')} <a href="terms.html?lang=${LANG}" target="_blank">${T2('Terms','Regulamin')}</a> ${T2('and','i')} <a href="privacy.html?lang=${LANG}" target="_blank">${T2('Privacy policy','Politykę prywatności')}</a>.</p>`);return r;};
+const _openPremiumPlain=openPremium;
+openPremium=function(){const r=_openPremiumPlain.apply(this,arguments);const box=document.querySelector('#authModal .auth-box');if(box&&!box.querySelector('.legal-links'))box.insertAdjacentHTML('beforeend',legalLinks());return r;};
