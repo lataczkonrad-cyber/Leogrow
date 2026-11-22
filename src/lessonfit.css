@@ -74,8 +74,6 @@ body.in-lesson .trail{flex:0 0 auto;}
   body.in-lesson .trail-dot{padding:5px 10px 5px 40px;font-size:14px;}
   body.in-lesson .trail-dot::before{width:22px;height:22px;font-size:11.5px;left:9px;}
 }
-/* grown-up lessons have no Leo in the corner, so the step menu can run lower */
-@media(min-width:1024px){body.adult.in-lesson .trail{max-height:calc(100vh - 200px);}}
 /* ---------- PC: everything bigger so the lesson fills the screen ---------- */
 @media(min-width:1280px) and (min-height:700px){
   body.in-lesson #lessonView>.panel{zoom:1.15;}
@@ -113,3 +111,5 @@ body.in-lesson .trail{flex:0 0 auto;}
 }
 /* corner Leo keeps the same size whichever Leo it is */
 .lemur-corner .lemur-wrap{--leo-s:1!important;}
+/* Teens & Adults lessons get their own Leo in the corner too (tablet and PC; phones show Leo in the card) */
+@media(min-width:561px){body.adult.in-lesson .lemur-corner{display:block;}}
