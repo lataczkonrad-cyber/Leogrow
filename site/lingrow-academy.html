@@ -1321,6 +1321,90 @@ body[class*="theme-"] .topbar,body[class*="theme-"] .side-nav{background:color-m
 body.adult .ch-bob,body.adult .ch-wiggle{animation-duration:4s;}
 @media (prefers-reduced-motion: reduce){.ch-bob,.ch-wiggle,.ch-rays,.ch-shake{animation:none!important;}}
 .panel.ch-hero,.panel.ch-week,.panel.ch-hist{min-height:0;margin-bottom:18px;}
+/* ---------- Friends league ---------- */
+.panel.fr-hero,.panel.fr-list,.panel.fr-invite{min-height:0;margin-bottom:18px;}
+.fr-hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.fr-hero-top .ch-left{flex:none;margin-top:6px;}
+.fr-leo{width:40px;height:40px;object-fit:contain;flex:none;border-radius:50%;background:radial-gradient(circle at 50% 40%,#fff7dc,#f1e3b8);border:2px solid var(--gold);display:inline-block;}
+.fr-leo.big{width:78px;height:78px;border-width:3px;box-shadow:0 4px 0 #b5891f;}
+.fr-leo.sm{width:26px;height:26px;border-width:1.5px;vertical-align:middle;}
+/* podium: 2nd · 1st · 3rd, gold/silver/bronze steps */
+.fr-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:10px;max-width:520px;margin:14px auto 4px;}
+.fr-step{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;min-width:0;}
+.fr-step b{display:block;max-width:100%;margin-top:6px;font-family:'Baloo 2',sans-serif;font-size:17px;color:var(--navy);line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fr-step b small{font-size:12px;color:#6b6f8e;}
+.fr-step em{font-style:normal;font-weight:800;font-size:13.5px;color:#7a4d00;}
+.fr-block{width:100%;margin-top:6px;border-radius:14px 14px 6px 6px;display:flex;align-items:flex-start;justify-content:center;padding-top:6px;font-size:26px;
+  background:linear-gradient(180deg,#dfe6f0,#a9b5c9);border:2px solid #8f9cb3;box-shadow:inset 0 -6px 0 rgba(0,0,0,.08);}
+.fr-step.s1 .fr-block{height:96px;background:linear-gradient(180deg,#ffe28a,#e3a92a);border-color:#c88a12;}
+.fr-step.s2 .fr-block{height:70px;}
+.fr-step.s3 .fr-block{height:52px;background:linear-gradient(180deg,#f1c49a,#c98a4b);border-color:#8a5426;}
+.fr-stand{position:relative;height:130px;display:flex;align-items:flex-end;justify-content:center;}
+.fr-full{height:118px;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 6px 4px rgba(5,10,48,.25));}
+.fr-step.s1 .fr-stand{height:156px;}.fr-step.s1 .fr-full{height:150px;}
+.fr-step.me b{color:#c2185b;}
+.fr-crown{position:absolute;top:-30px;left:50%;margin-left:-15px;font-size:28px;animation:chBob 2.4s ease-in-out infinite;z-index:1;}
+.fr-step.empty b{font-size:13.5px;color:#6b6f8e;white-space:normal;}
+.fr-step.empty .fr-block{opacity:.45;font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--navy);font-size:22px;}
+.fr-ghost{width:66px;height:66px;border-radius:50%;border:3px dashed var(--gold);background:rgba(255,255,255,.6);font-size:30px;font-weight:800;color:#c88a12;cursor:pointer;font-family:inherit;}
+.fr-ghost:hover{background:#fff;}
+.fr-you{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:4px 12px;margin-top:12px;text-align:center;}
+.fr-you b{font-family:'Baloo 2',sans-serif;font-size:20px;color:var(--navy);}
+.fr-you span{font-weight:800;color:#7a4d00;}
+.fr-you small{flex-basis:100%;font-weight:700;color:#6b6f8e;font-size:13px;}
+.fr-last{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:-6px 0 18px;padding:8px 14px;border-radius:999px;background:rgba(5,10,48,.7);border:1.5px solid var(--gold);color:var(--gold-light);font-weight:700;font-size:14px;}
+.fr-last b{color:#fff;}
+/* ranking */
+.fr-list-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 4px;}
+.fr-list-top h3{margin:0;font-family:'Baloo 2',sans-serif;color:var(--navy);}
+.fr-list-top a{font-weight:800;font-size:13px;color:#7a4d00;}
+.fr-row{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-top:8px;border-radius:16px;background:#fff;border:2px solid #ece4cc;}
+.fr-row.top{border-color:var(--gold);}
+.fr-row.me{background:linear-gradient(90deg,#fff3cf,#fff);border-color:var(--gold);box-shadow:0 3px 0 #d9a52c;}
+.fr-rank{width:30px;flex:none;text-align:center;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px;color:var(--navy);}
+.fr-mid{flex:1;min-width:0;}
+.fr-mid b{display:block;color:var(--navy);font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fr-mid b small{font-size:11px;font-weight:800;color:#fff;background:#ff8fa8;border-radius:999px;padding:0 7px;vertical-align:1px;}
+.fr-bar{height:8px;margin-top:4px;border-radius:99px;background:#ece4cc;overflow:hidden;}
+.fr-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light));}
+.fr-pts{flex:none;text-align:right;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:18px;color:var(--navy);line-height:1;}
+.fr-pts small{display:block;font-size:11px;color:#6b6f8e;}
+.fr-x{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid #f0a5b5;background:#fff5f7;color:#d9466a;font-weight:800;cursor:pointer;}
+.fr-note{margin:12px 0 0;font-size:12.5px;font-weight:600;color:#6b6f8e;text-align:center;}
+.fr-msg{margin:8px 0 0;font-weight:700;font-size:13.5px;color:#b3264a;}
+/* invite */
+.fr-inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;}
+.fr-mycode,.fr-add{padding:14px;border-radius:18px;background:#fff;border:2px solid #ece4cc;}
+.fr-mycode{text-align:center;background:linear-gradient(160deg,#fff7dc,#fff);border-color:var(--gold);}
+.fr-mycode small,.fr-add small{display:block;font-weight:800;font-size:13px;color:#6b6f8e;}
+.fr-code{display:inline-block;margin:6px 0 10px;padding:4px 16px;border-radius:12px;background:var(--navy);color:var(--gold-light);font-family:'Baloo 2',monospace;font-size:28px;letter-spacing:3px;cursor:pointer;}
+.fr-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.fr-btns .btn{padding:9px 14px;font-size:14px;}
+.fr-add-row{display:flex;gap:8px;margin-top:8px;}
+.fr-add-row .auth-in{flex:1;min-width:0;margin:0;text-transform:uppercase;letter-spacing:2px;font-weight:800;text-align:center;}
+.fr-add-row .btn{flex:none;}
+.fr-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:14px 0 4px;}
+.fr-empty p{margin:0;max-width:420px;color:#4a4a63;font-weight:600;}
+.fr-empty b{color:var(--navy);font-family:'Baloo 2',sans-serif;font-size:19px;}
+/* phone strip + right column */
+.fr-mob .fr-mob-ic{font-size:22px;width:34px;text-align:center;}
+.fr-mini{display:flex;align-items:center;gap:8px;margin-top:7px;padding:3px 8px 3px 4px;border-radius:999px;}
+.fr-mini.me{background:#fff3cf;}
+.fr-mini>span{width:22px;text-align:center;font-weight:800;color:var(--navy);}
+.fr-mini b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;color:var(--navy);}
+.fr-mini em{font-style:normal;font-weight:800;font-size:13px;color:#7a4d00;}
+@media (max-width:600px){
+  .fr-hero-top{flex-direction:column;gap:4px;}
+  .fr-podium{gap:6px;}
+  .fr-leo.big{width:60px;height:60px;}.fr-stand{height:100px;}.fr-full{height:94px;}.fr-step.s1 .fr-stand{height:120px;}.fr-step.s1 .fr-full{height:116px;}
+  .fr-step b{font-size:15px;}
+  .fr-step.s1 .fr-block{height:78px;}.fr-step.s2 .fr-block{height:56px;}.fr-step.s3 .fr-block{height:42px;}
+  .fr-ghost{width:54px;height:54px;}
+  .fr-inv-grid{grid-template-columns:1fr;}
+  .fr-code{font-size:24px;}
+}
+body.adult .fr-crown{animation-duration:4s;}
+@media (prefers-reduced-motion: reduce){.fr-crown{animation:none!important;}}
 /* ===== Leo is the star: lemurs in menus, panels and level pages ===== */
 .leo-head{display:block;border-radius:50%;box-shadow:0 0 0 2px var(--gold);background:#000b3b;}
 /* home: the five Leos */
@@ -11090,7 +11174,7 @@ function setLang(l){LANG=l;if(l==='en')restoreLang();try{localStorage.setItem('l
    Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji 3D, stored in site/emoji/,
    so a word looks the same on iPhone, Android, Windows and Mac. Flags come from Twemoji.
    The list of available pictures is filled in at build time by emoji_post.js. */
-const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f334.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33c.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f34f.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f37f.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3ce.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f428.webp","1f42b.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b-200d-2744.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45d.webp","1f45e.webp","1f45f.webp","1f462.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f373.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f3eb.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52c.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f554.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5fe.webp","1f5ff.webp","1f602.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635-200d-1f4ab.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f682.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f69c.webp","1f6a6.webp","1f6a7.webp","1f6a8.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6dd.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f4.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f941.webp","1f944.webp","1f945.webp","1f947.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f956.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95c.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97c.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9ba.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f33e.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f680.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa80.webp","1fa81.webp","1fa86.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa2.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fabd.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","25b6.webp","2600.webp","2601.webp","2602.webp","2603.webp","2614.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c5.webp","26c8.webp","26d1.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f5.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2714.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","3030.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
+const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f334.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33c.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f34f.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f37f.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3ce.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f428.webp","1f42b.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b-200d-2744.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45d.webp","1f45e.webp","1f45f.webp","1f462.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f373.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f3eb.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52c.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f554.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5fe.webp","1f5ff.webp","1f602.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635-200d-1f4ab.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f682.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f69c.webp","1f6a6.webp","1f6a7.webp","1f6a8.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6dd.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f4.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f941.webp","1f944.webp","1f945.webp","1f947.webp","1f948.webp","1f949.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f956.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95c.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97c.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9ba.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f33e.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f680.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa80.webp","1fa81.webp","1fa86.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa2.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fabd.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","25b6.webp","2600.webp","2601.webp","2602.webp","2603.webp","2614.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c5.webp","26c8.webp","26d1.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f5.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2714.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","3030.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
 const EMOJI_FILE=new Map(EMOJI_KEYS.map(f=>[f.replace(/\.\w+$/,''),f]));
 const EMOJI_SET={get size(){return EMOJI_FILE.size;},has:k=>EMOJI_FILE.has(k)};
 const EMOJI_RX=/\p{RI}\p{RI}|[#*0-9]️?⃣|\p{Extended_Pictographic}(?:️|\p{EMod})?(?:‍\p{Extended_Pictographic}(?:️|\p{EMod})?)*/gu;
@@ -12779,6 +12863,178 @@ function chestPanelHtml(){const n=chestsUnopened().length,st=challengeState(),d=
     ${st.map(s=>`<div class="ch-mini ${s.done?'done':''}"><span>${s.done?'✅':s.c.icon}</span><div><small>${LANG==='pl'?s.c.pl(s.c.n):s.c.en(s.c.n)}</small><div class="ch-bar sm"><i style="width:${s.v/s.c.n*100}%"></i></div></div></div>`).join('')}
     <button class="btn ${n?'btn-gold':'secondary'} sp-btn" onclick="${n?`openChest('${chestsUnopened()[0]}')`:"nav('chests')"}">${n?`🎁 ${T2('Open','Otwórz')} (${n})`:T2('See all','Zobacz wszystko')+' →'}</button></div>`;}
 Object.assign(PL_UI,{"🎁 Chests":"🎁 Skrzynie"});
+
+/* =====================================================================
+   Friends league: add friends with a code or a link, race them on weekly points.
+   Supabase (supabase-friends.sql): friend_board = one public-to-friends row per learner
+   {code, name, leo, week, xp, last_week, last_xp}; friends = who follows whom (both ways,
+   only through add_friend(code) / remove_friend(id)). A learner can read only their own row
+   and their friends' rows.
+   Points come from the chest log (C.ch.log): every finished lesson stores p = lesson points.
+   ===================================================================== */
+const FR_MAX=50;
+let FR={rows:null,at:0,busy:false,err:'',msg:'',edit:false};
+const _fe=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const frOn=()=>typeof cloudOn==='function'&&cloudOn();
+
+/* ---------- my points ---------- */
+function _lpPts(e){return typeof e.p==='number'?e.p:20+(e.s||1)*20;} /* lessons from before the league: a fair guess */
+function weekPoints(ws){ws=ws||weekStart();const ds=new Set(weekDays(ws));return Object.values(CH().log).filter(e=>ds.has(e.d)).reduce((a,e)=>a+_lpPts(e),0);}
+const prevWeek=ws=>_dayShift(ws||weekStart(),-7);
+(function(){
+  const _fin=rLessonFinish;rLessonFinish=function(){
+    const pts=Math.max(10,score-lessonStartScore),t0=Date.now();const h=_fin();
+    /* the chest layer has just logged this lesson: add its points */
+    const L=CH().log;let k=null;for(const id in L){const e=L[id];if(e.t>=t0-2000&&typeof e.p!=='number'&&(!k||e.t>L[k].t))k=id;}
+    if(k){L[k].p=pts;saveProgress();frQueuePush();}
+    return h;};
+})();
+
+/* ---------- who I am on the board ---------- */
+function frMyName(){return (userName()||'').trim().split(/\s+/)[0].slice(0,20)||T2('Learner','Uczeń');}
+function frMyLeo(){const p=PROF();const s=p&&typeof leoStage==='function'&&leoStage(p.track,p.level);return s?s.key:'kid';}
+function frRow(){const ws=weekStart(),pw=prevWeek(ws);
+  return {user_id:USER.id,name:frMyName(),leo:frMyLeo(),week:ws,xp:weekPoints(ws),last_week:pw,last_xp:weekPoints(pw),updated_at:new Date().toISOString()};}
+let _frT=null;
+function frQueuePush(){if(!frOn()||!SUPA||!USER)return;clearTimeout(_frT);_frT=setTimeout(()=>frPush(),1200);}
+async function frPush(){if(!SUPA||!USER)return false;
+  try{const {error}=await SUPA.from('friend_board').upsert(frRow(),{onConflict:'user_id'});if(error)throw error;return true;}
+  catch(e){FR.err=_frErr(e);return false;}}
+function _frErr(e){const m=(e&&e.message)||String(e||'');
+  if(/friend_board|friends|add_friend|schema cache|does not exist|not find/i.test(m))return 'setup';return m;}
+
+/* ---------- loading the board ---------- */
+async function frLoad(force){
+  if(!frOn()||!SUPA||!USER||FR.busy)return;if(!force&&FR.rows&&Date.now()-FR.at<30000)return;
+  FR.busy=true;
+  try{await frPush();
+    const {data,error}=await SUPA.from('friend_board').select('user_id,code,name,leo,week,xp,last_week,last_xp');
+    if(error)throw error;FR.rows=data||[];FR.at=Date.now();if(FR.err==='setup')FR.err='';frWinnerCheck();}
+  catch(e){FR.err=_frErr(e);}
+  FR.busy=false;if(VIEW.track==='friends'&&!activeLesson)renderCourse();}
+function frMe(){return (FR.rows||[]).find(r=>USER&&r.user_id===USER.id);}
+/* this week's ranking: everyone's points for the current week (0 if they haven't learned yet) */
+function frRanking(ws){ws=ws||weekStart();const pw=prevWeek(ws);
+  const rows=(FR.rows||[]).map(r=>{const me=USER&&r.user_id===USER.id;
+    const xp=me?weekPoints(ws):(r.week===ws?r.xp:0);
+    const last=me?weekPoints(pw):(r.week===pw?r.xp:r.last_week===pw?r.last_xp:0);
+    return {id:r.user_id,me,name:me?frMyName():r.name,leo:me?frMyLeo():r.leo,xp:xp||0,last:last||0};});
+  if(USER&&!rows.some(r=>r.me))rows.push({id:USER.id,me:true,name:frMyName(),leo:frMyLeo(),xp:weekPoints(ws),last:weekPoints(pw)});
+  rows.sort((a,b)=>b.xp-a.xp||(a.me?-1:b.me?1:0)||String(a.name).localeCompare(b.name));
+  let rk=0,prev=null;rows.forEach((r,i)=>{if(r.xp!==prev){rk=i+1;prev=r.xp;}r.rank=rk;});
+  return rows;}
+function frLastWinner(){const rows=frRanking().filter(r=>r.last>0).sort((a,b)=>b.last-a.last);
+  if(rows.length<2)return null;return rows[1].last===rows[0].last?null:rows[0];}
+/* win last week's league (with at least one friend) → 50 coins, once */
+function frWinnerCheck(){const w=frLastWinner();if(!w||!w.me)return;
+  if(shopEarn(50,'league:'+prevWeek()))setTimeout(()=>_comboToastText(T2('🏆 You won last week\'s friends league! +50 🪙','🏆 Wygrałeś ligę znajomych w zeszłym tygodniu! +50 🪙')),900);}
+
+/* ---------- adding / removing ---------- */
+function frCodeFmt(c){c=String(c||'').toUpperCase();return c.length===8?c.slice(0,4)+'-'+c.slice(4):c;}
+const frClean=c=>String(c||'').toUpperCase().replace(/[^0-9A-Z]/g,'');
+async function frAdd(code){
+  code=frClean(code);if(!code){FR.msg=T2('Type your friend\'s code first.','Najpierw wpisz kod znajomego.');renderCourse();return;}
+  if(!SUPA||!USER){try{localStorage.setItem('lg_friend_pending',code);}catch(e){}openAuth('up');return;}
+  FR.msg='⏳';renderCourse();
+  try{await frPush();const {data,error}=await SUPA.rpc('add_friend',{p_code:code});if(error)throw error;const r=data||{};
+    if(r.ok){FR.msg='';sfxPop();_comboToastText(T2(`🏆 ${r.name} is now your friend!`,`🏆 ${r.name} jest teraz twoim znajomym!`));if(typeof burstConfetti==='function')burstConfetti();await frLoad(true);return;}
+    FR.msg=r.why==='self'?T2('That\'s your own code 🙂','To twój własny kod 🙂'):r.why==='full'?T2(`You can have up to ${FR_MAX} friends.`,`Możesz mieć najwyżej ${FR_MAX} znajomych.`):
+      r.why==='already'?T2('You are already friends!','Już jesteście znajomymi!'):T2('No one has this code. Check it and try again.','Nikt nie ma takiego kodu. Sprawdź go i spróbuj jeszcze raz.');}
+  catch(e){FR.msg=_frErr(e)==='setup'?T2('Friends are not switched on yet.','Znajomi nie są jeszcze włączeni.'):_frErr(e);}
+  renderCourse();}
+async function frRemove(id){const r=frRanking().find(x=>x.id===id);if(!r||r.me)return;
+  try{const {error}=await SUPA.rpc('remove_friend',{p_id:id});if(error)throw error;FR.rows=(FR.rows||[]).filter(x=>x.user_id!==id);
+    _comboToastText(T2(`${r.name} removed`,`Usunięto: ${r.name}`));}catch(e){FR.msg=_frErr(e);}
+  renderCourse();}
+function frLink(){const m=frMe();return m?siteUrl()+'?friend='+m.code:'';}
+async function frShare(){const m=frMe();if(!m)return;const url=frLink(),txt=T2(`Learn English with me on Leogrow! My friend code: ${frCodeFmt(m.code)}`,`Ucz się ze mną angielskiego w Leogrow! Mój kod znajomego: ${frCodeFmt(m.code)}`);
+  if(navigator.share){try{await navigator.share({title:'Leogrow',text:txt,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  frCopy(txt+' '+url,T2('📋 Invite copied — paste it to your friend','📋 Zaproszenie skopiowane — wklej je znajomemu'));}
+function frCopy(t,ok){const done=()=>_comboToastText(ok||T2('📋 Copied','📋 Skopiowano'));
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{prompt('',t);});else{prompt('',t);}}
+
+/* invite links: leogrow.netlify.app/?friend=CODE */
+(function(){try{const q=new URLSearchParams(location.search),c=frClean(q.get('friend'));
+  if(c){localStorage.setItem('lg_friend_pending',c);q.delete('friend');const s=q.toString();history.replaceState(null,'',location.pathname+(s?'?'+s:'')+location.hash);
+    VIEW={track:'friends',level:null};}}catch(e){}})();
+let _frPendingBusy=false;
+function frPending(){let c=null;try{c=localStorage.getItem('lg_friend_pending');}catch(e){}
+  if(!c||!SUPA||!USER||_frPendingBusy)return;_frPendingBusy=true;try{localStorage.removeItem('lg_friend_pending');}catch(e){}
+  if(!activeLesson){VIEW={track:'friends',level:null};}frAdd(c).finally(()=>{_frPendingBusy=false;});}
+(function(){const _ab=renderAccountBtn;renderAccountBtn=function(){const r=_ab.apply(this,arguments);
+  if(USER&&SUPA){setTimeout(frPending,300);if(!FR.rows)setTimeout(()=>frLoad(),800);}else{FR.rows=null;}return r;};})();
+
+/* ---------- pictures ---------- */
+function frLeoImg(k,cls){const r=LEO_AGES[k]||LEO_AGES.kid||LEO_AGES.adult;return r&&r.h?`<img class="fr-leo ${cls||''}" src="${r.h}" alt="" draggable="false">`:'<span class="fr-leo">🐒</span>';}
+function frLeoFull(k){const src=(typeof LEO_FULL!=='undefined'&&LEO_FULL[k])||(LEO_AGES[k]&&LEO_AGES[k].c)||(LEO_FULL&&LEO_FULL.kid);return `<img class="fr-full" src="${src}" alt="" draggable="false">`;}
+const FR_MEDAL=['🥇','🥈','🥉'];
+
+/* ---------- the Friends page ---------- */
+function frPodium(rows){const top=rows.slice(0,3);while(top.length<3)top.push(null);
+  const order=[1,0,2];
+  return `<div class="fr-podium">${order.map(i=>{const r=top[i];
+    if(!r)return `<div class="fr-step s${i+1} empty"><button class="fr-ghost" onclick="frFocusCode()">＋</button><b>${T2('Invite a friend','Zaproś znajomego')}</b><div class="fr-block"><span>${i+1}</span></div></div>`;
+    return `<div class="fr-step s${i+1} ${r.me?'me':''}"><div class="fr-stand">${i===0?'<span class="fr-crown">👑</span>':''}${frLeoFull(r.leo)}</div><b>${_fe(r.name)}${r.me?` <small>(${T2('you','ty')})</small>`:''}</b><em>${r.xp} ${T2('pts','pkt')}</em><div class="fr-block"><span>${FR_MEDAL[i]}</span></div></div>`;}).join('')}</div>`;}
+function frListHtml(rows){const max=Math.max(1,...rows.map(r=>r.xp));
+  return rows.map(r=>`<div class="fr-row ${r.me?'me':''} ${r.rank<=3&&r.xp>0?'top':''}"><span class="fr-rank">${r.rank<=3&&r.xp>0?FR_MEDAL[r.rank-1]:r.rank}</span>${frLeoImg(r.leo)}
+    <div class="fr-mid"><b>${_fe(r.name)}${r.me?` <small>${T2('you','ty')}</small>`:''}</b><div class="fr-bar"><i style="width:${r.xp/max*100}%"></i></div></div>
+    <span class="fr-pts">${r.xp}<small>${T2('pts','pkt')}</small></span>${FR.edit&&!r.me?`<button class="fr-x" title="${T2('Remove','Usuń')}" onclick="frRemove('${r.id}')">✕</button>`:''}</div>`).join('');}
+function frFocusCode(){const i=document.getElementById('frCode');if(i){i.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>i.focus(),350);}}
+function frInviteHtml(){const m=frMe();
+  return `<div class="panel fr-invite">${zoneTag(T2('INVITE','ZAPROŚ'))}
+    <div class="fr-inv-grid"><div class="fr-mycode"><small>${T2('Your friend code','Twój kod znajomego')}</small>
+      <b class="fr-code" onclick="frCopy('${m?frCodeFmt(m.code):''}')">${m?frCodeFmt(m.code):'····-····'}</b>
+      <div class="fr-btns"><button class="btn btn-gold" onclick="frShare()" ${m?'':'disabled'}>📨 ${T2('Send invite link','Wyślij zaproszenie')}</button><button class="btn secondary" onclick="frCopy('${m?frCodeFmt(m.code):''}')" ${m?'':'disabled'}>📋 ${T2('Copy code','Kopiuj kod')}</button></div></div>
+    <div class="fr-add"><small>${T2('Got a code from a friend?','Masz kod od znajomego?')}</small>
+      <div class="fr-add-row"><input id="frCode" class="auth-in" maxlength="9" placeholder="ABCD-1234" autocomplete="off" autocapitalize="characters" spellcheck="false" onkeydown="if(event.key==='Enter')frAdd(this.value)"><button class="btn btn-gold" onclick="frAdd(document.getElementById('frCode').value)">${T2('Add','Dodaj')}</button></div>
+      ${FR.msg?`<p class="fr-msg">${_fe(FR.msg)}</p>`:''}</div></div>
+    <p class="fr-note">🔒 ${T2('Only friends you add can see your first name, your Leo and your weekly points. Nobody can find you without your code.','Tylko dodani znajomi widzą twoje imię, twojego Leo i punkty z tygodnia. Nikt cię nie znajdzie bez twojego kodu.')}</p></div>`;}
+function friendsPageHtml(){
+  const dl=weekDaysLeft(),left=dl===1?T2('Last day!','Ostatni dzień!'):T2(`${dl} days left`,`zostało ${dl} dni`);
+  const hero=(inner)=>`<div class="panel fr-hero">${zoneTag(T2('FRIENDS LEAGUE','LIGA ZNAJOMYCH'))}<div class="fr-hero-top"><div><h2 class="title">${T2('Friends league','Liga znajomych')} 🏆</h2>
+    <p class="sub">${T2('Learn with your friends. Every finished lesson gives you points. Most points by Sunday wins the week!','Ucz się ze znajomymi. Każda ukończona lekcja daje punkty. Kto do niedzieli zbierze najwięcej, wygrywa tydzień!')}</p></div><span class="ch-left">⏳ ${left}</span></div>${inner}</div>`;
+  if(!frOn()) return hero(`<div class="fr-empty">${frLeoImg('kid','big')}<p>${T2('The friends league works on the Leogrow website when you are logged in.','Liga znajomych działa na stronie Leogrow, gdy jesteś zalogowany.')}</p></div>`);
+  if(!USER) return hero(`<div class="fr-empty">${frLeoImg(frMyLeo(),'big')}<p><b>${T2('Log in to play with friends','Zaloguj się, by grać ze znajomymi')}</b><br>${T2('You need an account so your friends can see your points.','Potrzebujesz konta, żeby znajomi widzieli twoje punkty.')}</p>
+    <div class="fr-btns"><button class="btn btn-gold" onclick="openAuth('up')">${T2('Create an account','Załóż konto')}</button><button class="btn secondary" onclick="openAuth('in')">${T2('Log in','Zaloguj się')}</button></div></div>`);
+  if(FR.err==='setup') return hero(`<div class="fr-empty">${frLeoImg('kid','big')}<p>${T2('The friends league is almost ready — it will switch on soon.','Liga znajomych jest prawie gotowa — wkrótce się włączy.')}</p></div>`);
+  if(!FR.rows){frLoad();return hero(`<div class="fr-empty"><p>⏳ ${T2('Loading your friends…','Wczytuję znajomych…')}</p></div>`);}
+  frLoad();
+  const rows=frRanking(),me=rows.find(r=>r.me),n=rows.length-1,lw=frLastWinner();
+  let h=hero(frPodium(rows)+`<div class="fr-you"><b>${me&&n?T2(`You are #${me.rank}`,`Jesteś na ${me.rank}. miejscu`):T2('Your week','Twój tydzień')}</b><span>${me?me.xp:0} ${T2('pts this week','pkt w tym tygodniu')}</span>${!n?`<small>${T2('Add a friend to start racing!','Dodaj znajomego i zacznijcie wyścig!')}</small>`:rows[0]&&!rows[0].me&&me?`<small>${T2(`${rows[0].xp-me.xp+1} pts to take 1st place`,`${rows[0].xp-me.xp+1} pkt do 1. miejsca`)}</small>`:me&&me.xp>0&&n?`<small>${T2('You are in the lead! 🎉','Prowadzisz! 🎉')}</small>`:''}</div>`);
+  if(lw) h+=`<div class="fr-last">🏆 <b>${T2('Last week\'s winner','Zwycięzca zeszłego tygodnia')}:</b> ${frLeoImg(lw.leo,'sm')} ${_fe(lw.name)}${lw.me?' ('+T2('you','ty')+')':''} · ${lw.last} ${T2('pts','pkt')}</div>`;
+  h+=`<div class="panel fr-list">${zoneTag(T2('THIS WEEK','TEN TYDZIEŃ'))}<div class="fr-list-top"><h3>${T2('Ranking','Ranking')} · ${rows.length}</h3>${n?`<a href="#" onclick="FR.edit=!FR.edit;renderCourse();return false;">${FR.edit?T2('Done','Gotowe'):T2('Edit friends','Edytuj znajomych')}</a>`:''}</div>${frListHtml(rows)}
+    <p class="fr-note">${T2('New week every Monday. The winner gets 50 🪙.','Nowy tydzień w każdy poniedziałek. Zwycięzca dostaje 50 🪙.')}</p></div>`;
+  h+=frInviteHtml();
+  if(FR.err&&FR.err!=='setup') h+=`<p class="fr-msg">${_fe(FR.err)}</p>`;
+  return h;}
+
+/* ---------- menu, phone strip, right column ---------- */
+function frMyRank(){if(!FR.rows||!USER)return '';const me=frRanking().find(r=>r.me);return me&&FR.rows.length>1?'#'+me.rank:'';}
+function frMobHtml(){const r=frMyRank();
+  return `<a href="#" class="ch-mob fr-mob" onclick="nav('friends');return false;"><span class="fr-mob-ic">🏆</span><b>${T2('Friends league','Liga znajomych')}</b>${r?`<span>🏁 ${r}</span>`:''}<span class="rw-go">›</span></a>`;}
+function frPanelHtml(){
+  if(!frOn())return '';
+  let body;
+  if(!USER) body=`<p>${T2('Race your friends on weekly points.','Ścigaj się ze znajomymi na punkty.')}</p><button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See how','Zobacz jak')} →</button>`;
+  else if(!FR.rows||FR.rows.length<2) body=`<p>${T2('Invite a friend and race on weekly points.','Zaproś znajomego i ścigajcie się na punkty.')}</p><button class="btn secondary sp-btn" onclick="nav('friends')">🏆 ${T2('Add friends','Dodaj znajomych')}</button>`;
+  else{const rows=frRanking(),me=rows.find(r=>r.me),top=rows.slice(0,3);if(me&&me.rank>3)top.push(me);
+    body=top.map(r=>`<div class="fr-mini ${r.me?'me':''}"><span>${r.rank<=3&&r.xp>0?FR_MEDAL[r.rank-1]:r.rank}</span>${frLeoImg(r.leo,'sm')}<b>${_fe(r.name)}</b><em>${r.xp}</em></div>`).join('')
+      +`<button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See all','Zobacz wszystko')} →</button>`;}
+  return `<div class="sp-card fr-sp"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
+(function(){
+  const _rc=renderCourse;renderCourse=function(){
+    if(VIEW.track==='friends'){document.body.classList.toggle('adult',!!(PROF()&&PROF().track==='adults'));
+      $('courseView').innerHTML=courseShell(testerBar()+`<div class="crumbs"><a href="#" onclick="nav();return false;">🏠 Home</a><span>›</span><b>🏆 ${T2('Friends','Znajomi')}</b></div>`+friendsPageHtml());
+      if(LANG==='pl'&&typeof applyLang==='function')applyLang();renderWallet();return;}
+    _rc();
+    if(!VIEW.track&&frOn()){const mb=document.querySelector('#courseView .ch-mob')||document.querySelector('#courseView .rw-mob');if(mb)mb.insertAdjacentHTML('afterend',frMobHtml());}};
+  const _sn=sideNav;sideNav=function(){const h=_sn(),r=frMyRank();
+    const it=`<a href="#" class="sn-item ${VIEW.track==='friends'?'on':''}" onclick="nav('friends');return false;"><span>🏆</span><b>${T2('Friends','Znajomi')}</b>${r?`<small>${r}</small>`:''}</a>`;
+    const i=h.indexOf(`<b>${T2('Chests','Skrzynie')}</b>`);if(i>=0){const e=h.indexOf('</a>',i)+4;return h.slice(0,e)+it+h.slice(e);}return h.replace('</aside>',it+'</aside>');};
+  const _sp=sidePanels;sidePanels=function(){const h=_sp(),card=frPanelHtml();if(!card)return h;const k=h.indexOf('ch-sp');
+    if(k<0)return h+card;const e=h.indexOf('<div class="sp-card',k);return e<0?h+card:h.slice(0,e)+card+h.slice(e);};
+})();
+Object.assign(PL_UI,{"🏆 Friends":"🏆 Znajomi"});
 
 
 /* ---------- Leo is the star (2026-11-22): the five lemurs in the menu, panels and level pages ---------- */
