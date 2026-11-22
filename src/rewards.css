@@ -74,9 +74,6 @@
 @media (prefers-reduced-motion: reduce){.rw-ava,.rw-ava img{animation:none!important;}}
 /* Leo's outfit */
 .leo-rig{container-type:inline-size;}
-.leo-wear{position:absolute;transform:translate(-50%,-50%);line-height:1;pointer-events:none;z-index:3;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));white-space:nowrap;}
-.leo-wear.wear-head{transform:translate(-50%,-50%) rotate(-6deg);}
-.leo-wear.o_flowers{letter-spacing:-.15em;}
 /* app themes */
 body.theme-forest{--navy:#0b2a1c;--navy2:#12402a;--navy-light:#1f5c3d;--gold:#e3b341;--gold-light:#f5d77a;--gold-pale:#fbf3d9;--cream:#f8faf3;}
 body.theme-ocean{--navy:#052a3a;--navy2:#0a3f57;--navy-light:#146080;--gold:#ff9f6b;--gold-light:#ffc49f;--gold-pale:#fff0e6;--cream:#f6fbfc;}

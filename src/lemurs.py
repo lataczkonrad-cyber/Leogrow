@@ -13,11 +13,11 @@ BG=(0,11,59)
 # Tail = pixels right (or left for 'sitting') of a boundary line given as (y, x) points in cut-out pixels,
 # restricted to rows y0..y1. pivot = where the tail goes behind the body.
 POSES={
- 'sitting':      dict(side=-1,line=[(150,72),(200,72),(215,62),(260,56),(280,56)],rows=(158,280),pivot=(64,218),eyes=[(95,98,16,15),(148,78,14,14)]),
- 'waving-small': dict(side=1,line=[(130,206),(180,212),(262,217),(268,226),(330,226),(395,228)],rows=(130,395),pivot=(226,365),eyes=[(99,100,12,10),(154,88,16,14)]),
- 'arms-crossed': dict(side=1,line=[(230,190),(440,196),(470,207),(520,222)],rows=(230,525),pivot=(210,485),frame=1.08,eyes=[(66,108,12,10),(128,98,16,14)]),
- 'waving-tall':  dict(side=1,line=[(250,302),(470,302),(520,306),(560,312),(620,318),(650,318)],rows=(250,645),pivot=(315,600),frame=1.08,eyes=[(136,118,15,12),(208,120,20,16)]),
- 'hand-on-hip':  dict(side=1,line=[(360,205),(600,203),(640,200)],rows=(360,645),pivot=(205,605),frame=1.08,eyes=[(72,100,13,8),(135,112,16,9)]),
+ 'sitting':      dict(cap=(100,30,90,-17),neck=(118,146,95,-8),back=(120,168,110,80),side=-1,line=[(150,72),(200,72),(215,62),(260,56),(280,56)],rows=(158,280),pivot=(64,218),eyes=[(95,98,16,15),(148,78,14,14)]),
+ 'waving-small': dict(cap=(122,32,92,-4),neck=(130,158,90,0),back=(135,172,120,190),side=1,line=[(130,206),(180,212),(262,217),(268,226),(330,226),(395,228)],rows=(130,395),pivot=(226,365),eyes=[(99,100,12,10),(154,88,16,14)]),
+ 'arms-crossed': dict(cap=(98,36,96,-2),neck=(98,176,90,0),back=(100,192,130,320),side=1,line=[(230,190),(440,196),(470,207),(520,222)],rows=(230,525),pivot=(210,485),frame=1.08,eyes=[(66,108,12,10),(128,98,16,14)]),
+ 'waving-tall':  dict(cap=(180,42,112,-3),neck=(178,208,105,0),back=(178,226,150,400),side=1,line=[(250,302),(470,302),(520,306),(560,312),(620,318),(650,318)],rows=(250,645),pivot=(315,600),frame=1.08,eyes=[(136,118,15,12),(208,120,20,16)]),
+ 'hand-on-hip':  dict(cap=(122,36,96,8),neck=(118,182,100,3),back=(118,202,150,390),side=1,line=[(360,205),(600,203),(640,200)],rows=(360,645),pivot=(205,605),frame=1.08,eyes=[(72,100,13,8),(135,112,16,9)]),
 }
 def _tailmask(al,cfg,grow=0):
     H,W=al.shape; ys=np.arange(H)
@@ -51,7 +51,16 @@ def make(pose,size=512):
     disc=Image.new('RGBA',(160,160),BG+(255,)); disc.alpha_composite(head)          # round navy badge
     m=Image.new('L',(160,160),0); ImageDraw.Draw(m).ellipse([0,0,159,159],fill=255)
     head=Image.new('RGBA',(160,160),(0,0,0,0)); head.paste(disc,(0,0),m)
-    return {'h':head,'c':res(full),'w':res(on_navy(full)),'b':res(on_navy(bodyL)),'t':res(tailL),'f':res(bodyL),'p':list(pct(*cfg['pivot'])),'e':eyes}
+    # outfit anchors (see outfits.js): in % of the square frame, and in % of the round head badge
+    def anc(pt,box):
+        X0,Y0,SZ=box; r=[round((pt[0]-X0)/SZ*100,2),round((pt[1]-Y0)/SZ*100,2),round(pt[2]/SZ*100,2)]
+        return r+[pt[3]] if len(pt)>3 else r
+    def ancb(pt,box): r=anc(pt[:3],box); return r+[round(pt[3]/box[2]*100,2)]   # back: shoulders + cape length
+    full_box=(-ox,-oy,S); head_box=(int(hx-hs/2),int(hy-hs*0.56),hs)
+    o={'cap':anc(cfg['cap'],full_box),'neck':anc(cfg['neck'],full_box),'back':ancb(cfg['back'],full_box)}
+    oh={k:anc(cfg[k],head_box) for k in ('cap','neck')}
+    o['eyes']=[anc((x,y,0),full_box)[:2] for x,y,*_ in cfg['eyes']]; oh['eyes']=[anc((x,y,0),head_box)[:2] for x,y,*_ in cfg['eyes']]
+    return {'o':o,'oh':oh,'h':head,'c':res(full),'w':res(on_navy(full)),'b':res(on_navy(bodyL)),'t':res(tailL),'f':res(bodyL),'p':list(pct(*cfg['pivot'])),'e':eyes}
 # which picture each stage of Leo uses (stage names come from LEO_STAGES in course.js)
 STAGES={'baby':'sitting','little':'waving-small','kid':'arms-crossed','teen':'arms-crossed','adult':'waving-tall','senior':'hand-on-hip'}
 def make_all(size=512):

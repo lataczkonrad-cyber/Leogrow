@@ -10,17 +10,26 @@ const SHOP_ITEMS=[
  {id:'spin3',cat:'power',give:['spin',3],icon:'🎡',price:25,en:'3 extra wheel spins',pl:'3 dodatkowe obroty koła',d:'Spin the Fortune Wheel more times. Right answers on extra spins pay +3 🪙.',dp:'Więcej obrotów Koła Fortuny. Dobra odpowiedź po dodatkowym obrocie daje +3 🪙.'},
  {id:'energy',cat:'power',now:true,icon:'⚡',price:30,en:'Energy refill',pl:'Pełna energia',d:'Fills your energy to the top right away.',dp:'Od razu napełnia energię do pełna.'},
  // Leo's wardrobe (one per slot)
- {id:'o_cap',cat:'leo',slot:'head',icon:'🧢',price:80,en:'Baseball cap',pl:'Czapka z daszkiem'},
- {id:'o_tophat',cat:'leo',slot:'head',icon:'🎩',price:120,en:'Top hat',pl:'Cylinder'},
- {id:'o_sunhat',cat:'leo',slot:'head',icon:'👒',price:100,en:'Summer hat',pl:'Letni kapelusz'},
- {id:'o_grad',cat:'leo',slot:'head',icon:'🎓',price:180,en:'Graduation cap',pl:'Biret'},
- {id:'o_crown',cat:'leo',slot:'head',icon:'👑',price:250,en:'Royal crown',pl:'Korona'},
+ {id:'o_cap',cat:'leo',slot:'head',icon:'🧢',price:80,en:'Red baseball cap',pl:'Czerwona czapka z daszkiem'},
+ {id:'o_party',cat:'leo',slot:'head',icon:'🎉',price:60,en:'Party hat',pl:'Czapeczka imprezowa'},
+ {id:'o_sunhat',cat:'leo',slot:'head',icon:'👒',price:100,en:'Summer straw hat',pl:'Słomkowy kapelusz'},
+ {id:'o_beanie',cat:'leo',slot:'head',icon:'❄️',price:100,en:'Winter beanie',pl:'Zimowa czapka',season:true},
  {id:'o_flowers',cat:'leo',slot:'head',icon:'🌸',price:110,en:'Spring flower crown',pl:'Wiosenny wianek',season:true},
- {id:'o_glasses',cat:'leo',slot:'face',icon:'👓',price:90,en:'Reading glasses',pl:'Okulary'},
+ {id:'o_tophat',cat:'leo',slot:'head',icon:'🎩',price:120,en:'Top hat',pl:'Cylinder'},
+ {id:'o_pirate',cat:'leo',slot:'head',icon:'⚓',price:160,en:'Pirate hat',pl:'Kapelusz pirata'},
+ {id:'o_grad',cat:'leo',slot:'head',icon:'🎓',price:180,en:'Graduation cap',pl:'Biret'},
+ {id:'o_wizard',cat:'leo',slot:'head',icon:'✨',price:200,en:'Wizard hat',pl:'Kapelusz czarodzieja'},
+ {id:'o_crown',cat:'leo',slot:'head',icon:'👑',price:250,en:'Royal crown',pl:'Korona'},
+ {id:'o_glasses',cat:'leo',slot:'face',icon:'👓',price:90,en:'Gold reading glasses',pl:'Złote okulary'},
  {id:'o_shades',cat:'leo',slot:'face',icon:'🕶️',price:110,en:'Cool sunglasses',pl:'Okulary przeciwsłoneczne'},
- {id:'o_bow',cat:'leo',slot:'neck',icon:'🎀',price:70,en:'Bow',pl:'Kokarda'},
+ {id:'o_starglasses',cat:'leo',slot:'face',icon:'⭐',price:120,en:'Star glasses',pl:'Gwiazdkowe okulary'},
+ {id:'o_mask',cat:'leo',slot:'face',icon:'🦸',price:130,en:'Hero mask',pl:'Maska bohatera'},
+ {id:'o_bow',cat:'leo',slot:'neck',icon:'🎀',price:70,en:'Bow tie',pl:'Muszka'},
+ {id:'o_tie',cat:'leo',slot:'neck',icon:'👔',price:90,en:'Smart tie',pl:'Elegancki krawat'},
  {id:'o_scarf',cat:'leo',slot:'neck',icon:'🧣',price:100,en:'Winter scarf',pl:'Zimowy szalik',season:true},
  {id:'o_medal',cat:'leo',slot:'neck',icon:'🏅',price:140,en:'Gold medal',pl:'Złoty medal'},
+ {id:'o_cape',cat:'leo',slot:'back',icon:'🦸',price:220,en:'Hero cape',pl:'Peleryna bohatera'},
+ {id:'o_royal',cat:'leo',slot:'back',icon:'👑',price:300,en:'Royal cloak',pl:'Królewski płaszcz'},
  // app themes
  {id:'t_classic',cat:'theme',free:true,icon:'🌌',price:0,en:'Classic navy & gold',pl:'Klasyczny granat i złoto',sw:['#050a30','#ecb83a']},
  {id:'t_forest',cat:'theme',icon:'🌲',price:150,en:'Forest',pl:'Las',sw:['#0b2a1c','#e3b341']},
@@ -270,15 +279,7 @@ let _RUN=null;
     return h;};
 })();
 
-/* ---------- Leo's outfit ---------- */
-const _OUT_POS={head:[0,-1.75,2.5],face:[0,0.1,2.3],neck:[0.15,2.25,2.1]};
-function outfitHtml(age){const eq=W().eq,rig=LEO_AGES[age];if(!rig||!rig.e)return '';const[a,b]=rig.e,cx=(a[0]+b[0])/2,cy=(a[1]+b[1])/2,d=b[0]-a[0];
-  return ['neck','face','head'].map(s=>{const it=SHOP_BY[eq[s]];if(!it)return '';const[px,py,sz]=_OUT_POS[s];
-    const ic=it.id==='o_flowers'?'🌸🌼🌸':it.icon;
-    return `<span class="leo-wear wear-${s} ${it.id}" style="left:${cx+px*d}%;top:${cy+py*d}%;font-size:${sz*d*(it.id==='o_flowers'?0.45:1)}cqw">${ic}</span>`;}).join('');}
-(function(){const _lg=leoGrow;leoGrow=function(h){h=_lg(h);const eq=W().eq;if(!eq.head&&!eq.face&&!eq.neck)return h;
-  const s=h.indexOf('<div class="leo-rig">');if(s<0)return h;const e=h.indexOf('</div>',s);const m=h.slice(s,e).match(/data-age="(\w+)"/);
-  return h.slice(0,e)+outfitHtml(m?m[1]:'adult')+h.slice(e);};})();
+/* ---------- Leo's outfit: drawn and placed by outfits.js ---------- */
 
 /* ---------- themes, frames, badges ---------- */
 function applyTheme(){const t=W().eq.theme;document.body.className=document.body.className.replace(/\btheme-\w+/g,'').trim();if(t&&t!=='t_classic')document.body.classList.add('theme-'+t.slice(2));}
