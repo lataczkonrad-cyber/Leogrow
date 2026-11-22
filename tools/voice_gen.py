@@ -127,12 +127,14 @@ def is_short(t):
     return not LEO and len(t.split()) <= 3
 
 
-def tts(text, seed, speed, extra=None):
+def tts(text, seed, speed, extra=None, multilingual=False):
     url = f'https://api.elevenlabs.io/v1/text-to-speech/{VOICE}?output_format=mp3_44100_128'
     req_body = {'text': text, 'model_id': MODEL, 'seed': seed,
                 'voice_settings': dict(SETTINGS, speed=speed, **(extra or {}))}
-    if is_short(text):
+    if is_short(text) and not multilingual:
         req_body.update(model_id=SHORT_MODEL, language_code='en')
+    elif is_short(text):
+        req_body['previous_text'] = 'An English word:'   # nudge the multilingual model towards English
     body = json.dumps(req_body).encode()
     req = urllib.request.Request(url, data=body, method='POST', headers={
         'xi-api-key': KEY, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg'})
@@ -144,6 +146,10 @@ def tts(text, seed, speed, extra=None):
             if e.code in (429, 500, 502, 503) and attempt < 3:
                 time.sleep(2 ** attempt * 2); continue
             raise RuntimeError(f'HTTP {e.code} {msg}')
+        except (urllib.error.URLError, ConnectionError, TimeoutError, OSError) as e:   # network blip: wait and retry
+            if attempt < 3:
+                time.sleep(2 ** attempt * 3); continue
+            raise RuntimeError(f'network: {e}')
 
 
 def speech_end(path):
@@ -231,10 +237,11 @@ for n, t in enumerate(todo, 1):
     extra = dict(GROUP_SETTINGS.get(GROUP.get(t), {}))
     speed = extra.pop('speed', speed)
     best = None
-    for take in range(3):
+    # short lines: 3 takes on the English-locked model, then 2 on the multilingual one if none was clean
+    for take in range(5 if is_short(t) else 3):
         raw = os.path.join(tmp, f'{n}_{take}.mp3')
         try:
-            open(raw, 'wb').write(tts(text, 1000 + take * 7919 + n, speed, extra))
+            open(raw, 'wb').write(tts(text, 1000 + take * 7919 + n, speed, extra, multilingual=take >= 3))
         except RuntimeError as e:
             save()
             sys.exit(f'Stopped at "{t}": {e}')
