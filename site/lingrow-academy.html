@@ -10613,9 +10613,16 @@ let _gisLoad=null,_gisNonce=null;
 function loadGis(){if(window.google&&google.accounts&&google.accounts.id)return Promise.resolve();
   return _gisLoad=_gisLoad||new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=()=>res();s.onerror=()=>{_gisLoad=null;rej();};document.head.appendChild(s);});}
 async function sha256hex(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+/* Google's pop-up window is unreliable on iPhone/iPad (Safari blocks the hand-back) and inside the installed
+   home-screen app; there the normal full-page Google redirect is used instead. */
+function gisWorksHere(){
+  const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+  const standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+  return !ios&&!standalone;
+}
 async function mountGoogleButton(){
   const box=document.getElementById('gisBtn'),fb=document.getElementById('gOauthBtn');
-  if(!box||!LINGROW_CFG.googleClientId||!(window.crypto&&crypto.subtle)) return;
+  if(!box||!LINGROW_CFG.googleClientId||!(window.crypto&&crypto.subtle)||!gisWorksHere()) return;
   try{await loadGis();}catch(e){return;}
   if(!document.body.contains(box)) return;
   const raw=[...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,'0')).join('');
