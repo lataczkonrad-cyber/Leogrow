@@ -102,3 +102,8 @@
   .side-panels .sp-mini{padding:16px 18px!important;}
   .side-panels .sp-mini>b{font-size:19px!important;}.side-panels .sp-mini span{font-size:15px;}
 }
+/* Up next: same navy as Daily goal and Premium (user asked 2026-11-22) */
+.side-panels .sp-card.sp-next{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
+.sp-next .sp-tag{color:var(--gold-light);}
+.sp-next .sp-row b{color:#fff;}
+.sp-next .sp-row small{color:#d9dcf5;}
