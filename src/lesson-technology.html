@@ -679,14 +679,7 @@ function lemurWave(id){
       window['_lemurSwapE_'+id] = setTimeout(()=>{ img.classList.remove('swap'); }, 1360);
     }
   }
-  const bubble = document.getElementById('lemurBubble-'+id);
-  if(!bubble) return;
-  if(lemurMsgIndex[id] === undefined) lemurMsgIndex[id] = 0;
-  bubble.textContent = messages[lemurMsgIndex[id] % messages.length];
-  lemurMsgIndex[id]++;
-  bubble.classList.add('show');
-  clearTimeout(window['_lemurBubbleTimeout_'+id]);
-  window['_lemurBubbleTimeout_'+id] = setTimeout(()=>{ bubble.classList.remove('show'); }, 3200);
+  // no speech bubble when Leo is tapped (user asked 2026-11-22)
   const now = Date.now();
   lemurClickTimes[id] = (lemurClickTimes[id]||[]).filter(t=>now-t<2500);
   lemurClickTimes[id].push(now);

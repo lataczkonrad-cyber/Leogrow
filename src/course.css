@@ -378,3 +378,4 @@ span.ej{display:inline;}
 .leo-rig.waving{animation:leoHello 1.3s ease-in-out;}
 @keyframes leoHello{0%,100%{transform:none;}20%{transform:translateY(-3%) rotate(-2deg);}40%{transform:translateY(0) rotate(1.5deg);}60%{transform:translateY(-1.5%) rotate(-1deg);}80%{transform:none;}}
 @media (prefers-reduced-motion: reduce){.leo-rig.waving{animation:none!important;}}
+.lemur-bubble{display:none!important;}
