@@ -25,7 +25,7 @@
   const _go=go;
   go=function(i){_go(i);const p=document.getElementById('panel');if(p&&zones[current])p.setAttribute('data-zone',zones[current].key);};
 })();
-/* the Leo in the bottom-left corner is the lesson's own Leo (Baby Leo, Kid Leo, Professor Leo...) */
+/* the Leo in the bottom-left corner is the lesson's own Leo (Baby Leo, Teen Leo, Master Leo...) */
 (function(){
   const _ol=openLesson;
   openLesson=function(id){
