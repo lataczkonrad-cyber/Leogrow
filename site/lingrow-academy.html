@@ -1602,6 +1602,8 @@ body.in-lesson .trail{flex:0 0 auto;}
   body.in-lesson .trail-dot{padding:7px 12px 7px 44px;font-size:15.5px;}
   body.in-lesson .trail-dot::before{width:24px;height:24px;font-size:12px;}
 }
+/* corner Leo keeps the same size whichever Leo it is */
+.lemur-corner .lemur-wrap{--leo-s:1!important;}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -12938,6 +12940,15 @@ function obHtml(){
 (function(){
   const _go=go;
   go=function(i){_go(i);const p=document.getElementById('panel');if(p&&zones[current])p.setAttribute('data-zone',zones[current].key);};
+})();
+/* the Leo in the bottom-left corner is the lesson's own Leo (Baby Leo, Kid Leo, Professor Leo...) */
+(function(){
+  const _ol=openLesson;
+  openLesson=function(id){
+    _ol(id);
+    const s=document.getElementById('lemurCornerSlot');
+    if(s&&activeLesson){try{s.innerHTML=renderLemur('corner',lemurCornerMsgs,118);}catch(e){}}
+  };
 })();
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
