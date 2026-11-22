@@ -57,7 +57,7 @@ function obHtml(){
     <p class="sub">${T2('Each section has its own lessons and style.','Każda część ma własne lekcje i styl.')}</p><div class="ob-cards">`+
     TRACKS.map(x=>`<button class="ob-card ${x.id}" onclick="obWho('${x.id}')"><span class="ob-ico">${x.emoji}</span>
       <b>${x.id==='kids'?T2('A kid','Dziecko'):T2('A teen or adult','Nastolatek lub dorosły')}</b>
-      <small>${x.id==='kids'?T2('Ages 6–12 · games, music and coins · A0–A2','6–12 lat · gry, muzyka i monety · A0–A2'):T2('Ages 13+ · real-life topics, calm style · A0–C1','13+ lat · tematy z życia, spokojny styl · A0–C1')}</small></button>`).join('')+`</div>`;
+      <small>${x.id==='kids'?T2('Ages 3–12 · games, music and coins · A0–A2','3–12 lat · gry, muzyka i monety · A0–A2'):T2('Ages 13+ · real-life topics, calm style · A0–C1','13+ lat · tematy z życia, spokojny styl · A0–C1')}</small></button>`).join('')+`</div>`;
   } else if(OB.step==='start'&&t){
     const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
     h=obTop('who')+`<span class="zone-tag">${T2('STEP 2 OF 3','KROK 2 Z 3')}</span><h2 class="title">${T2('Where do you want to start?','Od czego zaczynamy?')}</h2>
