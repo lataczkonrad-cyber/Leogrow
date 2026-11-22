@@ -1,0 +1,85 @@
+
+/* ===== calm phone home (< 1024px, home screen only — see mobilehome.js) ===== */
+@media (max-width:1023px){
+  /* the big cards that used to stack on top: their pages are in the shortcut row now */
+  .course-main.mh>#premBanner,.course-main.mh>.rw-mob,.course-main.mh>.ch-mob,.course-main.mh>.daily-card,.course-main.mh>.review-card{display:none!important;}
+
+  /* 1) hero: level, your Leo, next lesson */
+  .course-main.mh .my-hero{margin-bottom:12px;padding:16px 16px 14px;}
+  .course-main.mh .my-hero-top{flex-wrap:nowrap;gap:12px;}
+  .course-main.mh .my-hero-top .level-code{width:56px;height:56px;font-size:24px;flex:0 0 auto;}
+  .course-main.mh .my-hero-text .title{font-size:24px;margin:2px 0 6px;}
+  .course-main.mh .my-hero .hero-leo{display:flex!important;flex:0 0 auto;width:84px;justify-content:center;margin:-8px -6px -6px 0;}
+  .course-main.mh .my-hero .hero-leo .lemur-wrap{--leo-s:.62!important;}
+  .course-main.mh .my-hero .hero-leo .leo-age,.course-main.mh .my-hero .hero-leo .lemur-bubble{display:none;}
+  .course-main.mh .my-hero .hero-stats{display:flex;flex-wrap:nowrap;gap:0;margin:10px 0 6px;justify-content:space-between;}
+  .course-main.mh .my-hero .hero-stats div{flex:none;min-width:0;background:none;border:0;box-shadow:none;padding:0;text-align:left;display:flex;align-items:baseline;gap:4px;}
+  .course-main.mh .my-hero .hero-stats b{display:inline;font-size:15px;}
+  .course-main.mh .my-hero .hero-stats b img{width:15px!important;height:15px!important;vertical-align:-2px!important;}
+  .course-main.mh .my-hero .hero-stats small{font-size:10px;}
+  .course-main.mh .my-continue{margin-top:12px;font-size:17px;padding:14px 16px;}
+  .course-main.mh .mh-plan{margin-top:8px;text-align:center;font-size:12.5px;font-weight:700;color:#6a6f8f;}
+
+  /* 2) one slim status row */
+  .mh-stats{display:flex;align-items:center;gap:8px;margin:0 0 12px;}
+  .mh-stats button{font:inherit;cursor:pointer;display:flex;align-items:center;gap:6px;border-radius:999px;border:1.5px solid rgba(236,184,58,.55);background:rgba(5,10,48,.55);color:var(--gold-light);padding:4px 12px 4px 4px;min-height:44px;}
+  .mh-stats .mh-streak{flex:1;min-width:0;}
+  .mh-stats .mh-pill{padding:4px 12px;flex:none;}
+  .mh-stats b{font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:800;white-space:nowrap;}
+  .mh-stats b.zero{opacity:.75;}
+  .mh-stats small{font-size:12px;font-weight:700;color:#c9cde8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mh-ring{display:flex;width:36px;height:36px;flex:none;}
+  .mh-ring svg{width:36px;height:36px;}
+  .mh-ring *{font-size:0;}
+  .mh-ring text{display:none;}
+
+  /* 3) shortcuts: one row of round gold-ringed icons */
+  .mh-dock{display:grid;grid-template-columns:repeat(var(--n,5),1fr);gap:6px;margin:0 0 20px;}
+  .mh-tile{font:inherit;cursor:pointer;background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;color:#dfe2f5;}
+  .mh-ic{position:relative;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(160deg,#1c2a78,#0b1450);border:2px solid var(--gold);box-shadow:0 3px 0 #b5891f;}
+  .mh-ic .emj{width:28px;height:28px;}
+  .mh-ic>i{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--gold);color:var(--navy);font-style:normal;font-weight:800;font-size:11px;line-height:20px;text-align:center;box-shadow:0 1px 0 #b5891f;}
+  .mh-tile.hot .mh-ic>i{background:#ff7a59;color:#fff;box-shadow:none;}
+  .mh-tile.prem .mh-ic{background:linear-gradient(160deg,#ffd76a,#ecb83a);}
+  .mh-tile small{font-size:12px;font-weight:800;letter-spacing:.2px;white-space:nowrap;}
+  .mh-tile:active .mh-ic{transform:translateY(2px);box-shadow:0 1px 0 #b5891f;}
+
+  /* 4) level path: closed units are one slim row, the open one shows short lesson cards */
+  .course-main.mh .unit-block{margin:0 0 12px;}
+  .course-main.mh .unit-head{cursor:pointer;position:relative;padding-right:34px;}
+  .course-main.mh .unit-head::after{content:"";position:absolute;right:10px;top:50%;width:9px;height:9px;border-right:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);transform:translateY(-70%) rotate(45deg);transition:transform .2s;}
+  .course-main.mh .unit-block.mh-closed .unit-head::after{transform:translateY(-50%) rotate(-45deg);}
+  .course-main.mh .unit-head .unit-badge{display:none;}
+  .course-main.mh .mh-count{flex:none;font-size:12px;font-weight:800;color:var(--gold-light);background:rgba(236,184,58,.14);border:1px solid rgba(236,184,58,.45);border-radius:999px;padding:2px 9px;}
+  .course-main.mh .unit-block.mh-closed{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:10px 6px 10px;}
+  .course-main.mh .unit-block.mh-closed .unit-head{margin-bottom:6px;}
+  .course-main.mh .unit-block.mh-closed .unit-num{width:36px;height:36px;font-size:18px;box-shadow:0 2px 0 #b5891f;}
+  .course-main.mh .unit-block.mh-closed .unit-title h3{font-size:17px;}
+  .course-main.mh .unit-block.mh-closed .unit-title p{display:none;}
+  .course-main.mh .unit-block.mh-closed .unit-progress{height:6px;margin:0 6px;}
+  .course-main.mh .unit-block.mh-closed .lesson-grid{display:none;}
+  .course-main.mh .unit-block.mh-cur{margin-bottom:20px;}
+
+  .course-main.mh .lesson-grid{gap:10px;}
+  .course-main.mh .lesson-chips{display:none;}
+  .course-main.mh .lesson-card{padding:12px 14px;border-radius:18px;}
+  .course-main.mh .lesson-card .lc-bottom{margin-top:8px;}
+  .course-main.mh .lesson-card.locked{padding:10px 14px;box-shadow:none;}
+  .course-main.mh .lesson-card.locked .lc-meta{display:none;}
+  .course-main.mh .lesson-card.locked .lc-bottom{margin-top:2px;justify-content:flex-start;}
+  .course-main.mh .lesson-card.locked .lock-note{font-size:12px;opacity:.8;}
+
+  /* the "get the app" tip sits at the end, small */
+  .course-main.mh .install-card{margin-top:16px;padding:10px 14px;}
+  .course-main.mh .install-card p{font-size:13px;}
+}
+/* logged in on a phone: Back + account + flags + settings must fit in one row (no sideways scroll) */
+@media (max-width:560px){
+  body:not(.in-lesson) .topbar{gap:6px;}
+  body:not(.in-lesson) .topbar .brand{min-width:0;flex:0 1 auto;}
+  body:not(.in-lesson) .topbar-controls{gap:5px;min-width:0;flex:0 1 auto;}
+  body.can-back:not(.in-lesson) .brand-text{display:none;}
+  body:not(.in-lesson) .account-btn{max-width:84px;padding:6px 8px;}
+  body.can-back:not(.in-lesson) .account-btn{flex:none;width:36px;max-width:36px;height:36px;padding:0 0 0 10px;border-radius:50%;text-align:left;text-overflow:clip;color:transparent;font-size:13px;}
+  body:not(.in-lesson) .app-back{padding:6px 10px;}
+}
