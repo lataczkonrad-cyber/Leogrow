@@ -2603,7 +2603,7 @@ function coinRow(n,size){return [1,2,3].map(k=>k<=n?`<img class="mini-coin" styl
 
 /* ---------- Tracks: Kids / Adults, each with its own level screens ---------- */
 const TRACKS=[
- {id:"kids",name:"Kids",emoji:"🧒",tag:"FOR KIDS",levels:["A0","A1","A2"],desc:"Ages 6–12 · playful lessons with Leo, games, music and lots of coins.",cta:"Let's play!"},
+ {id:"kids",name:"Kids",emoji:"🧒",tag:"FOR KIDS",levels:["A0","A1","A2"],desc:"Ages 3–12 · playful lessons with Leo, games, music and lots of coins.",cta:"Let's play!"},
  {id:"adults",name:"Teens & Adults",emoji:"🧑‍💼",tag:"FOR TEENS & ADULTS",levels:["A0","A1","A2","B1","B2","C1"],desc:"Ages 13+ · from your first words to C1 — real-life topics, grammar in depth, calm focused style.",cta:"Start learning"},
 ];
 const trackOfLevel=lv=>TRACKS.find(t=>t.levels.includes(lv))||TRACKS[0];
@@ -3052,7 +3052,7 @@ function renderPlacement(){
   let h=crumbs().replace('</div>','<span>›</span><b>Placement test</b></div>');
   if(!PT.who){
     h+=`<div class="panel placement"><div style="text-align:center;">${zoneTag('PLACEMENT TEST')}<h2 class="title">Find your level</h2><p class="sub">18 quick questions, about 3 minutes. They get harder as you go — just skip the ones you don't know.</p><p class="sub" style="font-weight:800;">First: who is learning?</p></div>
-      <div class="opts"><div class="opt" onclick="plWho('kids')">🧒 A kid (6–12)</div><div class="opt" onclick="plWho('adults')">🧑‍💼 A teen or adult</div></div></div>`;
+      <div class="opts"><div class="opt" onclick="plWho('kids')">🧒 A kid (3–12)</div><div class="opt" onclick="plWho('adults')">🧑‍💼 A teen or adult</div></div></div>`;
   } else if(PT.i<PT.qs.length){
     const q=PT.qs[PT.i];
     h+=`<div class="panel placement">${zoneTag('PLACEMENT TEST')}<div class="unit-progress" style="margin:10px 0 14px;"><div style="width:${PT.i/PT.qs.length*100}%"></div></div>
@@ -3079,7 +3079,7 @@ function homeHtml(){
     <div class="hero-leo">${renderLemur('big',["Hi! I'm Leo! 👋","Kids or grown-ups?","Pick your path! 🧭"],130)}</div></div><div class="placement-card" onclick="startPlacement()"><span>🧭</span><div><b>Not sure where to start?</b><p>Take the 3-minute placement test and we'll find your level.</p></div><button class="btn btn-gold lesson-btn">Find my level →</button></div><div class="me-card" onclick="nav('me')"><span>📊</span><b>My progress</b><small>🔥 ${streakOf(C.days)} day streak · ${ALL_LESSONS.filter(l=>lessonDone(l.id)).length} lessons done</small><i>›</i></div><div class="track-grid">`;
   TRACKS.forEach(t=>{
     const ls=trackLessons(t.id), s=statsOf(ls);
-    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).b||LEO_CHEER}" alt="">`;
+    const pic=`<img class="track-leo" src="${((t.id==='kids'?LEO_AGES.little:LEO_AGES.adult)||{}).w||LEO_CHEER}" alt="">`;
     h+=`<div class="track-card ${t.id}" onclick="nav('${t.id}')">
       ${pic}<span class="zone-tag">${t.tag}</span><h3>${t.name} ${t.emoji}</h3><p>${t.desc}</p>
       <div class="track-levels">${t.levels.map(lv=>`<span>${lv}</span>`).join('')}</div>
@@ -3140,7 +3140,7 @@ const PL_UI={
  "Who is learning today?":"Kto się dziś uczy?","Pick your section — each one has its own levels, lessons and style.":"Wybierz sekcję — każda ma swoje poziomy, lekcje i styl.",
  "Not sure where to start?":"Nie wiesz, od czego zacząć?","Take the 3-minute placement test and we'll find your level.":"Zrób 3-minutowy test, a znajdziemy Twój poziom.",
  "Find my level →":"Znajdź mój poziom →","FOR KIDS":"DLA DZIECI","FOR TEENS & ADULTS":"DLA MŁODZIEŻY I DOROSŁYCH","Kids 🧒":"Dzieci 🧒","🧒 Kids":"🧒 Dzieci","Teens & Adults 🧑‍💼":"Młodzież i dorośli 🧑‍💼","🧑‍💼 Teens & Adults":"🧑‍💼 Młodzież i dorośli",
- "Ages 6–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 6–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
+ "Ages 3–12 · playful lessons with Leo, games, music and lots of coins.":"Wiek 3–12 · wesołe lekcje z Leo, gry, muzyka i mnóstwo monet.",
  "Ages 13+ · from your first words to C1 — real-life topics, grammar in depth, calm focused style.":"Wiek 13+ · od pierwszych słów do C1 — prawdziwe tematy, gramatyka, spokojny styl.",
  "Let's play! →":"Gramy! →","Start learning →":"Zacznij naukę →","Reset my progress":"Zresetuj mój postęp",
  "lessons":"lekcje","coins":"monety","points":"punkty","Choose your level":"Wybierz poziom","Coming soon":"Wkrótce",
@@ -3150,7 +3150,7 @@ const PL_UI={
  "Simple everyday life: routines, home, school, free time.":"Proste życie codzienne: rutyna, dom, szkoła, czas wolny.",
  "Talk about habits, past events and plans.":"Mów o nawykach, przeszłości i planach.",
  "Start →":"Start →","Continue →":"Kontynuuj →","↻ Play again":"↻ Zagraj jeszcze raz","All levels":"Wszystkie poziomy",
- "Find your level":"Znajdź swój poziom","First: who is learning?":"Najpierw: kto się uczy?","🧒 A kid (6–12)":"🧒 Dziecko (6–12)","🧑‍💼 A teen or adult":"🧑‍💼 Nastolatek lub dorosły",
+ "Find your level":"Znajdź swój poziom","First: who is learning?":"Najpierw: kto się uczy?","🧒 A kid (3–12)":"🧒 Dziecko (3–12)","🧑‍💼 A teen or adult":"🧑‍💼 Nastolatek lub dorosły",
  "18 quick questions, about 3 minutes. They get harder as you go — just skip the ones you don't know.":"18 szybkich pytań, ok. 3 minuty. Są coraz trudniejsze — pomiń te, których nie wiesz.",
  "I don't know → skip":"Nie wiem → pomiń","Placement test":"Test poziomujący","PLACEMENT TEST":"TEST POZIOMUJĄCY","YOUR RESULT":"TWÓJ WYNIK","↻ Try again":"↻ Spróbuj ponownie",
  "Start":"Start","Finish!":"Koniec!","Let's start! 🚀":"Zaczynamy! 🚀","Ready? 🚀":"Gotowy? 🚀","← Back":"← Wstecz","Next →":"Dalej →",
@@ -3560,12 +3560,12 @@ function leoContext(){
 }
 function leoGrow(h){
   const c=leoContext(), st=c&&LEO_STAGES[c.track]&&LEO_STAGES[c.track][c.level];
-  const rig=LEO_AGES[st?st[1]:'teen']; if(!rig||!rig.b) return h;
+  const rig=LEO_AGES[st?st[1]:'adult']; if(!rig||!rig.b) return h;
   if(st) h=h.replace('class="lemur-wrap"',`class="lemur-wrap" style="--leo-s:${st[0]}"`);
   // Leo as layers: body, a swaying tail and eyelids for blinking
   const lids=rig.e.map(([x,y,rx,ry])=>`<span class="leo-lid" style="left:${x-rx}%;top:${y-ry}%;width:${2*rx}%;height:${2*ry}%"></span>`).join('');
   h=h.replace(/<img class="(lemur-img[^"]*)" id="(lemurImgBase-[^"]+)" src="[^"]*"([^>]*)>/,(m,cls,id,rest)=>
-    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'teen'}" src="${rig.b}"${rest}>${rig.a?`<img class="leo-arm" src="${rig.a}" alt="" draggable="false" style="transform-origin:${rig.s[0]}% ${rig.s[1]}%"><img class="leo-cap" src="${rig.c}" alt="" draggable="false">`:''}<img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
+    `<div class="leo-rig"><img class="${cls}" id="${id}" data-age="${st?st[1]:'adult'}" src="${rig.b}"${rest}>${rig.a?`<img class="leo-arm" src="${rig.a}" alt="" draggable="false" style="transform-origin:${rig.s[0]}% ${rig.s[1]}%"><img class="leo-cap" src="${rig.c}" alt="" draggable="false">`:''}<img class="leo-tail" src="${rig.t}" alt="" draggable="false" style="transform-origin:${rig.p[0]}% ${rig.p[1]}%"><img class="leo-front" src="${rig.f}" alt="" draggable="false">${lids}</div>`);
   if(st) h=h.replace(/(<div class="lemur-bubble")/,`<span class="leo-age">${LANG==='pl'?st[3]:st[2]}</span>$1`);
   return h;
 }

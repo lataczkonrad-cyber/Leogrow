@@ -278,7 +278,7 @@ function outfitHtml(age){const eq=W().eq,rig=LEO_AGES[age];if(!rig||!rig.e)retur
     return `<span class="leo-wear wear-${s} ${it.id}" style="left:${cx+px*d}%;top:${cy+py*d}%;font-size:${sz*d*(it.id==='o_flowers'?0.45:1)}cqw">${ic}</span>`;}).join('');}
 (function(){const _lg=leoGrow;leoGrow=function(h){h=_lg(h);const eq=W().eq;if(!eq.head&&!eq.face&&!eq.neck)return h;
   const s=h.indexOf('<div class="leo-rig">');if(s<0)return h;const e=h.indexOf('</div>',s);const m=h.slice(s,e).match(/data-age="(\w+)"/);
-  return h.slice(0,e)+outfitHtml(m?m[1]:'teen')+h.slice(e);};})();
+  return h.slice(0,e)+outfitHtml(m?m[1]:'adult')+h.slice(e);};})();
 
 /* ---------- themes, frames, badges ---------- */
 function applyTheme(){const t=W().eq.theme;document.body.className=document.body.className.replace(/\btheme-\w+/g,'').trim();if(t&&t!=='t_classic')document.body.classList.add('theme-'+t.slice(2));}
