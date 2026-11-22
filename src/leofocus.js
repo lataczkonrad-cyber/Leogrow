@@ -37,6 +37,7 @@ function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leo
     h=h.replace(/<div class="sp-card"><div class="sp-head"><b>🛍️[\s\S]*?<\/button><\/div>/,`<a href="#" class="sp-card sp-mini" onclick="nav('shop');return false;"><b>🛍️ ${T2('Shop','Sklep')}</b><span>🪙 ${coins()} ›</span></a>`)
      .replace(/<div class="sp-card sp-prem">[\s\S]*?<\/button><\/div>/,`<a href="#" class="sp-card sp-mini sp-prem" onclick="openPremium();return false;"><b>⭐ Premium</b><span>${T2('Learn without limits','Ucz się bez limitów')} ›</span></a>`)
      .replace(/<div class="sp-card"><div class="sp-head"><b>🔁[\s\S]*?<\/button><\/div>/,m=>{const k=(m.match(/openReview\('(\w+)'\)/)||[])[1];const c=(m.match(/sp-coins">(\d+)/)||[])[1];return `<a href="#" class="sp-card sp-mini" onclick="openReview('${k}');return false;"><b>🔁 ${T2('Review','Powtórka')}</b><span>${c} ›</span></a>`;});
+    h=h.replace('<div class="sp-card"><div class="sp-head"><b>🎯','<div class="sp-card sp-goal"><div class="sp-head"><b>🎯');
     h=h.replace('<div class="sp-card ch-sp">',`<div class="sp-card ch-sp" onclick="if(!event.target.closest('button'))nav('chests')">`);
     const i=h.indexOf('</div>',h.indexOf('<div class="sp-stats">'));
     return i<0?card+h:h.slice(0,i+6)+card+h.slice(i+6);};
