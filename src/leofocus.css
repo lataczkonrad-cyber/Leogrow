@@ -74,3 +74,12 @@
 }
 @media(min-width:1100px){.side-panels .sp-mini>b{font-size:16px!important;font-weight:800;}}
 .side-panels .sp-card.sp-prem{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);}.side-panels .sp-mini.sp-prem b{color:#fff;}.side-panels .sp-mini.sp-prem span{color:var(--gold-light);}
+/* daily goal: navy like Premium */
+.side-panels .sp-card.sp-goal{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
+.sp-goal .sp-head b,.sp-goal .sp-row b{color:#fff;}
+.sp-goal .sp-head a{color:var(--gold-light);}
+.sp-goal .sp-row small{color:#d9dcf5;}
+.sp-goal .goal-ring .gr-bg{stroke:rgba(255,255,255,.22);}
+.sp-goal .goal-ring text{fill:#fff;}
+.sp-goal .wk-day small{color:#d9dcf5;}
+.sp-goal .wk-day i:not(.on):not(.done){background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);}
