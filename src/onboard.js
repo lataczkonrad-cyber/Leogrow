@@ -39,7 +39,7 @@ const obLvName=L=>LANG==='pl'&&OB_LV_PL[L.name]||L.name;
 const OB_CREW=[['baby','Baby Leo','Mały Leo','A0'],['little','Kid Leo','Młody Leo','A1'],['kid','Teen Leo','Leo Nastolatek','A2'],['adult','Adult Leo','Dorosły Leo','B1–B2'],['senior','Master Leo','Mistrz Leo','C1']];
 function obCrew(){
   return `<div class="ob-crew" aria-label="${T2('Leo grows with you','Leo rośnie z Tobą')}"><i class="ob-spark s1">✦</i><i class="ob-spark s2">✦</i><i class="ob-spark s3">✦</i><i class="ob-spark s4">✦</i>
-    <div class="ob-crew-row">${OB_CREW.map(([k,en,pl,lv],i)=>{const r=LEO_AGES[k];return r?`<figure class="ob-mate m${i}"><img src="${r.c}" alt="${T2(en,pl)}" draggable="false"><figcaption><b>${lv}</b><span>${T2(en,pl)}</span></figcaption></figure>`:'';}).join('')}</div></div>`;
+    <div class="ob-crew-row">${OB_CREW.map(([k,en,pl,lv],i)=>{const src=(typeof LEO_FULL!=='undefined'&&LEO_FULL[k])||(LEO_AGES[k]&&LEO_AGES[k].c);return src?`<figure class="ob-mate m${i}"><img src="${src}" alt="${T2(en,pl)}" draggable="false"><figcaption><b>${lv}</b><span>${T2(en,pl)}</span></figcaption></figure>`:'';}).join('')}</div></div>`;
 }
 function obDots(){
   const steps=['start','goal','ready'], i=steps.indexOf(OB.step==='pt'?'start':OB.step);

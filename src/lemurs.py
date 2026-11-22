@@ -15,9 +15,9 @@ BG=(0,11,59)
 POSES={
  'sitting':      dict(side=-1,line=[(150,72),(200,72),(215,62),(260,56),(280,56)],rows=(158,280),pivot=(64,218),eyes=[(95,98,16,15),(148,78,14,14)]),
  'waving-small': dict(side=1,line=[(130,206),(180,212),(262,217),(268,226),(330,226),(395,228)],rows=(130,395),pivot=(226,365),eyes=[(99,100,12,10),(154,88,16,14)]),
- 'arms-crossed': dict(side=1,line=[(230,190),(440,196),(470,207),(520,222)],rows=(230,525),pivot=(210,485),frame=0.86,eyes=[(66,108,12,10),(128,98,16,14)]),
- 'waving-tall':  dict(side=1,line=[(250,302),(470,302),(520,306),(560,312),(620,318),(650,318)],rows=(250,645),pivot=(315,600),frame=0.86,eyes=[(136,118,15,12),(208,120,20,16)]),
- 'hand-on-hip':  dict(side=1,line=[(360,205),(600,203),(640,200)],rows=(360,645),pivot=(205,605),frame=0.86,eyes=[(72,100,13,8),(135,112,16,9)]),
+ 'arms-crossed': dict(side=1,line=[(230,190),(440,196),(470,207),(520,222)],rows=(230,525),pivot=(210,485),frame=1.08,eyes=[(66,108,12,10),(128,98,16,14)]),
+ 'waving-tall':  dict(side=1,line=[(250,302),(470,302),(520,306),(560,312),(620,318),(650,318)],rows=(250,645),pivot=(315,600),frame=1.08,eyes=[(136,118,15,12),(208,120,20,16)]),
+ 'hand-on-hip':  dict(side=1,line=[(360,205),(600,203),(640,200)],rows=(360,645),pivot=(205,605),frame=1.08,eyes=[(72,100,13,8),(135,112,16,9)]),
 }
 def _tailmask(al,cfg,grow=0):
     H,W=al.shape; ys=np.arange(H)
@@ -71,6 +71,10 @@ if __name__=='__main__':
         for x,y,rx,ry in r['e']: d.rectangle([i*260+(x-rx)*2.56,(y-ry)*2.56,i*260+(x+rx)*2.56,(y+ry)*2.56],outline='lime')
     W.save(out)
 
+def full(pose,height=420):
+    """the whole Leo, head to toes (nothing cropped), on a clear background, for the welcome stage"""
+    cut=Image.open(os.path.join(D,pose+'.png')).convert('RGBA'); cut=cut.crop(cut.getbbox())
+    k=height/cut.height; return cut.resize((max(1,int(cut.width*k)),height),Image.LANCZOS)
 def lineup(height=300):
     """all five Leos side by side, smallest to biggest, on navy (sizes as drawn)"""
     cuts=[Image.open(os.path.join(D,p+'.png')).convert('RGBA') for p in POSES]

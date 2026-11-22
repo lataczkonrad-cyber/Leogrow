@@ -35,7 +35,7 @@ for n,r in _RIGS.items():
     if id(r) in _first: _alias+='LEO_AGES.%s=LEO_AGES.%s;'%(n,_first[id(r)])
     else: _first[id(r)]=n
 LEO_LINEUP=_imuri(lemurs.lineup(300),1400,q=84)
-course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps({n:v for n,v in LEO_AGES.items() if n in _first.values()})+';'+_alias+'const LEO_LINEUP="'+LEO_LINEUP+'";',1)
+course_js=course_js.replace('const LEO_AGES={};','const LEO_AGES='+__import__('json').dumps({n:v for n,v in LEO_AGES.items() if n in _first.values()})+';'+_alias+'const LEO_LINEUP="'+LEO_LINEUP+'";'+'const LEO_FULL='+__import__('json').dumps({st:_imuri(lemurs.full(lemurs.STAGES[st]),420,q=86) for st in ['baby','little','kid','adult','senior']})+';',1)
 LEO_NEW=LEO_AGES['adult']['w']; BADGE=_uri('badge-mini.png',256); BADGE_SM=_uri('badge-mini.png',96)
 course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%BADGE,course_js,count=1); assert _k==1
 head,rest=src.split('<body>',1)
