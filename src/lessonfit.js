@@ -20,3 +20,8 @@
     if(cur&&t.scrollHeight>t.clientHeight){const top=cur.offsetTop-h.offsetHeight-8,bot=cur.offsetTop+cur.offsetHeight+8-t.clientHeight;if(t.scrollTop>top)t.scrollTop=top;else if(t.scrollTop<bot)t.scrollTop=bot;}
   };
 })();
+/* tag the lesson card with the step type, so CSS can size single steps (e.g. a big Leo on the start page) */
+(function(){
+  const _go=go;
+  go=function(i){_go(i);const p=document.getElementById('panel');if(p&&zones[current])p.setAttribute('data-zone',zones[current].key);};
+})();
