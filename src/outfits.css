@@ -1,0 +1,26 @@
+/* Leo's wardrobe (outfits.js) */
+.leo-rig .leo-wear{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.3));}
+.leo-rig .leo-wear.wear-front{z-index:3;}
+/* a tall hat may stick out above Leo's square: the navy square keeps its round corners itself */
+.leo-rig.leo-hat{overflow:visible;}
+.leo-rig.leo-hat img.lemur-img,.lemur-stage .leo-rig.leo-hat img.lemur-img{border-radius:22%!important;}
+.leo-rig.leo-hat img.leo-tail,.leo-rig.leo-hat img.leo-front{clip-path:inset(0 round 22%);}
+/* shop */
+.rw-pic-outfit{width:92px;height:92px;border:0;cursor:pointer;position:relative;padding:6px 6px 14px;font:inherit;}
+.rw-pic-outfit .rw-outfit{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));}
+.rw-pic-outfit .rw-try{position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);white-space:nowrap;font-size:10.5px;font-weight:800;letter-spacing:.02em;background:var(--gold);color:var(--navy);border-radius:999px;padding:2px 8px;box-shadow:0 2px 0 rgba(0,0,0,.18);}
+.rw-pic-outfit:hover{transform:translateY(-2px);}
+.rw-pic-outfit.trying{outline:3px solid var(--gold);outline-offset:2px;}
+.rw-outfit-item.trying{box-shadow:0 0 0 2px var(--gold),0 6px 18px rgba(0,0,0,.12);}
+.ow-bar{position:sticky;top:8px;z-index:5;display:flex;gap:14px;align-items:center;background:var(--cream,#fffdf6);border:2px solid var(--gold);border-radius:22px;padding:12px;margin:0 0 14px;box-shadow:0 8px 24px rgba(0,0,0,.18);}
+.ow-big{width:150px;height:150px;border-radius:22%;flex:none;}
+.ow-side{display:flex;flex-direction:column;gap:8px;min-width:0;}
+.ow-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ow-leos{display:flex;gap:6px;flex-wrap:wrap;}
+.ow-leo{display:flex;flex-direction:column;align-items:center;gap:2px;border:2px solid transparent;background:var(--gold-pale,#fbf3d9);border-radius:14px;padding:4px 6px;cursor:pointer;font:inherit;color:var(--navy);}
+.ow-leo img{width:46px;height:46px;}
+.ow-leo span{font-size:11px;font-weight:700;white-space:nowrap;}
+.ow-leo.on{border-color:var(--gold);background:var(--navy);color:#fff;}
+.ow-bar .rw-small{margin:0;}
+.ow-off{align-self:flex-start;}
+@media (max-width:600px){.ow-row>b{display:none;}.ow-leos{flex-wrap:nowrap;gap:4px;}.ow-leo span{display:none!important;}.ow-leo{padding:2px;border-radius:50%;}.ow-bar{top:4px;gap:8px;padding:8px;border-radius:18px;}.ow-big{width:84px;height:84px;}.ow-bar .rw-small{display:none;}.ow-off{padding:4px 10px;font-size:12px;}.rw-pic-outfit{width:70px;height:70px;}.ow-leo img{width:34px;height:34px;}.ow-leo{min-width:0;flex:0 1 auto;}.ow-side{flex:1;}.ow-leo{padding:3px 4px;}.ow-leo span{font-size:10px;}}
