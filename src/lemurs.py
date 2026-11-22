@@ -6,7 +6,7 @@
   p  tail pivot, e  eye boxes [x, y, rx, ry] for blinking — all in % of the square tile"""
 import os
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 HERE=os.path.dirname(os.path.abspath(__file__)); D=os.path.join(HERE,'brand','lemurs')
 BG=(0,11,59)
 # eyes = (x, y, half-width, half-height) of each iris, measured once.
@@ -19,12 +19,12 @@ POSES={
  'waving-tall':  dict(side=1,line=[(250,302),(470,302),(520,306),(560,312),(620,318),(650,318)],rows=(250,645),pivot=(315,600),frame=0.86,eyes=[(136,118,15,12),(208,120,20,16)]),
  'hand-on-hip':  dict(side=1,line=[(360,205),(600,203),(640,200)],rows=(360,645),pivot=(205,605),frame=0.86,eyes=[(72,100,13,8),(135,112,16,9)]),
 }
-def _tailmask(al,cfg):
+def _tailmask(al,cfg,grow=0):
     H,W=al.shape; ys=np.arange(H)
     ly=[p[0] for p in cfg['line']]; lx=[p[1] for p in cfg['line']]
-    edge=np.interp(ys,ly,lx)[:,None]; xx=np.arange(W)[None,:]
+    edge=np.interp(ys,ly,lx)[:,None]-cfg['side']*grow; xx=np.arange(W)[None,:]
     m=(xx>edge) if cfg['side']>0 else (xx<edge)
-    r0,r1=cfg['rows']; m&=((ys>=r0)&(ys<=r1))[:,None]
+    r0,r1=cfg['rows']; m&=((ys>=r0-grow)&(ys<=r1+grow))[:,None]
     return m.astype(np.float32)
 def make(pose,size=512):
     cut=Image.open(os.path.join(D,pose+'.png')).convert('RGBA'); cfg=POSES[pose]
@@ -32,9 +32,12 @@ def make(pose,size=512):
     oy=S-h-int(S*0.035) if S>=h*1.05 else int(S*0.045)   # tall Leos are framed from the cap down to the shins
     def place(arr):
         c=Image.new('RGBA',(S,S),(0,0,0,0)); c.paste(Image.fromarray(arr.astype(np.uint8),'RGBA'),(ox,oy)); return c
-    a=np.asarray(cut).astype(np.float32); tm=_tailmask(a[...,3],cfg)
+    a=np.asarray(cut).astype(np.float32)
+    # body: cut edge feathered over a few pixels; tail layer reaches 16px under the body, so the
+    # body's soft edge always sits on real fur and no seam or gap shows while the tail sways
+    tm=np.asarray(Image.fromarray((_tailmask(a[...,3],cfg)*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.5))).astype(np.float32)/255.
     body=a.copy(); body[...,3]*=1-tm
-    tail=a.copy(); tail[...,3]*=tm
+    tail=a.copy(); tail[...,3]*=_tailmask(a[...,3],cfg,grow=16)
     navy=Image.new('RGBA',(S,S),BG+(255,))
     def on_navy(layer): c=navy.copy(); c.alpha_composite(layer); return c
     full,bodyL,tailL=place(a),place(body),place(tail)
