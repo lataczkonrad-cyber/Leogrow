@@ -33,12 +33,12 @@ function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leo
         <small>${ci<st.length-1?T2('Keep learning and Leo grows up!','Ucz się dalej, a Leo dorośnie!'):T2('Leo is all grown up!','Leo jest już dorosły!')}</small></div></div>`;}
     else card=`<div class="sp-card sp-leo" onclick="nav()"><img class="sp-leo-big" src="${LEO_AGES.adult.w}" alt="" draggable="false"><div><small class="sp-tag">${T2('MEET LEO','POZNAJ LEO')}</small><b>${T2('Leo grows with you','Leo rośnie z Tobą')}</b>
         <div class="sp-leo-steps">${['baby','little','kid','adult','senior'].map(k=>`<img src="${LEO_AGES[k].h}" class="next" alt="">`).join('')}</div></div></div>`;
-    /* shop, premium and review become one-line links so the whole column fits on the screen */
-    h=h.replace(/<div class="sp-card"><div class="sp-head"><b>🛍️[\s\S]*?<\/button><\/div>/,`<a href="#" class="sp-card sp-mini" onclick="nav('shop');return false;"><b>🛍️ ${T2('Shop','Sklep')}</b><span>🪙 ${coins()} ›</span></a>`)
+    /* the right column keeps only Your Leo, Up next, Daily goal and Premium (user asked 2026-11-22) */
+    h=h.replace(/<div class="sp-card"><div class="sp-head"><b>🛍️[\s\S]*?<\/button><\/div>/,'')
      .replace(/<div class="sp-card sp-prem">[\s\S]*?<\/button><\/div>/,`<a href="#" class="sp-card sp-mini sp-prem" onclick="openPremium();return false;"><b>⭐ Premium</b><span>${T2('Learn without limits','Ucz się bez limitów')} ›</span></a>`)
-     .replace(/<div class="sp-card"><div class="sp-head"><b>🔁[\s\S]*?<\/button><\/div>/,m=>{const k=(m.match(/openReview\('(\w+)'\)/)||[])[1];const c=(m.match(/sp-coins">(\d+)/)||[])[1];return `<a href="#" class="sp-card sp-mini" onclick="openReview('${k}');return false;"><b>🔁 ${T2('Review','Powtórka')}</b><span>${c} ›</span></a>`;});
+     .replace(/<div class="sp-card"><div class="sp-head"><b>🔁[\s\S]*?<\/button><\/div>/,'')
+     .replace(/<div class="sp-card ch-sp">[\s\S]*?<\/button><\/div>/,'');
     h=h.replace('<div class="sp-card"><div class="sp-head"><b>🎯','<div class="sp-card sp-goal"><div class="sp-head"><b>🎯');
-    h=h.replace('<div class="sp-card ch-sp">',`<div class="sp-card ch-sp" onclick="if(!event.target.closest('button'))nav('chests')">`);
     const i=h.indexOf('</div>',h.indexOf('<div class="sp-stats">'));
     return i<0?card+h:h.slice(0,i+6)+card+h.slice(i+6);};
 })();
