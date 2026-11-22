@@ -5,11 +5,6 @@ function leoHeadImg(track,level,cls){const s=leoStage(track,level);return s&&s.r
 /* the different Leos a track goes through, in order (one per picture) */
 function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leoStage(t.id,l);if(s&&!seen[s.rig.w]){seen[s.rig.w]=1;out.push(Object.assign({level:l},s));}});return out;}
 (function(){
-  /* home: all five Leos side by side at the top */
-  const _home=homeHtml; homeHtml=function(){let h=_home();
-    const i=h.indexOf('<div class="hero-leo">'),j=h.indexOf('<div class="placement-card"');
-    if(i>0&&j>i) h=h.slice(0,i)+`<div class="leo-lineup"><img src="${LEO_LINEUP}" alt="Leo grows from a baby to a grown-up" draggable="false"><p>${T2('Leo grows with you: from Baby Leo at A0 to Professor Leo at C1','Leo rośnie razem z Tobą: od Małego Leo (A0) do Profesora Leo (C1)')}</p></div></div>`+h.slice(j);
-    return h.replace('<div class="panel course-hero">','<div class="panel course-hero home-hero">');};
   /* a track: its Leos in the hero, and each level card shows the Leo you get there */
   const _track=trackHtml; trackHtml=function(t){let h=_track(t);
     const trio=leoTrackStages(t).map(s=>`<button class="lt-leo" onclick="nav('${t.id}','${s.level}')"><img src="${s.rig.w}" alt="" draggable="false"><span>${s.name}</span><small>${s.level}</small></button>`).join('');

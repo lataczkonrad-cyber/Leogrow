@@ -57,3 +57,31 @@ body.onboarding .lemur-corner{display:none;}
 @media (max-width:380px){.ob-cards{grid-template-columns:1fr;}}
 .tester-bar .ob-replay{margin-left:8px;}
 .ob-tester{font-size:12px;font-weight:800;color:#9a6c0c;margin:0 0 6px;}
+/* hello: the five Leos on a navy stage */
+.ob-crew{position:relative;overflow:hidden;margin:2px -6px 16px;padding:22px 10px 12px;border-radius:24px;border:3px solid var(--gold);
+  background:radial-gradient(120% 90% at 50% 100%,#24308a 0%,#0b1556 45%,#000b3b 100%);box-shadow:0 6px 0 #b5891f,inset 0 -30px 50px rgba(236,184,58,.12);}
+.ob-crew::after{content:"";position:absolute;left:6%;right:6%;bottom:46px;height:22px;border-radius:50%;background:radial-gradient(closest-side,rgba(236,184,58,.45),rgba(236,184,58,0));pointer-events:none;}
+.ob-crew-row{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;gap:0;}
+.ob-mate{margin:0;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;}
+.ob-mate img{display:block;width:100%;height:auto;transform-origin:50% 100%;animation:obBob 3.6s ease-in-out infinite;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));}
+.ob-mate.m0{flex-grow:.62}.ob-mate.m1{flex-grow:.74}.ob-mate.m2{flex-grow:.88}.ob-mate.m3{flex-grow:1}.ob-mate.m4{flex-grow:1.06}
+.ob-mate.m1 img{animation-delay:-.7s}.ob-mate.m2 img{animation-delay:-1.4s}.ob-mate.m3 img{animation-delay:-2.1s}.ob-mate.m4 img{animation-delay:-2.8s}
+.ob-mate figcaption{margin-top:4px;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.1;}
+.ob-mate figcaption b{font-family:'Baloo 2',sans-serif;font-size:12px;color:var(--navy);background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:999px;padding:1px 9px;box-shadow:0 2px 0 #b5891f;}
+.ob-mate figcaption span{font-size:11px;font-weight:700;color:#e9e3cf;white-space:nowrap;margin-top:3px;}
+@keyframes obBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ob-spark{position:absolute;z-index:0;font-style:normal;color:var(--gold-light);opacity:.75;font-size:14px;animation:obTw 2.8s ease-in-out infinite;}
+.ob-spark.s1{left:7%;top:14%}.ob-spark.s2{left:30%;top:7%;font-size:10px;animation-delay:-1s}.ob-spark.s3{right:26%;top:12%;font-size:11px;animation-delay:-1.8s}.ob-spark.s4{right:6%;top:30%;animation-delay:-.5s}
+@keyframes obTw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.ob-mate img,.ob-spark{animation:none}}
+.ob-hello .zone-tag{margin-top:2px;}
+.ob-hello .ob-top{min-height:0;margin-bottom:6px;}
+/* start: Teens & Adults / Kids switch */
+.ob-course{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin:12px auto 2px;max-width:440px;border-radius:18px;background:#eceaf3;border:2px solid #dcdde9;}
+.ob-course button{font:inherit;font-weight:800;font-size:15px;color:var(--navy);cursor:pointer;border:0;border-radius:14px;padding:8px 6px;background:transparent;display:flex;flex-direction:column;align-items:center;line-height:1.15;}
+.ob-course button small{font-size:11px;font-weight:700;color:#6b6b85;margin-top:2px;}
+.ob-course button.on{background:linear-gradient(135deg,var(--gold),var(--gold-light));box-shadow:0 3px 0 #b5891f;}
+.ob-course button.on small{color:#5a3f05;}
+@media (min-width:900px){.ob-wrap{max-width:720px}.ob-crew{padding:28px 26px 14px}.ob-mate figcaption b{font-size:14px}.ob-mate figcaption span{font-size:13px}}
+@media (max-width:560px){.ob-crew{margin:0 -4px 14px;padding:16px 4px 10px}.ob-mate figcaption span{font-size:9.5px}.ob-mate figcaption b{font-size:11px;padding:0 7px}.ob-crew::after{bottom:38px}}
+.ob-row>div{text-align:left;align-items:flex-start;}
