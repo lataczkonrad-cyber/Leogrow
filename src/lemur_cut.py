@@ -35,8 +35,8 @@ def icons():
     cut=Image.open(os.path.join(D,'waving-tall.png')).convert('RGBA'); w,h=cut.size
     navy=tuple(int(v) for v in BG)+(255,)
     # badge: Leo's head in a gold ring
-    S=512; head=cut.crop((75,-12,355,268)).resize((S-60,S-60),Image.LANCZOS)
-    inner=Image.new('RGBA',(S,S),(0,0,0,0)); disc=Image.new('RGBA',(S,S),navy); disc.alpha_composite(head,(30,48))
+    S=512; head=cut.crop((55,-22,345,268)).resize((S-60,S-60),Image.LANCZOS)   # square centred on the head (ears span x 88-313)
+    inner=Image.new('RGBA',(S,S),(0,0,0,0)); disc=Image.new('RGBA',(S,S),navy); disc.alpha_composite(head,(30,40))
     m=Image.new('L',(S,S),0); ImageDraw.Draw(m).ellipse([22,22,S-23,S-23],fill=255); inner.paste(disc,(0,0),m)
     ring=Image.new('RGBA',(S,S),(0,0,0,0)); ImageDraw.Draw(ring).ellipse([4,4,S-5,S-5],outline=(236,184,58,255),width=20)
     inner.alpha_composite(ring); inner.save(os.path.join(HERE,'brand','badge-mini.png'),optimize=True)
