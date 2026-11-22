@@ -41,3 +41,35 @@
 .sp-leo-steps img{width:30px;height:30px;border-radius:50%;}
 .sp-leo-steps img.now{box-shadow:0 0 0 2px var(--gold);transform:scale(1.15);}
 .sp-leo-steps img.next{filter:grayscale(.7) brightness(.75);opacity:.75;}
+/* right column: compact so it fits the screen height without scrolling */
+@media(min-width:1100px){
+  .side-panels{top:88px;}
+  .side-panels .sp-card{padding:10px 12px;}
+  .side-panels .sp-btn{margin-top:8px;padding:8px 10px;font-size:14px;}
+  .side-panels .sp-row{margin-top:6px;}
+  .side-panels .sp-emo{width:44px;height:44px;font-size:24px;border-radius:13px;}
+  .side-panels .sp-head b{font-size:16.5px;}
+  .side-panels .sp-week{margin-top:6px;}
+  .sp-leo-big{width:76px!important;height:76px!important;}
+  .sp-leo b{font-size:18px;}
+  .sp-mini{display:flex;align-items:center;justify-content:space-between;gap:8px;text-decoration:none;color:var(--navy);padding:9px 12px!important;}
+  .sp-mini b{font-family:'Baloo 2',sans-serif;font-size:16px;}
+  .sp-mini span{font-weight:800;font-size:13px;color:#6b6b85;white-space:nowrap;}
+  .sp-mini.sp-prem span{color:var(--gold-light);}.sp-mini.sp-prem b{color:#fff;}
+  .sp-mini:hover{transform:translateY(-1px);}
+  .side-panels .ch-mini{margin-top:4px;}
+  /* still too tall for this screen: hide details step by step */
+  .side-panels.fit1 .sp-week{display:none;}
+  .side-panels.fit1 .sp-leo>div>small:last-child{display:none;}
+  .side-panels.fit2 .ch-sp .ch-mini{display:none;}
+  .side-panels.fit2 .sp-row small{display:none;}
+  .side-panels.fit3 .sp-leo-steps{display:none;}
+  .side-panels.fit3 .ch-sp .sp-btn.secondary{display:none;}
+  .side-panels.fit3 .ch-sp{cursor:pointer;}
+  .side-panels.fit3 .sp-stats{padding:4px 8px;}
+  .side-panels.fit4 .sp-leo-big{width:56px!important;height:56px!important;}
+  .side-panels.fit4 .sp-next .sp-btn{padding:6px 10px;margin-top:6px;}
+  .side-panels.fit4 .sp-emo{width:36px;height:36px;font-size:20px;}
+  .side-panels.fit3 .sp-card .sp-row .goal-ring,.side-panels.fit3 .sp-card svg{max-width:40px;max-height:40px;}
+}
+@media(min-width:1100px){.side-panels .sp-mini>b{font-size:16px!important;font-weight:800;}}
