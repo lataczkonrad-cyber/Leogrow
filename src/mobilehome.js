@@ -1,4 +1,4 @@
-/* ---------- calm phone home (below the PC layout, < 1024px) ----------
+/* ---------- calm home (phone, tablet and PC) ----------
    The home screen on phones keeps only what matters for today:
    1) your Leo + level + the big "next lesson" button,
    2) one slim row: goal ring, streak, coins, energy,
@@ -6,7 +6,7 @@
    4) the level path, with only the current unit open and short lesson cards.
    The full-size cards that used to stack on top (Premium banner, wallet, chests, league,
    daily card, review card) are hidden on this screen; their pages are one tap away.
-   The PC layout (>= 1024px) is not touched: nothing here runs there. */
+   Since 2026-11-23 tablets and PC (>= 1024px) get the same calm home; the left menu box stays. */
 const MH_MQ=window.matchMedia('(max-width:1023px)');
 const MH_OPEN=new Set();   // units the learner opened by hand (kept across re-renders)
 function _mhSafe(f,d){try{return f();}catch(e){return d;}}
@@ -38,7 +38,7 @@ function mhToggleUnit(head){const b=head.closest('.unit-block');if(!b)return;con
   if(open)setTimeout(()=>b.scrollIntoView({behavior:'smooth',block:'start'}),60);}
 function mhDecorate(){
   const main=document.querySelector('#courseView .course-main'); document.body.classList.remove('mh-on');
-  if(!main||!MH_MQ.matches||VIEW.track||(typeof PT!=='undefined'&&PT))return;
+  if(!main||VIEW.track||(typeof PT!=='undefined'&&PT))return;
   const hero=main.querySelector('.my-hero'); if(!hero)return;
   main.classList.add('mh'); document.body.classList.add('mh-on');
   // 1) hero first, with a "free plan" line under the button
