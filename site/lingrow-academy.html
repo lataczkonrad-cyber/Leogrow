@@ -1977,6 +1977,22 @@ body.lg-open{overflow:hidden}
   body:not(.in-lesson) .app-back{padding:6px 10px;}
 }
 
+/* tablet + PC home: no duplicates (user asked 2026-11-23).
+   The left menu already has Chests, Friends, Shop and Review, so the round shortcut row is phone-only.
+   The level card already shows your Leo and the next lesson, so the right column drops Your Leo and Up next.
+   Coins and energy live in the right column's stats row; the menu box shows your name instead. */
+.sn-who{display:none;}
+@media (min-width:1024px){
+  .course-main.mh .mh-dock{display:none;}
+  .course-main.mh .mh-stats{margin-bottom:22px;}
+  body.mh-on .side-panels .sp-leo,body.mh-on .side-panels .sp-next{display:none!important;}
+}
+@media (min-width:1440px){.sn-profile .sn-money{display:none;}.sn-profile .sn-who{display:block;}}
+@media (min-width:1100px) and (max-width:1439px) and (hover:hover) and (pointer:fine){.sn-profile .sn-money{display:none;}.sn-profile .sn-who{display:block;}}
+@media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){body.mh-on .sn-profile .sn-money{display:none;}body.mh-on .sn-profile .sn-who{display:block;}}
+.sn-who b{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sn-who small{display:block;}
+
 body:not(.in-lesson) .lemur-corner{display:none;}
 
 .install-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:20px;padding:12px 16px;color:var(--navy);box-shadow:0 5px 0 #b5891f;}
@@ -12561,7 +12577,7 @@ function shopHtml(){
     _rc();const m=document.querySelector('#courseView .course-main');if(m)m.insertAdjacentHTML('afterbegin',mobWallet());renderWallet();};
   const _sn=sideNav;sideNav=function(){let h=_sn();
     const shop=`<a href="#" class="sn-item ${VIEW.track==='shop'?'on':''}" onclick="nav('shop');return false;"><span>🛍️</span><b>${T2('Shop','Sklep')}</b><small>🪙 ${coins()}</small></a>`;
-    h=h.replace('<div class="sn-title">Menu</div>',`<div class="sn-profile">${avatarHtml(40)}<div><b>🪙 ${coins()}</b><small>⚡ ${energyFree()?'∞':energyNow()+'/'+EN_MAX}</small></div></div><div class="sn-title">Menu</div>`);
+    h=h.replace('<div class="sn-title">Menu</div>',`<div class="sn-profile">${avatarHtml(40)}<div class="sn-money"><b>🪙 ${coins()}</b><small>⚡ ${energyFree()?'∞':energyNow()+'/'+EN_MAX}</small></div><div class="sn-who"><b>${typeof frMyName==='function'?frMyName():T2('Learner','Uczeń')}</b><small>${T2('My profile','Mój profil')}</small></div></div><div class="sn-title">Menu</div>`);
     const i=h.indexOf('My progress</b>');if(i>=0){const e=h.indexOf('</a>',i)+4;h=h.slice(0,e)+shop+h.slice(e);}else h=h.replace('</aside>',shop+'</aside>');
     return h;};
   if(typeof myHomeHtml==='function'){const _mh=myHomeHtml;myHomeHtml=function(p){return _mh(p).replace('📊 My progress</button></div>',`📊 My progress</button><button class="btn secondary" onclick="nav('shop')">🛍️ ${T2('Shop','Sklep')} · 🪙 ${coins()}</button></div>`);};}
