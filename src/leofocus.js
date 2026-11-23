@@ -40,7 +40,7 @@ function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leo
 
 /* keep the right column inside the screen: if it is still too tall, drop the less important details */
 function fitSidePanels(){const sp=document.querySelector('.side-panels');if(!sp||getComputedStyle(sp).display==='none')return;
-  sp.classList.remove('fit1','fit2','fit3','fit4');const room=()=>window.innerHeight-sp.getBoundingClientRect().top-12;
-  for(const c of ['fit1','fit2','fit3','fit4']){if(sp.scrollHeight<=room())break;sp.classList.add(c);}}
-(function(){const _rc=renderCourse;renderCourse=function(){const r=_rc.apply(this,arguments);requestAnimationFrame(fitSidePanels);return r;};
+  sp.classList.remove('fit1','fit2','fit3','fit4','fit5','fit6');const room=()=>window.innerHeight-sp.getBoundingClientRect().top-12;
+  for(const c of ['fit1','fit2','fit3','fit4','fit5','fit6']){if(sp.scrollHeight<=room())break;sp.classList.add(c);}}
+(function(){const _rc=renderCourse;renderCourse=function(){const r=_rc.apply(this,arguments);requestAnimationFrame(fitSidePanels);setTimeout(fitSidePanels,700);return r;};
   window.addEventListener('resize',()=>requestAnimationFrame(fitSidePanels));})();
