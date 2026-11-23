@@ -135,3 +135,19 @@
   body.can-back:not(.in-lesson) .account-btn{flex:none;width:36px;max-width:36px;height:36px;padding:0 0 0 10px;border-radius:50%;text-align:left;text-overflow:clip;color:transparent;font-size:13px;}
   body:not(.in-lesson) .app-back{padding:6px 10px;}
 }
+
+/* tablet + PC home: no duplicates (user asked 2026-11-23).
+   The left menu already has Chests, Friends, Shop and Review, so the round shortcut row is phone-only.
+   The level card already shows your Leo and the next lesson, so the right column drops Your Leo and Up next.
+   Coins and energy live in the right column's stats row; the menu box shows your name instead. */
+.sn-who{display:none;}
+@media (min-width:1024px){
+  .course-main.mh .mh-dock{display:none;}
+  .course-main.mh .mh-stats{margin-bottom:22px;}
+  body.mh-on .side-panels .sp-leo,body.mh-on .side-panels .sp-next{display:none!important;}
+}
+@media (min-width:1440px){.sn-profile .sn-money{display:none;}.sn-profile .sn-who{display:block;}}
+@media (min-width:1100px) and (max-width:1439px) and (hover:hover) and (pointer:fine){.sn-profile .sn-money{display:none;}.sn-profile .sn-who{display:block;}}
+@media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){body.mh-on .sn-profile .sn-money{display:none;}body.mh-on .sn-profile .sn-who{display:block;}}
+.sn-who b{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sn-who small{display:block;}

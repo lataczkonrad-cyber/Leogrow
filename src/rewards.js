@@ -342,7 +342,7 @@ function shopHtml(){
     _rc();const m=document.querySelector('#courseView .course-main');if(m)m.insertAdjacentHTML('afterbegin',mobWallet());renderWallet();};
   const _sn=sideNav;sideNav=function(){let h=_sn();
     const shop=`<a href="#" class="sn-item ${VIEW.track==='shop'?'on':''}" onclick="nav('shop');return false;"><span>🛍️</span><b>${T2('Shop','Sklep')}</b><small>🪙 ${coins()}</small></a>`;
-    h=h.replace('<div class="sn-title">Menu</div>',`<div class="sn-profile">${avatarHtml(40)}<div><b>🪙 ${coins()}</b><small>⚡ ${energyFree()?'∞':energyNow()+'/'+EN_MAX}</small></div></div><div class="sn-title">Menu</div>`);
+    h=h.replace('<div class="sn-title">Menu</div>',`<div class="sn-profile">${avatarHtml(40)}<div class="sn-money"><b>🪙 ${coins()}</b><small>⚡ ${energyFree()?'∞':energyNow()+'/'+EN_MAX}</small></div><div class="sn-who"><b>${typeof frMyName==='function'?frMyName():T2('Learner','Uczeń')}</b><small>${T2('My profile','Mój profil')}</small></div></div><div class="sn-title">Menu</div>`);
     const i=h.indexOf('My progress</b>');if(i>=0){const e=h.indexOf('</a>',i)+4;h=h.slice(0,e)+shop+h.slice(e);}else h=h.replace('</aside>',shop+'</aside>');
     return h;};
   if(typeof myHomeHtml==='function'){const _mh=myHomeHtml;myHomeHtml=function(p){return _mh(p).replace('📊 My progress</button></div>',`📊 My progress</button><button class="btn secondary" onclick="nav('shop')">🛍️ ${T2('Shop','Sklep')} · 🪙 ${coins()}</button></div>`);};}
