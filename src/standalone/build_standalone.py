@@ -1,6 +1,6 @@
-"""Build a standalone one-lesson Leogrow file from the built site.  Run ./build.sh (it does all steps).
+"""Build a standalone one-lesson Leogrow file from the built site.  Run ./build.sh <name> (it does all steps).
 Takes site/lingrow-academy.html (the whole engine: exercises, Leo, sounds, voice, emoji pictures),
-adds the lesson from holiday_lesson.js, opens it straight away and lets the learner jump to any step.
+adds the lesson from <name>_lesson.js (it defines STANDALONE_LESSON and STANDALONE_UNIT), opens it straight away and lets the learner jump to any step.
 Voice clips and emoji pictures the lesson needs are put inside the file, so it works on its own."""
 import os, re, json, base64, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -8,7 +8,8 @@ SITE = os.path.join(HERE, '..', '..', 'site')
 OUT = os.environ.get('OUT', os.path.join(HERE, 'leogrow-holiday-lesson.html'))
 LIVE = 'https://leogrow.netlify.app/'
 html = open(os.path.join(SITE, 'lingrow-academy.html')).read()
-lesson = open(os.path.join(HERE, 'holiday_lesson.js')).read()
+NAME = os.environ.get('LESSON', 'holiday')
+lesson = open(os.path.join(HERE, NAME + '_lesson.js')).read()
 
 def b64(path, mime):
     return 'data:%s;base64,%s' % (mime, base64.b64encode(open(path, 'rb').read()).decode())
@@ -40,7 +41,8 @@ first_script = html.index('<script>', html.index('<body>')) + len('<script>')
 html = html[:first_script] + '\n' + data_js + html[first_script:]
 
 # ---- title, and no links to files that only exist on the website
-html = re.sub(r'<title>[^<]*</title>', '<title>Leogrow — Going on Holiday (A2)</title>', html, count=1)
+_u = re.search(r'STANDALONE_UNIT=\{.*?level:"(\w+)".*?title:"([^"]+)"', lesson)
+html = re.sub(r'<title>[^<]*</title>', '<title>Leogrow — %s (%s)</title>' % (_u.group(2), _u.group(1)), html, count=1)
 html = re.sub(r'<link rel="manifest"[^>]*>', '', html)
 html = re.sub(r'<link rel="apple-touch-icon"[^>]*>', '', html)
 html = html.replace('href="lingrow-icon-192.png"', 'href="%s"' % b64(os.path.join(SITE, 'lingrow-icon-192.png'), 'image/png'))
@@ -50,14 +52,14 @@ html = html.replace('<script src="lingrow-config.js"></script>', '')  # no accou
 boot = lesson + r'''
 /* ---------- standalone mode: one lesson, every step open ---------- */
 (function(){
-  const unit={id:"holiday",level:"A2",track:"adults",topic:"Going on Holiday",title:"Going on Holiday",emoji:"🧳",badge:"Holiday Explorer",sub:"",lessons:[HOL_LESSON],n:3};
-  HOL_LESSON.unit=unit; ALL_LESSONS.push(HOL_LESSON);
+  const L=STANDALONE_LESSON, unit=Object.assign({lessons:[L]},STANDALONE_UNIT);
+  L.unit=unit; ALL_LESSONS.push(L);
   window.STANDALONE=true;
   lessonUnlocked=()=>true;
   // the automatic pronunciation check only runs on the website, so here: listen, say it out loud, tap Next
   SP.off=true;
   // "Course" means "start this lesson again" here
-  showCourse=function(){ C.active=null; saveProgress(true); openLesson(HOL_LESSON); window.scrollTo({top:0}); };
+  showCourse=function(){ C.active=null; saveProgress(true); openLesson(L); window.scrollTo({top:0}); };
   const _fin=rLessonFinish;
   rLessonFinish=function(){ return _fin().replace('🗺️ Back to course','🔁 Start again'); };
   const _welcome=rLessonWelcome;
@@ -69,7 +71,7 @@ boot = lesson + r'''
   .trail-dot{cursor:pointer}`;
   document.head.appendChild(st);
   try{document.body.classList.remove('onboarding');}catch(e){}
-  openLesson(HOL_LESSON);
+  openLesson(L);
 })();
 '''
 end = html.rindex('</script>')

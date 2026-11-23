@@ -158,3 +158,5 @@ const HOL_LESSON={id:"holiday-a2",title:"Going on Holiday",emoji:"🧳",num:"3",
   {type:"wordle",label:"Wordle",words:WL([["beach","🏖️"],["tired","😩"],["lost","❓🗺️"],["camping","🏕️"],["pillow","🛏️"]])},
   {type:"wheel",label:"Fortune Wheel",items:HOL_A},
  ]};
+const STANDALONE_LESSON=HOL_LESSON;
+const STANDALONE_UNIT={id:"holiday",level:"A2",track:"adults",topic:"Going on Holiday",title:"Going on Holiday",emoji:"🧳",badge:"Holiday Explorer",sub:"",n:3};
