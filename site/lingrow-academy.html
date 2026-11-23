@@ -1402,6 +1402,14 @@ body.adult .ch-bob,body.adult .ch-wiggle{animation-duration:4s;}
 }
 body.adult .fr-crown{animation-duration:4s;}
 @media (prefers-reduced-motion: reduce){.fr-crown{animation:none!important;}}
+/* right column: Friends league is navy like Your Leo, Up next and Daily goal (2026-11-23) */
+.side-panels .sp-card.fr-sp{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
+.fr-sp .sp-head b{color:#fff;}
+.fr-sp .sp-coins{color:var(--gold-light);}
+.fr-sp p{color:#d9dcf5!important;}
+.fr-sp .fr-mini.me{background:rgba(236,184,58,.22);}
+.fr-sp .fr-mini>span,.fr-sp .fr-mini b{color:#fff;}
+.fr-sp .fr-mini em{color:var(--gold-light);}
 /* ===== Leo is the star: lemurs in menus, panels and level pages ===== */
 .leo-head{display:block;border-radius:50%;box-shadow:0 0 0 2px var(--gold);background:#000b3b;}
 /* home: the five Leos */
@@ -1489,28 +1497,42 @@ body.adult .fr-crown{animation-duration:4s;}
 .sp-goal .wk-day i:not(.on):not(.done){background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);}
 /* right column: only Your Leo, Up next, Daily goal, Premium, so they can be bigger */
 @media(min-width:1100px){
-  .side-panels{gap:14px!important;}
-  .side-panels .sp-card{padding:16px 18px!important;}
-  .side-panels .sp-stats{padding:10px 12px;}
-  .side-panels .sp-stat b{font-size:19px;}.side-panels .sp-stat span{font-size:22px;}
-  .side-panels .sp-leo-big{width:118px!important;height:118px!important;}
-  .side-panels .sp-leo b{font-size:23px;}
-  .side-panels .sp-leo-steps img{width:36px;height:36px;}
+  .side-panels{gap:10px!important;}
+  .side-panels .sp-card{padding:12px 15px!important;}
+  .side-panels .sp-stats{padding:7px 10px;}
+  .side-panels .sp-stat b{font-size:17px;}.side-panels .sp-stat span{font-size:19px;}
+  .side-panels .sp-leo-big{width:96px!important;height:96px!important;}
+  .side-panels .sp-leo b{font-size:20px;}
+  .side-panels .sp-leo-steps img{width:30px;height:30px;}
   .side-panels .sp-tag{font-size:12px;}
-  .side-panels .sp-emo{width:58px;height:58px;font-size:32px;border-radius:16px;}
-  .side-panels .sp-row b{font-size:19px;}
+  .side-panels .sp-emo{width:48px;height:48px;font-size:26px;border-radius:14px;}
+  .side-panels .sp-row b{font-size:17px;}
   .side-panels .sp-row small{font-size:13.5px;}
-  .side-panels .sp-head b{font-size:19px;}
-  .side-panels .sp-btn{padding:12px 14px;font-size:16px;margin-top:12px;}
-  .side-panels .sp-week{margin-top:12px;}
-  .side-panels .sp-mini{padding:16px 18px!important;}
-  .side-panels .sp-mini>b{font-size:19px!important;}.side-panels .sp-mini span{font-size:15px;}
+  .side-panels .sp-head b{font-size:17px;}
+  .side-panels .sp-btn{padding:9px 12px;font-size:15px;margin-top:9px;}
+  .side-panels .sp-week{margin-top:8px;}
+  .side-panels .sp-mini{padding:11px 15px!important;}
+  .side-panels .sp-mini>b{font-size:17px!important;}.side-panels .sp-mini span{font-size:14px;}
 }
 /* Up next: same navy as Daily goal and Premium (user asked 2026-11-22) */
 .side-panels .sp-card.sp-next{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
 .sp-next .sp-tag{color:var(--gold-light);}
 .sp-next .sp-row b{color:#fff;}
 .sp-next .sp-row small{color:#d9dcf5;}
+
+/* right column: last steps so every box fits the screen (user asked 2026-11-23) */
+@media(min-width:1024px){
+  .side-panels.fit5 .fr-sp p{display:none;}
+  .side-panels.fit5 .fr-sp .sp-btn{padding:6px 10px!important;margin-top:6px!important;font-size:14px!important;}
+  .side-panels.fit5 .sp-card{padding:9px 13px!important;}
+  .side-panels.fit5{gap:8px!important;}
+  .side-panels.fit6 .fr-sp .sp-btn{display:none;}
+  .side-panels.fit6 .fr-mini{margin-top:3px;}
+  .side-panels.fit6 .sp-goal .sp-row{margin-top:4px;}
+  .side-panels.fit6 .sp-leo-big{width:52px!important;height:52px!important;}
+  .side-panels.fit6 .sp-mini{padding:8px 13px!important;}
+}
+.side-panels .fr-sp{cursor:pointer;}
 /* ---------- first-run welcome ---------- */
 .ob-wrap{max-width:620px;margin:6px auto 28px;padding:0 2px;}
 .ob-panel{text-align:center;padding:16px 20px 24px;min-height:0!important;}
@@ -13247,7 +13269,7 @@ function frPanelHtml(){
   else{const rows=frRanking(),me=rows.find(r=>r.me),top=rows.slice(0,3);if(me&&me.rank>3)top.push(me);
     body=top.map(r=>`<div class="fr-mini ${r.me?'me':''}"><span>${r.rank<=3&&r.xp>0?FR_MEDAL[r.rank-1]:r.rank}</span>${frLeoImg(r.leo,'sm')}<b>${_fe(r.name)}</b><em>${r.xp}</em></div>`).join('')
       +`<button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See all','Zobacz wszystko')} →</button>`;}
-  return `<div class="sp-card fr-sp"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
+  return `<div class="sp-card fr-sp" onclick="if(!event.target.closest('button'))nav('friends')"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
 (function(){
   const _rc=renderCourse;renderCourse=function(){
     if(VIEW.track==='friends'){document.body.classList.toggle('adult',!!(PROF()&&PROF().track==='adults'));
@@ -13305,9 +13327,9 @@ function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leo
 
 /* keep the right column inside the screen: if it is still too tall, drop the less important details */
 function fitSidePanels(){const sp=document.querySelector('.side-panels');if(!sp||getComputedStyle(sp).display==='none')return;
-  sp.classList.remove('fit1','fit2','fit3','fit4');const room=()=>window.innerHeight-sp.getBoundingClientRect().top-12;
-  for(const c of ['fit1','fit2','fit3','fit4']){if(sp.scrollHeight<=room())break;sp.classList.add(c);}}
-(function(){const _rc=renderCourse;renderCourse=function(){const r=_rc.apply(this,arguments);requestAnimationFrame(fitSidePanels);return r;};
+  sp.classList.remove('fit1','fit2','fit3','fit4','fit5','fit6');const room=()=>window.innerHeight-sp.getBoundingClientRect().top-12;
+  for(const c of ['fit1','fit2','fit3','fit4','fit5','fit6']){if(sp.scrollHeight<=room())break;sp.classList.add(c);}}
+(function(){const _rc=renderCourse;renderCourse=function(){const r=_rc.apply(this,arguments);requestAnimationFrame(fitSidePanels);setTimeout(fitSidePanels,700);return r;};
   window.addEventListener('resize',()=>requestAnimationFrame(fitSidePanels));})();
 
 /* ---------- First run: a short welcome for new learners ----------

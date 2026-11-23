@@ -154,7 +154,7 @@ function frPanelHtml(){
   else{const rows=frRanking(),me=rows.find(r=>r.me),top=rows.slice(0,3);if(me&&me.rank>3)top.push(me);
     body=top.map(r=>`<div class="fr-mini ${r.me?'me':''}"><span>${r.rank<=3&&r.xp>0?FR_MEDAL[r.rank-1]:r.rank}</span>${frLeoImg(r.leo,'sm')}<b>${_fe(r.name)}</b><em>${r.xp}</em></div>`).join('')
       +`<button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See all','Zobacz wszystko')} →</button>`;}
-  return `<div class="sp-card fr-sp"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
+  return `<div class="sp-card fr-sp" onclick="if(!event.target.closest('button'))nav('friends')"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
 (function(){
   const _rc=renderCourse;renderCourse=function(){
     if(VIEW.track==='friends'){document.body.classList.toggle('adult',!!(PROF()&&PROF().track==='adults'));

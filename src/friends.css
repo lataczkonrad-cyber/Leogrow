@@ -82,3 +82,11 @@
 }
 body.adult .fr-crown{animation-duration:4s;}
 @media (prefers-reduced-motion: reduce){.fr-crown{animation:none!important;}}
+/* right column: Friends league is navy like Your Leo, Up next and Daily goal (2026-11-23) */
+.side-panels .sp-card.fr-sp{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
+.fr-sp .sp-head b{color:#fff;}
+.fr-sp .sp-coins{color:var(--gold-light);}
+.fr-sp p{color:#d9dcf5!important;}
+.fr-sp .fr-mini.me{background:rgba(236,184,58,.22);}
+.fr-sp .fr-mini>span,.fr-sp .fr-mini b{color:#fff;}
+.fr-sp .fr-mini em{color:var(--gold-light);}

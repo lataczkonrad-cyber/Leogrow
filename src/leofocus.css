@@ -85,25 +85,39 @@
 .sp-goal .wk-day i:not(.on):not(.done){background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);}
 /* right column: only Your Leo, Up next, Daily goal, Premium, so they can be bigger */
 @media(min-width:1100px){
-  .side-panels{gap:14px!important;}
-  .side-panels .sp-card{padding:16px 18px!important;}
-  .side-panels .sp-stats{padding:10px 12px;}
-  .side-panels .sp-stat b{font-size:19px;}.side-panels .sp-stat span{font-size:22px;}
-  .side-panels .sp-leo-big{width:118px!important;height:118px!important;}
-  .side-panels .sp-leo b{font-size:23px;}
-  .side-panels .sp-leo-steps img{width:36px;height:36px;}
+  .side-panels{gap:10px!important;}
+  .side-panels .sp-card{padding:12px 15px!important;}
+  .side-panels .sp-stats{padding:7px 10px;}
+  .side-panels .sp-stat b{font-size:17px;}.side-panels .sp-stat span{font-size:19px;}
+  .side-panels .sp-leo-big{width:96px!important;height:96px!important;}
+  .side-panels .sp-leo b{font-size:20px;}
+  .side-panels .sp-leo-steps img{width:30px;height:30px;}
   .side-panels .sp-tag{font-size:12px;}
-  .side-panels .sp-emo{width:58px;height:58px;font-size:32px;border-radius:16px;}
-  .side-panels .sp-row b{font-size:19px;}
+  .side-panels .sp-emo{width:48px;height:48px;font-size:26px;border-radius:14px;}
+  .side-panels .sp-row b{font-size:17px;}
   .side-panels .sp-row small{font-size:13.5px;}
-  .side-panels .sp-head b{font-size:19px;}
-  .side-panels .sp-btn{padding:12px 14px;font-size:16px;margin-top:12px;}
-  .side-panels .sp-week{margin-top:12px;}
-  .side-panels .sp-mini{padding:16px 18px!important;}
-  .side-panels .sp-mini>b{font-size:19px!important;}.side-panels .sp-mini span{font-size:15px;}
+  .side-panels .sp-head b{font-size:17px;}
+  .side-panels .sp-btn{padding:9px 12px;font-size:15px;margin-top:9px;}
+  .side-panels .sp-week{margin-top:8px;}
+  .side-panels .sp-mini{padding:11px 15px!important;}
+  .side-panels .sp-mini>b{font-size:17px!important;}.side-panels .sp-mini span{font-size:14px;}
 }
 /* Up next: same navy as Daily goal and Premium (user asked 2026-11-22) */
 .side-panels .sp-card.sp-next{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-light) 100%);border-color:var(--gold);color:#fff;}
 .sp-next .sp-tag{color:var(--gold-light);}
 .sp-next .sp-row b{color:#fff;}
 .sp-next .sp-row small{color:#d9dcf5;}
+
+/* right column: last steps so every box fits the screen (user asked 2026-11-23) */
+@media(min-width:1024px){
+  .side-panels.fit5 .fr-sp p{display:none;}
+  .side-panels.fit5 .fr-sp .sp-btn{padding:6px 10px!important;margin-top:6px!important;font-size:14px!important;}
+  .side-panels.fit5 .sp-card{padding:9px 13px!important;}
+  .side-panels.fit5{gap:8px!important;}
+  .side-panels.fit6 .fr-sp .sp-btn{display:none;}
+  .side-panels.fit6 .fr-mini{margin-top:3px;}
+  .side-panels.fit6 .sp-goal .sp-row{margin-top:4px;}
+  .side-panels.fit6 .sp-leo-big{width:52px!important;height:52px!important;}
+  .side-panels.fit6 .sp-mini{padding:8px 13px!important;}
+}
+.side-panels .fr-sp{cursor:pointer;}
