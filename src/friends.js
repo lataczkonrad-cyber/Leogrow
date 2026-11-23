@@ -149,11 +149,11 @@ function frMobHtml(){const r=frMyRank();
 function frPanelHtml(){
   if(!frOn())return '';
   let body;
-  if(!USER) body=`<p>${T2('Race your friends on weekly points.','Ścigaj się ze znajomymi na punkty.')}</p><button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See how','Zobacz jak')} →</button>`;
-  else if(!FR.rows||FR.rows.length<2) body=`<p>${T2('Invite a friend and race on weekly points.','Zaproś znajomego i ścigajcie się na punkty.')}</p><button class="btn secondary sp-btn" onclick="nav('friends')">🏆 ${T2('Add friends','Dodaj znajomych')}</button>`;
+  if(!USER) body=`<p>${T2('Race your friends on weekly points.','Ścigaj się ze znajomymi na punkty.')}</p><button class="btn btn-gold sp-btn" onclick="nav('friends')">${T2('See how','Zobacz jak')} →</button>`;
+  else if(!FR.rows||FR.rows.length<2) body=`<p>${T2('Invite a friend and race on weekly points.','Zaproś znajomego i ścigajcie się na punkty.')}</p><button class="btn btn-gold sp-btn" onclick="nav('friends')">🏆 ${T2('Add friends','Dodaj znajomych')}</button>`;
   else{const rows=frRanking(),me=rows.find(r=>r.me),top=rows.slice(0,3);if(me&&me.rank>3)top.push(me);
     body=top.map(r=>`<div class="fr-mini ${r.me?'me':''}"><span>${r.rank<=3&&r.xp>0?FR_MEDAL[r.rank-1]:r.rank}</span>${frLeoImg(r.leo,'sm')}<b>${_fe(r.name)}</b><em>${r.xp}</em></div>`).join('')
-      +`<button class="btn secondary sp-btn" onclick="nav('friends')">${T2('See all','Zobacz wszystko')} →</button>`;}
+      +`<button class="btn btn-gold sp-btn" onclick="nav('friends')">${T2('See all','Zobacz wszystko')} →</button>`;}
   return `<div class="sp-card fr-sp" onclick="if(!event.target.closest('button'))nav('friends')"><div class="sp-head"><b>🏆 ${T2('Friends league','Liga znajomych')}</b><span class="sp-coins">${frMyRank()||'⏳ '+weekDaysLeft()+T2('d','d')}</span></div>${body}</div>`;}
 (function(){
   const _rc=renderCourse;renderCourse=function(){
