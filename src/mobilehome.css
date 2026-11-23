@@ -99,6 +99,28 @@
   .course-main.mh .lesson-card{padding:14px 16px;min-width:0;}
   .course-main.mh .lesson-grid{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px;}
 }
+/* tablets (touch, 1024–1439px): the home also gets the right column (your Leo, Up next, Daily goal) */
+@media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
+  body.mh-on .course-layout{grid-template-columns:206px minmax(0,1fr) 262px;gap:14px;}
+  body.mh-on:not(.in-lesson) .app{padding-left:14px;padding-right:14px;}
+  body.mh-on .side-panels{display:flex;flex-direction:column;gap:10px;position:sticky;top:88px;}
+  body.mh-on .side-panels .sp-card{padding:11px 12px;}
+  body.mh-on .sp-leo-big{width:72px!important;height:72px!important;}
+  body.mh-on .sp-leo{gap:10px;}body.mh-on .sp-leo>div{min-width:0;}
+  body.mh-on .sp-leo b{font-size:18px;}
+  body.mh-on .sp-leo-steps{gap:3px;}body.mh-on .sp-leo-steps img{width:24px;height:24px;}
+  body.mh-on .sp-stat b{font-size:15px;}body.mh-on .sp-stat span{font-size:17px;}
+  body.mh-on .course-layout .sn-item{font-size:14.5px;padding:8px 10px;gap:9px;}
+  body.mh-on .course-layout .sn-item b{white-space:normal;overflow:visible;line-height:1.15;}
+  body.mh-on .course-layout .sn-item small{font-size:11.5px;}
+  body.mh-on .mh-stats{display:none;}
+  body.mh-on .course-main.mh .my-hero .hero-leo{width:96px;}
+  body.mh-on .course-main.mh .my-hero .hero-leo .lemur-wrap{--leo-s:.7!important;}
+  body.mh-on .course-main.mh .my-hero-text .title{font-size:28px;}
+  body.mh-on .course-main.mh .my-hero .hero-stats{gap:20px;}
+  body.mh-on .mh-ic{width:58px;height:58px;font-size:28px;}
+  body.mh-on .mh-tile{min-width:0;}
+}
 /* when the right column is on screen it already shows streak, coins and energy */
 @media (min-width:1440px){.mh-stats{display:none;}}
 @media (min-width:1100px) and (max-width:1439px) and (hover:hover) and (pointer:fine){.mh-stats{display:none;}}
