@@ -2248,6 +2248,13 @@ body.biz-page .side-panels,body.biz-page .sp-col{display:none;}
 @media(min-width:1600px){body.biz-page .course-layout{grid-template-columns:270px minmax(0,1fr)!important;}}
 .bz-gap{display:inline-block;text-align:left;vertical-align:baseline;}
 .bz-gap sup{vertical-align:top;position:relative;top:-2px;}
+/* welcome screen: Business English choice */
+.ob-biz{position:relative;display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;margin:18px 0 0;padding:14px 46px 14px 16px;border-radius:16px;cursor:pointer;font:inherit;
+  background:linear-gradient(135deg,#0f1b33 0%,#1a2e4a 100%);border:1px solid rgba(201,168,76,.7);color:#f4efe0;box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.ob-biz .ob-biz-tag{font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;letter-spacing:.16em;color:var(--bz-gold);}
+.ob-biz b{font-family:var(--bz-serif);font-weight:600;font-size:20px;color:#fff;}
+.ob-biz small{font-size:12.5px;color:#c9cfdb;line-height:1.4;}
+.ob-biz i{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-style:normal;font-size:24px;color:var(--bz-gold);}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -13634,6 +13641,8 @@ function obFinish(open){
   VIEW={track:null,level:null};
   if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
 }
+/* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
+function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -13678,7 +13687,8 @@ function obHtml(){
       <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
     </div>
     <p class="ob-q">${T2('Or pick your level:','Albo wybierz swój poziom:')}</p>
-    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
+    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>
+    ${t.id==='adults'&&typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:''}`;
   } else if(OB.step==='goal'){
     const g=goalMin();
     h=obTop('start')+`<span class="zone-tag">${T2('STEP 2 OF 2','KROK 2 Z 2')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>

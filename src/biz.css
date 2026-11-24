@@ -254,3 +254,10 @@ body.biz-page .side-panels,body.biz-page .sp-col{display:none;}
 @media(min-width:1600px){body.biz-page .course-layout{grid-template-columns:270px minmax(0,1fr)!important;}}
 .bz-gap{display:inline-block;text-align:left;vertical-align:baseline;}
 .bz-gap sup{vertical-align:top;position:relative;top:-2px;}
+/* welcome screen: Business English choice */
+.ob-biz{position:relative;display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;margin:18px 0 0;padding:14px 46px 14px 16px;border-radius:16px;cursor:pointer;font:inherit;
+  background:linear-gradient(135deg,#0f1b33 0%,#1a2e4a 100%);border:1px solid rgba(201,168,76,.7);color:#f4efe0;box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.ob-biz .ob-biz-tag{font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;letter-spacing:.16em;color:var(--bz-gold);}
+.ob-biz b{font-family:var(--bz-serif);font-weight:600;font-size:20px;color:#fff;}
+.ob-biz small{font-size:12.5px;color:#c9cfdb;line-height:1.4;}
+.ob-biz i{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-style:normal;font-size:24px;color:var(--bz-gold);}
