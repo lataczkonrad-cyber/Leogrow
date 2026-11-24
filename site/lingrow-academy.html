@@ -1632,6 +1632,85 @@ body.onboarding .lemur-corner{display:none;}
 .ob-mate figcaption{min-width:64px;}
 @media (max-width:900px){.ob-crew{--stage:170px}}
 @media (max-width:560px){.ob-crew{--stage:118px}.ob-crew-row{gap:2px}.ob-mate figcaption{min-width:0;width:100%}}
+/* PC/tablet: the first welcome fills the screen, Leos on the left, text + buttons on the right */
+@media (min-width:900px){
+  .ob-wrap.ob-w-hello{max-width:min(1800px,calc(100vw - 48px));}
+  .ob-w-hello .ob-panel.ob-hello{min-height:calc(100vh - 186px)!important;display:flex;flex-direction:column;margin-bottom:0;}
+  .ob-hello .ob-hello-grid{flex:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:clamp(24px,3vw,48px);align-items:center;}
+  .ob-hello .ob-crew{margin:0;padding:clamp(28px,4vh,56px) 22px 18px;--stage:clamp(200px,calc(100vh - 490px),540px);}
+  .ob-hello .ob-hello-side{padding:0 clamp(4px,1.5vw,24px) 8px;}
+  .ob-hello .ob-hello-title{font-size:clamp(30px,2.6vw,42px);}
+  .ob-hello .sub{font-size:17px;max-width:480px;}
+  .ob-hello .ob-main{max-width:420px;}
+}
+@media (min-width:900px) and (max-width:1100px){.ob-hello .ob-hello-grid{grid-template-columns:minmax(0,1.15fr) minmax(300px,1fr)}.ob-hello .ob-crew{--stage:clamp(160px,calc(100vh - 520px),300px)}}
+@media (min-width:700px) and (max-width:899px){
+  .ob-wrap.ob-w-hello{max-width:calc(100vw - 40px);}
+  .ob-w-hello .ob-panel.ob-hello{min-height:calc(100vh - 186px)!important;display:flex;flex-direction:column;}
+  .ob-hello .ob-hello-grid{flex:1;display:flex;flex-direction:column;justify-content:center;}
+  .ob-hello .ob-crew{--stage:clamp(170px,calc(100vh - 800px),320px);padding:30px 16px 14px;}
+  .ob-hello .ob-hello-title{font-size:34px;}.ob-hello .sub{font-size:17px;}.ob-hello .ob-main{max-width:440px;}
+}
+/* PC/tablet welcome: big, high-contrast text and two equal, chunky buttons */
+@media (min-width:700px){
+  .ob-hello .zone-tag{font-size:14px;padding:6px 16px;}
+  .ob-hello .ob-hello-title{font-size:clamp(36px,3.2vw,56px);line-height:1.1;margin:14px 0 12px;}
+  .ob-hello .sub{font-size:clamp(19px,1.45vw,24px);line-height:1.45;color:#2b2b45;max-width:600px;font-weight:500;}
+  .ob-hello .ob-q{font-size:clamp(19px,1.35vw,23px);margin:22px 0 12px;}
+  .ob-hello .ob-pill{font-size:clamp(18px,1.3vw,22px);padding:12px 24px;}
+  .ob-hello .ob-main{max-width:min(100%,620px);font-size:clamp(24px,1.9vw,32px);padding:clamp(20px,1.9vw,28px) 28px;border-radius:18px;}
+  .ob-hello .ob-main.ob-biz-btn{margin-top:14px;}
+  .ob-hello .ob-biz-btn .ob-pro{font-size:clamp(12px,.95vw,16px);padding:5px 12px 4px;}
+  .ob-hello .ob-acc{font-size:clamp(16px,1.1vw,19px);color:#2b2b45;margin-top:20px;}
+}
+@media (min-width:900px) and (max-height:820px){.ob-hello .ob-hello-title{margin:8px 0 8px}.ob-hello .ob-q{margin:14px 0 10px}.ob-hello .ob-main{margin-top:16px}.ob-hello .ob-main.ob-biz-btn{margin-top:12px}.ob-hello .ob-acc{margin-top:14px}.ob-w-hello .ob-panel.ob-hello{padding-bottom:14px}}
+/* Business English: on phones under "Let's start"; on PC/landscape tablet under the Leo picture */
+.ob-biz-under{display:none!important;}
+@media (min-width:900px){
+  .ob-biz-side{display:none!important;}
+  .ob-hello .ob-biz-under{display:flex!important;width:100%;max-width:none;margin:30px 0 0;font-size:clamp(26px,2vw,34px);padding:clamp(22px,1.8vw,28px) 28px;border-radius:20px;}
+  .ob-hello .ob-biz-under .ob-pro{font-size:clamp(13px,1vw,17px);padding:6px 14px 5px;}
+}
+@media (min-width:900px){.ob-hello .ob-main.ob-biz-under{margin-top:clamp(22px,3vh,36px)}}
+.ob-biz-btn .ob-biz-leo{width:1.7em;height:1.7em;border-radius:50%;border:2px solid var(--gold,#f0b429);background:#0b1638;box-shadow:0 0 0 3px rgba(240,180,41,.18);object-fit:cover;flex:none;margin-right:4px;}
+.ob-biz-btn{gap:12px;}
+/* PC/landscape tablet: right column fills the white box */
+@media (min-width:900px){
+  .ob-hello .ob-hello-grid{align-items:stretch;}
+  .ob-hello .ob-hello-left{display:flex;flex-direction:column;justify-content:center;}
+  .ob-hello .ob-hello-side{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+  .ob-hello .zone-tag{font-size:clamp(14px,1.05vw,18px);padding:7px 18px;}
+  .ob-hello .ob-hello-title{font-size:clamp(40px,3.9vw,68px);margin:clamp(12px,2vh,24px) 0 clamp(10px,1.6vh,20px);}
+  .ob-hello .sub{font-size:clamp(21px,1.75vw,30px);max-width:min(100%,680px);}
+  .ob-hello .ob-q{font-size:clamp(21px,1.65vw,28px);margin:clamp(18px,3vh,36px) 0 clamp(10px,1.6vh,18px);}
+  .ob-hello .ob-pill{font-size:clamp(20px,1.55vw,26px);padding:clamp(12px,1.1vw,16px) clamp(22px,1.9vw,32px);}
+  .ob-hello .ob-main{max-width:min(100%,680px);width:100%;font-size:clamp(26px,2.1vw,36px);padding:clamp(22px,2vw,32px) 28px;margin-top:clamp(18px,3vh,36px);}
+  .ob-hello .ob-acc{font-size:clamp(18px,1.35vw,23px);margin-top:clamp(26px,5vh,64px);}
+}
+@media (min-width:900px) and (max-height:900px){
+  .ob-hello .ob-hello-title{font-size:clamp(36px,5.2vh,46px);margin:6px 0 8px;}
+  .ob-hello .sub{font-size:clamp(19px,2.8vh,23px);}
+  .ob-hello .ob-q{margin:12px 0 8px;font-size:clamp(19px,2.7vh,23px);}
+  .ob-hello .ob-pill{padding:10px 22px;}
+  .ob-hello .ob-main{padding:clamp(16px,2.4vh,22px) 24px;margin-top:14px;font-size:clamp(23px,3.2vh,28px);}
+  .ob-hello .ob-acc{margin-top:clamp(16px,3vh,30px);}
+  .ob-hello .zone-tag{padding:5px 14px;}
+}
+@media (min-width:900px){.ob-hello .ob-main.ob-biz-under{max-width:none;width:100%;}.ob-hello .sub,.ob-hello .ob-hello-title{text-wrap:balance;}}
+/* bigger Business English button */
+.ob-hello .ob-main.ob-biz-btn{font-size:21px;padding:18px 20px;}
+@media (min-width:900px){
+  .ob-hello .ob-main.ob-biz-under{font-size:clamp(32px,2.7vw,48px);padding:clamp(28px,2.8vw,44px) 32px;border-radius:24px;}
+  .ob-hello .ob-biz-under .ob-pro{font-size:clamp(14px,1.15vw,20px);padding:7px 16px 6px;}
+  .ob-hello .ob-biz-under .ob-biz-leo{width:1.9em;height:1.9em;border-width:3px;}
+  .ob-hello .ob-biz-under{gap:16px;}
+}
+@media (min-width:900px) and (max-height:900px){
+  .ob-hello .ob-main.ob-biz-under{font-size:clamp(28px,4vh,34px);padding:clamp(22px,3.4vh,30px) 28px;}
+  .ob-hello .ob-crew{--stage:clamp(180px,calc(100vh - 540px),540px);}
+}
+@media (min-width:900px) and (min-height:901px){.ob-hello .ob-crew{--stage:clamp(200px,calc(100vh - 540px),540px);}}
+@media (min-width:900px) and (min-height:901px){.ob-hello .ob-crew{padding-top:clamp(18px,2.2vh,30px)}.ob-hello .ob-main.ob-biz-under{padding:clamp(24px,2.1vw,36px) 32px;margin-top:24px}}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
@@ -2255,22 +2334,10 @@ body.biz-page .side-panels,body.biz-page .sp-col{display:none;}
 .ob-biz b{font-family:var(--bz-serif);font-weight:600;font-size:20px;color:#fff;}
 .ob-biz small{font-size:12.5px;color:#c9cfdb;line-height:1.4;}
 .ob-biz i{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-style:normal;font-size:24px;color:var(--bz-gold);}
-/* the Business card on the Leo lineup screen: as wide as the lineup, framed the same way */
-.ob-biz .ob-biz-ico{display:none;}
-.ob-or{display:flex;align-items:center;gap:12px;margin:22px 0 12px;color:#8a8aa3;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
-.ob-or::before,.ob-or::after{content:"";flex:1;height:1px;background:#dcd8cb;}
-.ob-biz.ob-biz-hello{margin:0 -6px;width:calc(100% + 12px);padding:22px 64px 22px 96px;min-height:118px;justify-content:center;border:3px solid var(--bz-gold,#c9a84c);border-radius:24px;
-  background:radial-gradient(120% 140% at 0% 0%,#22385a 0%,#0f1b33 55%,#0a1428 100%);box-shadow:0 10px 24px rgba(10,20,40,.25);transition:transform .15s,box-shadow .15s;}
-.ob-biz.ob-biz-hello:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(10,20,40,.32);}
-.ob-biz-hello .ob-biz-ico{display:flex;align-items:center;justify-content:center;position:absolute;left:20px;top:50%;transform:translateY(-50%);width:58px;height:58px;border-radius:16px;
-  background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.55);font-size:30px;}
-.ob-biz-hello .ob-biz-ico img{width:32px;height:32px;}
-.ob-biz-hello .ob-biz-tag{font-size:11px;}
-.ob-biz-hello b{font-size:28px;line-height:1.15;}
-.ob-biz-hello small{font-size:14px;}
-.ob-biz-hello i{font-size:30px;right:22px;}
-@media (max-width:560px){.ob-biz.ob-biz-hello{margin:0 -4px;width:calc(100% + 8px);padding:18px 44px 18px 84px;min-height:110px}
-  .ob-biz-hello .ob-biz-ico{left:16px;width:52px;height:52px;font-size:26px}.ob-biz-hello .ob-biz-tag{font-size:10px;letter-spacing:.08em;white-space:nowrap}.ob-biz-hello b{font-size:24px}.ob-biz-hello small{font-size:13px}.ob-biz-hello i{right:16px}}
+/* the Business button on the Leo lineup screen: a twin of "Let's start", in navy */
+.ob-biz-btn{margin-top:12px;background:var(--navy,#0f1b33);color:#fff;box-shadow:0 4px 0 #050b1f;display:flex;align-items:center;justify-content:center;gap:8px;}
+.ob-biz-btn:hover{box-shadow:0 6px 0 #050b1f;}
+.ob-biz-btn .ob-pro{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--navy,#0f1b33);background:var(--gold,#f0b429);border-radius:999px;padding:3px 8px 2px;}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -13659,7 +13726,9 @@ function obFinish(open){
 }
 /* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
 function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
-function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-ico">💼</span><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
+function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
+function obBizLeo(){try{const r=LEO_AGES.senior||LEO_AGES.adult;return r&&r.h?`<img class="ob-biz-leo" src="${r.h}" alt="" draggable="false">`:'';}catch(e){return '';}}
+function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">${obBizLeo()}<span class="ob-biz-txt">Business English</span><span class="ob-pro">PREMIUM</span></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -13687,14 +13756,14 @@ function obHtml(){
   let h='';
   if(OB.step==='hello'){
     const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
-    h=obTop()+obCrew()+
-    `<span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title ob-hello-title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
+    h=obTop()+`<div class="ob-hello-grid"><div class="ob-hello-left">`+obCrew()+obBizBtn('ob-biz-under')+`</div>`+
+    `<div class="ob-hello-side"><span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title ob-hello-title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
     <p class="sub">${T2('English from your very first words to C1. Leo grows up with you, from Baby Leo to Master Leo.','Angielski od pierwszych słówek aż do C1. Leo dorasta razem z Tobą: od Małego Leo do Mistrza Leo.')}</p>
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
     <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
-    ${obBizCard('ob-biz-hello')?`<div class="ob-or"><span>${T2('or learn English for work','albo angielski do pracy')}</span></div>`+obBizCard('ob-biz-hello'):''}
-    ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}`;
+    ${obBizBtn('ob-biz-side')}
+    ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}</div></div>`;
   } else if(OB.step==='start'){
     if(!t){OB.track='adults';return obHtml();}
     const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
@@ -13723,7 +13792,7 @@ function obHtml(){
     <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
     ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
   } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.step==='ready'?'start':'hello'; obSave(); return obHtml(); }
-  return testerBar()+`<div class="ob-wrap"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
+  return testerBar()+`<div class="ob-wrap ob-w-${OB.step}"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
 }
 
 /* the course page shows the welcome until it is finished or skipped */
