@@ -2,11 +2,12 @@ import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 SITE=os.environ.get('SITE_DIR',os.path.join(HERE,'..','site'))
 import re
+import glob as _glob
 SRC=os.path.join(HERE,'lesson-technology.html')
 OUT=os.path.join(SITE,'lingrow-academy.html')
 src=open(SRC).read()
-css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+open(os.path.join(HERE,'chests.css')).read()+open(os.path.join(HERE,'friends.css')).read()+open(os.path.join(HERE,'leofocus.css')).read()+open(os.path.join(HERE,'onboard.css')).read()+open(os.path.join(HERE,'lessonfit.css')).read()+open(os.path.join(HERE,'leogrows.css')).read()+open(os.path.join(HERE,'outfits.css')).read()+open(os.path.join(HERE,'mobilehome.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
-course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'push.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()+'\n'+open(os.path.join(HERE,'chests.js')).read()+'\n'+open(os.path.join(HERE,'friends.js')).read()+'\n'+open(os.path.join(HERE,'leofocus.js')).read()+'\n'+open(os.path.join(HERE,'onboard.js')).read()+'\n'+open(os.path.join(HERE,'lessonfit.js')).read()+'\n'+open(os.path.join(HERE,'leogrows.js')).read()+'\n'+open(os.path.join(HERE,'outfits.js')).read()+'\n'+open(os.path.join(HERE,'mobilehome.js')).read()
+css_course=open(os.path.join(HERE,'course.css')).read()+open(os.path.join(HERE,'habits.css')).read()+open(os.path.join(HERE,'rewards.css')).read()+open(os.path.join(HERE,'premium.css')).read()+open(os.path.join(HERE,'chests.css')).read()+open(os.path.join(HERE,'friends.css')).read()+open(os.path.join(HERE,'leofocus.css')).read()+open(os.path.join(HERE,'onboard.css')).read()+open(os.path.join(HERE,'lessonfit.css')).read()+open(os.path.join(HERE,'leogrows.css')).read()+open(os.path.join(HERE,'outfits.css')).read()+open(os.path.join(HERE,'mobilehome.css')).read()+open(os.path.join(HERE,'biz.css')).read()+"\nbody:not(.in-lesson) .lemur-corner{display:none;}\n"
+course_js=open(os.path.join(HERE,'course.js')).read()+'\n'+open(os.path.join(HERE,'habits.js')).read()+'\n'+open(os.path.join(HERE,'push.js')).read()+'\n'+open(os.path.join(HERE,'rewards.js')).read()+'\n'+open(os.path.join(HERE,'premium.js')).read()+'\n'+open(os.path.join(HERE,'chests.js')).read()+'\n'+open(os.path.join(HERE,'friends.js')).read()+'\n'+open(os.path.join(HERE,'leofocus.js')).read()+'\n'+open(os.path.join(HERE,'onboard.js')).read()+'\n'+open(os.path.join(HERE,'lessonfit.js')).read()+'\n'+open(os.path.join(HERE,'leogrows.js')).read()+'\n'+open(os.path.join(HERE,'outfits.js')).read()+'\n'+open(os.path.join(HERE,'mobilehome.js')).read()+'\n'+''.join(open(f).read()+'\n' for f in sorted(_glob.glob(os.path.join(HERE,'biz_*.js'))))+open(os.path.join(HERE,'biz.js')).read()
 # more topic units (units_*.js) go in just before the CEFR levels block, so they are sorted, scaled and numbered like the rest
 import glob as _glob
 _more=''.join(open(f).read()+'\n' for f in sorted(_glob.glob(os.path.join(HERE,'units_*.js'))))
@@ -41,6 +42,8 @@ course_js,_k=re.subn(r'const LEO_ADULT="[^"]+"',lambda m:'const LEO_ADULT="%s"'%
 head,rest=src.split('<body>',1)
 head=head.replace('<title>Leogrow — Unit 3: Technology for All</title>','<title>Leogrow — English A0–C1</title>')
 head=head.replace('</style>',css_course+'</style>',1)
+# Business English: Inter for text, Fraunces for the few big titles (Georgia when offline)
+head=head.replace('</head>','<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">\n</head>',1)
 
 logo=re.search(r'<div class="brand-mark">\s*<img src="(data:image[^"]+)"',src).group(1)
 body=f'''<body>
