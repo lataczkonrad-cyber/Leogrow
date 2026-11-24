@@ -29,7 +29,7 @@ function obFinish(open){
 }
 /* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
 function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
-function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
+function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-ico">💼</span><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -63,7 +63,7 @@ function obHtml(){
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
     <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
-    ${obBizCard('ob-biz-hello')}
+    ${obBizCard('ob-biz-hello')?`<div class="ob-or"><span>${T2('or learn English for work','albo angielski do pracy')}</span></div>`+obBizCard('ob-biz-hello'):''}
     ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}`;
   } else if(OB.step==='start'){
     if(!t){OB.track='adults';return obHtml();}
