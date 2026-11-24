@@ -1705,6 +1705,13 @@ body:has(.ob-hx) .sparkle-field{display:none!important;}
 }
 @media (min-width:900px) and (max-height:820px){.obx-or{margin:18px 0 10px}.obx-sub{margin-bottom:18px}.obx-title{font-size:clamp(38px,5.4vh,46px)}}
 @media (max-width:420px){.obx-biz-tag{font-size:9px;letter-spacing:.1em;white-space:nowrap}.obx-biz small{font-size:12px}}
+/* 2026-11-24: all five Leos stand on one floor line. When a Leo's box is narrower than its picture, the picture
+   shrinks inside a fixed-height box and used to float in the middle; pin it to the bottom of the box instead. */
+.ob-mate img{object-position:50% 100%;}
+/* keep their real sizes too: if the stage is too narrow for all five at full height, shrink them all together
+   (the five pictures side by side are ~2.08 x the stage height wide) instead of squeezing the tall ones */
+.ob-crew{container-type:inline-size;}
+.ob-mate img{height:min(calc(var(--stage)*var(--k)),calc((100cqw - 60px)/2.15*var(--k)));}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
