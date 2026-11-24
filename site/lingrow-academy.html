@@ -1711,7 +1711,17 @@ body:has(.ob-hx) .sparkle-field{display:none!important;}
 /* keep their real sizes too: if the stage is too narrow for all five at full height, shrink them all together
    (the five pictures side by side are ~2.08 x the stage height wide) instead of squeezing the tall ones */
 .ob-crew{container-type:inline-size;}
-.ob-mate img{height:min(calc(var(--stage)*var(--k)),calc((100cqw - 60px)/2.15*var(--k)));}
+.ob-mate img{height:min(calc(var(--stage)*var(--k)),calc(100cqw/var(--fit,2.15)*var(--k)));}
+/* welcome stage: big Leos standing close together like a group photo (tails may overlap a little) */
+.obx-stage .ob-crew{--fit:1.72;}
+.obx-stage .ob-crew-row{gap:0;justify-content:center;}
+.obx-stage .ob-mate{margin:0 -1.1cqw;}
+.obx-stage .ob-mate.m3{position:relative;z-index:1;}
+.obx-stage .ob-mate figcaption{position:relative;z-index:2;}
+/* iPad landscape / small laptops: give the Leo stage more width so the Leos can stand taller */
+@media (min-width:900px) and (max-width:1279px){.obx{grid-template-columns:minmax(0,1.45fr) minmax(380px,1fr);}}
+.obx-stage .ob-crew{--fit:1.6;}
+.obx-stage .ob-mate{margin:0 -1.5cqw;}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
