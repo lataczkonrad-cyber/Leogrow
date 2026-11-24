@@ -102,7 +102,7 @@ body.onboarding .lemur-corner{display:none;}
   .ob-wrap.ob-w-hello{max-width:min(1800px,calc(100vw - 48px));}
   .ob-w-hello .ob-panel.ob-hello{min-height:calc(100vh - 186px)!important;display:flex;flex-direction:column;margin-bottom:0;}
   .ob-hello .ob-hello-grid{flex:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:clamp(24px,3vw,48px);align-items:center;}
-  .ob-hello .ob-crew{margin:0;padding:clamp(28px,4vh,56px) 22px 18px;--stage:clamp(200px,calc(100vh - 470px),540px);}
+  .ob-hello .ob-crew{margin:0;padding:clamp(28px,4vh,56px) 22px 18px;--stage:clamp(200px,calc(100vh - 490px),540px);}
   .ob-hello .ob-hello-side{padding:0 clamp(4px,1.5vw,24px) 8px;}
   .ob-hello .ob-hello-title{font-size:clamp(30px,2.6vw,42px);}
   .ob-hello .sub{font-size:17px;max-width:480px;}
@@ -116,4 +116,16 @@ body.onboarding .lemur-corner{display:none;}
   .ob-hello .ob-crew{--stage:clamp(170px,calc(100vh - 760px),320px);padding:30px 16px 14px;}
   .ob-hello .ob-hello-title{font-size:34px;}.ob-hello .sub{font-size:17px;}.ob-hello .ob-main{max-width:440px;}
 }
-@media (min-width:1600px) and (min-height:900px){.ob-hello .ob-hello-title{font-size:50px}.ob-hello .sub{font-size:20px;max-width:560px}.ob-hello .ob-q{font-size:19px}.ob-hello .ob-pill{font-size:18px;padding:12px 22px}.ob-hello .ob-main{max-width:480px;font-size:21px;padding:16px 22px}.ob-hello .ob-acc{font-size:16px}}
+/* PC/tablet welcome: big, high-contrast text and two equal, chunky buttons */
+@media (min-width:700px){
+  .ob-hello .zone-tag{font-size:14px;padding:6px 16px;}
+  .ob-hello .ob-hello-title{font-size:clamp(36px,3.2vw,56px);line-height:1.1;margin:14px 0 12px;}
+  .ob-hello .sub{font-size:clamp(19px,1.45vw,24px);line-height:1.45;color:#2b2b45;max-width:600px;font-weight:500;}
+  .ob-hello .ob-q{font-size:clamp(19px,1.35vw,23px);margin:22px 0 12px;}
+  .ob-hello .ob-pill{font-size:clamp(18px,1.3vw,22px);padding:12px 24px;}
+  .ob-hello .ob-main{max-width:min(100%,540px);font-size:clamp(21px,1.6vw,27px);padding:clamp(16px,1.5vw,22px) 24px;border-radius:16px;}
+  .ob-hello .ob-main.ob-biz-btn{margin-top:14px;}
+  .ob-hello .ob-biz-btn .ob-pro{font-size:clamp(11px,.85vw,14px);padding:4px 11px 3px;}
+  .ob-hello .ob-acc{font-size:clamp(16px,1.1vw,19px);color:#2b2b45;margin-top:20px;}
+}
+@media (min-width:900px) and (max-height:820px){.ob-hello .ob-hello-title{margin:8px 0 8px}.ob-hello .ob-q{margin:14px 0 10px}.ob-hello .ob-main{margin-top:16px}.ob-hello .ob-main.ob-biz-btn{margin-top:12px}.ob-hello .ob-acc{margin-top:14px}.ob-w-hello .ob-panel.ob-hello{padding-bottom:14px}}
