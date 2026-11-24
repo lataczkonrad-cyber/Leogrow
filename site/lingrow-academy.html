@@ -1764,6 +1764,9 @@ body:has(.ob-hx) .sparkle-field{display:none!important;}
 @media (min-width:900px){.obx-stage{justify-content:center;}.obx-stage .ob-crew{flex:0 0 auto;margin-top:clamp(20px,4vh,48px);}}
 /* heading a touch higher above the Leos (user, 2026-11-24) */
 @media (min-width:900px){.obx-stage .ob-crew{margin-top:clamp(40px,8vh,96px);}}
+/* right column: always a clear space under the language switch (user: text too close to the top on iPad) */
+@media (min-width:900px){.obx-top{margin-bottom:clamp(24px,4vh,44px);}}
+@media (min-width:900px) and (max-width:1279px){.obx{grid-template-columns:minmax(0,1.55fr) minmax(380px,1fr);}.obx-main{padding-left:36px;padding-right:36px;}}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
