@@ -31,7 +31,7 @@ function obFinish(open){
 function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
 function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
 function obBizLeo(){try{const r=LEO_AGES.senior||LEO_AGES.adult;return r&&r.h?`<img class="ob-biz-leo" src="${r.h}" alt="" draggable="false">`:'';}catch(e){return '';}}
-function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">${obBizLeo()}<span class="ob-biz-txt">Business English</span><span class="ob-pro">PREMIUM</span></button>`:'';}
+function obxBiz(){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<div class="obx-or">${T2('or, for work','albo do pracy')}</div><button class="obx-biz" onclick="obBusiness()">${obBizLeo()}<span><span class="obx-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('Meetings, emails, negotiations, presentations · B1–C1','Spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small></span><i>›</i></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -59,14 +59,19 @@ function obHtml(){
   let h='';
   if(OB.step==='hello'){
     const acc=typeof cloudOn==='function'&&cloudOn()&&!USER;
-    h=obTop()+`<div class="ob-hello-grid"><div class="ob-hello-left">`+obCrew()+obBizBtn('ob-biz-under')+`</div>`+
-    `<div class="ob-hello-side"><span class="zone-tag">${T2('WELCOME','WITAJ')}</span><h2 class="title ob-hello-title">${T2('Welcome to Leogrow!','Witaj w Leogrow!')}</h2>
-    <p class="sub">${T2('English from your very first words to C1. Leo grows up with you, from Baby Leo to Master Leo.','Angielski od pierwszych słówek aż do C1. Leo dorasta razem z Tobą: od Małego Leo do Mistrza Leo.')}</p>
-    <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
-    <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
-    <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
-    ${obBizBtn('ob-biz-side')}
-    ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}</div></div>`;
+    h=`<div class="obx">
+    <section class="obx-stage"><div class="obx-stage-head"><div class="obx-eyebrow">${T2('From A0 to C1','Od A0 do C1')}</div><div class="obx-stage-title">${T2('Leo grows up with you','Leo dorasta razem z Tobą')}</div></div>${obCrew()}</section>
+    <section class="obx-main">
+      <div class="obx-top"><div class="obx-lang" role="group" aria-label="${T2('Menus and instructions in','Menu i polecenia po')}"><button class="${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div><button class="obx-skip" onclick="obSkip()">${T2('Skip','Pomiń')}</button></div>
+      <div class="obx-body">
+        <div class="obx-eyebrow">${T2('Welcome','Witaj')}</div>
+        <h2 class="obx-title">${T2('Welcome to Leogrow','Witaj w Leogrow')}</h2>
+        <p class="obx-sub">${T2('English from your very first words to C1. Short lessons, real conversations, and a Leo who grows up with you.','Angielski od pierwszych słówek aż do C1. Krótkie lekcje, prawdziwe rozmowy i Leo, który dorasta razem z Tobą.')}</p>
+        <button class="obx-start" onclick="obGo('start')">${T2("Let's start","Zaczynamy")} <span>→</span></button>
+        ${acc?`<p class="obx-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}
+        ${obxBiz()}
+      </div>
+    </section></div>`;
   } else if(OB.step==='start'){
     if(!t){OB.track='adults';return obHtml();}
     const lvls=t.levels.filter(lv=>levelUnitsLessons(t.id,lv).length);
@@ -95,7 +100,7 @@ function obHtml(){
     <button class="ob-link ob-later" onclick="obFinish(false)">${T2('Look around first','Najpierw się rozejrzę')}</button>
     ${acc?`<p class="ob-acc">💾 ${T2('Want your progress on phone and PC?','Chcesz mieć postęp na telefonie i komputerze?')} <a href="#" onclick="openAuth('up');return false;">${T2('Create a free account','Załóż darmowe konto')}</a></p>`:''}`;
   } else { if(!TRACKS.some(x=>x.id===OB.track)) OB.track=null; OB.step=OB.step==='ready'?'start':'hello'; obSave(); return obHtml(); }
-  return testerBar()+`<div class="ob-wrap ob-w-${OB.step}"><div class="panel ob-panel ob-${OB.step}">${h}</div></div>`;
+  return testerBar()+`<div class="ob-wrap ob-w-${OB.step==='hello'?'hx':OB.step}"><div class="panel ob-panel ob-${OB.step==='hello'?'hx':OB.step}">${h}</div></div>`;
 }
 
 /* the course page shows the welcome until it is finished or skipped */
