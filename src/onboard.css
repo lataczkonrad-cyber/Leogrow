@@ -227,3 +227,5 @@ body:has(.ob-hx) .sparkle-field{display:none!important;}
 @media (min-width:900px) and (max-width:1279px){.obx{grid-template-columns:minmax(0,1.75fr) minmax(360px,1fr);}}
 /* heading + Leos sit together as one group in the middle of the stage (no big empty gap between them) */
 @media (min-width:900px){.obx-stage{justify-content:center;}.obx-stage .ob-crew{flex:0 0 auto;margin-top:clamp(20px,4vh,48px);}}
+/* heading a touch higher above the Leos (user, 2026-11-24) */
+@media (min-width:900px){.obx-stage .ob-crew{margin-top:clamp(40px,8vh,96px);}}
