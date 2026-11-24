@@ -30,7 +30,8 @@ function obFinish(open){
 /* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
 function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
 function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
-function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">💼 Business English <span class="ob-pro">PREMIUM</span></button>`:'';}
+function obBizLeo(){try{const r=LEO_AGES.senior||LEO_AGES.adult;return r&&r.h?`<img class="ob-biz-leo" src="${r.h}" alt="" draggable="false">`:'';}catch(e){return '';}}
+function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">${obBizLeo()}<span class="ob-biz-txt">Business English</span><span class="ob-pro">PREMIUM</span></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;

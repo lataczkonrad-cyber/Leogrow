@@ -1648,7 +1648,7 @@ body.onboarding .lemur-corner{display:none;}
   .ob-wrap.ob-w-hello{max-width:calc(100vw - 40px);}
   .ob-w-hello .ob-panel.ob-hello{min-height:calc(100vh - 186px)!important;display:flex;flex-direction:column;}
   .ob-hello .ob-hello-grid{flex:1;display:flex;flex-direction:column;justify-content:center;}
-  .ob-hello .ob-crew{--stage:clamp(170px,calc(100vh - 780px),320px);padding:30px 16px 14px;}
+  .ob-hello .ob-crew{--stage:clamp(170px,calc(100vh - 800px),320px);padding:30px 16px 14px;}
   .ob-hello .ob-hello-title{font-size:34px;}.ob-hello .sub{font-size:17px;}.ob-hello .ob-main{max-width:440px;}
 }
 /* PC/tablet welcome: big, high-contrast text and two equal, chunky buttons */
@@ -1668,10 +1668,12 @@ body.onboarding .lemur-corner{display:none;}
 .ob-biz-under{display:none!important;}
 @media (min-width:900px){
   .ob-biz-side{display:none!important;}
-  .ob-hello .ob-biz-under{display:flex!important;width:78%;max-width:none;margin:30px auto 0;font-size:clamp(26px,2vw,34px);padding:clamp(22px,1.8vw,28px) 28px;border-radius:20px;}
+  .ob-hello .ob-biz-under{display:flex!important;width:100%;max-width:none;margin:30px 0 0;font-size:clamp(26px,2vw,34px);padding:clamp(22px,1.8vw,28px) 28px;border-radius:20px;}
   .ob-hello .ob-biz-under .ob-pro{font-size:clamp(13px,1vw,17px);padding:6px 14px 5px;}
 }
 @media (min-width:900px){.ob-hello .ob-main.ob-biz-under{margin-top:clamp(22px,3vh,36px)}}
+.ob-biz-btn .ob-biz-leo{width:1.7em;height:1.7em;border-radius:50%;border:2px solid var(--gold,#f0b429);background:#0b1638;box-shadow:0 0 0 3px rgba(240,180,41,.18);object-fit:cover;flex:none;margin-right:4px;}
+.ob-biz-btn{gap:12px;}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
@@ -13688,7 +13690,8 @@ function obFinish(open){
 /* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
 function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
 function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
-function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">💼 Business English <span class="ob-pro">PREMIUM</span></button>`:'';}
+function obBizLeo(){try{const r=LEO_AGES.senior||LEO_AGES.adult;return r&&r.h?`<img class="ob-biz-leo" src="${r.h}" alt="" draggable="false">`:'';}catch(e){return '';}}
+function obBizBtn(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="btn btn-navy ob-main ob-biz-btn ${cls}" onclick="obBusiness()">${obBizLeo()}<span class="ob-biz-txt">Business English</span><span class="ob-pro">PREMIUM</span></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
