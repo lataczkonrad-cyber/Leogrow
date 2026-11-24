@@ -1730,6 +1730,40 @@ body:has(.ob-hx) .sparkle-field{display:none!important;}
 }
 @media (max-width:699px){.obx{grid-template-columns:minmax(0,1fr);}.obx-stage .ob-crew{--stage:clamp(118px,42vw,230px);}.obx-stage,.obx-main{min-width:0;}}
 @media (max-width:360px){.obx-stage .ob-mate figcaption span{font-size:9.5px}.obx-title{font-size:24px}.obx-lang button{padding:6px 9px}}
+/* 2026-11-24: all five Leos stand on one floor line. When a Leo's box is narrower than its picture, the picture
+   shrinks inside a fixed-height box and used to float in the middle; pin it to the bottom of the box instead. */
+.ob-mate img{object-position:50% 100%;}
+/* keep their real sizes too: if the stage is too narrow for all five at full height, shrink them all together
+   (the five pictures side by side are ~2.08 x the stage height wide) instead of squeezing the tall ones */
+.ob-crew{container-type:inline-size;}
+.ob-mate img{height:min(calc(var(--stage)*var(--k)),calc(100cqw/var(--fit,2.15)*var(--k)));}
+/* welcome stage: big Leos standing close together like a group photo (tails may overlap a little) */
+.obx-stage .ob-crew{--fit:1.72;}
+.obx-stage .ob-crew-row{gap:0;justify-content:center;}
+.obx-stage .ob-mate{margin:0 -1.1cqw;}
+.obx-stage .ob-mate.m3{position:relative;z-index:1;}
+.obx-stage .ob-mate figcaption{position:relative;z-index:2;}
+/* iPad landscape / small laptops: give the Leo stage more width so the Leos can stand taller */
+@media (min-width:900px) and (max-width:1279px){.obx{grid-template-columns:minmax(0,1.45fr) minmax(380px,1fr);}}
+.obx-stage .ob-crew{--fit:1.6;}
+.obx-stage .ob-mate{margin:0 -1.5cqw;}
+/* 2026-11-24 (user: too much gap above the Leos): bigger Leos + bigger stage heading on tablet/PC */
+@media (min-width:900px){
+  .obx-stage .ob-crew{--fit:1.42;--stage:clamp(220px,calc(100vh - 330px),620px);}
+  .obx-stage .ob-mate{margin:0 -2.2cqw;}
+  .obx-eyebrow{font-size:clamp(13px,1.1vw,17px);}
+  .obx-stage-title{font-size:clamp(34px,3.4vw,58px);margin-top:8px;}
+}
+/* 2026-11-24 (user: Leos must not touch): a clear gap between every Leo; the stage gets more width instead */
+.obx-stage .ob-crew{--fit:2.32;}
+.obx-stage .ob-crew-row{gap:2.4cqw;}
+.obx-stage .ob-mate{margin:0;}
+@media (min-width:900px){.obx-stage .ob-crew{--fit:2.32;}.obx{grid-template-columns:minmax(0,1.5fr) minmax(400px,1fr);}}
+@media (min-width:900px) and (max-width:1279px){.obx{grid-template-columns:minmax(0,1.75fr) minmax(360px,1fr);}}
+/* heading + Leos sit together as one group in the middle of the stage (no big empty gap between them) */
+@media (min-width:900px){.obx-stage{justify-content:center;}.obx-stage .ob-crew{flex:0 0 auto;margin-top:clamp(20px,4vh,48px);}}
+/* heading a touch higher above the Leos (user, 2026-11-24) */
+@media (min-width:900px){.obx-stage .ob-crew{margin-top:clamp(40px,8vh,96px);}}
 /* ---------- Lesson screen fills the screen: PC, tablet and phone ---------- */
 /* floating lemur coins stay in the background, never on top of the lesson cards */
 .sparkle-field{z-index:-1;}
