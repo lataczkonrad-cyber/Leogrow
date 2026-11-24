@@ -2248,6 +2248,29 @@ body.biz-page .side-panels,body.biz-page .sp-col{display:none;}
 @media(min-width:1600px){body.biz-page .course-layout{grid-template-columns:270px minmax(0,1fr)!important;}}
 .bz-gap{display:inline-block;text-align:left;vertical-align:baseline;}
 .bz-gap sup{vertical-align:top;position:relative;top:-2px;}
+/* welcome screen: Business English choice */
+.ob-biz{position:relative;display:flex;flex-direction:column;gap:2px;width:100%;text-align:left;margin:18px 0 0;padding:14px 46px 14px 16px;border-radius:16px;cursor:pointer;font:inherit;
+  background:linear-gradient(135deg,#0f1b33 0%,#1a2e4a 100%);border:1px solid rgba(201,168,76,.7);color:#f4efe0;box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.ob-biz .ob-biz-tag{font-family:'Montserrat',sans-serif;font-weight:800;font-size:10px;letter-spacing:.16em;color:var(--bz-gold);}
+.ob-biz b{font-family:var(--bz-serif);font-weight:600;font-size:20px;color:#fff;}
+.ob-biz small{font-size:12.5px;color:#c9cfdb;line-height:1.4;}
+.ob-biz i{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-style:normal;font-size:24px;color:var(--bz-gold);}
+/* the Business card on the Leo lineup screen: as wide as the lineup, framed the same way */
+.ob-biz .ob-biz-ico{display:none;}
+.ob-or{display:flex;align-items:center;gap:12px;margin:22px 0 12px;color:#8a8aa3;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.ob-or::before,.ob-or::after{content:"";flex:1;height:1px;background:#dcd8cb;}
+.ob-biz.ob-biz-hello{margin:0 -6px;width:calc(100% + 12px);padding:22px 64px 22px 96px;min-height:118px;justify-content:center;border:3px solid var(--bz-gold,#c9a84c);border-radius:24px;
+  background:radial-gradient(120% 140% at 0% 0%,#22385a 0%,#0f1b33 55%,#0a1428 100%);box-shadow:0 10px 24px rgba(10,20,40,.25);transition:transform .15s,box-shadow .15s;}
+.ob-biz.ob-biz-hello:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(10,20,40,.32);}
+.ob-biz-hello .ob-biz-ico{display:flex;align-items:center;justify-content:center;position:absolute;left:20px;top:50%;transform:translateY(-50%);width:58px;height:58px;border-radius:16px;
+  background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.55);font-size:30px;}
+.ob-biz-hello .ob-biz-ico img{width:32px;height:32px;}
+.ob-biz-hello .ob-biz-tag{font-size:11px;}
+.ob-biz-hello b{font-size:28px;line-height:1.15;}
+.ob-biz-hello small{font-size:14px;}
+.ob-biz-hello i{font-size:30px;right:22px;}
+@media (max-width:560px){.ob-biz.ob-biz-hello{margin:0 -4px;width:calc(100% + 8px);padding:18px 44px 18px 84px;min-height:110px}
+  .ob-biz-hello .ob-biz-ico{left:16px;width:52px;height:52px;font-size:26px}.ob-biz-hello .ob-biz-tag{font-size:10px;letter-spacing:.08em;white-space:nowrap}.ob-biz-hello b{font-size:24px}.ob-biz-hello small{font-size:13px}.ob-biz-hello i{right:16px}}
 
 body:not(.in-lesson) .lemur-corner{display:none;}
 
@@ -13634,6 +13657,9 @@ function obFinish(open){
   VIEW={track:null,level:null};
   if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
 }
+/* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
+function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
+function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-ico">💼</span><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -13667,6 +13693,7 @@ function obHtml(){
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
     <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
+    ${obBizCard('ob-biz-hello')?`<div class="ob-or"><span>${T2('or learn English for work','albo angielski do pracy')}</span></div>`+obBizCard('ob-biz-hello'):''}
     ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}`;
   } else if(OB.step==='start'){
     if(!t){OB.track='adults';return obHtml();}
@@ -13678,7 +13705,8 @@ function obHtml(){
       <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
     </div>
     <p class="ob-q">${T2('Or pick your level:','Albo wybierz swój poziom:')}</p>
-    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
+    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>
+    ${t.id==='adults'?obBizCard():''}`;
   } else if(OB.step==='goal'){
     const g=goalMin();
     h=obTop('start')+`<span class="zone-tag">${T2('STEP 2 OF 2','KROK 2 Z 2')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>

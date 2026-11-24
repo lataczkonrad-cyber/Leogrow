@@ -27,6 +27,9 @@ function obFinish(open){
   VIEW={track:null,level:null};
   if(open&&nx){renderCourse();openLesson(nx.id);} else renderCourse();
 }
+/* Business English from the welcome: the learner keeps a normal profile (Teens & Adults B1) for the home screen */
+function obBusiness(){OB.done=true;obSave();if(!PROF())setProfile('adults','B1',true);if(typeof nav==='function')nav('business');}
+function obBizCard(cls){return typeof BZ_UNITS!=='undefined'&&BZ_UNITS.length?`<button class="ob-biz ${cls||''}" onclick="obBusiness()"><span class="ob-biz-ico">💼</span><span class="ob-biz-tag">LEOGROW BUSINESS · PREMIUM</span><b>Business English</b><small>${T2('English for work · meetings, emails, negotiations, presentations · B1–C1','Angielski do pracy · spotkania, e-maile, negocjacje, prezentacje · B1–C1')}</small><i>›</i></button>`:'';}
 function obSkip(){OB.done=true;obSave();if(!PROF())setProfile(OB.track||'adults',null,true);VIEW={track:null,level:null};renderCourse();}
 /* tester: replay the welcome from the start, even with a course already picked (tester progress is separate) */
 function obReplay(){if(typeof closeAuth==='function')closeAuth();if(activeLesson)showCourse();if(typeof PT!=='undefined')PT=null;
@@ -60,6 +63,7 @@ function obHtml(){
     <p class="ob-q">${T2('Menus and instructions in:','Menu i polecenia po:')}</p>
     <div class="ob-langs"><button class="ob-pill ${LANG==='pl'?'on':''}" onclick="setLang('pl')">🇵🇱 Polski</button><button class="ob-pill ${LANG==='en'?'on':''}" onclick="setLang('en')">🇬🇧 English</button></div>
     <button class="btn btn-gold ob-main" onclick="obGo('start')">${T2("Let's start →","Zaczynamy →")}</button>
+    ${obBizCard('ob-biz-hello')?`<div class="ob-or"><span>${T2('or learn English for work','albo angielski do pracy')}</span></div>`+obBizCard('ob-biz-hello'):''}
     ${acc?`<p class="ob-acc">${T2('Already learning with Leogrow?','Uczysz się już z Leogrow?')} <a href="#" onclick="openAuth('in');return false;">${T2('Log in','Zaloguj się')}</a></p>`:''}`;
   } else if(OB.step==='start'){
     if(!t){OB.track='adults';return obHtml();}
@@ -71,7 +75,8 @@ function obHtml(){
       <button class="ob-row gold" onclick="obPlacement()"><span>🧭</span><div><b>${T2('Find my level','Sprawdź mój poziom')}</b><small>${T2('A 3-minute test · skip what you don\'t know','Test na 3 minuty · pomiń, czego nie wiesz')}</small></div><i>›</i></button>
     </div>
     <p class="ob-q">${T2('Or pick your level:','Albo wybierz swój poziom:')}</p>
-    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>`;
+    <div class="ob-levels">${lvls.map(lv=>{const L=LEVELS.find(x=>x.id===lv);return `<button class="ob-lv" onclick="obLevel('${lv}')"><span class="level-code">${lv}</span><b>${obLvName(L)}</b></button>`;}).join('')}</div>
+    ${t.id==='adults'?obBizCard():''}`;
   } else if(OB.step==='goal'){
     const g=goalMin();
     h=obTop('start')+`<span class="zone-tag">${T2('STEP 2 OF 2','KROK 2 Z 2')}</span><h2 class="title">${T2('How much a day?','Ile dziennie?')}</h2>
