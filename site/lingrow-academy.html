@@ -10979,6 +10979,27 @@ COURSE.units.forEach((u,ui)=>u.lessons.forEach((l,li)=>{l.unit=u;l.num=`${ui+1}.
 /* separate tester version: leogrow.netlify.app/tester (or ?tester) keeps its own progress and never syncs to the cloud */
 const TESTER_SITE=/^https?:$/.test(location.protocol)&&(/\/tester\/?$/.test(location.pathname)||/[?&]tester\b/.test(location.search));
 const SAVE_KEY=TESTER_SITE?'leogrowTesterProgress_v1':'lingrowCourse_dailyRoutines_v1';
+/* ---------- whose progress is on this device ----------
+   'leogrowOwner' = the account id the saved progress belongs to, or 'guest' (never logged in on it).
+   Opening the site with nobody logged in while the saved progress belongs to an account (or is old,
+   untagged progress) clears it, so the welcome screen starts fresh. Guest progress stays until the guest
+   logs in, then it is added to their account. Log out clears it too. Tester copies (file / ?tester) skip all this. */
+const OWNER_KEY='leogrowOwner';
+const ACCOUNT_KEYS=[SAVE_KEY,'leogrowOnboard','lingrowView','leogrowPremium','leogrowDaily'];
+function _sbTokenKey(){try{const c=window.LINGROW_CONFIG||{};return c.supabaseUrl?'sb-'+new URL(c.supabaseUrl).hostname.split('.')[0]+'-auth-token':null;}catch(e){return null;}}
+function _ownerCloud(){const c=window.LINGROW_CONFIG||{};return !TESTER_SITE&&location.protocol!=='file:'&&!!(c.supabaseUrl&&c.supabaseAnonKey);}
+function _hasSession(){const k=_sbTokenKey();try{return !!(k&&localStorage.getItem(k));}catch(e){return false;}}
+function clearAccountData(owner){
+  try{ACCOUNT_KEYS.forEach(k=>localStorage.removeItem(k));
+    Object.keys(localStorage).filter(k=>k.startsWith('bzw:')).forEach(k=>localStorage.removeItem(k));
+    if(owner)localStorage.setItem(OWNER_KEY,owner);else localStorage.removeItem(OWNER_KEY);}catch(e){}
+}
+function markGuest(){if(!_ownerCloud()||_hasSession())return;try{if(!localStorage.getItem(OWNER_KEY))localStorage.setItem(OWNER_KEY,'guest');}catch(e){}}
+(function(){ if(!_ownerCloud()||_hasSession()) return;
+  let o=null,has=false;try{o=localStorage.getItem(OWNER_KEY);has=!!localStorage.getItem(SAVE_KEY);}catch(e){}
+  if(o==='guest') return;
+  if(o||has) clearAccountData(null);   // last account's progress (or old untagged progress): start fresh
+})();
 let C={lessons:{},active:null};          // lessons[id] = {stars, points, done}
 let activeLesson=null, lessonStartScore=0;
 function saveProgress(noSync){
@@ -10986,6 +11007,7 @@ function saveProgress(noSync){
     if(activeLesson) C.active={id:activeLesson.id,current,zoneStars,startScore:lessonStartScore};
     localStorage.setItem(SAVE_KEY, JSON.stringify({score,maxCombo,soundOn,musicOn,C}));
   }catch(e){}
+  if(typeof USER==='undefined'||!USER) markGuest();
   if(!noSync&&typeof queueSync==='function') queueSync();
 }
 function loadProgress(){
@@ -11387,6 +11409,8 @@ async function initCloud(){
       else if(back&&back!=='error'&&back!=='recovery')setTimeout(()=>_comboToastText(T2('✅ Email confirmed — you\'re logged in!','✅ E-mail potwierdzony — jesteś zalogowany!')),900);}
     if(back&&/access_token|code=/.test(location.href))setTimeout(()=>history.replaceState(null,'',siteUrl()),50);});
   const {data}=await SUPA.auth.getSession(); USER=data.session&&data.session.user||null; renderAccountBtn(); if(USER) pullAndMerge();
+  let lo=null;try{lo=sessionStorage.getItem('lg_logged_out');sessionStorage.removeItem('lg_logged_out');}catch(e){}
+  if(lo&&!USER)setTimeout(()=>_comboToastText(T2('👋 Logged out','👋 Wylogowano')),700);
 }
 function mergeProgress(a,b){ // keep the best of both devices
   const out={score:Math.max(a.score||0,b.score||0),maxCombo:Math.max(a.maxCombo||0,b.maxCombo||0),C:{lessons:{},active:(a.C&&a.C.active)||(b.C&&b.C.active)||null,placed:{},review:{},days:[],profile:(a.C&&a.C.profile)||(b.C&&b.C.profile)||null}};
@@ -11403,6 +11427,9 @@ let _lastSync=null,_syncErr=null;
 function _syncFail(e){_syncErr=(e&&e.message)||String(e);console.warn('sync',e);_comboToastText(T2('⚠️ Cloud save failed: ','⚠️ Nie udało się zapisać w chmurze: ')+_syncErr);}
 async function pullAndMerge(){
   if(!SUPA||!USER) return false;
+  let _own=null;try{_own=localStorage.getItem(OWNER_KEY);}catch(e){}
+  if(_own&&_own!=='guest'&&_own!==USER.id){clearAccountData(USER.id);location.reload();return false;} // another account's progress was here
+  if(_own!==USER.id)try{localStorage.setItem(OWNER_KEY,USER.id);}catch(e){}
   try{
     const {data,error}=await SUPA.from('progress').select('data').eq('user_id',USER.id).maybeSingle();
     if(error) throw error;
@@ -11520,7 +11547,10 @@ function openAccount(){
    <button class="btn secondary auth-go" onclick="logOut()">Log out</button>`);
 }
 async function syncNowBtn(b){b.disabled=true;b.textContent='…';const ok=await pullAndMerge();b.disabled=false;b.textContent='↻ Sync now';const el=$('syncState');if(el)el.textContent=ok?'✅ '+T2('Saved to cloud: ','Zapisano w chmurze: ')+_lastSync.toLocaleTimeString():'⚠️ '+_syncErr;}
-async function logOut(){await pushNow();await SUPA.auth.signOut();USER=null;closeAuth();renderAccountBtn();_comboToastText('👋 Logged out — progress stays on this device');}
+async function logOut(){await pushNow();try{await SUPA.auth.signOut();}catch(e){}USER=null;
+  if(activeLesson)activeLesson=null;
+  clearAccountData(null);try{sessionStorage.setItem('lg_logged_out','1');}catch(e){}
+  location.replace(siteUrl());}   // fresh start: welcome screen, nothing from the account left on this device
 
 /* ---------- Tester accounts ----------
    Mark an account as a tester in Supabase (SQL editor):
