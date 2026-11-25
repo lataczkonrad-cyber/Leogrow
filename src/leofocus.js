@@ -30,7 +30,7 @@ function leoTrackStages(t){const seen={},out=[];t.levels.forEach(l=>{const s=leo
         <div class="sp-leo-steps">${['baby','little','kid','adult','senior'].map(k=>`<img src="${LEO_AGES[k].h}" class="next" alt="">`).join('')}</div></div></div>`;
     /* the right column keeps only Your Leo, Up next, Daily goal and Premium (user asked 2026-11-22) */
     h=h.replace(/<div class="sp-card"><div class="sp-head"><b>🛍️[\s\S]*?<\/button><\/div>/,'')
-     .replace(/<div class="sp-card sp-prem">[\s\S]*?<\/button><\/div>/,`<a href="#" class="sp-card sp-mini sp-prem" onclick="openPremium();return false;"><b>⭐ Premium</b><span>${T2('Learn without limits','Ucz się bez limitów')} ›</span></a>`)
+     .replace(/<div class="sp-card sp-prem">[\s\S]*?<\/button><\/div>/,`<div class="sp-card sp-prem sp-prem-big" onclick="openPremium()"><small class="sp-tag">⭐ LEOGROW PREMIUM</small><b class="sp-big">${T2('Learn without limits','Ucz się bez limitów')}</b><p>${T2('Every lesson unlocked, Business English and unlimited ⚡ energy.','Wszystkie lekcje, Business English i nieograniczona ⚡ energia.')}</p><button class="btn btn-gold sp-btn" onclick="event.stopPropagation();openPremium()">${T2('See Premium','Zobacz Premium')} →</button></div>`)
      .replace(/<div class="sp-card"><div class="sp-head"><b>🔁[\s\S]*?<\/button><\/div>/,'')
      .replace(/<div class="sp-card ch-sp">[\s\S]*?<\/button><\/div>/,'');
     h=h.replace('<div class="sp-card"><div class="sp-head"><b>🎯','<div class="sp-card sp-goal"><div class="sp-head"><b>🎯');
