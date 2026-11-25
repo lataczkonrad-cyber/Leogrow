@@ -1,5 +1,5 @@
 /* Leogrow — offline support. Bump VERSION when the app file changes. */
-const VERSION = 'leogrow-v83';
+const VERSION = 'leogrow-v84';
 const CORE = ['./lingrow-academy.html', './lingrow-config.js', './lingrow.webmanifest', './lingrow-icon-192.png', './lingrow-icon-512.png', './lingrow-icon-180.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

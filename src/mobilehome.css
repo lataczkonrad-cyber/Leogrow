@@ -170,3 +170,7 @@
 .side-panels.fit6 .sp-prem-big .sp-big{font-size:20px;}
 .side-panels.fit6 .sp-prem-big .sp-btn{padding:8px 10px;margin-top:8px;}
 .side-panels .sp-prem-big .sp-big{color:var(--gold-light)!important;}
+/* right column: Daily goal, Friends league and Premium are the same height, buttons on one line (user asked 2026-11-25) */
+.side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{min-height:194px;display:flex;flex-direction:column;}
+.side-panels:not([class*="fit"]) .sp-goal .sp-week,.side-panels:not([class*="fit"]) .fr-sp .sp-btn,.side-panels:not([class*="fit"]) .sp-prem-big .sp-btn{margin-top:auto!important;}
+.side-panels:not([class*="fit"]) .fr-sp p,.side-panels:not([class*="fit"]) .sp-prem-big p{margin-bottom:12px;}
