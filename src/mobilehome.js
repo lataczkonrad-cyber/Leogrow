@@ -68,3 +68,12 @@ function mhDecorate(){
   const re=()=>{if(!activeLesson&&document.getElementById('courseView'))renderCourse();};
   if(MH_MQ.addEventListener)MH_MQ.addEventListener('change',re);else if(MH_MQ.addListener)MH_MQ.addListener(re);
 })();
+
+/* tablet/PC: the left menu box and the right column end on the same line (user asked 2026-11-25) */
+function lgEqualCols(){try{const nav=document.querySelector('.course-layout>.side-nav'),sp=document.querySelector('.course-layout>.side-panels');
+  if(!nav||!sp)return;nav.style.minHeight='';sp.style.minHeight='';sp.classList.remove('eqh');
+  if(getComputedStyle(sp).display==='none'||getComputedStyle(nav).display==='none')return;
+  const m=Math.max(nav.getBoundingClientRect().height,sp.getBoundingClientRect().height);
+  nav.style.minHeight=m+'px';sp.style.minHeight=m+'px';sp.classList.add('eqh');}catch(e){}}
+(function(){if(typeof fitSidePanels!=='function')return;const _f=fitSidePanels;fitSidePanels=function(){const r=_f.apply(this,arguments);lgEqualCols();return r;};
+  window.addEventListener('resize',()=>setTimeout(fitSidePanels,60));})();

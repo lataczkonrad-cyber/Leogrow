@@ -174,3 +174,4 @@
 .side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{min-height:194px;display:flex;flex-direction:column;}
 .side-panels:not([class*="fit"]) .sp-goal .sp-week,.side-panels:not([class*="fit"]) .fr-sp .sp-btn,.side-panels:not([class*="fit"]) .sp-prem-big .sp-btn{margin-top:auto!important;}
 .side-panels:not([class*="fit"]) .fr-sp p,.side-panels:not([class*="fit"]) .sp-prem-big p{margin-bottom:12px;}
+.side-panels.eqh>.sp-goal,.side-panels.eqh>.fr-sp,.side-panels.eqh>.sp-prem-big{flex:1 1 auto;}
