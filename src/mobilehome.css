@@ -182,3 +182,12 @@
   body.mh-on .side-panels .sp-prem-big p{font-size:13.5px;margin:4px 0 8px;}
   body.mh-on .side-panels .sp-prem-big .sp-btn{padding:9px 12px;font-size:15px;}
 }
+
+/* right column a bit shorter (user asked 2026-11-25) */
+@media (min-width:1024px){
+  .side-panels.eqc{gap:9px!important;}
+  .side-panels.eqc>.sp-goal,.side-panels.eqc>.fr-sp,.side-panels.eqc>.sp-prem-big{display:flex;flex-direction:column;padding-top:11px!important;padding-bottom:11px!important;}
+  .side-panels.eqc>.fr-sp .sp-btn,.side-panels.eqc>.sp-prem-big .sp-btn{margin-top:auto!important;}
+  .side-panels.eqc .sp-btn{padding-top:8px!important;padding-bottom:8px!important;}
+  .side-panels.eqc .sp-stats{padding-top:4px!important;padding-bottom:4px!important;}
+}

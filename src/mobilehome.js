@@ -69,11 +69,11 @@ function mhDecorate(){
   if(MH_MQ.addEventListener)MH_MQ.addEventListener('change',re);else if(MH_MQ.addListener)MH_MQ.addListener(re);
 })();
 
-/* tablet/PC: the left menu box and the right column end on the same line (user asked 2026-11-25) */
-function lgEqualCols(){try{const nav=document.querySelector('.course-layout>.side-nav'),sp=document.querySelector('.course-layout>.side-panels');
-  if(!nav||!sp)return;nav.style.minHeight="";sp.style.minHeight="";sp.style.height="";sp.classList.remove('eqh');
-  if(getComputedStyle(sp).display==='none'||getComputedStyle(nav).display==='none')return;
-  const room=window.innerHeight-sp.getBoundingClientRect().top-12;const m=Math.min(Math.max(nav.getBoundingClientRect().height,sp.getBoundingClientRect().height),Math.max(room,0)||1e4);
-  nav.style.minHeight=m+"px";sp.style.height=m+"px";sp.classList.add('eqh');}catch(e){}}
+/* tablet/PC: Daily goal, Friends league and Premium share one height (left menu is no longer matched, user 2026-11-25) */
+function lgEqualCols(){try{const sp=document.querySelector('.course-layout>.side-panels');if(!sp)return;
+  const cs=[...sp.querySelectorAll(':scope>.sp-goal,:scope>.fr-sp,:scope>.sp-prem-big')];cs.forEach(c=>c.style.minHeight='');
+  const nav=document.querySelector('.course-layout>.side-nav');if(nav)nav.style.minHeight='';sp.style.height='';sp.style.minHeight='';sp.classList.remove('eqh');
+  if(getComputedStyle(sp).display==='none'||!cs.length)return;
+  const m=Math.max(...cs.map(c=>c.getBoundingClientRect().height));cs.forEach(c=>c.style.minHeight=m+'px');sp.classList.add('eqc');}catch(e){}}
 (function(){if(typeof fitSidePanels!=='function')return;const _f=fitSidePanels;fitSidePanels=function(){const r=_f.apply(this,arguments);lgEqualCols();return r;};
   window.addEventListener('resize',()=>setTimeout(fitSidePanels,60));})();
