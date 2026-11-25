@@ -101,7 +101,7 @@
 }
 /* tablets (touch, 1024–1439px): the home also gets the right column (your Leo, Up next, Daily goal) */
 @media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
-  body.mh-on .course-layout{grid-template-columns:206px minmax(0,1fr) 262px;gap:14px;}
+  body.mh-on .course-layout{grid-template-columns:200px minmax(0,1fr) clamp(290px,24vw,340px);gap:14px;}
   body.mh-on:not(.in-lesson) .app{padding-left:14px;padding-right:14px;}
   body.mh-on .side-panels{display:flex;flex-direction:column;gap:10px;position:sticky;top:88px;}
   body.mh-on .side-panels .sp-card{padding:11px 12px;}
@@ -151,3 +151,43 @@
 @media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){body.mh-on .sn-profile .sn-money{display:none;}body.mh-on .sn-profile .sn-who{display:block;}}
 .sn-who b{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .sn-who small{display:block;}
+
+/* tablets: wider right column with bigger text, and a real Premium card (user asked 2026-11-25) */
+@media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
+  body.mh-on .side-panels .sp-card{padding:13px 15px;}
+  body.mh-on .side-panels .sp-head b{font-size:17.5px;}
+  body.mh-on .side-panels .sp-row b{font-size:17px;}
+  body.mh-on .side-panels .sp-row small,body.mh-on .side-panels .sp-card p{font-size:14px;}
+  body.mh-on .side-panels .sp-btn{font-size:15.5px;padding:10px 12px;}
+  body.mh-on .sp-stat b{font-size:17px;}body.mh-on .sp-stat span{font-size:19px;}
+}
+.side-panels .sp-prem-big{cursor:pointer;padding:16px 16px 14px!important;box-shadow:0 4px 0 #b5891f,0 10px 26px rgba(5,10,48,.35);}
+.side-panels .sp-prem-big .sp-tag{font-size:12px;letter-spacing:1.4px;}
+.side-panels .sp-prem-big .sp-big{font-size:24px;line-height:1.15;margin-top:6px;}
+.side-panels .sp-prem-big p{margin-top:6px;font-size:14px;color:#d9dcf5;}
+.side-panels .sp-prem-big .sp-btn{margin-top:12px;font-size:16px;padding:11px 12px;}
+.side-panels.fit4 .sp-prem-big p{display:none;}
+.side-panels.fit6 .sp-prem-big .sp-big{font-size:20px;}
+.side-panels.fit6 .sp-prem-big .sp-btn{padding:8px 10px;margin-top:8px;}
+.side-panels .sp-prem-big .sp-big{color:var(--gold-light)!important;}
+/* right column: Daily goal, Friends league and Premium are the same height, buttons on one line (user asked 2026-11-25) */
+.side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{display:flex;flex-direction:column;}
+.side-panels:not([class*="fit"]) .sp-goal .sp-week,.side-panels:not([class*="fit"]) .fr-sp .sp-btn,.side-panels:not([class*="fit"]) .sp-prem-big .sp-btn{margin-top:auto!important;}
+.side-panels:not([class*="fit"]) .fr-sp p,.side-panels:not([class*="fit"]) .sp-prem-big p{margin-bottom:12px;}
+.side-panels.eqh>.sp-goal,.side-panels.eqh>.fr-sp,.side-panels.eqh>.sp-prem-big{flex:1 1 0;display:flex;flex-direction:column;}
+.side-panels.eqh>.fr-sp .sp-btn,.side-panels.eqh>.sp-prem-big .sp-btn{margin-top:auto!important;}
+@media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
+  body.mh-on .side-panels .sp-prem-big{padding:13px 15px 12px!important;}
+  body.mh-on .side-panels .sp-prem-big .sp-big{font-size:21px;margin-top:3px;}
+  body.mh-on .side-panels .sp-prem-big p{font-size:13.5px;margin:4px 0 8px;}
+  body.mh-on .side-panels .sp-prem-big .sp-btn{padding:9px 12px;font-size:15px;}
+}
+
+/* right column a bit shorter (user asked 2026-11-25) */
+@media (min-width:1024px){
+  .side-panels.eqc{gap:9px!important;}
+  .side-panels.eqc>.sp-goal,.side-panels.eqc>.fr-sp,.side-panels.eqc>.sp-prem-big{display:flex;flex-direction:column;padding-top:11px!important;padding-bottom:11px!important;}
+  .side-panels.eqc>.fr-sp .sp-btn,.side-panels.eqc>.sp-prem-big .sp-btn{margin-top:auto!important;}
+  .side-panels.eqc .sp-btn{padding-top:8px!important;padding-bottom:8px!important;}
+  .side-panels.eqc .sp-stats{padding-top:4px!important;padding-bottom:4px!important;}
+}
