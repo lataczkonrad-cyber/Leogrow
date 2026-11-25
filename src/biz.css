@@ -621,3 +621,7 @@ body.biz.in-lesson #lessonView>.panel>*{max-width:none!important;}
 @media(min-width:2100px){body.biz.in-lesson #lessonView>.panel{zoom:1.25!important;}}
 .bz-page .bzx-card{color:var(--bzx-ink);}
 .bzx-tab .bzx-ti.ok{width:20px;height:20px;border-radius:50%;background:#2f9563;color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto;}
+/* top bar says LeogrowBusiness everywhere in the Business section (user asked 2026-11-25) */
+.brand-text .wm-biz{display:none;color:#e0c36f;}
+body.biz .brand-text .wm-biz{display:inline;}
+@media(max-width:560px){body.biz .brand-text,body.biz.can-back:not(.in-lesson) .brand-text{display:block!important;font-size:16px;}}

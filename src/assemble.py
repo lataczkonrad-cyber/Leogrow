@@ -54,7 +54,7 @@ body=f'''<body>
       <div class="brand-mark">
         <img src="{BADGE_SM}" alt="Leogrow">
       </div>
-      <div class="brand-text"><span class="wm-leo">Leo</span><span class="wm-grow">grow</span></div>
+      <div class="brand-text"><span class="wm-leo">Leo</span><span class="wm-grow">grow</span><span class="wm-biz">Business</span></div>
     </div>
     <div class="topbar-controls">
       <button class="back-course" onclick="showCourse()" title="Back to the course">🗺️ Course</button>

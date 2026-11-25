@@ -150,7 +150,7 @@ function bzScoreLine(ok,n){const p=ok/n;return `<div class="bzx-score"><div clas
 function bzExNo(i,j){let n=0;for(let a=0;a<=i;a++){const z=bzZ(a);if(!z||!z.ex)continue;z.ex.forEach((e,b)=>{if((a<i||b<=j)&&e.g)n++;});}return n;}
 function bzTabs(){
   const l=activeLesson,u=l.unit,all=[l.warm].concat(zones.slice(1,-1)),tot=all.reduce((s,z)=>s+(z.min||0),0),pct=Math.round(100*Math.min(current,zones.length-1)/(zones.length-1));
-  return `<div class="bzx-top"><div class="bzx-brand"><b>Leogrow<i>Business</i></b><span class="bzx-pill">${u.level} ${l.kind==='case'?bzT('CASE STUDY','STUDIUM PRZYPADKU'):l.test?bzT('UNIT TEST','TEST'):'BUSINESS'}</span><span class="bzx-pill">⏱ ${tot} MIN</span></div>
+  return `<div class="bzx-top"><div class="bzx-brand"><b>${bzT('Unit','Dział')} ${u.n} · ${u.title}</b><span class="bzx-pill">${u.level} ${l.kind==='case'?bzT('CASE STUDY','STUDIUM PRZYPADKU'):l.test?bzT('UNIT TEST','TEST'):'BUSINESS'}</span><span class="bzx-pill">⏱ ${tot} MIN</span></div>
    <div class="bzx-prog"><span>${bzT('PROGRESS','POSTĘP')}</span><i><em style="width:${pct}%"></em></i><b>${pct}%</b></div>
    <nav class="bzx-tabs">${all.map((z,k)=>`<button class="bzx-tab ${k===current?'on':''} ${k<current?'done':''}" onclick="go(${k})"><span class="bzx-ti ${k<current?'ok':''}">${k<current?'✓':z.ico}</span><b>${bzT(z.name,z.namePl)}</b><small>${z.min?z.min+' min':bzT('bonus','bonus')}</small></button>`).join('')}</nav></div>`;
 }
