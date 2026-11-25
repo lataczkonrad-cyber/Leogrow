@@ -101,7 +101,7 @@
 }
 /* tablets (touch, 1024–1439px): the home also gets the right column (your Leo, Up next, Daily goal) */
 @media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
-  body.mh-on .course-layout{grid-template-columns:224px minmax(0,1fr) clamp(290px,24vw,340px);gap:14px;}
+  body.mh-on .course-layout{grid-template-columns:200px minmax(0,1fr) clamp(290px,24vw,340px);gap:14px;}
   body.mh-on:not(.in-lesson) .app{padding-left:14px;padding-right:14px;}
   body.mh-on .side-panels{display:flex;flex-direction:column;gap:10px;position:sticky;top:88px;}
   body.mh-on .side-panels .sp-card{padding:11px 12px;}
@@ -171,25 +171,14 @@
 .side-panels.fit6 .sp-prem-big .sp-btn{padding:8px 10px;margin-top:8px;}
 .side-panels .sp-prem-big .sp-big{color:var(--gold-light)!important;}
 /* right column: Daily goal, Friends league and Premium are the same height, buttons on one line (user asked 2026-11-25) */
-.side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{min-height:194px;display:flex;flex-direction:column;}
+.side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{display:flex;flex-direction:column;}
 .side-panels:not([class*="fit"]) .sp-goal .sp-week,.side-panels:not([class*="fit"]) .fr-sp .sp-btn,.side-panels:not([class*="fit"]) .sp-prem-big .sp-btn{margin-top:auto!important;}
 .side-panels:not([class*="fit"]) .fr-sp p,.side-panels:not([class*="fit"]) .sp-prem-big p{margin-bottom:12px;}
 .side-panels.eqh>.sp-goal,.side-panels.eqh>.fr-sp,.side-panels.eqh>.sp-prem-big{flex:1 1 0;display:flex;flex-direction:column;}
 .side-panels.eqh>.fr-sp .sp-btn,.side-panels.eqh>.sp-prem-big .sp-btn{margin-top:auto!important;}
-/* tablets: bigger text in the side columns (user asked 2026-11-25) */
 @media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
-  body.mh-on .course-layout .sn-item{font-size:16.5px;padding:clamp(6px,1.1vh,11px) 10px;margin:clamp(1px,.4vh,4px) 0;gap:9px;min-width:0;}
-  body.mh-on .course-layout .sn-item b{white-space:nowrap!important;overflow:visible!important;}
-  body.mh-on .course-layout .bz-sn-tag{font-size:10px!important;padding:2px 5px!important;}
-  body.mh-on .course-layout .sn-item>span{font-size:24px;width:28px;flex:0 0 28px;}
-  body.mh-on .course-layout .sn-item>span img{width:26px;height:26px;}
-  body.mh-on .course-layout .sn-item small{font-size:13px;}
-  body.mh-on .course-layout .sn-profile b{font-size:20px;}body.mh-on .course-layout .sn-profile small{font-size:14.5px;}
-  body.mh-on .course-layout .sn-title{font-size:14px;}
-  body.mh-on .side-panels .sp-head b{font-size:19px;}
-  body.mh-on .side-panels .sp-row b{font-size:18.5px;}
-  body.mh-on .side-panels .sp-row small,body.mh-on .side-panels .sp-card p{font-size:15px;}
-  body.mh-on .side-panels .sp-prem-big .sp-big{font-size:25px;}
-  body.mh-on .side-panels .sp-btn{font-size:16.5px;}
-  body.mh-on .sp-stat b{font-size:18px;}body.mh-on .sp-stat span{font-size:20px;}
+  body.mh-on .side-panels .sp-prem-big{padding:13px 15px 12px!important;}
+  body.mh-on .side-panels .sp-prem-big .sp-big{font-size:21px;margin-top:3px;}
+  body.mh-on .side-panels .sp-prem-big p{font-size:13.5px;margin:4px 0 8px;}
+  body.mh-on .side-panels .sp-prem-big .sp-btn{padding:9px 12px;font-size:15px;}
 }
