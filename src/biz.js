@@ -63,28 +63,28 @@ function bzLessonZones(L,X,u){
   if(X&&X.d)dl.push({k:'context',t:bzT('Context','Kontekst'),ic:'📖',d:X.c},{k:'dialogue',t:bzT('Read the dialogue','Przeczytaj dialog'),ic:'🗣️',p:X.p,d:X.d,P,tag:bzT('Tap underlined phrases for meaning','Dotknij podkreślonych zwrotów')});
   if(L.sample)dl.push({k:'model',t:L.sample.h,ic:'📄',d:L.sample,tag:bzT('Model text','Wzór')});
   if(X&&X.q)dl.push({k:'mc',t:bzT('Comprehension','Zrozumienie'),ic:'✅',sub:bzT('Choose the correct answer.','Wybierz poprawną odpowiedź.'),items:X.q,g:1});
-  if(dl.length)z.push(bzSec('dlg',15,bzT('Dialogue','Dialog')+': '+L.t,bzT('Read the conversation carefully, then answer the questions.','Przeczytaj uważnie rozmowę, a potem odpowiedz na pytania.'),dl));
+  if(dl.length)z.push(bzSec('dlg',10,bzT('Dialogue','Dialog')+': '+L.t,bzT('Read the conversation carefully, then answer the questions.','Przeczytaj uważnie rozmowę, a potem odpowiedz na pytania.'),dl));
   const vo=[{k:'table',t:bzT('Phrase bank','Bank zwrotów'),ic:'📚',P,tip:bzT('<b>How</b> you say something is as important as <b>what</b> you say. Notice how polite and indirect these phrases are — this is key in English-language business culture.','W biznesie <b>jak</b> coś mówisz jest równie ważne jak <b>co</b> mówisz. Zwróć uwagę, jak grzeczne i pośrednie są te zwroty.')}];
   const fi=bzFuncItems(P,6);if(fi.length)vo.push({k:'mc',t:bzT('What function?','Jaka funkcja?'),ic:'🔗',tag:bzT('Choose the correct label','Wybierz etykietę'),sub:bzT('Read each phrase. What is the speaker doing?','Przeczytaj każdy zwrot. Co robi mówiący?'),items:fi,g:1});
   if(T.length>=4)vo.push({k:'recall',t:bzT('Say it in English','Powiedz to po angielsku'),ic:'⌨️',tag:bzT('Type the phrase','Wpisz zwrot'),items:bzPick(T,Math.min(6,T.length)),g:1});
   if(L.bank)vo.push({k:'gaps',t:L.bank.h,ic:'✏️',tag:bzT('Type the missing words','Wpisz brakujące słowa'),d:L.bank,g:1});
-  z.push(bzSec('voc',15,bzT('Vocabulary','Słownictwo')+': '+(L.groups[0]&&L.groups[0][0]||L.t),bzT('Key phrases and expressions — learn them, then practise.','Kluczowe zwroty — naucz się ich, potem ćwicz.'),vo));
+  z.push(bzSec('voc',10,bzT('Vocabulary','Słownictwo')+': '+(L.groups[0]&&L.groups[0][0]||L.t),bzT('Key phrases and expressions — learn them, then practise.','Kluczowe zwroty — naucz się ich, potem ćwicz.'),vo));
   const la=[];
   if(L.note)la.push({k:'note',t:L.note.h,ic:'📖',d:L.note});
   la.push({k:'mc',t:bzT('Choose the best phrase','Wybierz najlepszy zwrot'),ic:'🎯',sub:bzT('Read each situation and pick what a professional would say.','Przeczytaj sytuację i wybierz, co powiedziałby profesjonalista.'),items:L.mc,g:1});
   if(X&&X.f)la.push({k:'fix',t:bzT('Rewrite to sound more professional','Przepisz bardziej profesjonalnie'),ic:'🪄',sub:bzT('Each sentence is too direct or simply wrong. Write a better version, then check — a sample answer is shown.','Każde zdanie jest zbyt bezpośrednie albo błędne. Napisz lepszą wersję i sprawdź — zobaczysz przykładową odpowiedź.'),items:X.f,g:1});
   if(L.order)la.push({k:'order',t:L.order.h,ic:'🧩',d:L.order,g:1});
-  z.push(bzSec('lang',15,bzT('Language','Język')+': '+(L.note?L.note.h:bzT('Using the phrases well','Dobre użycie zwrotów')),bzT('The grammar and the tone that make you sound professional.','Gramatyka i ton, dzięki którym brzmisz profesjonalnie.'),la));
+  z.push(bzSec('lang',10,bzT('Language','Język')+': '+(L.note?L.note.h:bzT('Using the phrases well','Dobre użycie zwrotów')),bzT('The grammar and the tone that make you sound professional.','Gramatyka i ton, dzięki którym brzmisz profesjonalnie.'),la));
   const li=[{k:'listen',t:bzT('Listen and choose','Posłuchaj i wybierz'),ic:'🎧',items:bzPick(P,6),pool:P,g:1}];
   if(T.length>=4)li.push({k:'dict',t:bzT('Listen and type','Posłuchaj i zapisz'),ic:'✍️',tag:bzT('Dictation','Dyktando'),items:bzPick(T,4),g:1});
-  z.push(bzSec('lis',10,bzT('Listening','Słuchanie')+': '+bzT('catch the phrases','wyłap zwroty'),bzT('Train your ear: first choose, then write down what you hear.','Ćwicz ucho: najpierw wybierz, potem zapisz, co słyszysz.'),li));
+  z.push(bzSec('lis',8,bzT('Listening','Słuchanie')+': '+bzT('catch the phrases','wyłap zwroty'),bzT('Train your ear: first choose, then write down what you hear.','Ćwicz ucho: najpierw wybierz, potem zapisz, co słyszysz.'),li));
   const w=L.task&&L.task.kind==='write'?L.task:null,wx=X&&X.wr;
-  if(w||wx)z.push(bzSec('wri',15,bzT('Writing','Pisanie')+': '+(w?w.h:wx.h),bzT('Put the language to work in a real piece of writing.','Użyj języka w prawdziwym tekście.'),[{k:'write',t:bzT('Writing task','Zadanie'),ic:'📋',w,x:wx,P}]));
+  if(w||wx)z.push(bzSec('wri',10,bzT('Writing','Pisanie')+': '+(w?w.h:wx.h),bzT('Put the language to work in a real piece of writing.','Użyj języka w prawdziwym tekście.'),[{k:'write',t:bzT('Writing task','Zadanie'),ic:'📋',w,x:wx,P}]));
   const sp=[{k:'useful',t:bzT('Useful language — quick reference','Przydatne zwroty — ściąga'),ic:'🗣️',P}];
   if(X&&X.r)sp.push({k:'speak',t:bzT('Roleplay','Scenka')+': '+X.r.h,ic:'🎯',r:X.r});
   if(L.task&&L.task.kind==='speak')sp.push({k:'speak',t:bzT('Speaking task','Zadanie')+': '+L.task.h,ic:'🎙️',task:L.task});
   sp.push({k:'self',t:bzT('Self-assessment','Samoocena'),ic:'✅',items:(L.task&&L.task.kind==='speak'?L.task.check:null)||L.groups.map(g=>bzT('I can use phrases for: ','Umiem używać zwrotów: ')+g[0].toLowerCase()).concat(X&&X.r?[bzT('I can handle this situation: ','Poradzę sobie w sytuacji: ')+X.r.h.toLowerCase()]:[])});
-  z.push(bzSec('spk',10,bzT('Speaking','Mówienie')+': '+(X&&X.r?X.r.h:L.t),bzT('Put it all together — say it out loud.','Połącz wszystko — powiedz to na głos.'),sp));
+  z.push(bzSec('spk',7,bzT('Speaking','Mówienie')+': '+(X&&X.r?X.r.h:L.t),bzT('Put it all together — say it out loud.','Połącz wszystko — powiedz to na głos.'),sp));
   z.push(bzSec('fla',0,bzT('Flashcards','Fiszki')+': '+L.t,bzT('Flip each card. Be honest — the ones you mark “See again” come back.','Odwróć każdą kartę. Bądź szczery — karty „Jeszcze raz” wrócą.'),[{k:'flash',t:bzT('Flashcards','Fiszki'),ic:'🃏',P}]));
   return z;
 }
@@ -460,7 +460,7 @@ function bzHomeHtml(){
     <p>${bzT('Long, real-world lessons for work: dialogues, phrase banks, grammar for tone, listening, writing, speaking and case studies. From B1 to C1.','Długie lekcje z prawdziwych sytuacji w pracy: dialogi, banki zwrotów, gramatyka tonu, słuchanie, pisanie, mówienie i studia przypadków. Od B1 do C1.')}</p>
     <div class="bzp-stats"><div><span>📚</span><b>${BZ_UNITS.length}</b><small>${bzT('units','działów')}</small></div><div><span>📝</span><b>${BZ_LESSONS.length}</b><small>${bzT('lessons, cases & tests','lekcji, case study i testów')}</small></div><div><span>⏱</span><b>${Math.round(mins/60)} h</b><small>${bzT('of learning','nauki')}</small></div><div><span>🎯</span><b>${all.p}%</b><small>${bzT('complete','ukończone')}</small></div></div>
     <div class="bzp-cta">${nx?`<button class="bzx-btn gold big" onclick="bzOpen('${nx.id}')">${all.d?bzT('CONTINUE','KONTYNUUJ'):bzT('START','ZACZNIJ')}: ${nx.unit.level} · ${nx.title} ${BZ_ICON.arrow}</button>`:''}${bzPrem()?'':`<button class="bzx-btn outw" onclick="openPremium('business')">${bzT('UNLOCK BUSINESS ENGLISH','ODBLOKUJ BUSINESS ENGLISH')}</button>`}</div></div></section>
-  <section class="bzp-flow"><div class="bzp-flow-h"><b>${bzT('Every lesson, about 85 minutes','Każda lekcja, około 85 minut')}</b><small>${bzT(`+ ${cases} case studies and ${BZ_UNITS.length} long unit tests`,`+ ${cases} studiów przypadku i ${BZ_UNITS.length} długich testów`)}</small></div>
+  <section class="bzp-flow"><div class="bzp-flow-h"><b>${bzT('Every lesson, about 60 minutes','Każda lekcja, około 60 minut')}</b><small>${bzT(`+ ${cases} case studies and ${BZ_UNITS.length} long unit tests`,`+ ${cases} studiów przypadku i ${BZ_UNITS.length} długich testów`)}</small></div>
    <div class="bzp-steps">${BZ_FLOW.map((f,k)=>`<div><span>${f[0]}</span><b>${bzT(f[1],f[2])}</b></div>`).join('<i>›</i>')}</div></section>
   <div class="bz-filter">${['all','B1','B2','C1'].map(f=>`<button class="${BZ_F===f?'on':''}" onclick="BZ_F='${f}';renderCourse()">${f==='all'?bzT('All levels','Wszystkie'):f}</button>`).join('')}</div>`;
   ['B1','B2','C1'].filter(lv=>BZ_F==='all'||BZ_F===lv).forEach(lv=>{
