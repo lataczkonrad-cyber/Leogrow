@@ -404,7 +404,7 @@ renderZone=function(i){
 };
 /* no bonus pop-ups inside Business lessons; Business sections paint their own emoji after go() */
 (function(){const _mb=maybeShowBonus;maybeShowBonus=function(){if(bzOn())return;return _mb.apply(this,arguments);};
-  const _go=go;go=function(i){const r=_go.apply(this,arguments);if(bzOn()){try{emojify($('panel'));}catch(e){}try{const t=document.querySelector('.bzx-tabs'),o=t&&t.querySelector('.bzx-tab.on');if(o)t.scrollLeft=o.offsetLeft-(t.clientWidth-o.offsetWidth)/2;}catch(e){}try{if(LANG==='pl')applyLang($('panel'));}catch(e){}}return r;};})();
+  const _go=go;go=function(i){const r=_go.apply(this,arguments);if(bzOn()){bzTbh();try{emojify($('panel'));}catch(e){}try{const t=document.querySelector('.bzx-tabs'),o=t&&t.querySelector('.bzx-tab.on');if(o)t.scrollLeft=o.offsetLeft-(t.clientWidth-o.offsetWidth)/2;}catch(e){}try{if(LANG==='pl')applyLang($('panel'));}catch(e){}}return r;};})();
 /* opening a Business lesson: Premium check, then the normal lesson frame in the Business look */
 function bzOpen(id){
   const l=typeof id==='object'?id:bzLesson(id);if(!l)return;
@@ -530,3 +530,8 @@ function bzHomeCard(){
     const k=h.indexOf('</a>');if(k>-1)h=h.slice(0,k+4)+it+h.slice(k+4);
     return h;};
 })();
+
+/* one box in Business lessons: the lesson tabs stick right under the top bar */
+function bzTbh(){try{const t=document.querySelector('.topbar');if(t)document.body.style.setProperty('--bz-tbh',Math.round(t.getBoundingClientRect().height)+'px');}catch(e){}}
+window.addEventListener('resize',()=>{if(document.body.classList.contains('biz'))bzTbh();});
+try{const _t=document.querySelector('.topbar');if(_t&&window.ResizeObserver)new ResizeObserver(()=>{if(document.body.classList.contains('biz'))bzTbh();}).observe(_t);}catch(e){}

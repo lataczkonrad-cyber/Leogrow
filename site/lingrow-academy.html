@@ -2755,6 +2755,15 @@ body.biz.in-lesson #lessonView>.panel>*{max-width:none!important;}
 body.biz.in-lesson .brand-text .wm-biz{display:inline;}
 @media(max-width:560px){body.biz.in-lesson .brand-text{display:block!important;font-size:16px;}}
 
+/* Business lessons: top bar + lesson = ONE navy/gold box (user asked 2026-11-25, 'dont do 2 boxes') */
+body.biz.in-lesson .app{padding-top:0!important;}
+body.biz.in-lesson .topbar{top:0!important;margin:0!important;background:var(--bzx-navy)!important;border:1px solid rgba(201,168,76,.35)!important;border-bottom:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;}
+body.biz.in-lesson .topbar .brand-text{font-family:var(--bzx-h);}
+body.biz.in-lesson #lessonView>.panel{margin-top:0!important;border-top:0!important;border-radius:0 0 18px 18px!important;}
+body.biz.in-lesson .bzx-top{top:var(--bz-tbh,0px);box-shadow:0 6px 18px rgba(15,27,51,.18);}
+body.biz.in-lesson .bzx-brand{border-top:1px solid rgba(255,255,255,.08);}
+@media(max-width:560px){body.biz.in-lesson #lessonView>.panel{border-radius:0 0 14px 14px!important;}body.biz.in-lesson .topbar{position:relative!important;}body.biz.in-lesson .bzx-top{top:0;}}
+
 body:not(.in-lesson) .lemur-corner{display:none;}
 
 .install-card{display:flex;align-items:center;gap:14px;margin:0 0 16px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:20px;padding:12px 16px;color:var(--navy);box-shadow:0 5px 0 #b5891f;}
@@ -16685,7 +16694,7 @@ renderZone=function(i){
 };
 /* no bonus pop-ups inside Business lessons; Business sections paint their own emoji after go() */
 (function(){const _mb=maybeShowBonus;maybeShowBonus=function(){if(bzOn())return;return _mb.apply(this,arguments);};
-  const _go=go;go=function(i){const r=_go.apply(this,arguments);if(bzOn()){try{emojify($('panel'));}catch(e){}try{const t=document.querySelector('.bzx-tabs'),o=t&&t.querySelector('.bzx-tab.on');if(o)t.scrollLeft=o.offsetLeft-(t.clientWidth-o.offsetWidth)/2;}catch(e){}try{if(LANG==='pl')applyLang($('panel'));}catch(e){}}return r;};})();
+  const _go=go;go=function(i){const r=_go.apply(this,arguments);if(bzOn()){bzTbh();try{emojify($('panel'));}catch(e){}try{const t=document.querySelector('.bzx-tabs'),o=t&&t.querySelector('.bzx-tab.on');if(o)t.scrollLeft=o.offsetLeft-(t.clientWidth-o.offsetWidth)/2;}catch(e){}try{if(LANG==='pl')applyLang($('panel'));}catch(e){}}return r;};})();
 /* opening a Business lesson: Premium check, then the normal lesson frame in the Business look */
 function bzOpen(id){
   const l=typeof id==='object'?id:bzLesson(id);if(!l)return;
@@ -16811,6 +16820,11 @@ function bzHomeCard(){
     const k=h.indexOf('</a>');if(k>-1)h=h.slice(0,k+4)+it+h.slice(k+4);
     return h;};
 })();
+
+/* one box in Business lessons: the lesson tabs stick right under the top bar */
+function bzTbh(){try{const t=document.querySelector('.topbar');if(t)document.body.style.setProperty('--bz-tbh',Math.round(t.getBoundingClientRect().height)+'px');}catch(e){}}
+window.addEventListener('resize',()=>{if(document.body.classList.contains('biz'))bzTbh();});
+try{const _t=document.querySelector('.topbar');if(_t&&window.ResizeObserver)new ResizeObserver(()=>{if(document.body.classList.contains('biz'))bzTbh();}).observe(_t);}catch(e){}
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){
