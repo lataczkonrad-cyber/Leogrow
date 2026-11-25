@@ -2150,10 +2150,11 @@ body.lg-open{overflow:hidden}
 .side-panels:not([class*="fit"]) .sp-goal,.side-panels:not([class*="fit"]) .fr-sp,.side-panels:not([class*="fit"]) .sp-prem-big{min-height:194px;display:flex;flex-direction:column;}
 .side-panels:not([class*="fit"]) .sp-goal .sp-week,.side-panels:not([class*="fit"]) .fr-sp .sp-btn,.side-panels:not([class*="fit"]) .sp-prem-big .sp-btn{margin-top:auto!important;}
 .side-panels:not([class*="fit"]) .fr-sp p,.side-panels:not([class*="fit"]) .sp-prem-big p{margin-bottom:12px;}
-.side-panels.eqh>.sp-goal,.side-panels.eqh>.fr-sp,.side-panels.eqh>.sp-prem-big{flex:1 1 auto;}
+.side-panels.eqh>.sp-goal,.side-panels.eqh>.fr-sp,.side-panels.eqh>.sp-prem-big{flex:1 1 0;display:flex;flex-direction:column;}
+.side-panels.eqh>.fr-sp .sp-btn,.side-panels.eqh>.sp-prem-big .sp-btn{margin-top:auto!important;}
 /* tablets: bigger text in the side columns (user asked 2026-11-25) */
 @media (min-width:1024px) and (max-width:1439px) and (any-pointer:coarse){
-  body.mh-on .course-layout .sn-item{font-size:16.5px;padding:11px 10px;margin:4px 0;gap:9px;min-width:0;}
+  body.mh-on .course-layout .sn-item{font-size:16.5px;padding:clamp(6px,1.1vh,11px) 10px;margin:clamp(1px,.4vh,4px) 0;gap:9px;min-width:0;}
   body.mh-on .course-layout .sn-item b{white-space:nowrap!important;overflow:visible!important;}
   body.mh-on .course-layout .bz-sn-tag{font-size:10px!important;padding:2px 5px!important;}
   body.mh-on .course-layout .sn-item>span{font-size:24px;width:28px;flex:0 0 28px;}
@@ -14727,10 +14728,10 @@ function mhDecorate(){
 
 /* tablet/PC: the left menu box and the right column end on the same line (user asked 2026-11-25) */
 function lgEqualCols(){try{const nav=document.querySelector('.course-layout>.side-nav'),sp=document.querySelector('.course-layout>.side-panels');
-  if(!nav||!sp)return;nav.style.minHeight='';sp.style.minHeight='';sp.classList.remove('eqh');
+  if(!nav||!sp)return;nav.style.minHeight="";sp.style.minHeight="";sp.style.height="";sp.classList.remove('eqh');
   if(getComputedStyle(sp).display==='none'||getComputedStyle(nav).display==='none')return;
-  const m=Math.max(nav.getBoundingClientRect().height,sp.getBoundingClientRect().height);
-  nav.style.minHeight=m+'px';sp.style.minHeight=m+'px';sp.classList.add('eqh');}catch(e){}}
+  const room=window.innerHeight-sp.getBoundingClientRect().top-12;const m=Math.min(Math.max(nav.getBoundingClientRect().height,sp.getBoundingClientRect().height),Math.max(room,0)||1e4);
+  nav.style.minHeight=m+"px";sp.style.height=m+"px";sp.classList.add('eqh');}catch(e){}}
 (function(){if(typeof fitSidePanels!=='function')return;const _f=fitSidePanels;fitSidePanels=function(){const r=_f.apply(this,arguments);lgEqualCols();return r;};
   window.addEventListener('resize',()=>setTimeout(fitSidePanels,60));})();
 
