@@ -15,24 +15,97 @@
 @keyframes chIn{0%{opacity:0;transform:translateY(16px) scale(.7)}100%{opacity:1;transform:none}}
 @keyframes chSpin{to{transform:rotate(360deg)}}
 
-/* opening window */
-.ch-overlay{position:fixed;inset:0;background:rgba(5,10,48,.72);display:flex;align-items:center;justify-content:center;z-index:210;opacity:0;pointer-events:none;transition:opacity .25s;padding:16px;}
+/* opening window: navy & gold, glow colour follows the chest, then the prize rarity */
+.ch-overlay{position:fixed;inset:0;background:rgba(5,10,48,.78);display:flex;align-items:center;justify-content:center;z-index:210;opacity:0;pointer-events:none;transition:opacity .25s;padding:16px;}
 .ch-overlay.show{opacity:1;pointer-events:auto;}
-.ch-modal{position:relative;overflow:hidden;background:var(--cream);border:3px solid var(--gold);border-radius:24px;padding:22px 22px 20px;width:100%;max-width:380px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.45);transform:scale(.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.ch-modal{--glow:#ecb83a;display:block;position:relative;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#1d2b8f 0%,#0b1257 55%,#050a30 100%);color:#fff;border:3px solid var(--gold);border-radius:24px;padding:22px 22px 20px;width:100%;max-width:400px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06) inset;transform:scale(.8);transition:transform .3s cubic-bezier(.34,1.56,.64,1),max-width .4s ease,box-shadow .4s;}
 .ch-overlay.show .ch-modal{transform:scale(1);}
-.ch-modal h3{position:relative;font-family:'Baloo 2',sans-serif;font-size:24px;margin:2px 0 2px;color:var(--navy);}
-.ch-modal .rw-small{position:relative;margin:0;}
-.ch-rays{position:absolute;left:50%;top:110px;width:520px;height:520px;margin:-260px 0 0 -260px;background:repeating-conic-gradient(rgba(236,184,58,.16) 0 10deg,transparent 10deg 20deg);border-radius:50%;animation:chSpin 18s linear infinite;pointer-events:none;}
-.ch-silver .ch-rays{background:repeating-conic-gradient(rgba(143,156,179,.18) 0 10deg,transparent 10deg 20deg);}
-.ch-stage{position:relative;cursor:pointer;height:180px;display:flex;align-items:center;justify-content:center;}
-.ch-loot{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:12px 0 4px;min-height:0;}
+.ch-modal.spinning,.ch-modal.revealed{max-width:860px;}
+.ch-modal.revealed{max-width:460px;}
+.ch-modal.q-e,.ch-modal.q-l{box-shadow:0 20px 60px rgba(0,0,0,.55),0 0 50px color-mix(in srgb,var(--glow) 55%,transparent);}
+.ch-modal.q-l{border-color:#ffd866;}
+.ch-modal h3{position:relative;font-family:'Baloo 2',sans-serif;font-size:25px;margin:2px 0 0;color:var(--gold-light,#ffd866);}
+.ch-modal .rw-small{position:relative;margin:0;color:#c9d2ff;}
+.ch-x{position:absolute;top:10px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:15px;cursor:pointer;}
+.ch-x:hover{background:rgba(255,255,255,.18);}
+.ch-rays{position:absolute;left:50%;top:110px;width:620px;height:620px;margin:-310px 0 0 -310px;background:repeating-conic-gradient(color-mix(in srgb,var(--glow) 22%,transparent) 0 10deg,transparent 10deg 20deg);border-radius:50%;animation:chSpin 18s linear infinite;pointer-events:none;transition:background .4s;}
+.ch-modal.revealed .ch-rays{top:250px;animation-duration:9s;}
+.ch-stage{position:relative;cursor:pointer;height:180px;display:flex;align-items:center;justify-content:center;transition:height .4s;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--glow) 50%,transparent));}
+.ch-modal.spinning .ch-stage,.ch-modal.revealed .ch-stage{height:96px;}
+.ch-modal.spinning .ch-stage .ch-svg,.ch-modal.revealed .ch-stage .ch-svg{width:96px;height:96px;transition:width .4s,height .4s;}
+.ch-modal.opened .ch-stage{height:120px;}.ch-modal.opened .ch-stage .ch-svg{width:120px;height:120px;}
+/* odds before opening */
+.ch-odds{position:relative;margin:12px 0 2px;transition:opacity .3s,max-height .4s;max-height:200px;overflow:hidden;}
+.ch-odds.gone{opacity:0;max-height:0;margin:0;}
+.ch-odds-t{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#9ea9e0;margin-bottom:6px;}
+.ch-odds-row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;}
+.ch-chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#e8ecff;background:rgba(255,255,255,.07);border:1.5px solid color-mix(in srgb,var(--rq) 70%,transparent);border-radius:999px;padding:3px 10px 3px 7px;}
+.ch-chip i{width:10px;height:10px;border-radius:50%;background:var(--rq);box-shadow:0 0 8px var(--rq);}
+.ch-chip b{color:#fff;}
+/* the reel */
+.ch-reelbox{position:relative;}
+.ch-reel{position:relative;margin:14px -4px 6px;padding:12px 0;border-radius:18px;background:linear-gradient(180deg,#040826,#0a1150 50%,#040826);border:2px solid rgba(236,184,58,.55);box-shadow:inset 0 0 30px rgba(0,0,0,.6);overflow:hidden;animation:chIn .35s ease-out;}
+.ch-reel::before,.ch-reel::after{content:'';position:absolute;top:0;bottom:0;width:18%;z-index:2;pointer-events:none;}
+.ch-reel::before{left:0;background:linear-gradient(90deg,#040826,transparent);}
+.ch-reel::after{right:0;background:linear-gradient(270deg,#040826,transparent);}
+.ch-track{display:flex;gap:8px;padding:0 8px;will-change:transform;}
+.ch-card{--rq:#9aabc4;flex:none;width:112px;height:136px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 6px 10px;border-radius:14px;background:radial-gradient(90% 70% at 50% 100%,color-mix(in srgb,var(--rq) 45%,transparent),transparent 70%),linear-gradient(180deg,#1a2480,#0d1450);border:1.5px solid color-mix(in srgb,var(--rq) 45%,transparent);border-bottom:5px solid var(--rq);transition:transform .3s,box-shadow .3s,opacity .3s;}
+.ch-card .ch-ci{font-size:40px;line-height:1.05;}
+.ch-card .ch-ci img.emj,.ch-prize .ch-pi img.emj{width:1em;height:1em;}
+.ch-card b{font-family:'Baloo 2',sans-serif;font-size:14.5px;line-height:1.1;color:#fff;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.ch-card small{font-size:10.5px;font-weight:700;color:#aab4e8;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.ch-card.win{transform:scale(1.1);box-shadow:0 0 0 2px var(--rq),0 0 28px var(--rq);z-index:1;position:relative;animation:chWin .9s ease-in-out infinite alternate;}
+.ch-mark{position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;background:linear-gradient(180deg,#ffd866,#ecb83a);box-shadow:0 0 10px #ffd866;z-index:3;}
+.ch-mark::before,.ch-mark::after{content:'';position:absolute;left:50%;margin-left:-9px;border:9px solid transparent;}
+.ch-mark::before{top:0;border-top-color:#ffd866;border-bottom:0;}
+.ch-mark::after{bottom:0;border-bottom-color:#ffd866;border-top:0;}
+.ch-skip{position:relative;margin:4px auto 0;display:block;background:rgba(255,255,255,.08);color:#dfe4ff;border:1.5px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 16px;font:inherit;font-weight:800;font-size:13.5px;cursor:pointer;}
+.ch-skip:hover{background:rgba(255,255,255,.16);}
+@keyframes chWin{from{box-shadow:0 0 0 2px var(--rq),0 0 18px var(--rq)}to{box-shadow:0 0 0 3px var(--rq),0 0 40px var(--rq)}}
+/* the prize */
+.ch-loot{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;margin:12px 0 4px;}
+.ch-modal.opened .ch-loot:has(.ch-item),.ch-loot:has(.ch-item){flex-direction:row;flex-wrap:wrap;justify-content:center;}
+.ch-prize{--rq:#9aabc4;display:flex;flex-direction:column;align-items:center;min-width:210px;max-width:100%;box-sizing:border-box;padding:14px 24px 16px;border-radius:22px;background:radial-gradient(90% 70% at 50% 100%,color-mix(in srgb,var(--rq) 40%,transparent),transparent 75%),linear-gradient(180deg,#1d2a90,#0b1257);border:3px solid var(--rq);box-shadow:0 0 34px color-mix(in srgb,var(--rq) 70%,transparent);}
+.ch-prize.in{opacity:0;animation:chIn .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+.ch-prize em{font-style:normal;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#0b1257;background:var(--rq);border-radius:999px;padding:2px 12px;}
+.ch-prize .ch-pi{font-size:64px;line-height:1.1;margin-top:6px;}
+.ch-prize b{font-family:'Baloo 2',sans-serif;font-size:24px;line-height:1.15;color:#fff;}
+.ch-prize small{font-size:13px;font-weight:700;color:#c3cbf5;}
+.ch-prize.q-l{background:radial-gradient(90% 70% at 50% 100%,rgba(255,184,28,.45),transparent 75%),linear-gradient(180deg,#2a2a8a,#0b1257);}
+.ch-prize.q-l em{background:linear-gradient(90deg,#ffd866,#ffb81c,#ffd866);}
+.ch-bonus{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:#ffe7a3;background:rgba(255,255,255,.07);border:1.5px solid rgba(236,184,58,.5);border-radius:999px;padding:4px 14px;}
+.ch-bonus small{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#9ea9e0;}
+.ch-bonus.in{opacity:0;animation:chIn .45s .25s cubic-bezier(.34,1.56,.64,1) forwards;}
 .ch-item{display:flex;flex-direction:column;align-items:center;min-width:90px;max-width:150px;padding:10px 10px 8px;border-radius:16px;background:#fff;border:2px solid var(--gold);box-shadow:0 4px 0 #d9a52c;}
 .ch-item.in{opacity:0;animation:chIn .45s cubic-bezier(.34,1.56,.64,1) forwards;}
 .ch-item>span{font-size:34px;line-height:1.1;}
 .ch-item b{font-family:'Baloo 2',sans-serif;font-size:18px;color:var(--navy);line-height:1.15;}
 .ch-item small{font-size:12px;color:#6b6f8e;font-weight:700;}
 .ch-modal .rw-actions{position:relative;}
-
+.ch-modal .btn.secondary{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.3);}
+/* new chest looks */
+.ch-svg.t-crystal{filter:drop-shadow(0 0 6px rgba(180,140,255,.55));}
+.ch-svg.t-legend{filter:drop-shadow(0 0 8px rgba(255,184,28,.6));}
+/* chest types on the Chests page */
+.panel.ch-types{min-height:0;margin-bottom:18px;}
+.ch-types-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px;}
+.ch-type{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:10px 8px 12px;border-radius:16px;background:#fff;border:2px solid #ece4cc;}
+.ch-type b{font-family:'Baloo 2',sans-serif;color:var(--navy);font-size:15px;line-height:1.15;}
+.ch-type small{font-size:12px;color:#6b6f8e;font-weight:600;line-height:1.25;flex:1;}
+.ch-type.ch-crystal{border-color:#c9b6ff;background:linear-gradient(180deg,#f6f1ff,#fff);}
+.ch-type.ch-legend{border-color:var(--gold);background:linear-gradient(180deg,#fff4d6,#fff);}
+.ch-obar{display:flex;width:100%;height:8px;border-radius:99px;overflow:hidden;margin-top:6px;gap:1px;}
+.ch-obar i{display:block;height:100%;}
+.ch-rlegend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:12px;font-size:12.5px;font-weight:700;color:#4a4a63;}
+.ch-rlegend span{display:inline-flex;align-items:center;gap:5px;}
+.ch-rlegend i{width:10px;height:10px;border-radius:50%;background:var(--rq);}
+.ch-hi span.q{border-bottom:3px solid var(--rq);}
+.ch-slot.ch-crystal{border-color:#b48cff;box-shadow:0 6px 0 #7a5cff;background:linear-gradient(160deg,#f4eeff,var(--cream));}
+.ch-slot.ch-legend{border-color:#ffb81c;box-shadow:0 6px 0 #b5891f,0 0 18px rgba(255,184,28,.45);background:linear-gradient(160deg,#fff1c9,var(--cream));}
+@media (min-width:1024px){.ch-card{width:132px;height:156px;}.ch-card .ch-ci{font-size:48px;}.ch-card b{font-size:16px;}.ch-modal.spinning{padding:24px 28px 22px;}}
+@media (max-width:900px){.ch-types-row{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:600px){.ch-card{width:92px;height:116px;}.ch-card .ch-ci{font-size:34px;}.ch-card b{font-size:13px;}.ch-modal{padding:18px 14px 16px;}
+  .ch-types-row{grid-template-columns:repeat(2,1fr);}.ch-prize .ch-pi{font-size:54px;}}
 /* finish screen strip */
 .ch-earn{display:flex;align-items:center;gap:12px;max-width:440px;margin:10px auto 4px;padding:8px 14px;border-radius:18px;background:linear-gradient(135deg,#fff3cf,#fff);border:2px solid var(--gold);text-align:left;animation:chIn .5s cubic-bezier(.34,1.56,.64,1);}
 .ch-earn>div{flex:1;min-width:0;}
@@ -99,5 +172,5 @@
   .ch-task .ch-svg{width:32px;height:32px;}
 }
 body.adult .ch-bob,body.adult .ch-wiggle{animation-duration:4s;}
-@media (prefers-reduced-motion: reduce){.ch-bob,.ch-wiggle,.ch-rays,.ch-shake{animation:none!important;}}
+@media (prefers-reduced-motion: reduce){.ch-bob,.ch-wiggle,.ch-rays,.ch-shake,.ch-card.win{animation:none!important;}}
 .panel.ch-hero,.panel.ch-week,.panel.ch-hist{min-height:0;margin-bottom:18px;}

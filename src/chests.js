@@ -7,13 +7,21 @@
            gold = all three weekly challenges done.
    ===================================================================== */
 const CH_TIERS={
-  wood:{en:'Wooden chest',pl:'Drewniana skrzynia',a:'#c98a4b',b:'#8a5426',band:'#e3b341',lock:'#ecb83a'},
-  silver:{en:'Silver chest',pl:'Srebrna skrzynia',a:'#dfe6f0',b:'#8f9cb3',band:'#5d6b85',lock:'#9fd8ff'},
-  gold:{en:'Golden chest',pl:'Złota skrzynia',a:'#ffd866',b:'#c88a12',band:'#7a4d00',lock:'#ff6b8b'}
+  wood:{en:'Wooden chest',pl:'Drewniana skrzynia',a:'#c98a4b',b:'#8a5426',band:'#e3b341',lock:'#ecb83a',glow:'#ecb83a',w:{c:70,u:23,r:6,e:1,l:0},bc:[5,10]},
+  silver:{en:'Silver chest',pl:'Srebrna skrzynia',a:'#dfe6f0',b:'#8f9cb3',band:'#5d6b85',lock:'#9fd8ff',glow:'#cfe3ff',w:{c:40,u:38,r:17,e:4.5,l:.5},bc:[15,25]},
+  gold:{en:'Golden chest',pl:'Złota skrzynia',a:'#ffd866',b:'#c88a12',band:'#7a4d00',lock:'#ff6b8b',glow:'#ffd866',w:{c:0,u:25,r:40,e:28,l:7},bc:[30,50]},
+  crystal:{en:'Crystal chest',pl:'Kryształowa skrzynia',a:'#bff6ff',b:'#7a5cff',band:'#3b1f8f',lock:'#ff9ff3',glow:'#b48cff',w:{c:0,u:10,r:40,e:38,l:12},bc:[50,80]},
+  legend:{en:"Leo's legendary chest",pl:'Legendarna skrzynia Leo',a:'#2f3aa0',b:'#0b0f3d',band:'#ecb83a',lock:'#ff6b8b',glow:'#ffb81c',w:{c:0,u:0,r:25,e:45,l:30},bc:[100,150]}
 };
+const CH_ORDER=['wood','silver','gold','crystal','legend'];
+/* how rare a prize is: colour of its card in the reel */
+const RAR={c:{en:'Common',pl:'Zwykła',col:'#9aabc4'},u:{en:'Uncommon',pl:'Niezwykła',col:'#4fc26a'},r:{en:'Rare',pl:'Rzadka',col:'#3d9bff'},e:{en:'Epic',pl:'Epicka',col:'#b064ff'},l:{en:'Legendary',pl:'Legendarna',col:'#ffb81c'}};
+const RAR_ORDER=['c','u','r','e','l'];
+/* streak milestones that give a special chest */
+const CH_STREAK=[[7,'crystal'],[14,'crystal'],[30,'legend'],[100,'legend'],[365,'legend']];
 const CH_EVERY=3;
 /* small rewards that live in the wallet like shop purchases (hidden from the shop tabs) */
-[{id:'c_hint2',give:['hint',2]},{id:'c_hint3',give:['hint',3]},{id:'c_hint5',give:['hint',5]},{id:'c_spin2',give:['spin',2]},{id:'c_spin3',give:['spin',3]},{id:'c_freeze',give:['freeze',1]}]
+[{id:'c_hint2',give:['hint',2]},{id:'c_hint3',give:['hint',3]},{id:'c_hint5',give:['hint',5]},{id:'c_spin2',give:['spin',2]},{id:'c_spin3',give:['spin',3]},{id:'c_spin5',give:['spin',5]},{id:'c_freeze',give:['freeze',1]},{id:'c_freeze2',give:['freeze',2]}]
   .forEach(i=>{i.cat='chest';i.price=0;i.icon='🎁';i.en=i.pl='';SHOP_ITEMS.push(i);SHOP_BY[i.id]=i;});
 
 function CH(){C.ch=C.ch||{};const c=C.ch;c.log=c.log||{};c.got=c.got||{};c.op=c.op||{};return c;}
@@ -56,15 +64,22 @@ function challengeState(ws){ws=ws||weekStart();const L=_weekLog(ws),ds=weekDays(
 
 /* ---------- earning chests ---------- */
 function chestsUnopened(){const c=CH();return Object.keys(c.got).filter(k=>!c.op[k]).sort((a,b)=>c.got[a].t-c.got[b].t);}
-function chestMeter(){const c=CH(),lastW=Math.max(0,...Object.values(c.got).filter(g=>g.k==='wood').map(g=>g.t));
+function _lastW(){return Math.max(0,...Object.values(CH().got).filter(g=>g.w==='lessons'||g.w==='lucky'||(g.k==='wood'&&!g.w)).map(g=>g.t));}
+function chestMeter(){const c=CH(),lastW=_lastW();
   return Object.values(c.log).filter(e=>!e.r&&e.t>lastW).length;}
+/* now and then three lessons give a better chest (decided by the chest id, so every device agrees) */
+function _lucky(id){const h=_hash('luck'+id)%1000;return h<10?'crystal':h<40?'gold':h<130?'silver':null;}
 function _give(id,k,why){const c=CH();if(c.got[id])return false;c.got[id]={k,t:Date.now(),w:why||''};return true;}
 function chestCheck(quiet){
   const c=CH(),fresh=[];
   /* wooden: every 3 finished lessons */
-  const lastW=Math.max(0,...Object.values(c.got).filter(g=>g.k==='wood').map(g=>g.t));
+  const lastW=_lastW();
   const since=Object.values(c.log).filter(e=>!e.r&&e.t>lastW).sort((a,b)=>a.t-b.t);
-  if(since.length>=CH_EVERY){const id='w:'+since[CH_EVERY-1].t;if(_give(id,'wood','lessons')){c.got[id].t=since[CH_EVERY-1].t+1;fresh.push(id);}}
+  if(since.length>=CH_EVERY){const id='w:'+since[CH_EVERY-1].t,lk=_lucky(id);if(_give(id,lk||'wood',lk?'lucky':'lessons')){c.got[id].t=since[CH_EVERY-1].t+1;fresh.push(id);}}
+  /* day-streak milestones */
+  try{const n=streakOf(C.days),st=streakStart();if(st)CH_STREAK.forEach(([d,k])=>{const id='k:'+d+':'+st;if(n>=d&&_give(id,k,'streak:'+d))fresh.push(id);});}catch(e){}
+  /* a new level reached (Leo grows up) */
+  Object.keys(C.lg||{}).forEach(key=>{const id='L:'+key;if(_give(id,'legend','level'))fresh.push(id);});
   /* weekly challenges */
   const ws=weekStart(),st=challengeState(ws);
   st.forEach(s=>{if(s.done&&_give(s.id,'silver','ch:'+s.c.id))fresh.push(s.id);});
@@ -77,6 +92,10 @@ const chestName=id=>{const t=CH_TIERS[chestTier(id)];return T2(t.en,t.pl);};
 function chestWhy(id){const g=CH().got[id]||{},w=g.w||'';
   if(w==='lessons')return T2(`For ${CH_EVERY} finished lessons`,`Za ${CH_EVERY} ukończone lekcje`);
   if(w==='test')return T2('For passing a unit test','Za zdany test działu');
+  if(w==='test3')return T2('Perfect unit test: 3 stars!','Test działu na 3 gwiazdki!');
+  if(w==='lucky')return T2(`Lucky! ${CH_EVERY} lessons gave you a better chest`,`Szczęście! ${CH_EVERY} lekcje dały lepszą skrzynię`);
+  if(w==='level')return T2('You reached a new level!','Nowy poziom zdobyty!');
+  if(w.startsWith('streak:')){const d=w.slice(7);return T2(`${d}-day streak!`,`${d} dni nauki z rzędu!`);}
   if(w==='week')return T2('All weekly challenges done!','Wszystkie wyzwania tygodnia zrobione!');
   if(w.startsWith('ch:')){const c=CH_BY[w.slice(3)];return c?T2('Weekly challenge: ','Wyzwanie tygodnia: ')+(LANG==='pl'?c.pl(c.n):c.en(c.n)):'';}
   if(w==='tester')return '🧪 Tester';return '';}
@@ -91,7 +110,7 @@ let _CH_RUN=null;
     let fresh=[];
     if(_CH_RUN&&_CH_RUN.id===l.id&&!_CH_RUN.logged){_CH_RUN.logged=true;
       CH().log[_uid()]={d:localDay(),t:Date.now(),s:stars,f:_CH_RUN.first?1:0,r:l.review?1:0,x:l.test?1:0};
-      if(l.test&&stars>0&&_give('s:'+l.id,'silver','test'))fresh.push('s:'+l.id);
+      if(l.test&&stars>0&&_give('s:'+l.id,stars>=3?'crystal':'silver',stars>=3?'test3':'test'))fresh.push('s:'+l.id);
       fresh=fresh.concat(chestCheck(true));saveProgress();_CH_RUN.fresh=fresh;}
     fresh=(_CH_RUN&&_CH_RUN.fresh)||[];
     return h.replace('<div class="nav-row" style="justify-content:center',chestFinishHtml(fresh)+'<div class="nav-row" style="justify-content:center');};
@@ -108,82 +127,166 @@ function chestFinishHtml(fresh){
 /* ---------- what's inside ---------- */
 const _rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 function _pick(list){const t=list.reduce((a,x)=>a+x[0],0);let r=Math.random()*t;for(const x of list){if((r-=x[0])<=0)return x[1];}return list[list.length-1][1];}
-function _rollChest(k){
-  const out=[{t:'coins',n:k==='gold'?_rnd(80,150):k==='silver'?_rnd(30,60):_rnd(10,25)}];
-  const nrg=!energyFree()&&energyNow()<EN_MAX;
-  if(k==='wood'){const x=_pick([[45,null],[20,'c_hint2'],[15,'c_spin2'],[12,nrg?'energy5':null],[8,'c_freeze']]);if(x)out.push(x==='energy5'?{t:'energy',n:5}:{t:'item',id:x});}
-  if(k==='silver'){const x=_pick([[35,'c_hint3'],[25,'c_spin3'],[20,'c_freeze'],[20,nrg?'energy':'c_hint3']]);out.push(x==='energy'?{t:'energy',n:EN_MAX}:{t:'item',id:x});}
-  if(k==='gold'){const wear=SHOP_ITEMS.filter(i=>['leo','frame','badge'].includes(i.cat)&&!owned(i.id)&&i.price<=250);
-    if(wear.length&&Math.random()<0.7)out.push({t:'wear',id:wear[_rnd(0,wear.length-1)].id});else out.push({t:'item',id:'c_freeze'});
-    out.push({t:'item',id:'c_hint5'});}
-  return out;
+const _WEAR=['leo','frame','badge'];
+/* one prize of rarity q. real=false only fills the reel (anything may show there) */
+function _prize(q,real){
+  const nrg=!real||(!energyFree()&&energyNow()<EN_MAX),any=a=>a[_rnd(0,a.length-1)];
+  if(q==='c')return any([{t:'coins',n:_rnd(15,30)},{t:'item',id:'c_hint2'},{t:'item',id:'c_spin2'},nrg?{t:'energy',n:5}:{t:'coins',n:_rnd(15,30)}]);
+  if(q==='u')return any([{t:'coins',n:_rnd(40,70)},{t:'item',id:'c_hint3'},{t:'item',id:'c_spin3'},{t:'item',id:'c_freeze'}]);
+  if(q==='r')return any([{t:'coins',n:_rnd(100,150)},{t:'item',id:'c_hint5'},{t:'item',id:'c_spin5'},{t:'item',id:'c_freeze2'},nrg?{t:'energy',n:EN_MAX}:{t:'item',id:'c_hint5'}]);
+  const pool=SHOP_ITEMS.filter(i=>!i.season&&(q==='e'?_WEAR.includes(i.cat)&&i.price<=200:(_WEAR.includes(i.cat)&&i.price>200)||(i.cat==='theme'&&!i.free)));
+  const can=real?pool.filter(i=>!owned(i.id)):pool;
+  if(can.length&&Math.random()<.85)return {t:'wear',id:any(can).id};
+  return {t:'coins',n:q==='e'?_rnd(250,300):_rnd(450,550)};
 }
+function _rollQ(k){const w=(CH_TIERS[k]||CH_TIERS.wood).w;return _pick(RAR_ORDER.filter(q=>w[q]>0).map(q=>[w[q],q]));}
+/* the reel prize + a few bonus coins */
+function _rollChest(k){const q=_rollQ(k),b=(CH_TIERS[k]||CH_TIERS.wood).bc;return [Object.assign(_prize(q,true),{q}),{t:'coins',n:_rnd(b[0],b[1]),bonus:1}];}
 function _grant(id,rs){const w=W();rs.forEach((r,i)=>{
-  if(r.t==='coins')shopEarn(r.n,'chest:'+id);
+  if(r.t==='coins')shopEarn(r.n,'chest:'+id+(r.q||r.bonus?':'+i:''));
   else if(r.t==='energy')energySet(energyNow()+r.n);
   else if(r.t==='item'||r.t==='wear')w.p['ch'+i+':'+id]=[r.id,0];});}
 function rewardLabel(r){
   if(r.t==='coins')return {i:'🪙',b:'+'+r.n,s:T2('coins','monet')};
   if(r.t==='energy')return {i:'⚡',b:r.n>=EN_MAX?T2('Full','Pełna'):'+'+r.n,s:T2('energy','energii')};
   const it=SHOP_BY[r.id];if(!it)return {i:'🎁',b:'',s:''};
-  if(it.cat==='chest'){const [k,n]=it.give;const m={hint:['💡',T2('hints','podpowiedzi')],spin:['🎡',T2('wheel spins','obroty koła')],freeze:['🧊',T2('streak freeze','zamrożenie serii')]}[k];return {i:m[0],b:'+'+n,s:m[1]};}
-  return {i:it.icon,b:T2(it.en,it.pl),s:T2({leo:"for Leo",frame:'profile frame',badge:'profile badge'}[it.cat],{leo:'dla Leo',frame:'ramka profilu',badge:'odznaka profilu'}[it.cat]),wear:it.id};
+  if(it.cat==='chest'){const [k,n]=it.give;const m={hint:['💡',T2('hints','podpowiedzi')],spin:['🎡',T2('wheel spins','obroty koła')],freeze:['🧊',n>1?T2('streak freezes','zamrożenia serii'):T2('streak freeze','zamrożenie serii')]}[k];return {i:m[0],b:'+'+n,s:m[1]};}
+  return {i:it.icon,b:T2(it.en,it.pl),s:T2({leo:"for Leo",frame:'profile frame',badge:'profile badge',theme:'app colours'}[it.cat]||'',{leo:'dla Leo',frame:'ramka profilu',badge:'odznaka profilu',theme:'kolory aplikacji'}[it.cat]||''),wear:it.id};
 }
+const _pct=(k,q)=>{const w=CH_TIERS[k].w,t=RAR_ORDER.reduce((a,x)=>a+w[x],0),p=w[q]/t*100;return p>=1?Math.round(p):p.toFixed(1);};
+function chestOddsHtml(k){const w=CH_TIERS[k].w;
+  return `<div class="ch-odds-t">${T2('What can be inside','Co może być w środku')}</div><div class="ch-odds-row">${RAR_ORDER.filter(q=>w[q]>0).map(q=>`<span class="ch-chip" style="--rq:${RAR[q].col}"><i></i>${T2(RAR[q].en,RAR[q].pl)} <b>${_pct(k,q)}%</b></span>`).join('')}</div>`;}
+function chestOddsBar(k){const w=CH_TIERS[k].w;return `<div class="ch-obar">${RAR_ORDER.filter(q=>w[q]>0).map(q=>`<i style="flex:${w[q]};background:${RAR[q].col}" title="${T2(RAR[q].en,RAR[q].pl)} ${_pct(k,q)}%"></i>`).join('')}</div>`;}
 
-/* ---------- opening ---------- */
-/* chest sound: music only, no voice (sfxBigWin also plays Leo's end-of-lesson line) */
-function chestFanfare(){try{if(typeof soundOn!=='undefined'&&!soundOn)return;[523.25,659.25,783.99,1046.5,1318.5].forEach((f,i)=>_tone(f,i*0.09,0.18,'triangle',0.18));
-  setTimeout(()=>{[523.25,659.25,783.99].forEach(f=>_tone(f,0,0.8,'triangle',0.13));},480);}catch(e){}}
+/* ---------- sounds (music only, no voice: sfxBigWin also plays Leo's end-of-lesson line) ---------- */
+const _chSnd=()=>typeof _tone==='function'&&(typeof soundOn==='undefined'||soundOn);
+function chestTick(p){if(!_chSnd())return;try{_tone(1250+p*500,0,0.035,'triangle',0.09);}catch(e){}}
+function chestWhoosh(){if(!_chSnd())return;try{[392,523.25,659.25,880].forEach((f,i)=>_tone(f,i*0.05,0.12,'sine',0.1));}catch(e){}}
+function chestFanfare(q){if(!_chSnd())return;try{q=q||'r';
+  const n={c:3,u:4,r:5,e:6,l:7}[q]||5,notes=[523.25,659.25,783.99,1046.5,1318.5,1568,2093];
+  notes.slice(0,n).forEach((f,i)=>_tone(f,i*0.08,0.18,'triangle',0.17));
+  if(q!=='c')setTimeout(()=>{[523.25,659.25,783.99].forEach(f=>_tone(f*(q==='l'?2:1),0,q==='l'?1.3:0.8,'triangle',0.12));},n*80);
+  if(q==='l')setTimeout(()=>{[1046.5,1318.5,1568,2093].forEach((f,i)=>_tone(f,i*0.06,0.25,'sine',0.1));},n*80+500);}catch(e){}}
 function _hushLeo(){try{if(window._leoTalking&&typeof _vAud!=='undefined'&&_vAud)_vAud.pause();}catch(e){}}
+
+/* ---------- opening: shake, lid pops, then a reel of prizes spins and stops under the gold marker ---------- */
+let _REEL=null;
 function openChest(id){
-  const c=CH();if(!c.got[id])return;_hushLeo();
+  const c=CH();if(!c.got[id])return;_hushLeo();_reelStop();
   let m=document.getElementById('chestOpen');if(!m){m=document.createElement('div');m.id='chestOpen';m.className='ch-overlay';document.body.appendChild(m);}
   const k=chestTier(id),done=c.op[id];
-  m.innerHTML=`<div class="ch-modal ch-${k}"><div class="ch-rays"></div>
+  m.innerHTML=`<div class="ch-modal ch-${k}${done?' opened':''}" id="chModal" style="--glow:${CH_TIERS[k].glow}"><div class="ch-rays"></div>
+    <button class="ch-x" onclick="closeChest()" aria-label="Close">✕</button>
     <div class="ch-stage" id="chStage" onclick="crackChest('${id}')">${chestSvg(k,170,done?'open':'ch-wiggle')}</div>
     <h3>${chestName(id)}</h3><p class="rw-small">${chestWhy(id)}</p>
+    <div class="ch-odds" id="chOdds">${done?'':chestOddsHtml(k)}</div>
+    <div class="ch-reelbox" id="chReelBox"></div>
     <div class="ch-loot" id="chLoot"></div>
-    <div class="rw-actions" id="chActs">${done?'':`<button class="btn btn-gold" onclick="crackChest('${id}')">🔓 ${T2('Open','Otwórz')}</button>`}</div></div>`;
-  m.classList.add('show');m.onclick=e=>{if(e.target===m&&CH().op[id])closeChest();};
+    <div class="rw-actions" id="chActs">${done?'':`<button class="btn btn-gold ch-go" onclick="crackChest('${id}')">🔓 ${T2('Open','Otwórz')}</button>`}</div></div>`;
+  m.classList.add('show');m.onclick=e=>{if(e.target===m&&CH().op[id]&&!_REEL)closeChest();};
   if(done)_showLoot(id,true);
   if(typeof sfxPop==='function')sfxPop();
 }
 function crackChest(id){
-  const c=CH();if(c.op[id]){return;}
-  const rs=_rollChest(chestTier(id));c.op[id]={r:rs,t:Date.now()};_grant(id,rs);saveProgress();renderWallet();
-  const st=document.getElementById('chStage');if(st){st.onclick=null;st.innerHTML=chestSvg(chestTier(id),170,'ch-shake');}
+  const c=CH();if(c.op[id]||_REEL)return;
+  const k=chestTier(id),rs=_rollChest(k);c.op[id]={r:rs,t:Date.now()};_grant(id,rs);saveProgress();renderWallet();
+  _REEL={id,phase:'crack'};
+  const st=document.getElementById('chStage');if(st){st.onclick=null;st.innerHTML=chestSvg(k,170,'ch-shake');}
   const a=document.getElementById('chActs');if(a)a.innerHTML='';
-  setTimeout(()=>{if(st)st.innerHTML=chestSvg(chestTier(id),170,'open pop');chestFanfare();if(typeof burstConfetti==='function')burstConfetti();_showLoot(id);},650);
+  const o=document.getElementById('chOdds');if(o)o.classList.add('gone');
+  [0,160,320,480].forEach((d,i)=>setTimeout(()=>chestTick(i/4),d));
+  setTimeout(()=>{if(!_REEL||_REEL.id!==id)return;if(st)st.innerHTML=chestSvg(k,170,'open pop');chestWhoosh();
+    setTimeout(()=>{if(_REEL&&_REEL.id===id)_spinReel(id);},380);},650);
+}
+function reelCard(r){const x=rewardLabel(r),q=r.q||'c';return `<div class="ch-card q-${q}" style="--rq:${RAR[q].col}"><span class="ch-ci">${x.i}</span><b>${x.b}</b><small>${x.s}</small></div>`;}
+function _spinReel(id){
+  const op=CH().op[id],k=chestTier(id),win=op.r[0],N=44,WI=37,wq=win.q||'c',items=[];
+  for(let i=0;i<N;i++){if(i===WI){items.push(win);continue;}const q=_rollQ(k);items.push(Object.assign(_prize(q,false),{q}));}
+  /* a near miss: often a rarer prize sits right next to the one you get */
+  const up=RAR_ORDER.slice(RAR_ORDER.indexOf(wq)+1).filter(q=>CH_TIERS[k].w[q]>0);
+  if(up.length&&Math.random()<.6){const q=up[Math.random()<.7?0:up.length-1];items[WI+(Math.random()<.5?1:-1)]=Object.assign(_prize(q,false),{q});}
+  const box=document.getElementById('chReelBox'),md=document.getElementById('chModal');if(!box||!md)return;
+  box.innerHTML=`<div class="ch-reel"><div class="ch-track" id="chTrack">${items.map(reelCard).join('')}</div><i class="ch-mark"></i></div>
+    <button class="ch-skip" onclick="skipReel()">${T2('Skip','Pomiń')} ⏭</button>`;
+  md.classList.add('spinning');
+  const R=_REEL={id,phase:'spin'};
+  /* wait for the wider window to settle before measuring */
+  setTimeout(()=>{if(_REEL!==R)return;
+    const tr=document.getElementById('chTrack');if(!tr)return;const cards=tr.children,reelW=tr.parentElement.clientWidth;
+    const cw=cards[1].offsetLeft-cards[0].offsetLeft,c0=cards[0].offsetLeft,half=cards[WI].offsetWidth/2;
+    const end=cards[WI].offsetLeft+half-reelW/2,stop=end+(Math.random()-.5)*half*1.5;
+    const slow=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    R.dur=slow?1200:(document.body.classList.contains('adult')?5200:5800);R.t0=performance.now();let lastI=-1,lastT=0;
+    const ease=t=>1-Math.pow(1-t,4.2);
+    const step=now=>{if(_REEL!==R)return;const t=Math.min(1,(now-R.t0)/R.dur),x=stop*ease(t);
+      tr.style.transform=`translate3d(${-x}px,0,0)`;
+      const i=Math.floor((x+reelW/2-c0)/cw);if(i!==lastI){lastI=i;if(now-lastT>28){lastT=now;chestTick(t);}}
+      if(t<1){R.raf=requestAnimationFrame(step);return;}
+      /* settle onto the middle of the card, then show it */
+      tr.style.transition='transform .35s cubic-bezier(.4,0,.2,1)';tr.style.transform=`translate3d(${-end}px,0,0)`;
+      R.phase='reveal';setTimeout(()=>_reveal(id,cards[WI],R.skipped),R.skipped?150:380);};
+    R.raf=requestAnimationFrame(step);},420);
+}
+function skipReel(){const R=_REEL;if(!R||R.phase!=='spin'||!R.t0)return;R.skipped=true;R.t0=performance.now()-R.dur;}
+function _reelStop(){if(_REEL&&_REEL.raf)cancelAnimationFrame(_REEL.raf);_REEL=null;}
+function _reveal(id,card,fast){
+  const R=_REEL;if(!R||R.id!==id)return;const op=CH().op[id],q=op.r[0].q||'c',md=document.getElementById('chModal');
+  if(card)card.classList.add('win');
+  const sk=document.querySelector('#chReelBox .ch-skip');if(sk)sk.remove();
+  if(md){md.style.setProperty('--glow',RAR[q].col);md.classList.add('q-'+q);}
+  chestFanfare(q);if(RAR_ORDER.indexOf(q)>=2&&typeof burstConfetti==='function')burstConfetti();
+  setTimeout(()=>{if(_REEL!==R)return;_REEL=null;if(md){md.classList.remove('spinning');md.classList.add('revealed');}
+    const b=document.getElementById('chReelBox');if(b)b.innerHTML='';_showLoot(id);},fast?700:1300);
 }
 function _showLoot(id,instant){
   const op=CH().op[id];if(!op)return;const L=document.getElementById('chLoot');if(!L)return;
-  L.innerHTML=op.r.map((r,i)=>{const x=rewardLabel(r);return `<div class="ch-item ${instant?'':'in'}" style="animation-delay:${instant?0:.15+i*.22}s"><span>${x.i}</span><b>${x.b}</b><small>${x.s}</small></div>`;}).join('');
-  const wear=op.r.map(rewardLabel).find(x=>x.wear),more=chestsUnopened()[0];
-  const a=document.getElementById('chActs');if(a)a.innerHTML=(wear&&!_isWorn(wear.wear)?`<button class="btn secondary" onclick="wearItem('${wear.wear}');closeChest()">✨ ${T2('Put it on','Załóż')}</button>`:'')
+  const main=op.r[0];
+  if(main&&main.q){const x=rewardLabel(main),q=main.q,rest=op.r.slice(1).map(rewardLabel);
+    L.innerHTML=`<div class="ch-prize q-${q} ${instant?'':'in'}" style="--rq:${RAR[q].col}"><em>${T2(RAR[q].en,RAR[q].pl)}</em><span class="ch-pi">${x.i}</span><b>${x.b}</b><small>${x.s}</small></div>`
+      +(rest.length?`<div class="ch-bonus ${instant?'':'in'}">${rest.map(y=>`<span>${y.i} ${y.b} ${y.s}</span>`).join('')} <small>${T2('bonus','bonus')}</small></div>`:'');}
+  else L.innerHTML=op.r.map((r,i)=>{const x=rewardLabel(r);return `<div class="ch-item ${instant?'':'in'}" style="animation-delay:${instant?0:.15+i*.22}s"><span>${x.i}</span><b>${x.b}</b><small>${x.s}</small></div>`;}).join('');
+  const wear=op.r.map(rewardLabel).find(x=>x.wear),more=chestsUnopened()[0],th=wear&&SHOP_BY[wear.wear].cat==='theme';
+  const a=document.getElementById('chActs');if(a)a.innerHTML=(wear&&!_isWorn(wear.wear)?`<button class="btn secondary" onclick="wearItem('${wear.wear}');closeChest()">✨ ${th?T2('Use it','Użyj'):T2('Put it on','Załóż')}</button>`:'')
     +(more?`<button class="btn btn-gold" onclick="openChest('${more}')">🎁 ${T2('Next chest','Następna skrzynia')} (${chestsUnopened().length})</button>`:`<button class="btn btn-gold" onclick="closeChest()">${T2('Nice!','Super!')}</button>`);
 }
 const _isWorn=id=>Object.values(W().eq).includes(id);
-function closeChest(){const m=document.getElementById('chestOpen');if(m)m.classList.remove('show');if(!document.body.classList.contains('in-lesson'))renderCourse();}
+function closeChest(){_reelStop();const m=document.getElementById('chestOpen');if(m)m.classList.remove('show');if(!document.body.classList.contains('in-lesson'))renderCourse();}
 
 /* ---------- the chest picture (drawn here so it is Leogrow's own) ---------- */
 function chestSvg(k,size,cls){
   const t=CH_TIERS[k]||CH_TIERS.wood,g='chg'+k;
-  const gems=k==='gold'?`<circle cx="30" cy="70" r="4" fill="#5fd3ff"/><circle cx="90" cy="70" r="4" fill="#5fd3ff"/>`:'';
-  return `<svg class="ch-svg ${cls||''}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
-  <defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${t.a}"/><stop offset="1" stop-color="${t.b}"/></linearGradient>
+  let body='',lid='';
+  if(k==='gold')body=`<circle cx="30" cy="70" r="4" fill="#5fd3ff"/><circle cx="90" cy="70" r="4" fill="#5fd3ff"/>`;
+  if(k==='crystal'){body=`<path d="M44 68 l6 -8 l6 8 l-6 12z M64 74 l5 -7 l5 7 l-5 10z" fill="#fff" opacity=".55"/><path d="M18 96 L40 58 M98 92 L80 60" stroke="#fff" stroke-width="2" opacity=".35"/>`;
+    lid=`<path d="M40 40 l8 -14 l8 14z M66 34 l6 -10 l6 10z" fill="#fff" opacity=".5"/>`;}
+  if(k==='legend'){body=`<circle cx="30" cy="70" r="4.5" fill="#ff6b8b"/><circle cx="90" cy="70" r="4.5" fill="#5fd3ff"/><circle cx="60" cy="88" r="4" fill="#ffd866"/><path d="M22 98 h76" stroke="#ecb83a" stroke-width="2" opacity=".6"/>`;
+    lid=`<path d="M44 17 L47 3 L54 10 L60 0 L66 10 L73 3 L76 17 Z" fill="#ffd866" stroke="#7a4d00" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="9" r="2.4" fill="#ff6b8b"/>`;}
+  return `<svg class="ch-svg t-${k} ${cls||''}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
+  <defs><linearGradient id="${g}" x1="0" y1="0" x2="${k==='crystal'?1:0}" y2="1"><stop offset="0" stop-color="${t.a}"/><stop offset="1" stop-color="${t.b}"/></linearGradient>
   <radialGradient id="${g}l"><stop offset="0" stop-color="#fff6c8"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient></defs>
   <ellipse cx="60" cy="106" rx="44" ry="7" fill="#000" opacity=".22"/>
   <g class="ch-glow"><circle cx="60" cy="52" r="46" fill="url(#${g}l)"/></g>
   <rect x="14" y="54" width="92" height="48" rx="10" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
   <rect x="14" y="54" width="92" height="9" fill="#000" opacity=".12"/>
-  <rect x="26" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/><rect x="85" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/>${gems}
+  <rect x="26" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/><rect x="85" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/>${body}
   <g class="ch-lid"><path d="M14 56 V40 C14 22 32 14 60 14 C88 14 106 22 106 40 V56 Z" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
-    <path d="M26 56 V36 C26 26 30 21 35 19 V56Z M94 56 V36 C94 26 90 21 85 19 V56Z" fill="${t.band}" opacity=".85"/>
+    <path d="M26 56 V36 C26 26 30 21 35 19 V56Z M94 56 V36 C94 26 90 21 85 19 V56Z" fill="${t.band}" opacity=".85"/>${lid}
     <path d="M24 30 C34 22 48 20 60 20" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".45"/>
     <rect x="50" y="46" width="20" height="20" rx="5" fill="${t.lock}" stroke="${t.band}" stroke-width="2.5"/>
     <path d="M60 52 c-2.6 0 -3.6 2.4 -2.2 4 l-1 5 h6.4 l-1 -5 c1.4 -1.6 .4 -4 -2.2 -4z" fill="${t.band}"/></g>
 </svg>`;
 }
+
+/* how to get each chest (shown on the Chests page) */
+function chestHowTo(k){return {wood:T2(`Every ${CH_EVERY} finished lessons`,`Co ${CH_EVERY} ukończone lekcje`),
+  silver:T2('Pass a unit test or finish a weekly challenge','Zdaj test działu albo zrób wyzwanie tygodnia'),
+  gold:T2('Finish all three weekly challenges','Zrób wszystkie trzy wyzwania tygodnia'),
+  crystal:T2('Unit test with 3 stars, or a 7 and 14-day streak','Test działu na 3 gwiazdki albo 7 i 14 dni z rzędu'),
+  legend:T2('Reach a new level, or a 30, 100 and 365-day streak','Nowy poziom albo 30, 100 i 365 dni z rzędu')}[k];}
+function chestTypesHtml(){return `<div class="panel ch-types">${zoneTag(T2('CHEST TYPES','RODZAJE SKRZYŃ'))}
+  <p class="sub">${T2(`Rarer chests hold rarer prizes. Any ${CH_EVERY} lessons can turn out to be a lucky, better chest!`,`Rzadsze skrzynie mają rzadsze nagrody. Każde ${CH_EVERY} lekcje mogą dać szczęśliwą, lepszą skrzynię!`)}</p>
+  <div class="ch-types-row">${CH_ORDER.map(k=>`<div class="ch-type ch-${k}">${chestSvg(k,64,'')}<b>${T2(CH_TIERS[k].en,CH_TIERS[k].pl)}</b><small>${chestHowTo(k)}</small>${chestOddsBar(k)}</div>`).join('')}</div>
+  <div class="ch-rlegend">${RAR_ORDER.map(q=>`<span style="--rq:${RAR[q].col}"><i></i>${T2(RAR[q].en,RAR[q].pl)}</span>`).join('')}</div></div>`;}
 
 /* ---------- the Chests page ---------- */
 function chestsPageHtml(){
@@ -195,7 +298,7 @@ function chestsPageHtml(){
     <div><h2 class="title">${T2('Chests & challenges','Skrzynie i wyzwania')} 🎁</h2>
     <p class="sub">${un.length?T2(`You have <b>${un.length}</b> chest${un.length>1?'s':''} to open!`,`Masz <b>${un.length}</b> ${un.length===1?'skrzynię':'skrzynie'} do otwarcia!`):T2('Finish lessons and weekly challenges to earn chests full of coins, hints and outfits for Leo.','Kończ lekcje i wyzwania tygodnia, a zdobędziesz skrzynie pełne monet, podpowiedzi i strojów dla Leo.')}</p>
     <div class="ch-meter"><b>${T2('Next wooden chest','Następna drewniana skrzynia')}</b><div class="ch-dots big">${[...Array(CH_EVERY)].map((_,i)=>`<i class="${i<m?'on':''}"></i>`).join('')}</div><small>${m}/${CH_EVERY} ${T2('lessons','lekcji')}</small></div></div></div>
-    ${TESTER?`<div class="rw-tester">🧪 <button class="btn secondary" onclick="testerChest('wood')">+ wood</button><button class="btn secondary" onclick="testerChest('silver')">+ silver</button><button class="btn secondary" onclick="testerChest('gold')">+ gold</button></div>`:''}
+    ${TESTER?`<div class="rw-tester">🧪 ${CH_ORDER.map(k=>`<button class="btn secondary" onclick="testerChest('${k}')">+ ${k}</button>`).join('')}</div>`:''}
   </div>`;
   if(un.length) h+=`<div class="ch-shelf">${un.map(id=>`<button class="ch-slot ch-${chestTier(id)}" onclick="openChest('${id}')">${chestSvg(chestTier(id),88,'ch-bob')}<b>${chestName(id)}</b><small>${chestWhy(id)}</small><span class="ch-open">${T2('Open','Otwórz')}</span></button>`).join('')}</div>`;
   h+=`<div class="panel ch-week">${zoneTag(T2('WEEKLY CHALLENGES','WYZWANIA TYGODNIA'))}
@@ -204,7 +307,8 @@ function chestsPageHtml(){
       <div class="ch-bar"><i style="width:${s.v/s.c.n*100}%"></i><span>${s.v}/${s.c.n}</span></div></div>${chestSvg('silver',40,s.done?'open':'')}</div>`).join('')}
     <div class="ch-task ch-final ${nd===st.length?'done':''}"><span class="ch-ti">👑</span><div class="ch-tb"><b>${T2('Finish all three','Zrób wszystkie trzy')}</b><small>${T2('New challenges every Monday','Nowe wyzwania w każdy poniedziałek')}</small></div>${chestSvg('gold',48,nd===st.length?'open':'')}</div>
   </div>`;
-  if(hist.length) h+=`<div class="panel ch-hist">${zoneTag(T2('LAST OPENED','OSTATNIO OTWARTE'))}<div class="ch-hist-row">${hist.map(id=>`<div class="ch-hi">${chestSvg(chestTier(id),36,'open')}<div>${c.op[id].r.map(r=>{const x=rewardLabel(r);return `<span>${x.i} ${x.b}</span>`;}).join('')}</div></div>`).join('')}</div></div>`;
+  h+=chestTypesHtml();
+  if(hist.length) h+=`<div class="panel ch-hist">${zoneTag(T2('LAST OPENED','OSTATNIO OTWARTE'))}<div class="ch-hist-row">${hist.map(id=>`<div class="ch-hi">${chestSvg(chestTier(id),36,'open')}<div>${c.op[id].r.map(r=>{const x=rewardLabel(r);return `<span${r.q?` class="q" style="--rq:${RAR[r.q].col}"`:''}>${x.i} ${x.b}</span>`;}).join('')}</div></div>`).join('')}</div></div>`;
   return h;
 }
 function testerChest(k){_give('t:'+_uid(),k,'tester');saveProgress();renderCourse();}
