@@ -469,7 +469,7 @@ function bzHomeHtml(){
     <h1>Business English</h1>
     <p>${bzT('Long, real-world lessons for work: dialogues, phrase banks, grammar for tone, listening, writing, speaking and case studies. From B1 to C1.','Długie lekcje z prawdziwych sytuacji w pracy: dialogi, banki zwrotów, gramatyka tonu, słuchanie, pisanie, mówienie i studia przypadków. Od B1 do C1.')}</p>
     <div class="bzp-stats"><div><span>📚</span><b>${BZ_UNITS.length}</b><small>${bzT('units','działów')}</small></div><div><span>📝</span><b>${BZ_LESSONS.length}</b><small>${bzT('lessons, cases & tests','lekcji, case study i testów')}</small></div><div><span>⏱</span><b>${Math.round(mins/60)} h</b><small>${bzT('of learning','nauki')}</small></div><div><span>🎯</span><b>${all.p}%</b><small>${bzT('complete','ukończone')}</small></div></div>
-    <div class="bzp-cta">${nx?`<button class="bzx-btn gold big" onclick="bzOpen('${nx.id}')">${all.d?bzT('CONTINUE','KONTYNUUJ'):bzT('START','ZACZNIJ')}: ${nx.unit.level} · ${nx.title} ${BZ_ICON.arrow}</button>`:''}${bzPrem()?'':`<button class="bzx-btn outw" onclick="openPremium('business')">${bzT('UNLOCK BUSINESS ENGLISH','ODBLOKUJ BUSINESS ENGLISH')}</button>`}</div></div></section>
+    <div class="bzp-cta">${nx?`<button class="bzx-btn gold big" onclick="bzOpen('${nx.id}')">${all.d?bzT('CONTINUE','KONTYNUUJ'):bzT('START','ZACZNIJ')}: ${nx.unit.level} · ${nx.title} ${BZ_ICON.arrow}</button>`:''}${bzPrem()?'':`<button class="bzx-btn outw" onclick="openPremium('business')">${bzT('UNLOCK BUSINESS ENGLISH','ODBLOKUJ BUSINESS ENGLISH')}</button>`}${bzpHomeBtn()}</div></div></section>
   <section class="bzp-flow"><div class="bzp-flow-h"><b>${bzT('Every lesson, about 60 minutes','Każda lekcja, około 60 minut')}</b><small>${bzT(`+ ${cases} case studies and ${BZ_UNITS.length} long unit tests`,`+ ${cases} studiów przypadku i ${BZ_UNITS.length} długich testów`)}</small></div>
    <div class="bzp-steps">${BZ_FLOW.map((f,k)=>`<div><span>${f[0]}</span><b>${bzT(f[1],f[2])}</b></div>`).join('<i>›</i>')}</div></section>
   <div class="bz-filter">${['all','B1','B2','C1'].map(f=>`<button class="${BZ_F===f?'on':''}" onclick="BZ_F='${f}';renderCourse()">${f==='all'?bzT('All levels','Wszystkie'):f}</button>`).join('')}</div>`;
@@ -517,7 +517,7 @@ function bzHomeCard(){
       if(typeof PT!=='undefined')PT=null;
       document.body.classList.remove('adult','mh-on');document.body.classList.add('biz','biz-page');
       const u=VIEW.level&&BZ_UNITS.find(x=>x.id===VIEW.level);
-      $('courseView').innerHTML=courseShell((typeof testerBar==='function'?testerBar():'')+`<div class="bz-page">${u?bzUnitHtml(u):bzHomeHtml()}</div>`);
+      $('courseView').innerHTML=courseShell((typeof testerBar==='function'?testerBar():'')+`<div class="bz-page">${VIEW.level==='placement'?bzPlaceHtml():u?bzUnitHtml(u):bzHomeHtml()}</div>`);
       try{emojify($('courseView'));}catch(e){}
       try{if(LANG==='pl')applyLang($('courseView'));}catch(e){}
       return;
