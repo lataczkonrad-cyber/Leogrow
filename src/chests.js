@@ -181,7 +181,7 @@ function openChest(id){
   const k=chestTier(id),done=c.op[id];
   m.innerHTML=`<div class="ch-modal ch-${k}${done?' opened':''}" id="chModal" style="--glow:${CH_TIERS[k].glow}"><div class="ch-rays"></div>
     <button class="ch-x" onclick="closeChest()" aria-label="Close">✕</button>
-    <div class="ch-stage" id="chStage">${chestLeoHtml()}<div class="ch-box" id="chBox" onclick="crackChest('${id}')">${chestSvg(k,170,done?'open':'ch-wiggle')}</div></div>
+    <div class="ch-stage" id="chStage">${chestStageHtml(id,k,done?'open':'ch-wiggle')}</div>
     <h3>${chestName(id)}</h3><p class="rw-small">${chestWhy(id)}</p>
     <div class="ch-odds" id="chOdds">${done?'':chestOddsHtml(k)}</div>
     <div class="ch-reelbox" id="chReelBox"></div>
@@ -195,12 +195,12 @@ function crackChest(id){
   const c=CH();if(c.op[id]||_REEL)return;
   const k=chestTier(id),rs=_rollChest(k);c.op[id]={r:rs,t:Date.now()};_grant(id,rs);saveProgress();renderWallet();
   _REEL={id,phase:'crack'};
-  const st=document.getElementById('chBox');if(st){st.onclick=null;st.innerHTML=chestSvg(k,170,'ch-shake');}
+  const st=document.getElementById('chBox');if(st){st.onclick=null;st.innerHTML=chestSvg(k,170,'ch-shake',_CH_PAWS);}
   const md0=document.getElementById('chModal');if(md0)md0.classList.add('cracking');
   const a=document.getElementById('chActs');if(a)a.innerHTML='';
   const o=document.getElementById('chOdds');if(o)o.classList.add('gone');
   [0,160,320,480].forEach((d,i)=>setTimeout(()=>chestTick(i/4),d));
-  setTimeout(()=>{if(!_REEL||_REEL.id!==id)return;if(st)st.innerHTML=chestSvg(k,170,'open pop');chestWhoosh();
+  setTimeout(()=>{if(!_REEL||_REEL.id!==id)return;if(st)st.innerHTML=chestSvg(k,170,'open pop',_CH_PAWS);chestWhoosh();
     setTimeout(()=>{if(_REEL&&_REEL.id===id)_spinReel(id);},380);},650);
 }
 function reelCard(r){const x=rewardLabel(r),q=r.q||'c';return `<div class="ch-card q-${q}" style="--rq:${RAR[q].col}"><span class="ch-ci">${x.i}</span><b>${x.b}</b><small>${x.s}</small></div>`;}
@@ -259,7 +259,7 @@ function closeChest(){_reelStop();const m=document.getElementById('chestOpen');i
 
 /* ---------- the chest picture (drawn here so it is Leogrow's own) ---------- */
 let _chSvgN=0;
-function chestSvg(k,size,cls){
+function chestSvg(k,size,cls,paws){
   const t=CH_TIERS[k]||CH_TIERS.wood,g='chg'+k,cid='chc'+(++_chSvgN);
   let body='',lid='';
   if(k==='gold')body=`<circle cx="30" cy="70" r="4" fill="#5fd3ff"/><circle cx="90" cy="70" r="4" fill="#5fd3ff"/>`;
@@ -284,17 +284,30 @@ function chestSvg(k,size,cls){
   <g class="ch-lid">${ears}<path d="M14 56 V40 C14 22 32 14 60 14 C88 14 106 22 106 40 V56 Z" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
     <path d="M26 56 V36 C26 26 30 21 35 19 V56Z M94 56 V36 C94 26 90 21 85 19 V56Z" fill="${t.band}" opacity=".85"/>${lid}
     <path d="M24 30 C34 22 48 20 60 20" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".45"/>
-    <circle cx="60" cy="56" r="14" fill="${t.lock}" stroke="${t.band}" stroke-width="2.5"/>${lemur}</g>
+    <circle cx="60" cy="56" r="14" fill="${t.lock}" stroke="${t.band}" stroke-width="2.5"/>${lemur}</g>${paws?chestPaws(paws):''}
 </svg>`;
 }
 
-/* the learner's own Leo (dressed as in the wardrobe) cheers next to the chest */
-function chestLeoHtml(){try{const p=typeof PROF==='function'&&PROF();if(!p||!p.track||typeof leoStage!=='function')return '';
-  const s=leoStage(p.track,p.level);if(!s)return '';const r=s.rig;
-  /* dressed: the see-through tail + body layers with the outfit on top; plain: the cut-out picture */
+/* Leo holds the chest: where his tummy is in each picture [centre x, top, chest width] (share of the picture)
+   and which paws grip it (the waving Leos keep waving and hold it with the other paw) */
+const LEO_HOLD={baby:[.47,.47,.56,'lr'],little:[.5,.38,.48,'r'],kid:[.445,.31,.5,'lr'],teen:[.46,.34,.48,'lr'],adult:[.46,.37,.48,'r'],senior:[.465,.32,.5,'lr']};
+let _CH_PAWS='';
+/* two lemur paws curling over the sides of the chest (drawn in the chest's own 120×120 space) */
+function chestPaws(p){const one=`<g class="ch-paw"><ellipse cx="9" cy="76" rx="7.5" ry="12" fill="#8c7a6c"/><ellipse cx="9" cy="72" rx="6" ry="7" fill="#a8988a" opacity=".6"/>
+    <ellipse cx="17" cy="73" rx="7.5" ry="9" fill="#2b2729"/><circle cx="23.5" cy="66.5" r="3.3" fill="#2b2729"/><circle cx="25" cy="72.5" r="3.4" fill="#2b2729"/><circle cx="24" cy="78.5" r="3.2" fill="#2b2729"/>
+    <path d="M14 67 q3 -2 6 0" stroke="#5a5256" stroke-width="1.4" fill="none" stroke-linecap="round"/></g>`;
+  return (p.includes('l')?one:'')+(p.includes('r')?`<g transform="translate(120 0) scale(-1 1)">${one}</g>`:'');}
+/* the learner's own Leo (dressed as in the wardrobe) */
+function chestLeo(){try{const p=typeof PROF==='function'&&PROF();if(!p||!p.track||typeof leoStage!=='function')return null;
+  const s=leoStage(p.track,p.level);if(!s)return null;const r=s.rig,hold=LEO_HOLD[s.key]||LEO_HOLD.teen;
   if(typeof leoEq==='function'&&typeof outfitSvg==='function'&&r.t&&r.f){const eq=leoEq();if(_eqAny(eq)){const ext=outfitTop(r.o,eq);
-    return `<svg class="ch-leo" viewBox="${(-ext/2).toFixed(2)} ${(-ext).toFixed(2)} ${(100+ext).toFixed(2)} ${(100+ext).toFixed(2)}" aria-label="${s.name}">${OUTFIT_DEFS}${outfitSvg(r.o,eq,['back'])}<image href="${r.t}" width="100" height="100"/><image href="${r.f}" width="100" height="100"/>${outfitSvg(r.o,eq,['neck','face','head'])}</svg>`;}}
-  const src=r.c||r.f||r.w;return `<img class="ch-leo" src="${src}" alt="${s.name}" draggable="false">`;}catch(e){return '';}}
+    return {hold,html:`<svg class="ch-leo" viewBox="${(-ext/2).toFixed(2)} ${(-ext).toFixed(2)} ${(100+ext).toFixed(2)} ${(100+ext).toFixed(2)}" aria-label="${s.name}">${OUTFIT_DEFS}${outfitSvg(r.o,eq,['back'])}<image href="${r.t}" width="100" height="100"/><image href="${r.f}" width="100" height="100"/>${outfitSvg(r.o,eq,['neck','face','head'])}</svg>`};}}
+  return {hold,html:`<img class="ch-leo" src="${r.c||r.f||r.w}" alt="${s.name}" draggable="false">`};}catch(e){return null;}}
+/* the chest on its own, or in Leo's paws */
+function chestStageHtml(id,k,cls){const L=chestLeo();_CH_PAWS=L?L.hold[3]:'';
+  const box=`<div class="ch-box" id="chBox" onclick="crackChest('${id}')">${chestSvg(k,170,cls,_CH_PAWS)}</div>`;
+  if(!L)return box;const [cx,top,w]=L.hold;
+  return `<div class="ch-hold" id="chHold" style="--cx:${cx};--top:${top};--w:${w}">${L.html}${box}</div>`;}
 
 /* how to get each chest (shown on the Chests page) */
 function chestHowTo(k){return {wood:T2(`Every ${CH_EVERY} finished lessons`,`Co ${CH_EVERY} ukończone lekcje`),
