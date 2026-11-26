@@ -6,10 +6,10 @@
    "say it better", roleplay, writing task for every lesson) and biz_cases.js (one case study per unit).
    It stays calm on purpose: no coins, confetti, bonus pop-ups or Leo inside the lessons. */
 const BZ_UNITS=[], BZ_LESSONS=[];
-const BZ_LV={B1:['Working in English','Angielski w pracy','Calls, emails, introductions and your first presentations.','Telefony, e-maile, przedstawianie się i pierwsze prezentacje.'],
+const BZ_LV={B1:['Working in English','Angielski w pracy','Calls, emails, your company, products, numbers, data and solving problems.','Telefony, e-maile, firma, produkty, liczby, dane i rozwiązywanie problemów.'],
   B2:['Leading the conversation','Prowadzisz rozmowę','Meetings, numbers, negotiations and unhappy customers.','Spotkania, liczby, negocjacje i niezadowoleni klienci.'],
   C1:['Influence and precision','Wpływ i precyzja','Pitching, formal reports, leading people and career moves.','Pitching, formalne raporty, zarządzanie ludźmi i kariera.']};
-const BZ_UICON={bz1:'👋',bz2:'📞',bz3:'📧',bz4:'🎤',bz5:'🗓️',bz6:'📈',bz7:'🤝',bz8:'🛎️',bz9:'🚀',bz10:'📑',bz11:'🧭',bz12:'🎯'};
+const BZ_UICON={bz1:'👋',bz2:'📞',bz3:'📧',bz4:'🎤',bz5:'🗓️',bz6:'📈',bz7:'🤝',bz8:'🛎️',bz9:'🚀',bz10:'📑',bz11:'🧭',bz12:'🎯',bz13:'🏢',bz14:'📦',bz15:'🔢',bz16:'📊',bz17:'🧩'};
 const BZ_FREE=1;                       // how many lessons (from the start of unit 1) are a free preview
 let BZS={}, BZR={}, BZ_F='all';        // exercise state, results ("zone:exercise" → [ok,n,label]), level filter
 const bzOn=()=>!!(activeLesson&&activeLesson.biz);
