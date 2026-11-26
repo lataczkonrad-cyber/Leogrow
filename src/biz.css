@@ -634,3 +634,93 @@ body.biz.in-lesson #lessonView>.panel{margin-top:0!important;border-top:0!import
 body.biz.in-lesson .bzx-top{top:var(--bz-tbh,0px);box-shadow:0 6px 18px rgba(15,27,51,.18);}
 body.biz.in-lesson .bzx-brand{border-top:1px solid rgba(255,255,255,.08);}
 @media(max-width:560px){body.biz.in-lesson #lessonView>.panel{border-radius:0 0 14px 14px!important;}body.biz.in-lesson .topbar{position:relative!important;}body.biz.in-lesson .bzx-top{top:0;}}
+
+/* ================= 2026-11-26: compact Business lessons (user: "make this smaller, and the text on the slide as well, so i dont have to scroll that much")
+   smaller top bar + unit bar + progress + one-row tabs, and tighter, slightly smaller lesson text. No zoom-up on big screens. */
+body.biz.in-lesson .topbar,body.biz.in-lesson #lessonView>.panel{zoom:1!important;}
+body.biz.in-lesson .topbar{padding:6px 16px!important;min-height:0;}
+body.biz.in-lesson .topbar .brand-mark{width:32px;height:32px;}
+body.biz.in-lesson .topbar .brand-text{font-size:18px;}
+body.biz.in-lesson .topbar-controls{gap:5px;}
+body.biz.in-lesson .topbar-controls>*{zoom:.84;}
+.bzx-brand{padding:6px 20px;}
+.bzx-brand>b{font-size:15px;}
+.bzx-pill{font-size:9.5px;padding:2px 9px;}
+.bzx-prog{padding:4px 20px;gap:12px;}
+.bzx-prog span{font-size:9px;}
+.bzx-prog i{height:5px;}
+.bzx-prog b{font-size:10px;}
+.bzx-tab{flex-direction:row;gap:6px;padding:7px 13px 6px;min-width:0;border-bottom-width:2px;}
+.bzx-tab .bzx-ti{font-size:14px;}
+.bzx-tab .bzx-ti img{width:15px;height:15px;}
+.bzx-tab .bzx-ti.ok{width:15px;height:15px;font-size:9px;margin:0;}
+.bzx-tab b{font-size:10px;}
+.bzx-tab small{font-size:9.5px;}
+.bzx-body{padding:18px 20px 22px;}
+.bzx-head{gap:12px;margin-bottom:14px;align-items:center;}
+.bzx-hico{flex-basis:40px;height:40px;border-radius:11px;font-size:20px;}
+.bzx-hico img{width:22px;height:22px;}
+.bzx-head h2{font-size:19px;margin-bottom:2px;}
+.bzx-head p{font-size:13.5px;margin-bottom:5px;}
+.bzx-chip{font-size:9.5px;padding:2px 9px;}
+.bzx-card{padding:16px 20px;margin-bottom:12px;border-radius:14px;}
+.bzx-ct{font-size:14.5px;margin-bottom:10px;}
+.bzx-cs{font-size:13px;margin:-4px 0 10px;}
+.bzx-ibox,.bzx-wbox{font-size:13.5px;line-height:1.6;padding:10px 15px;margin-bottom:12px;}
+.bzx-ibox.note table,.bzx-ibox.note td{font-size:13px;}
+.bzx-ibox.note td,.bzx-ibox.note th{padding:7px 10px;}
+.bzx-q{margin-bottom:8px;}
+.bzx-q b{font-size:14px;}
+.bzx-qn{flex-basis:22px;height:22px;font-size:10.5px;}
+.bzx-ta{font-size:14px;line-height:1.5;padding:9px 12px;margin-bottom:12px;}
+.bzx-ta.big{min-height:200px;}
+.bzx-obj{gap:6px;}
+.bzx-obj li{font-size:13.5px;}
+.bzx-dlg{gap:9px;margin-bottom:10px;}
+.bzx-av{flex-basis:30px;height:30px;font-size:10.5px;}
+.bzx-who{font-size:11px;}
+.bzx-bub{font-size:14px;line-height:1.5;padding:7px 36px 7px 12px;}
+.bzx-say{width:24px;height:24px;top:5px;right:5px;}
+.bzx-say.in{width:22px;height:22px;}
+.bzx-btn{font-size:12px;padding:9px 17px;}
+.bzx-btn.big{padding:11px 20px;font-size:13px;}
+.bzx-nav{margin-top:16px;padding-top:14px;}
+.bzx-actions{margin-top:12px;}
+.bzx-qs{gap:13px;}
+.bzx-opts{gap:6px;}
+.bzx-opt{font-size:13.5px;padding:8px 12px;gap:10px;}
+.bzx-let{flex-basis:22px;height:22px;font-size:10.5px;}
+.bzx-score{padding:11px 15px;margin-top:14px;}
+.bzx-score-n{font-size:24px;}
+.bzx-score span{font-size:13.5px;}
+.bzx-tbl{font-size:13px;}
+.bzx-tbl th{padding:8px 12px;font-size:10px;}
+.bzx-tbl td{padding:8px 12px;}
+.bzx-typ{gap:9px;}
+.bzx-ti-row{padding:9px 12px;}
+.bzx-pl{font-size:14px;}
+.bzx-in{font-size:14px;padding:8px 11px;}
+.bzx-lis{padding:10px 12px;gap:13px;margin-bottom:10px;}
+.bzx-play{flex-basis:44px;height:44px;}
+.bzx-play svg{width:20px;height:20px;}
+.bzx-lis b{font-size:13.5px;}
+.bzx-text{font-size:14.5px;line-height:2;padding:13px 17px;}
+@media(min-width:2100px){body.biz.in-lesson #lessonView>.panel{zoom:1.15!important;}}
+@media(max-width:560px){
+  body.biz.in-lesson .topbar{padding:6px 10px!important;row-gap:5px;}
+  body.biz.in-lesson .topbar .brand-mark{width:28px;height:28px;}
+  body.biz.in-lesson .topbar .brand-text{font-size:15px;}
+  body.biz.in-lesson .topbar-controls>*{zoom:.8;}
+  .bzx-brand{padding:5px 12px;}
+  .bzx-brand>b{font-size:13.5px;}
+  .bzx-pill{font-size:8.5px;padding:1px 7px;}
+  .bzx-prog{padding:3px 12px;}
+  .bzx-tab{padding:6px 10px 5px;gap:5px;}
+  .bzx-tab small{display:none;}
+  .bzx-body{padding:14px 10px 20px;}
+  .bzx-head h2{font-size:17px;}
+  .bzx-hico{flex-basis:36px;height:36px;font-size:18px;}
+  .bzx-card{padding:13px 12px;}
+  .bzx-bub{font-size:13.5px;}
+  .bzx-av{flex-basis:26px;height:26px;font-size:9.5px;}
+}
