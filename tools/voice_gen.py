@@ -8,7 +8,7 @@ Usage (from the repo root):
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --fix    # remake phrases + clips that fail the check
     python3 tools/voice_gen.py --polish                                  # only re-trim/level existing clips (no API)
 
-Reads src/voice/lines.json, writes src/voice/<id>.mp3 and src/voice/index.json.
+Reads src/voice/lines.json (add new lesson lines first with: node tools/voice_lines.js), writes src/voice/<id>.mp3 and src/voice/index.json.
 The API key is only read from the environment and never written to disk.
 
 For smooth, natural clips every line is:
@@ -21,7 +21,7 @@ For smooth, natural clips every line is:
     a short lead-in and tail so phones don't swallow the first or last sound.
 Needs ffmpeg and numpy.
 """
-import hashlib, json, unicodedata, os, subprocess, sys, tempfile, time, urllib.request, urllib.error
+import hashlib, json, re, unicodedata, os, subprocess, sys, tempfile, time, urllib.request, urllib.error
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -68,6 +68,15 @@ def prep(t):
     # emoji and pictographs are shown on screen but not read aloud
     t = ''.join(ch for ch in t if not (unicodedata.category(ch) in ('So', 'Sk', 'Cf', 'Mn', 'Me') and ord(ch) > 0x2000))
     t = ' '.join(t.strip().replace('( ', '(').replace(' )', ')').replace('()', '').split())
+    # Business phrase tables: patterns with gaps and notes, read as clean speech
+    t = re.sub(r'\s*\+\s*-?ing\b.*$', '', t)                 # "I'd like to begin by + -ing"
+    t = re.sub(r'\(=\s*([^)]*)\)', r', meaning \1', t)          # "obtain (= get)"
+    t = re.sub(r'\(([A-Z][^)]*)\)\s*', '', t)                   # stage directions: "(Two days later)"
+    t = t.replace('(', '').replace(')', '')                    # placeholders: "I work in (department)"
+    t = re.sub(r'\bzł\b', 'zloty', t)
+    t = re.sub(r'\s+([,;:.!?])', r'\1', t)                      # gaps left by "…": "Good morning, , speaking."
+    t = re.sub(r',(\s*,)+', ',', t)
+    t = re.sub(r'[\s,;:\-–]+$', '', t).strip()
     if t[:1].islower():
         t = t[0].upper() + t[1:]
     if t[-1:] not in '.!?':
@@ -105,8 +114,16 @@ def is_phrase(t):
     return ' ' in t.strip()
 
 
+def is_long(t):
+    """Several sentences (Business dialogue lines, model emails): natural pauses between sentences are fine."""
+    return not LEO and (len(t) > 90 or sum(t.count(c) for c in '.!?') >= 2)
+
+
 def ok(t, path):
     sp, gap = measure(path)
+    if is_long(t):
+        r = sp / expected(prep(t))
+        return 0.55 <= r <= 1.7 and gap <= 0.9
     if GROUP.get(t) == 'intro':   # natural reading: allow comma pauses, only reject odd gaps or a far-off pace
         r = sp / expected(prep(t))
         return 0.55 <= r <= 1.7 and gap <= 0.5
@@ -118,8 +135,9 @@ def score(t, speech, gap):
     """0 = perfect. Penalise speech far off its expected length and long pauses inside."""
     r = speech / expected(t)
     s = abs(np.log(max(r, 0.01)))
-    if gap > 0.2:
-        s += (gap - 0.2) * 4
+    lim = 0.9 if len(t) > 90 else 0.2
+    if gap > lim:
+        s += (gap - lim) * 4
     return s
 
 
@@ -238,7 +256,7 @@ for n, t in enumerate(todo, 1):
     speed = extra.pop('speed', speed)
     best = None
     # short lines: 3 takes on the English-locked model, then 2 on the multilingual one if none was clean
-    for take in range(5 if is_short(t) else 3):
+    for take in range(5 if is_short(t) else 2 if is_long(t) else 3):   # long lines cost a lot: at most one retake
         raw = os.path.join(tmp, f'{n}_{take}.mp3')
         try:
             open(raw, 'wb').write(tts(text, 1000 + take * 7919 + n, speed, extra, multilingual=take >= 3))
