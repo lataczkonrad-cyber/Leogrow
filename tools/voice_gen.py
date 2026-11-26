@@ -6,6 +6,7 @@ Usage (from the repo root):
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --redo   # remake every line
     ELEVEN_KEY=... ELEVEN_VOICE=<owner voice> python3 tools/voice_gen.py --leo --redo   # Leo's lines
     ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --fix    # remake phrases + clips that fail the check
+    ELEVEN_KEY=... ELEVEN_VOICE=... python3 tools/voice_gen.py --max-chars=20000   # stop at a credit budget
     python3 tools/voice_gen.py --polish                                  # only re-trim/level existing clips (no API)
 
 Reads src/voice/lines.json (add new lesson lines first with: node tools/voice_lines.js), writes src/voice/<id>.mp3 and src/voice/index.json.
@@ -245,6 +246,14 @@ else:
     if FIX:
         todo += [t for t in lines if norm(t) in index and t not in todo and
                  (is_phrase(t) or not ok(t, os.path.join(VDIR, index[norm(t)])))]
+MAX = next((int(a.split('=', 1)[1]) for a in sys.argv if a.startswith('--max-chars=')), None)  # stop at a credit budget
+if MAX:
+    keep, used = [], 0
+    for t in todo:
+        if used + len(t) > MAX:
+            break
+        keep.append(t); used += len(t)
+    todo = keep
 print(f'{len(todo)} clips to make ({sum(len(t) for t in todo)} characters), {len(lines) - len(todo)} kept.')
 
 tmp = tempfile.mkdtemp()
