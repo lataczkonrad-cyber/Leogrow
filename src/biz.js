@@ -15,7 +15,8 @@ let BZS={}, BZR={}, BZ_F='all';        // exercise state, results ("zone:exercis
 const bzOn=()=>!!(activeLesson&&activeLesson.biz);
 const bzT=(en,pl)=>(typeof LANG!=='undefined'&&LANG==='pl')?pl:en;
 const bzSay=t=>String(t).replace(/\[\[[^|\]]+\|([^\]]+)\]\]/g,'$1').replace(/\[[^\]]*\]/g,' ').replace(/\s*\(…\)|…|\.\.\./g,' ').replace(/\s*\/\s*/g,' or ').replace(/\s+/g,' ').trim();
-function bzSpeak(t){try{if('speechSynthesis' in window)speechSynthesis.cancel();}catch(e){}if(typeof speak==='function')speak(bzSay(t));}
+let bzChain=0;                         // bumps when a new sound starts, so 'play the whole dialogue' stops
+function bzSpeak(t){bzChain++;try{if('speechSynthesis' in window)speechSynthesis.cancel();}catch(e){}if(typeof speak==='function')speak(bzSay(t));}
 const bzE=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const BZ_ICON={
   play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>',
@@ -192,7 +193,16 @@ function bzDialogue(i,j,e){
     return `<div class="bzx-row ${side}"><span class="bzx-av av-${side}">${ini(sp[0])}</span><div class="bzx-bw"><span class="bzx-who">${sp[0]}${sp[1]?` <i>(${sp[1]})</i>`:''}</span><div class="bzx-bub">${bzMarkPhrases(r[1],e.P)}<button class="bzx-say" title="${bzT('Listen','Posłuchaj')}" onclick="bzSpeak(bzZ(${i}).ex[${j}].d[${k}][1])">${BZ_ICON.ear}</button></div></div></div>`;}).join('')}</div>
    <button class="bzx-btn navy sm" onclick="bzPlayAll(${i},${j})">${BZ_ICON.play}<span>${bzT('Listen to the whole dialogue','Posłuchaj całego dialogu')}</span></button>`;
 }
-function bzPlayAll(i,j){const d=bzZ(i).ex[j].d.map(r=>r[1]).join(' … ');bzSpeak(d);}
+// the whole dialogue = the ElevenLabs clip of each line, one after another (browser voice if any clip is missing)
+function bzPlayAll(i,j){
+  const ls=bzZ(i).ex[j].d.map(r=>bzSay(r[1])),key=t=>String(t).trim().toLowerCase().split(/\s+/).join(' ');
+  if(typeof VOICE_CLIPS==='undefined'||typeof _vGet!=='function'||!ls.every(t=>VOICE_CLIPS[key(t)])){bzSpeak(ls.join(' … '));return;}
+  const my=++bzChain;let k=0;
+  const next=()=>{if(my!==bzChain||k>=ls.length)return;const t=ls[k++],a=_vGet(VOICE_CLIPS[key(t)]);
+    const on=()=>{a.removeEventListener('ended',on);if(my===bzChain&&_vAud===a)setTimeout(next,350);};
+    a.addEventListener('ended',on);speak(t);};
+  next();
+}
 function bzModel(i,j,e){
   const d=e.d,tags=[];
   const txt=bzE(d.text).replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g,(m,t,p)=>{let k=tags.indexOf(t);if(k<0){tags.push(t);k=tags.length-1;}return `<mark class="bz-hl c${k%6}"><small>${t}</small>${p}</mark>`;});
