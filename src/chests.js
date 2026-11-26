@@ -18,10 +18,13 @@ const CH_ORDER=['wood','silver','gold','crystal','legend'];
 const RAR={c:{en:'Common',pl:'Zwykła',col:'#9aabc4'},u:{en:'Uncommon',pl:'Niezwykła',col:'#4fc26a'},r:{en:'Rare',pl:'Rzadka',col:'#3d9bff'},e:{en:'Epic',pl:'Epicka',col:'#b064ff'},l:{en:'Legendary',pl:'Legendarna',col:'#ffb81c'}};
 const RAR_ORDER=['c','u','r','e','l'];
 /* streak milestones that give a special chest */
+/* every shop item has a rank too, using the same colours (by price, or its own q) */
+function itemRarity(it){if(!it)return 'c';if(it.q)return it.q;if(it.free||it.cat==='power')return 'c';const p=it.price||0;
+  return p<=70?'c':p<=110?'u':p<=150?'r':p<=210?'e':'l';}
 const CH_STREAK=[[7,'crystal'],[14,'crystal'],[30,'legend'],[100,'legend'],[365,'legend']];
 const CH_EVERY=3;
 /* small rewards that live in the wallet like shop purchases (hidden from the shop tabs) */
-[{id:'c_hint2',give:['hint',2]},{id:'c_hint3',give:['hint',3]},{id:'c_hint5',give:['hint',5]},{id:'c_spin2',give:['spin',2]},{id:'c_spin3',give:['spin',3]},{id:'c_spin5',give:['spin',5]},{id:'c_freeze',give:['freeze',1]},{id:'c_freeze2',give:['freeze',2]}]
+[{id:'c_hint2',give:['hint',2],q:'c'},{id:'c_hint3',give:['hint',3],q:'u'},{id:'c_hint5',give:['hint',5],q:'r'},{id:'c_spin2',give:['spin',2],q:'c'},{id:'c_spin3',give:['spin',3],q:'u'},{id:'c_spin5',give:['spin',5],q:'r'},{id:'c_freeze',give:['freeze',1],q:'u'},{id:'c_freeze2',give:['freeze',2],q:'r'}]
   .forEach(i=>{i.cat='chest';i.price=0;i.icon='🎁';i.en=i.pl='';SHOP_ITEMS.push(i);SHOP_BY[i.id]=i;});
 
 function CH(){C.ch=C.ch||{};const c=C.ch;c.log=c.log||{};c.got=c.got||{};c.op=c.op||{};return c;}
@@ -131,12 +134,13 @@ const _WEAR=['leo','frame','badge'];
 /* one prize of rarity q. real=false only fills the reel (anything may show there) */
 function _prize(q,real){
   const nrg=!real||(!energyFree()&&energyNow()<EN_MAX),any=a=>a[_rnd(0,a.length-1)];
+  /* things to wear of exactly this rank (outfits, frames, badges, app colours) */
+  const pool=SHOP_ITEMS.filter(i=>!i.season&&(_WEAR.includes(i.cat)||(i.cat==='theme'&&!i.free))&&itemRarity(i)===q);
+  const can=real?pool.filter(i=>!owned(i.id)):pool;
+  if(can.length&&Math.random()<({c:.25,u:.3,r:.3,e:.85,l:.85}[q]))return {t:'wear',id:any(can).id};
   if(q==='c')return any([{t:'coins',n:_rnd(15,30)},{t:'item',id:'c_hint2'},{t:'item',id:'c_spin2'},nrg?{t:'energy',n:5}:{t:'coins',n:_rnd(15,30)}]);
   if(q==='u')return any([{t:'coins',n:_rnd(40,70)},{t:'item',id:'c_hint3'},{t:'item',id:'c_spin3'},{t:'item',id:'c_freeze'}]);
   if(q==='r')return any([{t:'coins',n:_rnd(100,150)},{t:'item',id:'c_hint5'},{t:'item',id:'c_spin5'},{t:'item',id:'c_freeze2'},nrg?{t:'energy',n:EN_MAX}:{t:'item',id:'c_hint5'}]);
-  const pool=SHOP_ITEMS.filter(i=>!i.season&&(q==='e'?_WEAR.includes(i.cat)&&i.price<=200:(_WEAR.includes(i.cat)&&i.price>200)||(i.cat==='theme'&&!i.free)));
-  const can=real?pool.filter(i=>!owned(i.id)):pool;
-  if(can.length&&Math.random()<.85)return {t:'wear',id:any(can).id};
   return {t:'coins',n:q==='e'?_rnd(250,300):_rnd(450,550)};
 }
 function _rollQ(k){const w=(CH_TIERS[k]||CH_TIERS.wood).w;return _pick(RAR_ORDER.filter(q=>w[q]>0).map(q=>[w[q],q]));}
@@ -177,7 +181,7 @@ function openChest(id){
   const k=chestTier(id),done=c.op[id];
   m.innerHTML=`<div class="ch-modal ch-${k}${done?' opened':''}" id="chModal" style="--glow:${CH_TIERS[k].glow}"><div class="ch-rays"></div>
     <button class="ch-x" onclick="closeChest()" aria-label="Close">✕</button>
-    <div class="ch-stage" id="chStage" onclick="crackChest('${id}')">${chestSvg(k,170,done?'open':'ch-wiggle')}</div>
+    <div class="ch-stage" id="chStage">${chestLeoHtml()}<div class="ch-box" id="chBox" onclick="crackChest('${id}')">${chestSvg(k,170,done?'open':'ch-wiggle')}</div></div>
     <h3>${chestName(id)}</h3><p class="rw-small">${chestWhy(id)}</p>
     <div class="ch-odds" id="chOdds">${done?'':chestOddsHtml(k)}</div>
     <div class="ch-reelbox" id="chReelBox"></div>
@@ -191,7 +195,8 @@ function crackChest(id){
   const c=CH();if(c.op[id]||_REEL)return;
   const k=chestTier(id),rs=_rollChest(k);c.op[id]={r:rs,t:Date.now()};_grant(id,rs);saveProgress();renderWallet();
   _REEL={id,phase:'crack'};
-  const st=document.getElementById('chStage');if(st){st.onclick=null;st.innerHTML=chestSvg(k,170,'ch-shake');}
+  const st=document.getElementById('chBox');if(st){st.onclick=null;st.innerHTML=chestSvg(k,170,'ch-shake');}
+  const md0=document.getElementById('chModal');if(md0)md0.classList.add('cracking');
   const a=document.getElementById('chActs');if(a)a.innerHTML='';
   const o=document.getElementById('chOdds');if(o)o.classList.add('gone');
   [0,160,320,480].forEach((d,i)=>setTimeout(()=>chestTick(i/4),d));
@@ -233,7 +238,7 @@ function _reveal(id,card,fast){
   const R=_REEL;if(!R||R.id!==id)return;const op=CH().op[id],q=op.r[0].q||'c',md=document.getElementById('chModal');
   if(card)card.classList.add('win');
   const sk=document.querySelector('#chReelBox .ch-skip');if(sk)sk.remove();
-  if(md){md.style.setProperty('--glow',RAR[q].col);md.classList.add('q-'+q);}
+  if(md){md.style.setProperty('--glow',RAR[q].col);md.classList.remove('cracking');md.classList.add('q-'+q,'cheer');}
   chestFanfare(q);if(RAR_ORDER.indexOf(q)>=2&&typeof burstConfetti==='function')burstConfetti();
   setTimeout(()=>{if(_REEL!==R)return;_REEL=null;if(md){md.classList.remove('spinning');md.classList.add('revealed');}
     const b=document.getElementById('chReelBox');if(b)b.innerHTML='';_showLoot(id);},fast?700:1300);
@@ -253,29 +258,43 @@ const _isWorn=id=>Object.values(W().eq).includes(id);
 function closeChest(){_reelStop();const m=document.getElementById('chestOpen');if(m)m.classList.remove('show');if(!document.body.classList.contains('in-lesson'))renderCourse();}
 
 /* ---------- the chest picture (drawn here so it is Leogrow's own) ---------- */
+let _chSvgN=0;
 function chestSvg(k,size,cls){
-  const t=CH_TIERS[k]||CH_TIERS.wood,g='chg'+k;
+  const t=CH_TIERS[k]||CH_TIERS.wood,g='chg'+k,cid='chc'+(++_chSvgN);
   let body='',lid='';
   if(k==='gold')body=`<circle cx="30" cy="70" r="4" fill="#5fd3ff"/><circle cx="90" cy="70" r="4" fill="#5fd3ff"/>`;
-  if(k==='crystal'){body=`<path d="M44 68 l6 -8 l6 8 l-6 12z M64 74 l5 -7 l5 7 l-5 10z" fill="#fff" opacity=".55"/><path d="M18 96 L40 58 M98 92 L80 60" stroke="#fff" stroke-width="2" opacity=".35"/>`;
-    lid=`<path d="M40 40 l8 -14 l8 14z M66 34 l6 -10 l6 10z" fill="#fff" opacity=".5"/>`;}
-  if(k==='legend'){body=`<circle cx="30" cy="70" r="4.5" fill="#ff6b8b"/><circle cx="90" cy="70" r="4.5" fill="#5fd3ff"/><circle cx="60" cy="88" r="4" fill="#ffd866"/><path d="M22 98 h76" stroke="#ecb83a" stroke-width="2" opacity=".6"/>`;
+  if(k==='crystal'){body=`<path d="M44 70 l6 -8 l6 8 l-6 12z M64 76 l5 -7 l5 7 l-5 10z" fill="#fff" opacity=".55"/><path d="M18 96 L40 58 M98 92 L80 60" stroke="#fff" stroke-width="2" opacity=".35"/>`;
+    lid=`<path d="M40 40 l8 -14 l8 14z M70 36 l6 -10 l6 10z" fill="#fff" opacity=".5"/>`;}
+  if(k==='legend'){body=`<circle cx="30" cy="72" r="4.5" fill="#ff6b8b"/><circle cx="90" cy="72" r="4.5" fill="#5fd3ff"/><circle cx="60" cy="94" r="3.5" fill="#ffd866"/>`;
     lid=`<path d="M44 17 L47 3 L54 10 L60 0 L66 10 L73 3 L76 17 Z" fill="#ffd866" stroke="#7a4d00" stroke-width="2" stroke-linejoin="round"/><circle cx="60" cy="9" r="2.4" fill="#ff6b8b"/>`;}
+  /* Leo's things: lemur ears on the lid, a lemur badge as the lock and a striped ring tail */
+  const ears=`<g class="ch-ears"><ellipse cx="27" cy="24" rx="9" ry="12" transform="rotate(-28 27 24)" fill="#6f7184" stroke="${t.band}" stroke-width="2.5"/><ellipse cx="27" cy="25" rx="4.5" ry="7" transform="rotate(-28 27 25)" fill="#2c2d3a"/>
+    <ellipse cx="93" cy="24" rx="9" ry="12" transform="rotate(28 93 24)" fill="#6f7184" stroke="${t.band}" stroke-width="2.5"/><ellipse cx="93" cy="25" rx="4.5" ry="7" transform="rotate(28 93 25)" fill="#2c2d3a"/></g>`;
+  const tail=`<g class="ch-tail"><path d="M100 94 C124 92 130 66 118 50 C110 40 98 46 103 56" fill="none" stroke="#f4f1ea" stroke-width="10" stroke-linecap="round"/>
+    <path d="M100 94 C124 92 130 66 118 50 C110 40 98 46 103 56" fill="none" stroke="#2c2d3a" stroke-width="10" stroke-dasharray="7 7" stroke-dashoffset="3"/></g>`;
+  const lemur=typeof LEMUR_COIN!=='undefined'?`<clipPath id="${cid}"><circle cx="60" cy="56" r="11"/></clipPath><image href="${LEMUR_COIN}" x="49" y="45" width="22" height="22" clip-path="url(#${cid})"/>`:'';
   return `<svg class="ch-svg t-${k} ${cls||''}" width="${size}" height="${size}" viewBox="0 0 120 120" aria-hidden="true">
   <defs><linearGradient id="${g}" x1="0" y1="0" x2="${k==='crystal'?1:0}" y2="1"><stop offset="0" stop-color="${t.a}"/><stop offset="1" stop-color="${t.b}"/></linearGradient>
   <radialGradient id="${g}l"><stop offset="0" stop-color="#fff6c8"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient></defs>
   <ellipse cx="60" cy="106" rx="44" ry="7" fill="#000" opacity=".22"/>
-  <g class="ch-glow"><circle cx="60" cy="52" r="46" fill="url(#${g}l)"/></g>
+  <g class="ch-glow"><circle cx="60" cy="52" r="46" fill="url(#${g}l)"/></g>${tail}
   <rect x="14" y="54" width="92" height="48" rx="10" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
   <rect x="14" y="54" width="92" height="9" fill="#000" opacity=".12"/>
   <rect x="26" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/><rect x="85" y="54" width="9" height="48" fill="${t.band}" opacity=".85"/>${body}
-  <g class="ch-lid"><path d="M14 56 V40 C14 22 32 14 60 14 C88 14 106 22 106 40 V56 Z" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
+  <g class="ch-lid">${ears}<path d="M14 56 V40 C14 22 32 14 60 14 C88 14 106 22 106 40 V56 Z" fill="url(#${g})" stroke="${t.band}" stroke-width="3"/>
     <path d="M26 56 V36 C26 26 30 21 35 19 V56Z M94 56 V36 C94 26 90 21 85 19 V56Z" fill="${t.band}" opacity=".85"/>${lid}
     <path d="M24 30 C34 22 48 20 60 20" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".45"/>
-    <rect x="50" y="46" width="20" height="20" rx="5" fill="${t.lock}" stroke="${t.band}" stroke-width="2.5"/>
-    <path d="M60 52 c-2.6 0 -3.6 2.4 -2.2 4 l-1 5 h6.4 l-1 -5 c1.4 -1.6 .4 -4 -2.2 -4z" fill="${t.band}"/></g>
+    <circle cx="60" cy="56" r="14" fill="${t.lock}" stroke="${t.band}" stroke-width="2.5"/>${lemur}</g>
 </svg>`;
 }
+
+/* the learner's own Leo (dressed as in the wardrobe) cheers next to the chest */
+function chestLeoHtml(){try{const p=typeof PROF==='function'&&PROF();if(!p||!p.track||typeof leoStage!=='function')return '';
+  const s=leoStage(p.track,p.level);if(!s)return '';const r=s.rig;
+  /* dressed: the see-through tail + body layers with the outfit on top; plain: the cut-out picture */
+  if(typeof leoEq==='function'&&typeof outfitSvg==='function'&&r.t&&r.f){const eq=leoEq();if(_eqAny(eq)){const ext=outfitTop(r.o,eq);
+    return `<svg class="ch-leo" viewBox="${(-ext/2).toFixed(2)} ${(-ext).toFixed(2)} ${(100+ext).toFixed(2)} ${(100+ext).toFixed(2)}" aria-label="${s.name}">${OUTFIT_DEFS}${outfitSvg(r.o,eq,['back'])}<image href="${r.t}" width="100" height="100"/><image href="${r.f}" width="100" height="100"/>${outfitSvg(r.o,eq,['neck','face','head'])}</svg>`;}}
+  const src=r.c||r.f||r.w;return `<img class="ch-leo" src="${src}" alt="${s.name}" draggable="false">`;}catch(e){return '';}}
 
 /* how to get each chest (shown on the Chests page) */
 function chestHowTo(k){return {wood:T2(`Every ${CH_EVERY} finished lessons`,`Co ${CH_EVERY} ukończone lekcje`),
@@ -334,3 +353,10 @@ function chestPanelHtml(){const n=chestsUnopened().length,st=challengeState(),d=
     ${st.map(s=>`<div class="ch-mini ${s.done?'done':''}"><span>${s.done?'✅':s.c.icon}</span><div><small>${LANG==='pl'?s.c.pl(s.c.n):s.c.en(s.c.n)}</small><div class="ch-bar sm"><i style="width:${s.v/s.c.n*100}%"></i></div></div></div>`).join('')}
     <button class="btn ${n?'btn-gold':'secondary'} sp-btn" onclick="${n?`openChest('${chestsUnopened()[0]}')`:"nav('chests')"}">${n?`🎁 ${T2('Open','Otwórz')} (${n})`:T2('See all','Zobacz wszystko')+' →'}</button></div>`;}
 Object.assign(PL_UI,{"🎁 Chests":"🎁 Skrzynie"});
+
+/* ---------- ranks on every shop item (same colours as the chest prizes) ---------- */
+function rarityPill(q){return `<em class="rq-pill" style="--rq:${RAR[q].col}">${T2(RAR[q].en,RAR[q].pl)}</em>`;}
+(function(){
+  const _card=shopItemCard;shopItemCard=function(it){const h=_card(it),q=itemRarity(it);
+    return h.replace('<div class="rw-item ',`<div style="--rq:${RAR[q].col}" data-q="${q}" class="rw-item `).replace('<div class="rw-txt">','<div class="rw-txt">'+rarityPill(q));};
+})();
