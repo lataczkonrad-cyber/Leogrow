@@ -2515,7 +2515,7 @@ function zoneMinutes(l){const t=l.zones.reduce((s,z)=>s+zoneTasks(z),0);return M
 function rLessonWelcome(){
   const l=activeLesson;
   const chips=l.zones.map(z=>`<span class="lesson-chip">${z.label}</span>`).join('');
-  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':l.unit.extra?'EXTRA LESSON':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
+  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':l.bonus_lesson?'BONUS LESSON':l.unit.extra?'EXTRA LESSON':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
   <div style="text-align:center;">${renderLemur('big',isAdult()?['Welcome back.','Let\'s get to work.','Focus — you\'ve got this.','Short, sharp, effective.']:lemurWelcomeMsgs,isAdult()?110:200)}</div>
   <div class="lesson-chips" style="justify-content:center;margin:6px 0 4px;">${chips}</div>
   <p style="text-align:center;color:#8b8ba0;font-size:13px;font-weight:700;">${l.zones.length} activities · about ${zoneMinutes(l)} minutes</p>
@@ -2595,7 +2595,7 @@ function openLesson(id){
   CONFETTI.splice(0,CONFETTI.length,...(isAdult(l)?['✦','·','✧']:['⏰','🥣','🚌','⚽','🌙','✨']));
   $('courseView').style.display='none';
   $('lessonView').style.display='';
-  $('timerPill').textContent=l.unit&&l.unit.extra?'⭐ Extra':'Lesson '+l.num;
+  $('timerPill').textContent=l.bonus_lesson?'⭐ Bonus':l.unit&&l.unit.extra?'⭐ Extra':'Lesson '+l.num;
   go(resume?Math.min(C.active.current,zones.length-1):0);
   if(resume) setTimeout(()=>_comboToastText('💾 Welcome back — you were here!'),300);
 }
@@ -3210,7 +3210,7 @@ const PL_RX=[
  [/^(\d+) activities · about (\d+) minutes$/,"Zadań: $1 · ok. $2 min"],
  [/^(\d+)\/(\d+) lessons · (\d+) coins$/,"$1/$2 lekcji · $3 monet"],
  [/^(\d+)\/(\d+) lessons · (\d+)\/(\d+) coins(.*)$/,(m,a,b,c,d,e)=>`${a}/${b} lekcji · ${c}/${d} monet${e.replace('· 🔒 finish the level before','· 🔒 najpierw skończ poprzedni poziom')}`],
- [/^LESSON (\S+)$/,"LEKCJA $1"],[/^⭐ EXTRA LESSON$/,"⭐ LEKCJA DODATKOWA"],[/^(\S+) · EXTRA LESSON$/,"$1 · LEKCJA DODATKOWA"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
+ [/^LESSON (\S+)$/,"LEKCJA $1"],[/^⭐ EXTRA LESSON$/,"⭐ LEKCJA DODATKOWA"],[/^(\S+) · BONUS LESSON$/,"$1 · LEKCJA BONUSOWA"],[/^(\S+) · EXTRA LESSON$/,"$1 · LEKCJA DODATKOWA"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
  [/^(\S+) UNIT TEST · FINAL QUIZ$/,"$1 TEST KOŃCOWY DZIAŁU"],[/^(.+) — Unit Test$/,"$1 — test działu"],
  [/^Next up: (.+) →$/,"Następna: $1 →"],[/^Continue: (.+) →$/,"Kontynuuj: $1 →"],[/^Points earned: (\d+) 🪙$/,"Zdobyte punkty: $1 🪙"],
  [/^Wordle (.+)$/,"Wordle $1"],[/^🔒 Finish (\S*) first$/,"🔒 Najpierw ukończ $1"],[/^⏱ ~(\d+) min(.*)$/,(m,a,b)=>`⏱ ~${a} min${b.replace('best','najlepiej').replace('pts','pkt')}`],
