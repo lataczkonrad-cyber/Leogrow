@@ -527,6 +527,7 @@ const FB_B1=[
  const base=FB_LESSON.zones;
  const reid=(zs,suf)=>{zs.forEach(z=>{if(z.blocks)z.blocks.forEach(b=>b.id=b.id+'-'+suf);});return zs;};
  const kids=reid(cp(base),'k');
+ window.FB_SHOP_ZONES=reid(cp(base),'shop'); // the same lesson as a Shop bonus lesson (rewards.js)
  const adA2=reid(cp(base).filter(z=>z.type!=='move'&&z.type!=='balloon'),'a2');
  let adB1=cp(base).filter(z=>!['move','balloon','memory'].includes(z.type)&&z.label!=='Find it'&&z.label!=='Whack-a-Leo'&&z.label!=='Spell it');
  const at=adB1.findIndex(z=>z.label==='Match: rules');

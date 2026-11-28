@@ -41,6 +41,7 @@ const SHOP_ITEMS=[
  {id:'b_idioms',cat:'lesson',icon:'🦜',price:120,en:'Everyday idioms',pl:'Codzienne idiomy',d:'“Piece of cake”, “break the ice” and 8 more.',dp:'„Piece of cake”, „break the ice” i 8 innych.'},
  {id:'b_slang',cat:'lesson',icon:'🇬🇧',price:120,en:'British slang',pl:'Brytyjski slang',d:'Cheers, mate! Words people really say in the UK.',dp:'Cheers, mate! Słowa, których naprawdę używa się w UK.'},
  {id:'b_phrasal',cat:'lesson',icon:'🎉',price:120,en:'Phrasal verb party',pl:'Impreza czasowników frazowych',d:'Get up, give up, find out and more.',dp:'Get up, give up, find out i inne.'},
+ {id:'b_football',cat:'lesson',icon:'⚽',price:200,en:'Football Fever',pl:'Gorączka futbolu',d:'A big 80-minute lesson: offside, penalties, rules, a cup final and fan talk.',dp:'Duża lekcja na 80 minut: spalony, karne, zasady, finał pucharu i język kibiców.'},
  {id:'b_rhymes',cat:'lesson',icon:'🎶',price:120,en:'Songs, rhymes & tongue twisters',pl:'Piosenki, rymy i łamańce językowe',d:'Sing a chant, find rhymes and twist your tongue.',dp:'Zaśpiewaj rymowankę, znajdź rymy i połam język.'},
  // profile frames
  {id:'f_gold',cat:'frame',icon:'🟡',price:60,en:'Gold ring',pl:'Złota obwódka'},
@@ -414,8 +415,10 @@ const BONUS_LESSONS=[
    {type:'quiz',label:'Rhyme time',tag:'RHYME TIME',done:'You’ve got rhythm! 🎶',qs:[{q:"What rhymes with 'tree'?",opts:['bee','tray','true'],correct:0},{q:"What rhymes with 'rain'?",opts:['train','run','ring'],correct:0},{q:"What rhymes with 'house'?",opts:['mouse','horse','hose'],correct:0},{q:"What rhymes with 'fish'?",opts:['dish','fast','fresh'],correct:0},{q:"What rhymes with 'star'?",opts:['car','stay','stir'],correct:0}]},
    {type:'build',label:'Tongue twisters',items:[{s:'She sells seashells by the seashore',pl:'Łamaniec: ona sprzedaje muszelki nad morzem'},{s:'Red lorry yellow lorry',pl:'Łamaniec: czerwona ciężarówka, żółta ciężarówka'},{s:'Peter Piper picked a peck of pickled peppers',pl:'Łamaniec: Peter Piper zebrał garść marynowanych papryczek'}]},
    {type:'listen',label:'Listen',items:[{word:'She sells seashells',options:['She sells seashells','She smells sea shells','See shells sell'],correct:0},{word:'Red lorry, yellow lorry',options:['Red lorry, yellow lorry','Red lolly, yellow lolly','Read Laura, hello Laura'],correct:0},{word:'Clap your hands',options:['Clap your hands','Clean your hands','Cut your hands'],correct:0}]}]},
+ {id:'bonus-football',shop:'b_football',title:'Football Fever',emoji:'⚽',intro:FB_LESSON.intro,zones:FB_SHOP_ZONES},
 ];
 BONUS_LESSONS.forEach(l=>{l.bonus_lesson=true;l.num='Bonus';l.bonus=l.zones[0].cards||U1A;l.unit={track:'kids',level:'A1',lessons:[{id:'__bonus'}],badge:'',title:'Bonus'};});
+BONUS_LESSONS.find(l=>l.id==='bonus-football').unit.level='A2';
 
 /* ---------- start ---------- */
 (function(){const _lp=loadProgress;loadProgress=function(){_lp();applyTheme();shopEarn(30,'welcome');setTimeout(renderWallet,0);};})();
