@@ -345,3 +345,63 @@ BONUS_NEW.push({shop:{id:'b_animals',cat:'lesson',icon:'🐾',price:150,en:'Wild
   writing:{title:"Save an animal! ✍️",sub:"Choose an endangered animal. Write a short persuasive text (70+ words): why it's in danger and what people can do to help.",starters:["The … is an endangered species.","It is in danger because …","Its habitat is being destroyed by …","We can help by …","If we don't act now, …"],min:70},
   wordle:[["panda","🐼"],["breed","🐣"],["tiger","🐯"]]}),
 ]});
+
+/* ================= KIDS · A1 versions of the first bonus lessons =================
+   The original bonus lessons were too hard for kids (knackered, skint, run out of…).
+   These replace their content but keep the same lesson ids, so progress is kept. */
+const BONUS_KIDS={
+ b_idioms:BX.v('bonus-idioms','kids','Funny English sayings with pictures: it\'s raining cats and dogs! 🐱🐶',{
+  cardsTitle:'Funny sayings',wordsLabel:'Sayings',words:V([
+   ["piece of cake","bardzo łatwe","🍰"],["raining cats and dogs","leje jak z cebra","🐱🐶"],["over the moon","bardzo szczęśliwy","🌙"],["busy as a bee","bardzo zajęty","🐝"],
+   ["cool as a cucumber","spokojny","🥒"],["butterflies in my tummy","stres, tremę","🦋"],["hungry as a horse","bardzo głodny","🐴"],["early bird","ranny ptaszek","🐦"]]),
+  quizTag:'WHAT DOES IT MEAN?',quiz:[
+   {q:"🍰 The test was a piece of cake. It was…",opts:["easy","hard","yummy"],correct:0},
+   {q:"🐱🐶 It's raining cats and dogs! There is…",opts:["lots of rain","a cat and a dog","snow"],correct:0},
+   {q:"🌙 I'm over the moon! I'm…",opts:["very happy","in space","sleepy"],correct:0},
+   {q:"🐴 I'm as hungry as a horse! I want…",opts:["a lot of food","a horse","water"],correct:0},
+   {q:"🐦 You get up at six. You are an…",opts:["early bird","busy bee","cucumber"],correct:0}],
+  fill:[
+   {before:"Maths today was a piece of",blank:"cake",after:"!",bank:["cake","pizza","bread"],emoji:"🍰"},
+   {before:"Take your umbrella! It's raining cats and",blank:"dogs",after:"!",bank:["dogs","mice","birds"],emoji:"☔"},
+   {before:"Mum is very busy. She's as busy as a",blank:"bee",after:".",bank:["bee","cat","fish"],emoji:"🐝"},
+   {before:"I've got a new puppy. I'm over the",blank:"moon",after:"!",bank:["moon","sun","star"],emoji:"🐶"}],
+  move:[{emoji:"🐝",text:"Be a busy bee! Fly around the room and buzz: Bzzz! 🐝"},{emoji:"🐴",text:"Rub your tummy and say: I'm as hungry as a horse! 🐴"},{emoji:"🌙",text:"Jump up high and shout: I'm over the moon! 🌙"}],
+  wordle:[["cake","🍰"],["moon","🌙"],["horse","🐴"]]}),
+ b_slang:BX.v('bonus-slang','kids','Hello from the UK! Easy words British kids say every day.',{
+  cardsTitle:'British words for kids',wordsLabel:'UK words',words:V([
+   ["mum","mama","👩"],["mate","kolega","🤝"],["cheers","dzięki","🙌"],["brilliant","super","🌟"],["biscuit","ciastko","🍪"],["sweets","cukierki","🍬"],
+   ["jumper","sweter","🧶"],["trainers","buty sportowe","👟"],["lorry","ciężarówka","🚚"],["bin","kosz na śmieci","🗑️"],["chips","frytki","🍟"],["holiday","wakacje","🏖️"]]),
+  quizTag:'UK WORDS',quiz:[
+   {q:"🍪 In the UK, a cookie is a…",opts:["biscuit","sweet","chip"],correct:0},
+   {q:"🍟 In the UK, fries are…",opts:["chips","crisps","biscuits"],correct:0},
+   {q:"🚚 A big truck is a…",opts:["lorry","bin","jumper"],correct:0},
+   {q:"🙌 'Cheers!' means…",opts:["Thanks!","Goodbye!","Sorry!"],correct:0},
+   {q:"🌟 That's brilliant! It's…",opts:["great","bad","cold"],correct:0},
+   {q:"🧶 It's cold. Put on your…",opts:["jumper","trainers","sweets"],correct:0}],
+  fill:[
+   {before:"Put the paper in the",blank:"bin",after:", please.",bank:["bin","lorry","jumper"],emoji:"🗑️"},
+   {before:"Can I have a",blank:"biscuit",after:"with my milk?",bank:["biscuit","lorry","holiday"],emoji:"🍪"},
+   {before:"Let's play, my",blank:"mate",after:"!",bank:["mate","mum","bin"],emoji:"🤝"},
+   {before:"I wear my",blank:"trainers",after:"for football.",bank:["trainers","sweets","chips"],emoji:"👟"},
+   {before:"We go to the sea on",blank:"holiday",after:".",bank:["holiday","biscuit","lorry"],emoji:"🏖️"}],
+  move:[{emoji:"🚚",text:"Drive a big lorry! Say: Beep beep! 🚚"},{emoji:"🍪",text:"Eat a pretend biscuit and say: Yummy! Cheers, Mum! 🍪"},{emoji:"🧶",text:"Put on a pretend jumper and say: Brrr, it's cold! 🧶"}],
+  wordle:[["mate","🤝"],["sweet","🍬"],["chips","🍟"]]}),
+ b_phrasal:BX.v('bonus-phrasal','kids','Stand up, sit down, wake up! Little action words for every day.',{
+  cardsTitle:'Action words',wordsLabel:'Actions',words:V([
+   ["wake up","obudzić się","⏰"],["get up","wstać (z łóżka)","🛏️"],["stand up","wstać","🧍"],["sit down","usiąść","🪑"],["put on","założyć","🧥"],["take off","zdjąć","🧢"],
+   ["turn on","włączyć","💡"],["turn off","wyłączyć","🔌"],["come in","wejść","🚪"],["go out","wyjść","🌳"]]),
+  quizTag:'ACTIONS',quiz:[
+   {q:"🪑 The teacher says: Please ___ down.",opts:["sit","stand","wake"],correct:0},
+   {q:"💡 It's dark. ___ on the light!",opts:["Turn","Put","Sit"],correct:0},
+   {q:"🧥 It's cold. Put ___ your coat.",opts:["on","off","up"],correct:0},
+   {q:"🧢 We're inside. Take ___ your cap.",opts:["off","on","in"],correct:0},
+   {q:"⏰ It's 7 o'clock. Wake ___!",opts:["up","down","off"],correct:0},
+   {q:"🚪 Knock, knock! Come ___!",opts:["in","out","off"],correct:0}],
+  fill:[
+   {before:"Please stand",blank:"up",after:"and say hello.",bank:["up","down","off"],emoji:"🧍"},
+   {before:"Turn",blank:"off",after:"the TV. It's bedtime.",bank:["off","on","in"],emoji:"📺"},
+   {before:"Let's go",blank:"out",after:"and play in the park!",bank:["out","in","up"],emoji:"🌳"},
+   {before:"I get",blank:"up",after:"at seven o'clock.",bank:["up","down","in"],emoji:"🛏️"}],
+  move:[{emoji:"🧍",text:"Stand up! Sit down! Stand up! Sit down! 🪑"},{emoji:"🧥",text:"Put on a pretend coat, then take it off! 🧥"},{emoji:"⏰",text:"Pretend to sleep… then wake up and stretch! ⏰"}],
+  wordle:[["wake","⏰"],["stand","🧍"],["door","🚪"]]}),
+};

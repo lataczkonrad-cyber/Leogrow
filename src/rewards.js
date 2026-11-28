@@ -423,6 +423,7 @@ const BONUS_LESSONS=[
 /* every bonus lesson has levels to choose from (units_zz_bonus.js): the old lesson is the Kids · A1 version */
 Object.keys(BONUS_VERSIONS).forEach(shop=>{const base=BONUS_LESSONS.find(l=>l.shop===shop&&!l.lv);if(!base)return;
   base.lv={track:'kids',level:'A1',tag:'Kids · A1'};
+  if(typeof BONUS_KIDS!=='undefined'&&BONUS_KIDS[shop]){base.zones=BONUS_KIDS[shop].zones;base.intro=BONUS_KIDS[shop].intro;}
   const at=BONUS_LESSONS.indexOf(base)+1;
   BONUS_LESSONS.splice(at,0,...BONUS_VERSIONS[shop].map(v=>({id:v.id,shop,title:base.title,emoji:base.emoji,intro:v.intro,zones:v.zones,lv:v})));});
 BONUS_NEW.forEach(b=>b.versions.forEach(v=>BONUS_LESSONS.push({id:v.id,shop:b.shop.id,title:b.title,emoji:b.emoji,intro:v.intro,zones:v.zones,lv:v})));
