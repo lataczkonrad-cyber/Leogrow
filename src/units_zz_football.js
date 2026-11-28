@@ -1,10 +1,9 @@
 /* =====================================================================
    EXTRA LESSON — Football Fever ⚽ (2026-11-28)
-   One long extra lesson on three levels: Kids A2, Teens & Adults A2 and B1
-   (B1 adds phrasal verbs, idioms, a VAR opinion article and an opinion essay).
-   Extra units (unit.extra) are always open, are not counted for level progress
-   and don't block the next lesson. Step types dialogue / dictation / unittest
-   are in steps_more.js.
+   A Shop bonus lesson (item b_football) on three levels to choose from:
+   Kids A2, Teens & Adults A2 and B1 (B1 adds phrasal verbs, idioms, a VAR
+   opinion article and an opinion essay). Not part of the level pages.
+   Step types dialogue / dictation / unittest are in steps_more.js.
    ===================================================================== */
 
 const FB_TEAM=V([
@@ -527,7 +526,6 @@ const FB_B1=[
  const base=FB_LESSON.zones;
  const reid=(zs,suf)=>{zs.forEach(z=>{if(z.blocks)z.blocks.forEach(b=>b.id=b.id+'-'+suf);});return zs;};
  const kids=reid(cp(base),'k');
- window.FB_SHOP_ZONES=reid(cp(base),'shop'); // the same lesson as a Shop bonus lesson (rewards.js)
  const adA2=reid(cp(base).filter(z=>z.type!=='move'&&z.type!=='balloon'),'a2');
  let adB1=cp(base).filter(z=>!['move','balloon','memory'].includes(z.type)&&z.label!=='Find it'&&z.label!=='Whack-a-Leo'&&z.label!=='Spell it');
  const at=adB1.findIndex(z=>z.label==='Match: rules');
@@ -542,12 +540,10 @@ const FB_B1=[
   {type:"type",q:"🔥 Before the match, the players w___ up.",answers:["warm","warmed"]},
  ]});
  adB1=reid(adB1,'b1');
- const mk=(id,track,level,zones,intro)=>({id:"fbx-"+id,level,track,extra:true,topic:"Extra",title:"Football Fever",emoji:"⚽",badge:"Football Star",
-  sub:"An extra lesson for football fans — do it any time, it doesn't block the course.",
-  lessons:[{id:"fbx-"+id+"-l1",title:"Football Fever",emoji:"⚽",intro,bonus:FB_ALL,zones}]});
- COURSE.units.push(
-  mk("kids-a2","kids","A2",kids,FB_LESSON.intro),
-  mk("adults-a2","adults","A2",adA2,"Football words beyond 'goal': referee, substitute, header, tackle, offside, penalty, fixture, league table. The rules with must / have to / allowed to, a cup final in the past simple, a league table and fan phrases."),
-  mk("adults-b1","adults","B1",adB1,"Football English at B1: the referee, offside and the league table, rules with must / have to / allowed to, a cup final in the past simple, phrasal verbs and idioms (send off, knock out, move the goalposts) and an opinion article about VAR.")
- );
+ /* the three versions are one Shop bonus lesson (rewards.js, item b_football): buy once, pick the level */
+ window.FB_VERSIONS=[
+  {id:"bonus-football",track:"kids",level:"A2",tag:"Kids · A2",intro:FB_LESSON.intro,zones:kids},
+  {id:"bonus-football-a2",track:"adults",level:"A2",tag:"Teens & Adults · A2",intro:"Football words beyond 'goal': referee, substitute, header, tackle, offside, penalty, fixture, league table. The rules with must / have to / allowed to, a cup final in the past simple, a league table and fan phrases.",zones:adA2},
+  {id:"bonus-football-b1",track:"adults",level:"B1",tag:"Teens & Adults · B1",intro:"Football English at B1: the referee, offside and the league table, rules with must / have to / allowed to, a cup final in the past simple, phrasal verbs and idioms (send off, knock out, move the goalposts) and an opinion article about VAR.",zones:adB1},
+ ];
 })();
