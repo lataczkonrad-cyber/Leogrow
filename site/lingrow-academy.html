@@ -11602,6 +11602,559 @@ Object.assign(MORE_GRAMMAR_PL,{
  "Can I have…? · How much is / are…?":[["Order politely with <b>Can I have…, please?</b>","Zamawiamy uprzejmie: <b>Can I have…, please?</b>"],[">You say<",">Mówisz<"],[">Example<",">Przykład<"],["I'd like (= I want, politely)","I'd like (= chcę, uprzejmie)"],["Ask the price:","Pytanie o cenę:"],[">One thing<",">Jedna rzecz<"],[">Two or more<",">Dwie lub więcej<"],["Numbers:","Liczby:"],["(no 'u'!)","(bez 'u'!)"]],
 });
 
+/* =====================================================================
+   EXTRA LESSON — Football Fever ⚽ (2026-11-28)
+   One long extra lesson on three levels: Kids A2, Teens & Adults A2 and B1
+   (B1 adds phrasal verbs, idioms, a VAR opinion article and an opinion essay).
+   Extra units (unit.extra) are always open, are not counted for level progress
+   and don't block the next lesson. Step types dialogue / dictation / unittest
+   are in steps_more.js.
+   ===================================================================== */
+
+const FB_TEAM=V([
+ ["referee","sędzia","🧑‍⚖️"],["goalkeeper","bramkarz","🧤"],["defender","obrońca","🛡️"],["midfielder","pomocnik","↔️"],
+ ["striker","napastnik","🎯"],["captain","kapitan","🎖️"],["substitute","zawodnik rezerwowy","🔄"],["coach","trener","📋"],
+ ["fans","kibice","📣"],["pitch","boisko","🟩"],["stadium","stadion","🏟️"],["crowd","tłum (widzów)","👥"],
+ ["kit","strój drużyny","👕"],["bench","ławka rezerwowych","🪑"],
+]);
+const FB_ACT=V([
+ ["pass","podać, podanie","➡️⚽"],["shoot","strzelać, oddać strzał","💥⚽"],["score a goal","strzelić gola","🥅"],["save","obronić strzał, obrona","✋⚽"],
+ ["header","strzał głową","🙆⚽"],["tackle","odbiór piłki, wślizg","🦵⚽"],["dribble","dryblować, prowadzić piłkę","🏃⚽"],["cross","dośrodkowanie","⤴️⚽"],
+ ["foul","faul","⛔"],["dive","symulować faul (padać)","🤸"],["celebrate","świętować, cieszyć się","🎉"],["get injured","doznać kontuzji","🤕"],
+]);
+const FB_RULES=V([
+ ["penalty","rzut karny","⚪🥅"],["free kick","rzut wolny","🦶⚽"],["corner","rzut rożny","🚩"],["offside","spalony","🚫🏃"],
+ ["yellow card","żółta kartka","🟨"],["red card","czerwona kartka","🟥"],["half-time","przerwa między połowami","⏸️"],["extra time","dogrywka","⏱️"],
+ ["penalty shootout","seria rzutów karnych","🔁🥅"],["draw","remis","🤝"],["beat","pokonać","💪"],["fixture","mecz w terminarzu","📅"],
+ ["league table","tabela ligowa","📊"],["trophy","puchar, trofeum","🏆"],
+]);
+const FB_ALL=FB_TEAM.concat(FB_ACT,FB_RULES);
+
+/* ---------- grammar boxes ---------- */
+const FB_G_RULES=`<p>Football has lots of rules! 📜 We use these words to talk about them:</p>
+${TBL(["Word","What it means","Example"],[
+ ["<b>must</b> / <b>have to</b>","It's a rule. It's necessary. ✅","Players <b>must</b> wear shin pads.<br>The goalkeeper <b>has to</b> wear a different colour."],
+ ["<b>mustn't</b>","It's NOT OK. Don't do it! ⛔","You <b>mustn't</b> touch the ball with your hands."],
+ ["<b>don't have to</b>","It isn't necessary. You can, but you don't need to. 🤷","Substitutes <b>don't have to</b> play the whole match."],
+ ["<b>can</b> / <b>are allowed to</b>","It's OK. It's permitted. 👍","The goalkeeper <b>can</b> catch the ball in the penalty area.<br>Teams <b>are allowed to</b> make five substitutions."],
+ ["<b>can't</b> / <b>aren't allowed to</b>","It isn't permitted. 🚫","Defenders <b>can't</b> pick up the ball.<br>You <b>aren't allowed to</b> push other players."]])}
+<p style="margin-top:12px;">⚠️ <b>mustn't</b> ≠ <b>don't have to</b>!<br><i>You <b>mustn't</b> kick the referee.</i> = it's forbidden 😱<br><i>You <b>don't have to</b> score in every match.</i> = it's not necessary 🙂</p>
+<p style="margin-top:8px;">⚠️ After <b>must, mustn't, can, can't</b> → verb with no "to": <i>You must <b>stop</b></i> ✅ — <i>You must <s>to stop</s></i> ❌</p>
+<p style="margin-top:8px;"><b>he / she / it</b> → <b>has to</b>, <b>doesn't have to</b>, <b>is allowed to</b>: <i>The captain <b>has to</b> shake hands with the referee.</i></p>
+<p style="margin-top:8px;">Questions: <i><b>Do</b> we <b>have to</b> wear a kit? · <b>Can</b> the goalkeeper pick it up? · <b>Are</b> we <b>allowed to</b> tackle from behind?</i></p>`;
+
+const FB_G_PAST=`<p><b>Past simple</b> — the language of match reports! 📰 Finished actions in the past.</p>
+${TBL(["Regular (+ -ed)","Irregular — learn them! 🧠"],[
+ ["pass → <b>passed</b>","beat → <b>beat</b> &nbsp;·&nbsp; win → <b>won</b> &nbsp;·&nbsp; lose → <b>lost</b>"],
+ ["kick → <b>kicked</b>","shoot → <b>shot</b> &nbsp;·&nbsp; hit → <b>hit</b> &nbsp;·&nbsp; take → <b>took</b>"],
+ ["score → <b>scored</b>","throw → <b>threw</b> &nbsp;·&nbsp; catch → <b>caught</b> &nbsp;·&nbsp; fall → <b>fell</b>"],
+ ["save → <b>saved</b>","give → <b>gave</b> &nbsp;·&nbsp; run → <b>ran</b> &nbsp;·&nbsp; come → <b>came</b> on"],
+ ["tackle → <b>tackled</b>","keep → <b>kept</b> &nbsp;·&nbsp; get → <b>got</b> &nbsp;·&nbsp; make → <b>made</b>"],
+ ["try → <b>tried</b> &nbsp;·&nbsp; stop → <b>stopped</b>","blow (the whistle) → <b>blew</b> &nbsp;·&nbsp; feel → <b>felt</b>"]])}
+<p style="margin-top:12px;">➖ <b>didn't</b> + verb: <i>We <b>didn't win</b>.</i> (NOT <s>didn't won</s>) · ❓ <b>Did</b> + verb: <i><b>Did</b> she <b>score</b>?</i></p>
+<p style="margin-top:12px;"><b>Linking words</b> for a story 🔗: <i>At the start… · After ten minutes… · Just before half-time… · In the second half… · Then… · Suddenly… · In the last minute… · In the end…</i></p>
+<p style="margin-top:8px;">Scores: <i>We <b>won 3–1</b>.</i> (three–one) · <i>It was a <b>draw</b>, 2–2.</i> (two all) · <i>They <b>beat</b> us 1–0.</i> (one–nil)</p>`;
+
+const FB_G_COMP=`<p><b>Comparing teams</b> 📊 — comparatives and superlatives</p>
+${TBL(["Adjective","Comparative (2 teams)","Superlative (the whole league)"],[
+ ["fast","fast<b>er</b> than","the fast<b>est</b>"],["big","big<b>ger</b> than","the big<b>gest</b>"],
+ ["strong","strong<b>er</b> than","the strong<b>est</b>"],["exciting","<b>more</b> exciting than","<b>the most</b> exciting"],
+ ["good","<b>better</b> than","<b>the best</b>"],["bad","<b>worse</b> than","<b>the worst</b>"]])}
+<p style="margin-top:12px;">With numbers: <b>more</b> points <b>than</b> · <b>fewer</b> goals <b>than</b> · <b>the most</b> wins · <b>the fewest</b> defeats</p>
+<p style="margin-top:8px;"><b>as … as</b> = the same · <b>not as … as</b> = less: <i>Leo is<b>n't as</b> tall <b>as</b> Kuba.</i> · <i>The Rovers have<b>n't</b> scored <b>as many</b> goals <b>as</b> the Lions.</i></p>
+<p style="margin-top:8px;">Places: <b>top of the league</b> 🥇 · <b>bottom of the league</b> 🔻 · <b>second</b>, <b>third</b>… · <b>goal difference</b> = goals for − goals against</p>
+<p style="margin-top:8px;">⚠️ <i>better <b>than</b></i> ✅ — <i>better <s>that</s></i> ❌ · <i><b>the</b> best team</i> ✅ — <i><s>the most good</s></i> ❌</p>`;
+
+const FB_TABLE=TBL(["Pos","Team","P","W","D","L","Goals","Pts"],[
+ ["1","🚀 Riverside Rockets","10","7","2","1","24–9","<b>23</b>"],
+ ["2","⚡ Hillford Thunder","10","6","2","2","21–12","<b>20</b>"],
+ ["3","🦁 Lakeside Lions","10","4","3","3","15–14","<b>15</b>"],
+ ["4","🌳 Oakbridge United","10","3","3","4","13–15","<b>12</b>"],
+ ["5","🐺 Millbrook Rovers","10","2","3","5","10–18","<b>9</b>"],
+ ["6","🏴‍☠️ Port Ellis Pirates","10","1","1","8","6–21","<b>4</b>"]]);
+
+/* ---------- the lesson ---------- */
+const FB_LESSON={id:"football-a2",title:"Football Fever",emoji:"⚽",num:"1",
+ intro:"Become a real football expert! Referees and substitutes, headers and tackles, offside and penalties, the rules of the game, a cup final, a league table and what fans shout from the stands.",
+ bonus:FB_ALL,
+ zones:[
+  /* ===== PART 1 — WHO'S WHO? ===== */
+  {type:"cards",label:"Who's who",title:"Who's who in football? 🏟️",cards:FB_TEAM},
+  {type:"find",label:"Find it",cards:FB_TEAM,rounds:10,title:"Find the right picture 🔎"},
+  {type:"balloon",label:"Balloon Pop",cards:FB_TEAM,rounds:10},
+  {type:"memory",label:"Memory",pairs:memOf(FB_TEAM.slice(0,8))},
+  {type:"quiz",label:"Who is it?",tag:"WHO IS IT?",qs:[
+   {q:"🧑‍⚖️ This person has a whistle and gives yellow and red cards.",opts:["the referee","the captain","the coach"],correct:0},
+   {q:"🧤 This player can catch the ball with their hands.",opts:["the goalkeeper","the striker","the defender"],correct:0},
+   {q:"🎯 This player's main job is to score goals.",opts:["the striker","the goalkeeper","the substitute"],correct:0},
+   {q:"🛡️ This player stays near their own goal and stops the other team.",opts:["a defender","a fan","a striker"],correct:0},
+   {q:"🔄 This player sits on the bench and comes on later in the match.",opts:["a substitute","the referee","the captain"],correct:0},
+   {q:"📋 This person trains the team and chooses the players.",opts:["the coach","the referee","the goalkeeper"],correct:0},
+   {q:"🎖️ This player wears an armband and leads the team.",opts:["the captain","the substitute","the coach"],correct:0},
+   {q:"↔️ This player plays in the middle of the pitch, between the defenders and the strikers.",opts:["a midfielder","a goalkeeper","a fan"],correct:0},
+   {q:"📣 These people sing, shout and wave scarves in the stadium.",opts:["the fans","the defenders","the referees"],correct:0},
+   {q:"🟩 The grass area where the match is played is the…",opts:["pitch","bench","crowd"],correct:0},
+   {q:"👕 The shirts, shorts and socks of a team are the…",opts:["kit","trophy","stadium"],correct:0},
+   {q:"👥 All the people watching the match together are the…",opts:["crowd","bench","kit"],correct:0},
+  ]},
+  {type:"reading",label:"Read: the Rockets",title:"Meet the Riverside Rockets 🚀",paras:[
+   "The <b>Riverside Rockets</b> are an under-13 football team from a small town by a river. They play in blue and white, and their home <b>pitch</b> is behind the old sports centre. It isn't a big <b>stadium</b>, but on Saturdays there's a loud <b>crowd</b> of parents, grandparents and friends.",
+   "🎖️ <b>Maja, 12</b> — Maja is the <b>captain</b> and the team's best <b>striker</b>. She's very fast and she scores lots of goals with her left foot. Before every match she tells the team: \"Heads up, Rockets!\"",
+   "🧤 <b>Kuba, 12</b> — Kuba is the <b>goalkeeper</b>. He's the tallest player in the team and he isn't afraid of anything. Last season he saved four <b>penalties</b>! He always wears lucky green gloves.",
+   "🛡️ <b>Zoe, 11</b> — Zoe is a <b>defender</b>. She doesn't score many goals, but she's brilliant at <b>tackles</b>. Strikers from other teams don't like playing against her!",
+   "↔️ <b>Olek, 11</b> — Olek is a <b>midfielder</b>. He runs all the time and he's great at long <b>passes</b>. He wants to be a professional footballer one day.",
+   "🔄 <b>Leo, 10</b> — Leo is the youngest player. He's usually a <b>substitute</b>, so he starts the match on the <b>bench</b>. But when he comes on, the <b>fans</b> go crazy, because he's amazing at <b>headers</b>!",
+   "📋 <b>Mr Byrne</b> is the <b>coach</b>. He's friendly but strict. His favourite rule is: \"Train hard, play fair, and always shake hands with the <b>referee</b>.\"",
+  ]},
+  {type:"tf",label:"True, false…?",title:"True, False or Not given?",sub:"Read about the Rockets again. Not given = the text doesn't say.",tag:"READING CHECK",labels:TF3,items:[
+   {text:"The Rockets play in blue and white.",answer:0},{text:"Their home pitch is in a very big stadium.",answer:1},
+   {text:"Maja scores most of her goals with her right foot.",answer:1},{text:"Kuba is the tallest player in the team.",answer:0},
+   {text:"Kuba's gloves are green.",answer:0},{text:"Zoe scores lots of goals.",answer:1},
+   {text:"Olek's dad was a professional footballer.",answer:2},{text:"Leo usually starts the match on the bench.",answer:0},
+   {text:"Mr Byrne is the referee.",answer:1},{text:"The Rockets train three times a week.",answer:2},
+  ]},
+  {type:"spell",label:"Spell it",words:WL([["referee","🧑‍⚖️"],["goalkeeper","🧤"],["striker","🎯"],["captain","🎖️"],["substitute","🔄"],["stadium","🏟️"],["midfielder","↔️"],["defender","🛡️"]])},
+
+  /* ===== PART 2 — ON THE BALL: ACTIONS ===== */
+  {type:"cards",label:"Actions",title:"What do players do? ⚡",cards:FB_ACT},
+  {type:"match",label:"Match",pairs:FB_ACT.slice(0,8)},
+  {type:"fill",label:"Action words",tag:"FOOTBALL ACTIONS",items:[
+   {before:"Olek made a long",blank:"pass",after:"to Maja on the left.",bank:["pass","save","foul"],emoji:"➡️"},
+   {before:"Maja ran past three defenders. She can really",blank:"dribble",after:"!",bank:["dribble","dive","celebrate"],emoji:"🏃"},
+   {before:"Leo jumped high and scored with a",blank:"header",after:".",bank:["header","tackle","corner"],emoji:"🙆"},
+   {before:"What a",blank:"save",after:"! The goalkeeper stopped the ball with one hand.",bank:["save","cross","pass"],emoji:"🧤"},
+   {before:"Zoe won the ball with a perfect",blank:"tackle",after:".",bank:["tackle","header","shoot"],emoji:"🦵"},
+   {before:"He kicked the other player's leg. That's a",blank:"foul",after:"!",bank:["foul","save","pass"],emoji:"⛔"},
+   {before:"She sent a high",blank:"cross",after:"into the penalty area.",bank:["cross","save","bench"],emoji:"⤴️"},
+   {before:"He fell down, but nobody touched him! He wanted to",blank:"dive",after:".",bank:["dive","shoot","pass"],emoji:"🤸"},
+   {before:"After the goal, all the players ran to the fans to",blank:"celebrate",after:".",bank:["celebrate","tackle","dribble"],emoji:"🎉"},
+   {before:"Don't wait —",blank:"shoot",after:"! The goal is empty!",bank:["shoot","save","dive"],emoji:"💥"},
+   {before:"Zoe fell badly and",blank:"got injured",after:". She had to leave the pitch.",bank:["got injured","celebrated","scored"],emoji:"🤕"},
+  ]},
+  {type:"whack",label:"Whack-a-Leo",qs:[
+   {q:"A goal with your head is a…",opts:["header","tackle","cross"],correct:0},{q:"The goalkeeper stops the ball: a…",opts:["save","foul","pass"],correct:0},
+   {q:"You kick the ball to a teammate: a…",opts:["pass","dive","header"],correct:0},{q:"You take the ball from an opponent: a…",opts:["tackle","save","corner"],correct:0},
+   {q:"You break a rule: a…",opts:["foul","goal","save"],correct:0},{q:"You fall down to trick the referee: you…",opts:["dive","dribble","pass"],correct:0},
+   {q:"You run with the ball past players: you…",opts:["dribble","save","foul"],correct:0},{q:"You kick the ball from the side into the box: a…",opts:["cross","save","bench"],correct:0},
+   {q:"The ball goes in the net: you…",opts:["score a goal","get injured","dive"],correct:0},{q:"Jump, dance, hug your teammates: you…",opts:["celebrate","tackle","shoot"],correct:0},
+  ]},
+  {type:"odd",label:"Odd one out",items:[
+   {opts:["header","pass","cross","bench"],odd:3,why:"A bench is a place to sit. The others are things you do with the ball."},
+   {opts:["striker","defender","goalkeeper","referee"],odd:3,why:"The referee isn't a player in a team."},
+   {opts:["yellow card","red card","foul","trophy"],odd:3,why:"You get a trophy for winning — not for breaking the rules!"},
+   {opts:["pitch","stadium","bench","whistle"],odd:3,why:"A whistle isn't a place. The others are places at a match."},
+   {opts:["win","beat","score","lose"],odd:3,why:"Win, beat and score are good news. Lose is bad news!"},
+   {opts:["coach","captain","substitute","crowd"],odd:3,why:"The crowd watches. The others are part of the team."},
+  ]},
+  {type:"listen",label:"Listen",items:[
+   {word:"What a header!",options:["What a header!","What a heater!","What a hitter!"],correct:0},
+   {word:"The goalkeeper made a great save.",options:["The goalkeeper made a great save.","The goalkeeper made a great safe.","The goalkeeper made a great shave."],correct:0},
+   {word:"He tackled the striker.",options:["He tackled the striker.","He tickled the striker.","He talked to the striker."],correct:0},
+   {word:"The substitute came on in the second half.",options:["The substitute came on in the second half.","The substitute came in the second car.","The substitute come on in the first half."],correct:0},
+   {word:"That was a dive, not a foul!",options:["That was a dive, not a foul!","That was a drive, not a full!","That was five, not four!"],correct:0},
+   {word:"She dribbled past two defenders.",options:["She dribbled past two defenders.","She dribbled past the fences.","She doubled past two defenders."],correct:0},
+  ]},
+  {type:"speak",label:"Say it",items:[
+   {en:"Pass the ball!",emoji:"➡️⚽",pl:"Podaj piłkę!"},
+   {en:"What a save!",emoji:"🧤",pl:"Co za obrona!"},
+   {en:"He scored with a header.",emoji:"🙆⚽",pl:"Strzelił gola głową."},
+   {en:"That was a great tackle.",emoji:"🦵⚽",pl:"To był świetny wślizg."},
+   {en:"The striker dribbled past the defender.",emoji:"🏃⚽",pl:"Napastnik minął obrońcę dryblingiem."},
+   {en:"The substitute is warming up.",emoji:"🔄",pl:"Rezerwowy się rozgrzewa."},
+  ]},
+  {type:"move",label:"Act it out",items:[
+   {emoji:"🙆",text:"Jump up and do a header! Say: What a header! 🙆"},
+   {emoji:"🧤",text:"Be a goalkeeper — dive to the left and make a save! Say: Saved! 🧤"},
+   {emoji:"🧑‍⚖️",text:"Be the referee: blow an imaginary whistle and show a yellow card. Say: That's a foul! 🟨"},
+   {emoji:"🏃",text:"Dribble an imaginary ball around a chair. Say: I'm dribbling past the defender! 🏃"},
+   {emoji:"🎉",text:"You scored! Do your best goal celebration and shout: GOAL! 🎉"},
+   {emoji:"🤸",text:"Pretend to dive, then stand up and say: Sorry, ref, that was a dive! 🤸"},
+  ]},
+
+  /* ===== PART 3 — THE RULES OF THE GAME ===== */
+  {type:"cards",label:"Rules & results",title:"Rules and results 🟨🟥",cards:FB_RULES},
+  {type:"quiz",label:"What's it called?",tag:"FOOTBALL WORDS",qs:[
+   {q:"🚩 The ball goes out behind the goal line. The defender touched it last. It's a…",opts:["corner","penalty","throw-in"],correct:0},
+   {q:"⚪🥅 A defender fouls a striker inside the penalty area. It's a…",opts:["penalty","corner","free kick"],correct:0},
+   {q:"🚫🏃 A striker is behind all the defenders when the ball is passed to her. She's…",opts:["offside","injured","a substitute"],correct:0},
+   {q:"🟨 A player makes a bad foul. The referee shows a…",opts:["yellow card","trophy","fixture"],correct:0},
+   {q:"🟥 Two yellow cards = one…",opts:["red card","penalty","draw"],correct:0},
+   {q:"⏸️ The 15-minute break in the middle of the match is…",opts:["half-time","extra time","a fixture"],correct:0},
+   {q:"⏱️ In a cup final the score is 1–1 after 90 minutes. They play 30 more minutes. That's…",opts:["extra time","half-time","a penalty"],correct:0},
+   {q:"🤝 The final score is 2–2. It's a…",opts:["draw","win","foul"],correct:0},
+   {q:"🔁🥅 Still a draw after extra time? Five players from each team take penalties. It's a…",opts:["penalty shootout","free kick","league table"],correct:0},
+   {q:"📊 A list of all the teams with their points is a…",opts:["league table","fixture","kit"],correct:0},
+   {q:"📅 Our next ___ is against Hillford Thunder on Saturday at 10 a.m.",opts:["fixture","trophy","crowd"],correct:0},
+   {q:"🏆 The winners lift the…",opts:["trophy","bench","corner"],correct:0},
+  ]},
+  {type:"grammar",label:"must / have to",title:"Rules: must, mustn't, have to, don't have to, can",html:FB_G_RULES},
+  {type:"quiz",label:"Is it allowed?",tag:"THE RULES",qs:[
+   {q:"🖐️ Players ___ touch the ball with their hands (but goalkeepers can in their area).",opts:["mustn't","must","don't have to"],correct:0},
+   {q:"🦵 Players ___ wear shin pads. It's a rule.",opts:["have to","don't have to","mustn't"],correct:0},
+   {q:"🧤 The goalkeeper ___ catch the ball in the penalty area.",opts:["can","mustn't","can't"],correct:0},
+   {q:"🔄 Substitutes ___ play the whole match. They sometimes play for only ten minutes.",opts:["don't have to","mustn't","have to"],correct:0},
+   {q:"🟥 After a red card, the player ___ leave the pitch.",opts:["has to","doesn't have to","can"],correct:0},
+   {q:"😡 You ___ shout at the referee. You can get a yellow card!",opts:["mustn't","have to","are allowed to"],correct:0},
+   {q:"🎖️ The captain ___ be the best player. But he or she has to be a good leader.",opts:["doesn't have to","mustn't","can't"],correct:0},
+   {q:"🔢 In many leagues teams ___ make five substitutions.",opts:["are allowed to","mustn't","aren't allowed to"],correct:0},
+   {q:"👕 The two goalkeepers ___ wear different colours from all the other players.",opts:["must","mustn't","don't have to"],correct:0},
+   {q:"🤝 At the end of the match you ___ shake hands. It's good manners, and in our club it's a rule!",opts:["have to","mustn't","aren't allowed to"],correct:0},
+  ]},
+  {type:"fill",label:"Club rules",tag:"OUR CLUB RULES",items:[
+   {before:"You",blank:"must",after:"arrive ten minutes before training.",bank:["must","mustn't","don't have to"],emoji:"⏰"},
+   {before:"You",blank:"mustn't",after:"wear jewellery on the pitch. It's dangerous.",bank:["mustn't","must","have to"],emoji:"💍"},
+   {before:"You",blank:"don't have to",after:"bring a ball. The club has got lots of balls.",bank:["don't have to","mustn't","must"],emoji:"⚽"},
+   {before:"Every player",blank:"has to",after:"bring a bottle of water.",bank:["has to","have to","must to"],emoji:"💧"},
+   {before:"Parents",blank:"are allowed to",after:"watch, but they mustn't shout at the referee.",bank:["are allowed to","aren't allowed to","mustn't"],emoji:"👨‍👩‍👧"},
+   {before:"",blank:"Do",after:"we have to wear the club kit on Saturday?",bank:["Do","Does","Must"],emoji:"👕"},
+   {before:"The goalkeeper",blank:"doesn't have to",after:"run very much, but she has to be brave!",bank:["doesn't have to","don't have to","mustn't"],emoji:"🧤"},
+   {before:"You",blank:"can't",after:"play if you're ill. Stay at home!",bank:["can't","can","have to"],emoji:"🤒"},
+   {before:"",blank:"Are",after:"we allowed to use our phones in the changing room?",bank:["Are","Do","Have"],emoji:"📱"},
+   {before:"You must",blank:"listen",after:"to the coach.",bank:["listen","to listen","listening"],emoji:"📋"},
+  ]},
+  {type:"tf",label:"Football facts",title:"Real football rules: true or false?",sub:"What do you know about football? Guess if you aren't sure — the answers teach you!",tag:"FOOTBALL FACTS",items:[
+   {text:"A professional match has two halves of 45 minutes.",answer:0},
+   {text:"There are twelve players in a team on the pitch.",answer:1},
+   {text:"You can't be offside in your own half of the pitch.",answer:0},
+   {text:"A player with two yellow cards can stay on the pitch.",answer:1},
+   {text:"The goalkeeper is allowed to use their hands outside the penalty area.",answer:1},
+   {text:"A penalty is taken from a spot eleven metres from the goal.",answer:0},
+   {text:"You can score a goal directly from a corner.",answer:0},
+   {text:"Players have to take off their boots at half-time.",answer:1},
+  ]},
+  {type:"errors",label:"Find the error",items:[
+   {s:"You must to wear shin pads.",wrong:2,ok:"You must wear shin pads."},
+   {s:"She have to wear gloves.",wrong:1,ok:"She has to wear gloves."},
+   {s:"Players mustn't touches the ball with their hands.",wrong:2,ok:"Players mustn't touch the ball with their hands."},
+   {s:"Does we have to train on Sunday?",wrong:0,ok:"Do we have to train on Sunday?"},
+   {s:"He don't have to play the whole match.",wrong:1,ok:"He doesn't have to play the whole match."},
+   {s:"We are allow to make five substitutions.",wrong:2,ok:"We are allowed to make five substitutions."},
+  ]},
+  {type:"build",label:"Build it",items:[
+   {s:"You mustn't touch the ball with your hands.",pl:"Nie wolno dotykać piłki rękami."},
+   {s:"The goalkeeper is allowed to catch the ball.",pl:"Bramkarzowi wolno złapać piłkę."},
+   {s:"Do we have to wear shin pads?",pl:"Czy musimy nosić ochraniacze?"},
+   {s:"Substitutes don't have to play the whole match.",pl:"Rezerwowi nie muszą grać całego meczu."},
+   {s:"After a red card you have to leave the pitch.",pl:"Po czerwonej kartce musisz zejść z boiska."},
+   {s:"The referee gave a penalty for a foul.",pl:"Sędzia podyktował rzut karny za faul."},
+  ]},
+  
+  /* ===== PART 4 — THE CUP FINAL (PAST SIMPLE) ===== */
+  {type:"dialogue",label:"Listening: the final",title:"Live on Radio Riverside 🎧📻",sub:"The Rockets are playing Hillford Thunder in the Under-13 Cup Final. Listen to the radio commentary first — the text is hidden. Then answer the questions on the next step.",hide:true,
+   cast:{"Commentator Sam":"🎙️","Commentator Priya":"🎧"},lines:[
+   ["Commentator Sam","Good afternoon and welcome to the Cup Final! The Riverside Rockets in blue, Hillford Thunder in yellow. And the referee blows her whistle. We're off!"],
+   ["Commentator Priya","Ten minutes gone and Thunder are attacking. A cross from the right… a header… and it's a goal! Thunder lead one–nil."],
+   ["Commentator Sam","The Rockets' fans are very quiet now. But here's Maja, the Rockets' captain. She dribbles past one defender, two defenders… she shoots… GOAL! One all!"],
+   ["Commentator Priya","Just before half-time — oh no! Zoe tackles a Thunder striker in the penalty area. The referee points to the spot. Penalty!"],
+   ["Commentator Sam","Kuba in goal for the Rockets… the striker runs up… and Kuba saves it! What a save! It's still one all at half-time."],
+   ["Commentator Priya","Second half now, and Mr Byrne makes a substitution. Young Leo is coming on for Olek."],
+   ["Commentator Sam","Eighty minutes… a corner for the Rockets. Olek isn't on the pitch, so Maja takes it… and Leo heads it in! Two–one to the Rockets!"],
+   ["Commentator Priya","But wait — Thunder go straight up the other end. A long pass… is the striker offside? No flag! She shoots… two all! What a match!"],
+   ["Commentator Sam","Ninety minutes, and it's a draw. We're going to extra time… and after extra time it's still two all. So it's a penalty shootout!"],
+   ["Commentator Priya","The last penalty… Kuba dives to his left… and he SAVES it! The Rockets win the shootout four–three! The Rockets win the cup!"],
+  ]},
+  {type:"quiz",label:"Listening questions",tag:"LISTENING",qs:[
+   {q:"What colour do Hillford Thunder play in?",opts:["Yellow","Blue","Blue and white"],correct:0},
+   {q:"How did Thunder score their first goal?",opts:["With a header after a cross","From a penalty","From a corner"],correct:0},
+   {q:"Who scored the Rockets' first goal?",opts:["Maja","Leo","Olek"],correct:0},
+   {q:"Why did Thunder get a penalty?",opts:["Zoe tackled a striker in the penalty area.","Kuba touched the ball outside his area.","A defender used her hands."],correct:0},
+   {q:"What happened to the penalty before half-time?",opts:["Kuba saved it.","It hit the post.","Thunder scored."],correct:0},
+   {q:"Which player went off when Leo came on?",opts:["Olek","Zoe","Maja"],correct:0},
+   {q:"What was the score after 90 minutes?",opts:["2–2","2–1","1–1"],correct:0},
+   {q:"Who won the penalty shootout?",opts:["The Rockets, 4–3","Thunder, 4–3","The Rockets, 3–2"],correct:0},
+  ]},
+  {type:"reading",label:"Read: match report",title:"The school newspaper: ROCKETS LIFT THE CUP! 🏆📰",paras:[
+   "<b>Last Saturday the Riverside Rockets won the Under-13 Cup for the first time in the club's history.</b> Hundreds of fans came to the final at Hillford Park, and they saw one of the most exciting matches of the year.",
+   "The Rockets didn't start well. After ten minutes Thunder scored a great header, and the Rockets looked nervous. But their captain Maja didn't give up. In the 25th minute she ran past two defenders and hit the ball into the top corner. 1–1!",
+   "Just before half-time, defender Zoe made a late tackle and the referee gave a penalty to Thunder. Everybody was worried — but goalkeeper Kuba dived and kept the ball out with his fingertips. \"I felt very calm,\" he told us later. \"I just watched the ball.\"",
+   "In the second half, coach Mr Byrne brought on substitute Leo, the youngest player in the team. Ten minutes before the end, Leo jumped higher than everybody and headed the ball into the net from Maja's corner. 2–1! But only one minute later, a Thunder striker equalised. Some fans thought she was offside, but the goal stood.",
+   "There were no more goals in extra time, so the final went to a penalty shootout. Maja, Olek, Zoe and Leo all scored. Then Kuba saved the last penalty, and the Rockets won 4–3. The players ran to the fans and celebrated for twenty minutes!",
+   "\"I'm so proud of them,\" said Mr Byrne. \"We weren't the best team today, but we were the bravest. And we played fair — we didn't get a single yellow card.\" Next up: the Rockets' first league fixture of the new season, against Lakeside Lions on 6th September.",
+  ]},
+  {type:"quiz",label:"Report check",tag:"READING CHECK",qs:[
+   {q:"Was this the Rockets' first cup?",opts:["Yes, it was the first time.","No, they won it last year too.","The report doesn't say."],correct:0},
+   {q:"How did Maja score?",opts:["She ran past two defenders and shot into the top corner.","With a header.","From a penalty."],correct:0},
+   {q:"How did Kuba feel during the penalty?",opts:["Calm","Nervous","Angry"],correct:0},
+   {q:"Who gave Leo the ball for his goal?",opts:["Maja, from a corner","Olek, with a long pass","Zoe, with a cross"],correct:0},
+   {q:"Why were some fans unhappy with Thunder's second goal?",opts:["They thought the striker was offside.","The ball didn't cross the line.","It was a dive."],correct:0},
+   {q:"How many Rockets players scored in the shootout?",opts:["Four","Three","Five"],correct:0},
+   {q:"What is Mr Byrne happy about? (two things)",opts:["The team was brave and played fair.","The team was the best and scored the most.","The fans were quiet and polite."],correct:0},
+   {q:"What is the Rockets' next fixture?",opts:["A league match against Lakeside Lions","Another final against Thunder","A friendly against Port Ellis"],correct:0},
+  ]},
+  {type:"grammar",label:"Past simple",title:"Telling a match story: the past simple",html:FB_G_PAST},
+  {type:"fill",label:"Match report",tag:"PAST SIMPLE",items:[
+   {before:"Last Saturday the Rockets",blank:"won",after:"the cup.",bank:["won","winned","win"],emoji:"🏆"},
+   {before:"Thunder",blank:"scored",after:"a header after ten minutes.",bank:["scored","score","scoring"],emoji:"🙆"},
+   {before:"Maja",blank:"ran",after:"past two defenders.",bank:["ran","runned","run"],emoji:"🏃"},
+   {before:"Kuba",blank:"caught",after:"the ball easily.",bank:["caught","catched","catch"],emoji:"🧤"},
+   {before:"The referee",blank:"gave",after:"a penalty to Thunder.",bank:["gave","gived","give"],emoji:"🧑‍⚖️"},
+   {before:"Zoe",blank:"fell",after:"and hurt her knee.",bank:["fell","falled","fall"],emoji:"🤕"},
+   {before:"Mr Byrne",blank:"brought",after:"on Leo in the second half.",bank:["brought","bringed","bring"],emoji:"🔄"},
+   {before:"We didn't",blank:"lose",after:"a single match last season!",bank:["lose","lost","losed"],emoji:"💪"},
+   {before:"",blank:"Did",after:"Leo score in the final?",bank:["Did","Does","Was"],emoji:"❓"},
+   {before:"The Rockets",blank:"beat",after:"Thunder 4–3 on penalties.",bank:["beat","beated","beaten"],emoji:"🚀"},
+   {before:"Olek",blank:"threw",after:"the ball to Zoe.",bank:["threw","throwed","throw"],emoji:"👐"},
+   {before:"The referee",blank:"blew",after:"her whistle at the end of the match.",bank:["blew","blowed","blow"],emoji:"⏱️"},
+  ]},
+  {type:"whack",label:"Whack the verb",qs:[
+   {q:"win →",opts:["won","winned","wan"],correct:0},{q:"lose →",opts:["lost","losed","lose"],correct:0},
+   {q:"shoot →",opts:["shot","shooted","shoots"],correct:0},{q:"take →",opts:["took","taked","tooked"],correct:0},
+   {q:"catch →",opts:["caught","catched","cought"],correct:0},{q:"keep →",opts:["kept","keeped","kep"],correct:0},
+   {q:"beat →",opts:["beat","beated","bet"],correct:0},{q:"come →",opts:["came","comed","come"],correct:0},
+   {q:"throw →",opts:["threw","throwed","thrown"],correct:0},{q:"feel →",opts:["felt","feeled","fell"],correct:0},
+  ]},
+  {type:"errors",label:"Find the error 2",items:[
+   {s:"Kuba catched the ball.",wrong:1,ok:"Kuba caught the ball."},
+   {s:"We didn't won the match.",wrong:2,ok:"We didn't win the match."},
+   {s:"Did she scored a goal?",wrong:2,ok:"Did she score a goal?"},
+   {s:"The Rockets beated Thunder.",wrong:2,ok:"The Rockets beat Thunder."},
+   {s:"Leo come on in the second half.",wrong:1,ok:"Leo came on in the second half."},
+   {s:"Our team is better that their team.",wrong:4,ok:"Our team is better than their team."},
+  ]},
+  {type:"dictation",label:"Dictation",title:"Listen and write ✍️",sub:"Listen and type what you hear. Tap 🐢 to hear it slowly.",items:[
+   {en:"The referee gave a penalty."},{en:"Kuba saved the last penalty."},
+   {en:"Leo scored with a header."},{en:"It was a draw after extra time."},
+   {en:"You mustn't touch the ball with your hands."},{en:"The Rockets won the cup."},
+  ]},
+  {type:"typed",label:"Translation",blocks:[{id:"fb-tr",label:"🇵🇱 → 🇬🇧 Polish to English",items:[
+   {prompt:"Sędzia pokazał żółtą kartkę.",answers:["The referee showed a yellow card"]},
+   {prompt:"Wygraliśmy 3–1.",answers:["We won 3-1","We won 3–1","We won three one","We won three-one"]},
+   {prompt:"To był remis.",answers:["It was a draw"]},
+   {prompt:"Bramkarz obronił rzut karny.",answers:["The goalkeeper saved the penalty","The goalkeeper saved a penalty"]},
+   {prompt:"Nie wolno ci krzyczeć na sędziego.",answers:["You mustn't shout at the referee","You must not shout at the referee","You aren't allowed to shout at the referee","You are not allowed to shout at the referee","You can't shout at the referee"]},
+   {prompt:"Napastnik był na spalonym.",answers:["The striker was offside"]},
+  ]}]},
+
+  /* ===== PART 5 — THE LEAGUE TABLE ===== */
+  {type:"grammar",label:"League table",title:"The Under-13 league table 📊",html:`<p>Here is the league table after ten matches. <b>P</b> = played · <b>W</b> = won · <b>D</b> = drawn · <b>L</b> = lost · <b>Pts</b> = points. A win = 3 points, a draw = 1 point, a defeat = 0 points.</p>
+${FB_TABLE}
+<p style="margin-top:12px;">The Rockets are <b>top of the league</b> with 23 points, three points <b>more than</b> Hillford Thunder. Port Ellis Pirates are <b>bottom of the league</b> — they've only won one match. The Rockets have got <b>the best</b> defence: they let in only nine goals, <b>fewer than</b> any other team.</p>`},
+  {type:"grammar",label:"Comparing teams",title:"better, the best, more points than…",html:FB_G_COMP},
+  {type:"quiz",label:"Read the table",tag:"LEAGUE TABLE",qs:[
+   {q:"📊 Which team is top of the league?",opts:["Riverside Rockets","Hillford Thunder","Lakeside Lions"],correct:0},
+   {q:"📊 Which team has lost the most matches?",opts:["Port Ellis Pirates","Millbrook Rovers","Oakbridge United"],correct:0},
+   {q:"📊 Thunder have got ___ points than the Rockets.",opts:["fewer","more","the most"],correct:0},
+   {q:"📊 Who has scored more goals: the Lions or United?",opts:["The Lions (15)","United (13)","They've scored the same."],correct:0},
+   {q:"📊 Which team has drawn the fewest matches?",opts:["Port Ellis Pirates","Lakeside Lions","Millbrook Rovers"],correct:0},
+   {q:"📊 The Rockets have got ___ defence in the league.",opts:["the best","the better","the most good"],correct:0},
+   {q:"📊 Millbrook Rovers are ___ than Oakbridge United.",opts:["lower in the table","higher in the table","the highest"],correct:0},
+   {q:"📊 How many points do the Lions get for 4 wins and 3 draws?",opts:["15","12","7"],correct:0},
+   {q:"📊 Thunder's next fixture is against the Rockets. If Thunder win, they will have…",opts:["23 points — the same as the Rockets","21 points","26 points"],correct:0},
+  ]},
+  {type:"fill",label:"Compare them",tag:"COMPARATIVES & SUPERLATIVES",items:[
+   {before:"Maja is",blank:"faster",after:"than Olek.",bank:["faster","more fast","fastest"],emoji:"⚡"},
+   {before:"Kuba is the",blank:"tallest",after:"player in the team.",bank:["tallest","taller","most tall"],emoji:"📏"},
+   {before:"The final was",blank:"more exciting",after:"than the semi-final.",bank:["more exciting","excitinger","most exciting"],emoji:"🤩"},
+   {before:"The Rockets are the",blank:"best",after:"team in the league.",bank:["best","better","goodest"],emoji:"🥇"},
+   {before:"The Pirates had the",blank:"worst",after:"season of all the teams.",bank:["worst","worse","baddest"],emoji:"🔻"},
+   {before:"Thunder have got fewer points",blank:"than",after:"the Rockets.",bank:["than","that","as"],emoji:"📊"},
+   {before:"Our stadium is",blank:"bigger",after:"than yours!",bank:["bigger","biger","more big"],emoji:"🏟️"},
+   {before:"Leo isn't as tall",blank:"as",after:"Kuba, but he's great at headers.",bank:["as","than","like"],emoji:"🙆"},
+   {before:"The Lions have lost",blank:"fewer",after:"matches than United.",bank:["fewer","less","the fewest"],emoji:"🦁"},
+   {before:"That was the",blank:"most beautiful",after:"goal of the season!",bank:["most beautiful","beautifulest","more beautiful"],emoji:"✨"},
+  ]},
+  {type:"build",label:"Build it 2",items:[
+   {s:"The Rockets are top of the league.",pl:"Rakiety są na pierwszym miejscu w lidze."},
+   {s:"Thunder have got fewer points than the Rockets.",pl:"Grzmot ma mniej punktów niż Rakiety."},
+   {s:"Kuba is the tallest player in the team.",pl:"Kuba jest najwyższym zawodnikiem w drużynie."},
+   {s:"It was the most exciting match of the year.",pl:"To był najbardziej ekscytujący mecz roku."},
+   {s:"Our next fixture is on Saturday.",pl:"Nasz następny mecz jest w sobotę."},
+  ]},
+
+  /* ===== PART 6 — TALK LIKE A FAN ===== */
+  {type:"dialogue",label:"Fan talk",title:"After the final: Maja and Grandad 🧓⚽",sub:"Maja's grandad watched the whole match. Tap 🔊 to hear one line or ▶ for the whole dialogue. Then read it again with a friend — one of you is Maja!",
+   cast:{"Grandad":"👴","Maja":"👧"},lines:[
+   ["Grandad","Maja! Come here, champion! What a match!"],
+   ["Maja","Grandad! Did you see my goal? Was it good?"],
+   ["Grandad","Good? It was brilliant! What a goal! The goalkeeper didn't have a chance."],
+   ["Maja","But I was so angry about their second goal. She was miles offside!"],
+   ["Grandad","I know! I shouted, 'Come on, ref! Are you blind?' Your mum told me to sit down."],
+   ["Maja","And the penalty before half-time — that was never a penalty! Zoe touched the ball first."],
+   ["Grandad","Well, it was a bit late. But then Kuba saved it. He's a wall, that boy!"],
+   ["Maja","When the shootout started, I couldn't watch. My legs were shaking."],
+   ["Grandad","Nerves of steel, that's what you need. And you scored yours! I'm so proud of you."],
+   ["Maja","Thanks, Grandad. Now I need a big pizza. Extra time makes you really hungry!"],
+  ]},
+  {type:"quiz",label:"What do fans say?",tag:"FAN PHRASES",qs:[
+   {q:"😍 Your team scores an amazing goal. You shout:",opts:["What a goal!","What a pity!","Come on, ref!"],correct:0},
+   {q:"😡 The referee gives a free kick, but you think it was the wrong decision. You shout:",opts:["Come on, ref!","Well done, ref!","What a save!"],correct:0},
+   {q:"🚩 The striker was behind all the defenders. You say:",opts:["He was offside!","He was a substitute!","It's half-time!"],correct:0},
+   {q:"🤸 The player fell down, but nobody touched him. You say:",opts:["That was a dive!","That was a header!","That was a corner!"],correct:0},
+   {q:"🧤 Your goalkeeper stops a very hard shot. You shout:",opts:["What a save!","What a foul!","He's offside!"],correct:0},
+   {q:"😬 It's 0–1 at half-time. Your friend is sad. You say:",opts:["Don't worry, it's only half-time!","The match is over!","What a goal!"],correct:0},
+   {q:"🤝 The other team played very well and won. You say to their players:",opts:["Well played!","That was never a goal!","You were lucky!"],correct:0},
+   {q:"⏱️ It's the 89th minute and it's 1–1. You say:",opts:["We need one more goal!","It's the first half!","Let's have a penalty shootout now!"],correct:0},
+  ]},
+  {type:"speak",label:"Say it 2",items:[
+   {en:"What a goal!",emoji:"🤩",pl:"Co za gol!"},
+   {en:"Come on, ref!",emoji:"😡",pl:"No weź, sędzio!"},
+   {en:"He was offside!",emoji:"🚩",pl:"Był na spalonym!"},
+   {en:"That was never a penalty!",emoji:"🙅",pl:"To w ogóle nie był karny!"},
+   {en:"Don't worry, it's only half-time.",emoji:"⏸️",pl:"Nie martw się, to dopiero przerwa."},
+   {en:"Well played!",emoji:"🤝",pl:"Dobrze zagrane!"},
+   {en:"We're top of the league!",emoji:"🥇",pl:"Jesteśmy na szczycie tabeli!"},
+  ]},
+  {type:"writing",label:"Write a match report",title:"Write a match report for the school newspaper 📰",sub:"Write about a real match you played or watched — or invent one! (min. 60 words). Use the past simple, linking words and at least five football words.",
+   starters:["Last Saturday … played against … .","At the start of the match … .","After ten minutes, … scored a header / a penalty / a great goal.","Just before half-time, the referee gave … .","In the second half, a substitute came on and … .","In the end, … won 2–1. / It was a draw.","The best player was … because …"],min:60},
+  {type:"writing",label:"My dream team",title:"My dream team ⭐",sub:"Choose your dream team: real players, friends from school or your family! Who plays in goal, in defence, in midfield and in attack? Who is the captain and who is the coach? Why? (min. 50 words). Compare them!",
+   starters:["My goalkeeper is … because he / she is the tallest / the bravest … .","In defence I've got … . She's great at tackles.","My best midfielder is … . He makes better passes than anyone.","The striker is … because she scores the most goals.","The captain is … and the coach is … .","Our team rule is: you must … / you mustn't … ."],min:50},
+
+  /* ===== PART 7 — REVISION GAMES ===== */
+  {type:"match",label:"Match: rules",pairs:FB_RULES.slice(0,8)},
+  {type:"dictation",label:"Dictation 2",title:"Listen and write ✍️",sub:"Sentences from the whole lesson. Tap 🐢 to hear them slowly.",items:[
+   {en:"What a save!"},{en:"The substitute came on in the second half."},{en:"Players have to wear shin pads."},
+   {en:"Thunder have got fewer points than the Rockets."},{en:"That was never a penalty!"},{en:"Our next fixture is on Saturday."},
+  ]},
+  {type:"typed",label:"Translation 2",blocks:[{id:"fb-tr2",label:"🇵🇱 → 🇬🇧 Polish to English",items:[
+   {prompt:"On jest kapitanem drużyny.",answers:["He is the captain of the team","He's the captain of the team","He is the team captain","He's the team captain"]},
+   {prompt:"Rezerwowy wszedł na boisko.",answers:["The substitute came on","The substitute came onto the pitch","The substitute came on the pitch"]},
+   {prompt:"Musimy pokonać Lwy.",answers:["We must beat the Lions","We have to beat the Lions","We need to beat the Lions"]},
+   {prompt:"Czy strzeliłeś gola?",answers:["Did you score a goal","Did you score"]},
+   {prompt:"To był najlepszy mecz sezonu.",answers:["It was the best match of the season","That was the best match of the season","It was the best game of the season","That was the best game of the season"]},
+   {prompt:"Jesteśmy na pierwszym miejscu w lidze.",answers:["We're top of the league","We are top of the league","We are at the top of the league","We're at the top of the league","We are first in the league","We're first in the league"]},
+  ]}]},
+  {type:"wordle",label:"Wordle",words:WL([["pitch","🟩"],["coach","📋"],["cross","⤴️"],["score","🥅"],["foul","⛔"],["draw","🤝"],["save","🧤"],["crowd","👥"]])},
+  {type:"wheel",label:"Fortune Wheel",items:FB_ACT.slice(0,10)},
+
+  /* ===== UNIT TEST ===== */
+  {type:"unittest",label:"Final test",title:"Football Fever — final test 📝🏆",minutes:12,sections:[
+   {name:"Who's who 🏟️",qs:[
+    {q:"The person who gives yellow and red cards is the…",opts:["referee","coach","captain"],correct:0},
+    {q:"A player who starts on the bench is a…",opts:["substitute","striker","defender"],correct:0},
+    {q:"The player who plays in the middle of the pitch is a…",opts:["midfielder","goalkeeper","fan"],correct:0},
+    {q:"All the people watching in the stadium are the…",opts:["crowd","kit","bench"],correct:0},
+    {type:"type",q:"🧤 The player who can use their hands: the g__________",answers:["goalkeeper","goalie","keeper"]},
+   ]},
+   {name:"Actions ⚡",qs:[
+    {q:"He jumped and scored with a…",opts:["header","tackle","save"],correct:0},
+    {q:"She won the ball with a great…",opts:["tackle","penalty","fixture"],correct:0},
+    {q:"He fell down to trick the referee. He…",opts:["dived","saved","crossed"],correct:0},
+    {q:"The goalkeeper made a brilliant…",opts:["save","foul","dive"],correct:0},
+    {type:"type",q:"🏃⚽ She ran past three players with the ball. She d_______d past them.",answers:["dribbled"]},
+   ]},
+   {name:"Rules & results 🟨",qs:[
+    {q:"A foul inside the penalty area = a…",opts:["penalty","corner","throw-in"],correct:0},
+    {q:"The score is 1–1. It's a…",opts:["draw","win","defeat"],correct:0},
+    {q:"Two yellow cards = a…",opts:["red card","trophy","free kick"],correct:0},
+    {q:"The list of teams and their points is the…",opts:["league table","fixture","bench"],correct:0},
+    {type:"type",q:"🚫🏃 The striker was behind all the defenders. He was o______.",answers:["offside","off-side"]},
+   ]},
+   {name:"must / have to 📜",qs:[
+    {q:"You ___ touch the ball with your hands.",opts:["mustn't","don't have to","have to"],correct:0},
+    {q:"Players ___ wear shin pads.",opts:["have to","don't have to","mustn't"],correct:0},
+    {q:"Substitutes ___ play the whole match.",opts:["don't have to","mustn't","has to"],correct:0},
+    {q:"The goalkeeper ___ wear a different colour.",opts:["has to","have to","must to"],correct:0},
+    {type:"type",q:"Teams are ______ to make five substitutions. (allow)",answers:["allowed"]},
+   ]},
+   {name:"Past simple 📰",qs:[
+    {type:"type",q:"Last week we ___ the match 2–0. (win)",answers:["won"]},
+    {type:"type",q:"Kuba ___ the ball with both hands. (catch)",answers:["caught"]},
+    {type:"type",q:"The referee ___ a penalty. (give)",answers:["gave"]},
+    {q:"We didn't ___ the final.",opts:["lose","lost","losed"],correct:0},
+    {q:"___ Leo score a header?",opts:["Did","Does","Was"],correct:0},
+   ]},
+   {name:"Comparing 📊",qs:[
+    {q:"Maja is ___ than Olek.",opts:["faster","more fast","fastest"],correct:0},
+    {q:"The Rockets are the ___ team in the league.",opts:["best","better","goodest"],correct:0},
+    {q:"Thunder have got fewer points ___ the Rockets.",opts:["than","that","as"],correct:0},
+    {q:"That was the ___ exciting match of the year.",opts:["most","more","much"],correct:0},
+    {type:"type",q:"The Pirates are at the b_____ of the league.",answers:["bottom"]},
+   ]},
+   {name:"Listening 🎧",qs:[
+    {say:"The referee showed him a red card, so he had to leave the pitch after only twenty minutes.",q:"What happened to the player?",opts:["He got a red card and left the pitch.","He got injured after twenty minutes.","He scored after twenty minutes."],correct:0},
+    {say:"It was nil–nil after ninety minutes and nil–nil after extra time, so we had a penalty shootout. We won five–four.",q:"How did the team win?",opts:["On penalties, 5–4","In extra time, 1–0","After 90 minutes, 5–4"],correct:0},
+    {say:"Our next fixture is against Lakeside Lions on Sunday at eleven o'clock. You don't have to bring a ball, but you must bring your kit.",q:"What must the players bring?",opts:["Their kit","A ball","Nothing"],correct:0},
+    {say:"Kuba isn't as fast as Zoe, but he's the tallest player, so he's the best goalkeeper.",q:"Who is faster?",opts:["Zoe","Kuba","They are the same."],correct:0},
+   ]},
+  ]},
+ ]};
+
+
+/* ---------- B1 extras: phrasal verbs & idioms, a VAR opinion article ---------- */
+const FB_IDIOMS=V([
+ ["send off","wyrzucić z boiska (czerwoną kartką)","🟥👉"],["kick off","rozpocząć (mecz)","▶️⚽"],["knock out","wyeliminować (z turnieju)","🥊"],["warm up","rozgrzewać się","🔥🏃"],
+ ["take on","zmierzyć się z (rywalem)","⚔️"],["equalise","wyrównać (wynik)","⚖️"],["score an own goal","strzelić samobója / zaszkodzić sobie","🙈"],["a game of two halves","mecz, który zmienił się po przerwie","🌓"],
+ ["move the goalposts","zmieniać zasady w trakcie","🥅↔️"],["be on the ball","być bystrym, czujnym","🧠"],["a level playing field","równe szanse dla wszystkich","⚖️🟩"],["back of the net","gol! (piłka w siatce)","🎉🥅"],
+]);
+const FB_B1=[
+  {type:"cards",label:"Phrasal verbs & idioms",title:"Talk like a football pundit 🎙️",cards:FB_IDIOMS},
+  {type:"match",label:"Match: idioms",pairs:FB_IDIOMS.slice(0,10)},
+  {type:"quiz",label:"What does it mean?",tag:"IDIOMS",qs:[
+   {q:"⚽ 'The referee sent him off.' The player…",opts:["had to leave the pitch after a red card","went home at half-time","was a substitute"],correct:0},
+   {q:"⚽ 'We were knocked out in the semi-final.' We…",opts:["lost and left the competition","won the semi-final","were injured"],correct:0},
+   {q:"💼 'Changing the deadline again? You keep moving the goalposts!' You…",opts:["keep changing the rules","are very good at football","work too slowly"],correct:0},
+   {q:"🧠 'Our new teacher is really on the ball.' She is…",opts:["quick and clever","very sporty","always late"],correct:0},
+   {q:"🙈 'Arguing with the judge was a real own goal.' It was…",opts:["something that hurt himself","a brave decision","a lucky moment"],correct:0},
+   {q:"🌓 'It was a game of two halves.' The match…",opts:["changed a lot after half-time","lasted only half an hour","had two referees"],correct:0},
+   {q:"⚖️ 'Every school should get the same money — a level playing field.' Everyone should…",opts:["have equal chances","play on grass","win the same number of games"],correct:0},
+   {q:"⚔️ 'On Saturday we take on the league leaders.' We…",opts:["play against them","watch them on TV","join their team"],correct:0},
+  ]},
+  {type:"fill",label:"Use them",tag:"PHRASAL VERBS",items:[
+   {before:"The match will",blank:"kick off",after:"at 3 o'clock.",bank:["kick off","send off","warm up"],emoji:"▶️"},
+   {before:"After his second yellow card, the referee",blank:"sent him off",after:".",bank:["sent him off","took him on","warmed him up"],emoji:"🟥"},
+   {before:"Players always",blank:"warm up",after:"for twenty minutes before a match.",bank:["warm up","knock out","kick off"],emoji:"🔥"},
+   {before:"We were 1–0 down, but Leo",blank:"equalised",after:"in the 80th minute.",bank:["equalised","knocked out","sent off"],emoji:"⚖️"},
+   {before:"Thunder were",blank:"knocked out",after:"of the cup by a small village team!",bank:["knocked out","kicked off","warmed up"],emoji:"🥊"},
+   {before:"Next week we",blank:"take on",after:"the best team in the country.",bank:["take on","send off","move"],emoji:"⚔️"},
+  ]},
+  {type:"reading",label:"Read: VAR",title:"Opinion: Is VAR killing the beautiful game? 📺⚖️",paras:[
+   "<b>VAR</b> (the Video Assistant Referee) arrived in top-level football a few years ago. A team of officials watches the match on screens and helps the referee with big decisions: goals, penalties, red cards and offside. Supporters of VAR say it has made the game <b>fairer</b>. Its critics say it has <b>taken the joy out of</b> football. So who is right?",
+   "<b>On the one hand</b>, it is clear that referees make mistakes. They have to decide in less than a second, often from the wrong angle, while forty thousand fans are shouting at them. Before VAR, famous World Cup matches were decided by handballs that the referee simply didn't see. <b>In my opinion</b>, it is only fair to use technology when millions of people can see the mistake on TV at home.",
+   "<b>On the other hand</b>, VAR has created new problems. Fans in the stadium often have no idea what is happening while the officials study the replays for three or four minutes. <b>What is more</b>, players are now sometimes given offside by just a few centimetres — a toenail or a shoulder. Many people feel that this is not what the offside rule was invented for.",
+   "There is also the question of <b>celebrations</b>. A goal used to be a moment of pure happiness. Now many fans wait before they celebrate, just in case VAR takes the goal away. <b>Some people argue that</b> this waiting kills the emotion that makes football special.",
+   "<b>To sum up</b>, I believe VAR should stay, but it needs to be faster and clearer. Decisions should be shown on the big screen and explained to the crowd, as they are in rugby. <b>After all</b>, technology should help the referee — not become the star of the show.",
+  ]},
+  {type:"tf",label:"VAR check",title:"True, False or Not given?",sub:"Read the opinion article again.",tag:"READING · B1",labels:TF3,items:[
+   {text:"VAR officials watch the match on screens.",answer:0},
+   {text:"VAR helps with every throw-in and corner.",answer:1},
+   {text:"The writer thinks referees often decide from the wrong angle.",answer:0},
+   {text:"VAR checks usually take less than ten seconds.",answer:1},
+   {text:"Some players have been offside by only a few centimetres.",answer:0},
+   {text:"The writer wants to stop using VAR.",answer:1},
+   {text:"VAR was first used in a Women's World Cup.",answer:2},
+   {text:"The writer thinks fans should see the decisions on the big screen.",answer:0},
+  ]},
+  {type:"quiz",label:"Opinion language",tag:"LINKING WORDS",qs:[
+   {q:"Which phrase gives the OTHER side of an argument?",opts:["On the other hand,","What is more,","For example,"],correct:0},
+   {q:"Which phrase ADDS another point?",opts:["What is more,","However,","To sum up,"],correct:0},
+   {q:"Which phrase starts the CONCLUSION?",opts:["To sum up,","On the one hand,","Firstly,"],correct:0},
+   {q:"'___, I think VAR makes the game fairer.'",opts:["In my opinion","In my opinion of","For my opinion"],correct:0},
+   {q:"'Some people argue ___ VAR kills the emotion.'",opts:["that","what","about"],correct:0},
+  ]},
+  {type:"writing",label:"Your opinion",title:"For or against? Write your opinion ✍️",sub:"Choose ONE topic: 'VAR is good for football', 'Footballers earn too much money' or 'Girls and boys should play in the same school team'. Write 100–140 words: give your opinion, two reasons, the other side, and a conclusion.",
+   starters:["In my opinion, …","On the one hand, … . On the other hand, …","What is more, …","Some people argue that … , but I believe …","For example, …","To sum up, …"],min:100},
+];
+
+/* ---------- three versions: Kids A2 (full), Teens & Adults A2, Teens & Adults B1 ---------- */
+(function(){
+ const cp=x=>JSON.parse(JSON.stringify(x));
+ const base=FB_LESSON.zones;
+ const reid=(zs,suf)=>{zs.forEach(z=>{if(z.blocks)z.blocks.forEach(b=>b.id=b.id+'-'+suf);});return zs;};
+ const kids=reid(cp(base),'k');
+ const adA2=reid(cp(base).filter(z=>z.type!=='move'&&z.type!=='balloon'),'a2');
+ let adB1=cp(base).filter(z=>!['move','balloon','memory'].includes(z.type)&&z.label!=='Find it'&&z.label!=='Whack-a-Leo'&&z.label!=='Spell it');
+ const at=adB1.findIndex(z=>z.label==='Match: rules');
+ adB1.splice(at,0,...cp(FB_B1));
+ const t=adB1.find(z=>z.type==='unittest');t.minutes=15;
+ t.sections.splice(t.sections.length-1,0,{name:"Idioms & phrasal verbs 🎙️",qs:[
+  {q:"The referee ___ him off after a bad foul.",opts:["sent","kicked","took"],correct:0},
+  {q:"The final kicks ___ at 8 p.m.",opts:["off","out","on"],correct:0},
+  {q:"We were knocked ___ of the cup.",opts:["out","off","up"],correct:0},
+  {q:"'Our coach is really on the ball' = he is…",opts:["quick and clever","a good player","angry"],correct:0},
+  {q:"'___ the other hand, VAR is very slow.'",opts:["On","In","At"],correct:0},
+  {type:"type",q:"🔥 Before the match, the players w___ up.",answers:["warm","warmed"]},
+ ]});
+ adB1=reid(adB1,'b1');
+ const mk=(id,track,level,zones,intro)=>({id:"fbx-"+id,level,track,extra:true,topic:"Extra",title:"Football Fever",emoji:"⚽",badge:"Football Star",
+  sub:"An extra lesson for football fans — do it any time, it doesn't block the course.",
+  lessons:[{id:"fbx-"+id+"-l1",title:"Football Fever",emoji:"⚽",intro,bonus:FB_ALL,zones}]});
+ COURSE.units.push(
+  mk("kids-a2","kids","A2",kids,FB_LESSON.intro),
+  mk("adults-a2","adults","A2",adA2,"Football words beyond 'goal': referee, substitute, header, tackle, offside, penalty, fixture, league table. The rules with must / have to / allowed to, a cup final in the past simple, a league table and fan phrases."),
+  mk("adults-b1","adults","B1",adB1,"Football English at B1: the referee, offside and the league table, rules with must / have to / allowed to, a cup final in the past simple, phrasal verbs and idioms (send off, knock out, move the goalposts) and an opinion article about VAR.")
+ );
+})();
+
 /* ---------- CEFR levels (whole app: A0 → C1) ---------- */
 const LEVELS=[
  {id:"A0",name:"Starter",desc:"Your very first words: hello, numbers, colours, family.",adesc:"First contact: greetings, personal details and the verb 'to be'.",emoji:"🌱"},
@@ -11740,7 +12293,7 @@ let TESTER=TESTER_ALLOWED; try{ const t=localStorage.getItem('lingrowTester'); i
 function setTester(on){TESTER=on;try{localStorage.setItem('lingrowTester',on?'1':'0');}catch(e){}document.body.classList.toggle('tester',TESTER);renderCourse();}
 function skipLesson(){ if(!activeLesson) return; sfxWhoosh(); go(zones.length-1); }
 function nextLessonToDo(tid){
-  const ls=tid?trackLessons(tid):ALL_LESSONS, pl=tid&&C.placed&&C.placed[tid];
+  const ls=(tid?trackLessons(tid):ALL_LESSONS).filter(l=>!l.unit.extra), pl=tid&&C.placed&&C.placed[tid];
   if(pl){const f=ls.find(l=>!lessonDone(l.id)&&PL_LV.indexOf(l.unit.level)>=PL_LV.indexOf(pl));if(f)return f;}
   return ls.find(l=>!lessonDone(l.id));
 }
@@ -11783,7 +12336,7 @@ function zoneMinutes(l){const t=l.zones.reduce((s,z)=>s+zoneTasks(z),0);return M
 function rLessonWelcome(){
   const l=activeLesson;
   const chips=l.zones.map(z=>`<span class="lesson-chip">${z.label}</span>`).join('');
-  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
+  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':l.unit.extra?'EXTRA LESSON':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
   <div style="text-align:center;">${renderLemur('big',isAdult()?['Welcome back.','Let\'s get to work.','Focus — you\'ve got this.','Short, sharp, effective.']:lemurWelcomeMsgs,isAdult()?110:200)}</div>
   <div class="lesson-chips" style="justify-content:center;margin:6px 0 4px;">${chips}</div>
   <p style="text-align:center;color:#8b8ba0;font-size:13px;font-weight:700;">${l.zones.length} activities · about ${zoneMinutes(l)} minutes</p>
@@ -11863,7 +12416,7 @@ function openLesson(id){
   CONFETTI.splice(0,CONFETTI.length,...(isAdult(l)?['✦','·','✧']:['⏰','🥣','🚌','⚽','🌙','✨']));
   $('courseView').style.display='none';
   $('lessonView').style.display='';
-  $('timerPill').textContent='Lesson '+l.num;
+  $('timerPill').textContent=l.unit&&l.unit.extra?'⭐ Extra':'Lesson '+l.num;
   go(resume?Math.min(C.active.current,zones.length-1):0);
   if(resume) setTimeout(()=>_comboToastText('💾 Welcome back — you were here!'),300);
 }
@@ -11898,12 +12451,16 @@ const TRACKS=[
 ];
 const trackOfLevel=lv=>TRACKS.find(t=>t.levels.includes(lv))||TRACKS[0];
 COURSE.units.forEach(u=>{u.track=u.track||trackOfLevel(u.level).id;});
-TRACKS.forEach(t=>{COURSE.units.filter(u=>u.track===t.id).forEach((u,i)=>{u.n=i+1;u.lessons.forEach((l,li)=>{l.num=`${i+1}.${li+1}`;});});});
+TRACKS.forEach(t=>{COURSE.units.filter(u=>u.track===t.id&&!u.extra).forEach((u,i)=>{u.n=i+1;u.lessons.forEach((l,li)=>{l.num=`${i+1}.${li+1}`;});});});
 const trackLessons=tid=>ALL_LESSONS.filter(l=>l.unit.track===tid);
+/* extra lessons (unit.extra, e.g. Football Fever): always open, outside the lesson chain and level progress */
+COURSE.units.filter(u=>u.extra).forEach(u=>{u.n='⭐';u.lessons.forEach(l=>{l.num='Extra';});});
+const chainLessons=tid=>trackLessons(tid).filter(l=>!l.unit.extra);
 function lessonUnlocked(id){
   if(TESTER) return true;
   const l=ALL_LESSONS.find(x=>x.id===id); if(!l) return false;
-  const tl=trackLessons(l.unit.track); const i=tl.indexOf(l);
+  if(l.unit.extra) return true;
+  const tl=chainLessons(l.unit.track); const i=tl.indexOf(l);
   if(i===0||lessonDone(tl[i-1].id)||lessonDone(id)) return true;
   // placement test: the first lesson of every level up to the placed level is open
   const pl=C.placed&&C.placed[l.unit.track];
@@ -11929,11 +12486,11 @@ function unitHtml(u){
   const nxt=nextLessonToDo(u.track);
   const ud=u.lessons.filter(l=>lessonDone(l.id)).length, unitDone=ud===u.lessons.length;
   let h=`<section class="unit-block">
-    <div class="unit-head"><div class="unit-num">${u.n}</div><div class="unit-title"><span><b class="lvl-pill">${u.level}</b> UNIT ${u.n} · ${u.topic.toUpperCase()}</span><h3>${u.title} ${u.emoji}</h3><p>${u.sub}</p></div>
+    <div class="unit-head"><div class="unit-num">${u.n}</div><div class="unit-title"><span><b class="lvl-pill">${u.level}</b> ${u.extra?'⭐ EXTRA LESSON':'UNIT '+u.n+' · '+u.topic.toUpperCase()}</span><h3>${u.title} ${u.emoji}</h3><p>${u.sub}</p></div>
     <div class="unit-badge ${unitDone?'won':''}" title="Finish the unit to win this badge">🏅 ${u.badge}</div></div>
     <div class="unit-progress"><div style="width:${ud/u.lessons.length*100}%"></div></div>
     <div class="lesson-grid">`;
-  const tl=trackLessons(u.track);
+  const tl=chainLessons(u.track);
   u.lessons.forEach(l=>{
     const rec=C.lessons[l.id], unlocked=lessonUnlocked(l.id), isDone=lessonDone(l.id);
     const resuming=C.active&&C.active.id===l.id, isNext=nxt&&nxt.id===l.id;
@@ -11945,7 +12502,7 @@ function unitHtml(u){
     else if(isDone) action=`<button class="btn secondary lesson-btn" onclick="openLesson('${l.id}')">↻ Play again</button>`;
     else action=`<button class="btn btn-gold lesson-btn" onclick="openLesson('${l.id}')">Start →</button>`;
     h+=`<div class="lesson-card ${l.test?'test':''} ${unlocked?'':'locked'} ${isDone?'done':''} ${isNext?'next':''}" id="card-${l.id}" ${unlocked?`onclick="if(event.target.tagName!=='BUTTON')openLesson('${l.id}')"`:''}>
-      <div class="lc-top"><div class="lc-emoji">${l.emoji}</div><div class="lc-title"><span>${l.test?l.unit.level+' UNIT TEST · FINAL QUIZ':'LESSON '+l.num}</span><h4>${l.title}</h4></div><div class="lc-coins">${coinRow(rec?rec.stars:0,22)}</div></div>
+      <div class="lc-top"><div class="lc-emoji">${l.emoji}</div><div class="lc-title"><span>${l.test?l.unit.level+' UNIT TEST · FINAL QUIZ':l.unit.extra?'⭐ EXTRA LESSON':'LESSON '+l.num}</span><h4>${l.title}</h4></div><div class="lc-coins">${coinRow(rec?rec.stars:0,22)}</div></div>
       <div class="lesson-chips">${chips}</div>
       <div class="lc-bottom"><span class="lc-meta">⏱ ~${zoneMinutes(l)} min${rec&&rec.points?` · best ${rec.points} pts`:''}</span>${action}</div>
     </div>`;
@@ -12474,7 +13031,7 @@ const PL_RX=[
  [/^(\d+) activities · about (\d+) minutes$/,"Zadań: $1 · ok. $2 min"],
  [/^(\d+)\/(\d+) lessons · (\d+) coins$/,"$1/$2 lekcji · $3 monet"],
  [/^(\d+)\/(\d+) lessons · (\d+)\/(\d+) coins(.*)$/,(m,a,b,c,d,e)=>`${a}/${b} lekcji · ${c}/${d} monet${e.replace('· 🔒 finish the level before','· 🔒 najpierw skończ poprzedni poziom')}`],
- [/^LESSON (\S+)$/,"LEKCJA $1"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
+ [/^LESSON (\S+)$/,"LEKCJA $1"],[/^⭐ EXTRA LESSON$/,"⭐ LEKCJA DODATKOWA"],[/^(\S+) · EXTRA LESSON$/,"$1 · LEKCJA DODATKOWA"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
  [/^(\S+) UNIT TEST · FINAL QUIZ$/,"$1 TEST KOŃCOWY DZIAŁU"],[/^(.+) — Unit Test$/,"$1 — test działu"],
  [/^Next up: (.+) →$/,"Następna: $1 →"],[/^Continue: (.+) →$/,"Kontynuuj: $1 →"],[/^Points earned: (\d+) 🪙$/,"Zdobyte punkty: $1 🪙"],
  [/^Wordle (.+)$/,"Wordle $1"],[/^🔒 Finish (\S*) first$/,"🔒 Najpierw ukończ $1"],[/^⏱ ~(\d+) min(.*)$/,(m,a,b)=>`⏱ ~${a} min${b.replace('best','najlepiej').replace('pts','pkt')}`],
@@ -12511,7 +13068,7 @@ function setLang(l){LANG=l;if(l==='en')restoreLang();try{localStorage.setItem('l
    Every emoji on the page is drawn from our own copy of Microsoft's Fluent Emoji 3D, stored in site/emoji/,
    so a word looks the same on iPhone, Android, Windows and Mac. Flags come from Twemoji.
    The list of available pictures is filled in at build time by emoji_post.js. */
-const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f334.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f34f.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f37f.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3ce.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f428.webp","1f42b.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43b-200d-2744.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45d.webp","1f45e.webp","1f45f.webp","1f462.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f373.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f3eb.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52c.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f554.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5c2.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5fe.webp","1f5ff.webp","1f602.webp","1f605.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635-200d-1f4ab.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f682.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f69c.webp","1f6a6.webp","1f6a7.webp","1f6a8.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6dd.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f4.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f941.webp","1f944.webp","1f945.webp","1f947.webp","1f948.webp","1f949.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f956.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95c.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97c.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9ba.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f33e.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f680.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa80.webp","1fa81.webp","1fa84.webp","1fa86.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa2.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fabd.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","25b6.webp","2600.webp","2601.webp","2602.webp","2603.webp","2614.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c5.webp","26c8.webp","26d1.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f5.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2714.webp","2716.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","3030.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
+const EMOJI_KEYS=["1f0cf.webp","1f170.webp","1f193.webp","1f195.webp","1f198.webp","1f1ea-1f1f8.webp","1f1ec-1f1e7.webp","1f1f5-1f1f1.webp","1f300.webp","1f303.webp","1f305.webp","1f306.webp","1f307.webp","1f308.webp","1f309.webp","1f30a.webp","1f30b.webp","1f30c.webp","1f30d.webp","1f310.webp","1f313.webp","1f315.webp","1f319.webp","1f31e.webp","1f31f.webp","1f320.webp","1f321.webp","1f324.webp","1f326.webp","1f327.webp","1f328.webp","1f32a.webp","1f32b.webp","1f32c.webp","1f331.webp","1f332.webp","1f333.webp","1f334.webp","1f336.webp","1f337.webp","1f338.webp","1f339.webp","1f33b.webp","1f33e.webp","1f33f.webp","1f340.webp","1f341.webp","1f342.webp","1f343.webp","1f345.webp","1f347.webp","1f349.webp","1f34a.webp","1f34b.webp","1f34c.webp","1f34e.webp","1f34f.webp","1f350.webp","1f351.webp","1f353.webp","1f354.webp","1f355.webp","1f357.webp","1f35a.webp","1f35b.webp","1f35d.webp","1f35e.webp","1f35f.webp","1f363.webp","1f366.webp","1f369.webp","1f36b.webp","1f36c.webp","1f36f.webp","1f370.webp","1f372.webp","1f373.webp","1f375.webp","1f37d.webp","1f37f.webp","1f380.webp","1f381.webp","1f382.webp","1f386.webp","1f388.webp","1f389.webp","1f38e.webp","1f392.webp","1f393.webp","1f396.webp","1f399.webp","1f39a.webp","1f39e.webp","1f39f.webp","1f3a1.webp","1f3a3.webp","1f3a4.webp","1f3a5.webp","1f3a7.webp","1f3a8.webp","1f3a9.webp","1f3aa.webp","1f3ab.webp","1f3ac.webp","1f3ad.webp","1f3ae.webp","1f3af.webp","1f3b2.webp","1f3b5.webp","1f3b6.webp","1f3b8.webp","1f3b9.webp","1f3be.webp","1f3c0.webp","1f3c1.webp","1f3c3.webp","1f3c5.webp","1f3c6.webp","1f3ca.webp","1f3cb.webp","1f3ce.webp","1f3d0.webp","1f3d3.webp","1f3d4.webp","1f3d5.webp","1f3d6.webp","1f3d7.webp","1f3d8.webp","1f3d9.webp","1f3da.webp","1f3db.webp","1f3dc.webp","1f3dd.webp","1f3de.webp","1f3df.webp","1f3e0.webp","1f3e1.webp","1f3e2.webp","1f3e4.webp","1f3e5.webp","1f3e6.webp","1f3e7.webp","1f3e8.webp","1f3ea.webp","1f3eb.webp","1f3ed.webp","1f3ef.webp","1f3f0.webp","1f3f3.webp","1f3f4-200d-2620.webp","1f3f7.webp","1f3fa.webp","1f400.webp","1f401.webp","1f404.webp","1f405.webp","1f407.webp","1f408-200d-2b1b.webp","1f408.webp","1f409.webp","1f40a.webp","1f40d.webp","1f40e.webp","1f411.webp","1f412.webp","1f413.webp","1f414.webp","1f415.webp","1f416.webp","1f418.webp","1f41a.webp","1f41c.webp","1f41f.webp","1f422.webp","1f426.webp","1f427.webp","1f428.webp","1f42b.webp","1f431.webp","1f436.webp","1f437.webp","1f438.webp","1f43a.webp","1f43b-200d-2744.webp","1f43b.webp","1f43c.webp","1f43e.webp","1f440.webp","1f441.webp","1f442.webp","1f443.webp","1f444.webp","1f446.webp","1f447.webp","1f449.webp","1f44b.webp","1f44d.webp","1f44e.webp","1f44f.webp","1f450.webp","1f451.webp","1f452.webp","1f453.webp","1f454.webp","1f455.webp","1f456.webp","1f457.webp","1f458.webp","1f45b.webp","1f45c.webp","1f45d.webp","1f45e.webp","1f45f.webp","1f462.webp","1f463.webp","1f464.webp","1f465.webp","1f466.webp","1f467.webp","1f468-200d-1f33e.webp","1f468-200d-1f373.webp","1f468-200d-1f469-200d-1f467.webp","1f468-200d-2696.webp","1f468.webp","1f469-200d-1f373.webp","1f469-200d-1f393.webp","1f469-200d-1f3eb.webp","1f469-200d-1f467.webp","1f469-200d-1f9b0.webp","1f469-200d-2695.webp","1f469.webp","1f46a.webp","1f46b.webp","1f46c.webp","1f46d.webp","1f46e.webp","1f46f.webp","1f470.webp","1f471.webp","1f474.webp","1f475.webp","1f476.webp","1f477.webp","1f47b.webp","1f47e.webp","1f482.webp","1f483.webp","1f486.webp","1f487.webp","1f489.webp","1f48a.webp","1f48c.webp","1f48d.webp","1f48e.webp","1f491.webp","1f493.webp","1f494.webp","1f496.webp","1f49a.webp","1f49b.webp","1f49d.webp","1f49e.webp","1f4a1.webp","1f4a2.webp","1f4a4.webp","1f4a5.webp","1f4a6.webp","1f4a7.webp","1f4a8.webp","1f4aa.webp","1f4ab.webp","1f4ac.webp","1f4ad.webp","1f4af.webp","1f4b0.webp","1f4b3.webp","1f4b5.webp","1f4b6.webp","1f4b7.webp","1f4b8.webp","1f4bb.webp","1f4bc.webp","1f4be.webp","1f4c1.webp","1f4c3.webp","1f4c4.webp","1f4c5.webp","1f4c6.webp","1f4c7.webp","1f4c8.webp","1f4c9.webp","1f4ca.webp","1f4cb.webp","1f4cd.webp","1f4cf.webp","1f4d0.webp","1f4d1.webp","1f4d3.webp","1f4d4.webp","1f4d5.webp","1f4d6.webp","1f4d8.webp","1f4da.webp","1f4dc.webp","1f4dd.webp","1f4de.webp","1f4e1.webp","1f4e2.webp","1f4e3.webp","1f4e4.webp","1f4e6.webp","1f4e7.webp","1f4e8.webp","1f4f0.webp","1f4f1.webp","1f4f2.webp","1f4f4.webp","1f4f5.webp","1f4f7.webp","1f4f8.webp","1f4f9.webp","1f4fa.webp","1f4fb.webp","1f500.webp","1f501.webp","1f504.webp","1f507.webp","1f50a.webp","1f50b.webp","1f50c.webp","1f50d.webp","1f50e.webp","1f510.webp","1f511.webp","1f512.webp","1f513.webp","1f514.webp","1f515.webp","1f516.webp","1f517.webp","1f519.webp","1f51a.webp","1f51c.webp","1f51f.webp","1f522.webp","1f524.webp","1f525.webp","1f527.webp","1f528.webp","1f52a.webp","1f52b.webp","1f52c.webp","1f52e.webp","1f530.webp","1f534.webp","1f535.webp","1f53b.webp","1f53c.webp","1f54a.webp","1f550.webp","1f552.webp","1f554.webp","1f555.webp","1f556.webp","1f557.webp","1f558.webp","1f55a.webp","1f55b.webp","1f55c.webp","1f562.webp","1f563.webp","1f570.webp","1f573.webp","1f575.webp","1f576.webp","1f58a.webp","1f58d.webp","1f590.webp","1f5a4.webp","1f5a5.webp","1f5a8.webp","1f5b1.webp","1f5bc.webp","1f5c2.webp","1f5d1.webp","1f5d2.webp","1f5d3.webp","1f5e1.webp","1f5e3.webp","1f5f3.webp","1f5fa.webp","1f5fc.webp","1f5fe.webp","1f5ff.webp","1f602.webp","1f605.webp","1f60a.webp","1f60b.webp","1f60c.webp","1f60d.webp","1f60e.webp","1f610.webp","1f614.webp","1f615.webp","1f616.webp","1f61e.webp","1f61f.webp","1f620.webp","1f621.webp","1f622.webp","1f623.webp","1f624.webp","1f629.webp","1f62c.webp","1f62e-200d-1f4a8.webp","1f62e.webp","1f630.webp","1f631.webp","1f632.webp","1f633.webp","1f634.webp","1f635-200d-1f4ab.webp","1f635.webp","1f637.webp","1f641.webp","1f642.webp","1f645.webp","1f646.webp","1f648.webp","1f64a.webp","1f64b.webp","1f64c.webp","1f64f.webp","1f680.webp","1f682.webp","1f686.webp","1f689.webp","1f68b.webp","1f68c.webp","1f68f.webp","1f693.webp","1f694.webp","1f695.webp","1f697.webp","1f69a.webp","1f69c.webp","1f6a6.webp","1f6a7.webp","1f6a8.webp","1f6a9.webp","1f6aa.webp","1f6ab.webp","1f6ad.webp","1f6b2.webp","1f6b4.webp","1f6b6-200d-2640.webp","1f6b6-200d-2642.webp","1f6b6.webp","1f6b7.webp","1f6bd.webp","1f6bf.webp","1f6c1.webp","1f6c2.webp","1f6c4.webp","1f6cb.webp","1f6cc.webp","1f6cd.webp","1f6ce.webp","1f6cf.webp","1f6d1.webp","1f6d2.webp","1f6d7.webp","1f6dd.webp","1f6de.webp","1f6e0.webp","1f6e1.webp","1f6e3.webp","1f6e4.webp","1f6eb.webp","1f6ec.webp","1f6f3.webp","1f6f4.webp","1f6f9.webp","1f7e0.webp","1f7e1.webp","1f7e2.webp","1f7e3.webp","1f7e4.webp","1f7e5.webp","1f7e8.webp","1f7e9.webp","1f7f0.webp","1f90f.webp","1f911.webp","1f912.webp","1f914.webp","1f915.webp","1f916.webp","1f917.webp","1f91d.webp","1f91e.webp","1f922.webp","1f923.webp","1f924.webp","1f927.webp","1f929.webp","1f92b.webp","1f930.webp","1f932.webp","1f933.webp","1f935.webp","1f937.webp","1f938.webp","1f939.webp","1f941.webp","1f944.webp","1f945.webp","1f947.webp","1f948.webp","1f949.webp","1f94a.webp","1f94b.webp","1f950.webp","1f952.webp","1f953.webp","1f954.webp","1f955.webp","1f956.webp","1f957.webp","1f95a.webp","1f95b.webp","1f95c.webp","1f95e.webp","1f95f.webp","1f962.webp","1f963.webp","1f964.webp","1f966.webp","1f967.webp","1f969.webp","1f96a.webp","1f96c.webp","1f96d.webp","1f971.webp","1f973.webp","1f975.webp","1f976.webp","1f979.webp","1f97c.webp","1f97e.webp","1f981.webp","1f986.webp","1f988.webp","1f989.webp","1f98a.webp","1f992.webp","1f993.webp","1f998.webp","1f999.webp","1f99a.webp","1f99c.webp","1f9a0.webp","1f9a5.webp","1f9b4.webp","1f9b5.webp","1f9b6.webp","1f9b7.webp","1f9b8.webp","1f9b9.webp","1f9ba.webp","1f9c0.webp","1f9c2.webp","1f9c3.webp","1f9c4.webp","1f9ca.webp","1f9cd-200d-2642.webp","1f9cd.webp","1f9d0.webp","1f9d1-200d-1f33e.webp","1f9d1-200d-1f373.webp","1f9d1-200d-1f3a8.webp","1f9d1-200d-1f3eb.webp","1f9d1-200d-1f4bb.webp","1f9d1-200d-1f4bc.webp","1f9d1-200d-1f527.webp","1f9d1-200d-1f52c.webp","1f9d1-200d-1f680.webp","1f9d1-200d-1f692.webp","1f9d1-200d-1f91d-200d-1f9d1.webp","1f9d1-200d-1f9b1.webp","1f9d1-200d-2695.webp","1f9d1-200d-2696.webp","1f9d1-200d-2708.webp","1f9d1.webp","1f9d2.webp","1f9d3.webp","1f9d4.webp","1f9d7.webp","1f9d8.webp","1f9e0.webp","1f9e2.webp","1f9e3.webp","1f9e4.webp","1f9e5.webp","1f9e6.webp","1f9e9.webp","1f9ea.webp","1f9eb.webp","1f9ec.webp","1f9ed.webp","1f9ee.webp","1f9f1.webp","1f9f3.webp","1f9f4.webp","1f9f6.webp","1f9f8.webp","1f9f9.webp","1f9fa.webp","1f9fc.webp","1f9fd.webp","1f9fe.webp","1fa71.webp","1fa73.webp","1fa78.webp","1fa79.webp","1fa7a.webp","1fa80.webp","1fa81.webp","1fa84.webp","1fa86.webp","1fa91.webp","1fa93.webp","1fa99.webp","1fa9c.webp","1fa9e.webp","1fa9f.webp","1faa2.webp","1faa4.webp","1faa5.webp","1faa7.webp","1faaa.webp","1faab.webp","1fab1.webp","1fab4.webp","1fab9.webp","1fabd.webp","1fac2.webp","1fac3.webp","1fad2.webp","1fad8.webp","1faf6.webp","2194.webp","2197.webp","2198.webp","21a9.webp","231a.webp","231b.webp","2328.webp","23e9.webp","23ea.webp","23f0.webp","23f1.webp","23f3.webp","23f8.webp","25b6.webp","2600.webp","2601.webp","2602.webp","2603.webp","2614.webp","2615.webp","261d.webp","265f.webp","2668.webp","267b.webp","267e.webp","2693.webp","2694.webp","2695.webp","2696.webp","2699.webp","26a0.webp","26a1.webp","26aa.webp","26ab.webp","26bd.webp","26c4.webp","26c5.webp","26c8.webp","26d1.webp","26d3.webp","26d4.webp","26f0.webp","26f4.webp","26f5.webp","26f7.webp","26f8.webp","26fa.webp","26fd.webp","2702.webp","2705.webp","2708.webp","2709.webp","270a.webp","270b.webp","270d.webp","270f.webp","2714.webp","2716.webp","2728.webp","2744.webp","274c.webp","2753.webp","2754.webp","2757.webp","2764.webp","2795.webp","2796.webp","2797.webp","27a1.webp","2934.webp","2b05.webp","2b06.webp","2b07.webp","2b1b.webp","2b50.webp","30-20e3.webp","3030.webp","31-20e3.webp","32-20e3.webp","33-20e3.webp","34-20e3.webp","35-20e3.webp","36-20e3.webp","37-20e3.webp","38-20e3.webp","39-20e3.webp"];
 const EMOJI_FILE=new Map(EMOJI_KEYS.map(f=>[f.replace(/\.\w+$/,''),f]));
 const EMOJI_SET={get size(){return EMOJI_FILE.size;},has:k=>EMOJI_FILE.has(k)};
 const EMOJI_RX=/\p{RI}\p{RI}|[#*0-9]️?⃣|\p{Extended_Pictographic}(?:️|\p{EMod})?(?:‍\p{Extended_Pictographic}(?:️|\p{EMod})?)*/gu;
@@ -12724,7 +13281,7 @@ nav=function(track,level){
   if(level&&TRACKS.some(t=>t.id===track)){ setProfile(track,level,PROF()&&PROF().track===track&&PROF().level===level); return _navOld(); }
   return _navOld(track,level);
 };
-function levelUnitsLessons(tid,lv){return COURSE.units.filter(u=>u.level===lv&&u.track===tid).flatMap(u=>u.lessons);}
+function levelUnitsLessons(tid,lv){return COURSE.units.filter(u=>u.level===lv&&u.track===tid&&!u.extra).flatMap(u=>u.lessons);}
 function nextInLevel(tid,lv){const ls=levelUnitsLessons(tid,lv);return ls.find(l=>!lessonDone(l.id))||null;}
 /* home for a learner who already has a course: only their level */
 function myHomeHtml(p){
@@ -14716,7 +15273,7 @@ function obHtml(){
     const n=zones.length, pct=Math.round(100*Math.max(0,current)/Math.max(1,n-1));
     const h=document.createElement('div'); h.className='trail-head';
     h.innerHTML=`<div class="th-leo">${st?`<img src="${st.rig.h}" alt="">`:''}</div>
-      <div class="th-txt"><small>${u.level?u.level+' · ':''}${pl?'Lekcja':'Lesson'} ${l.num||''}</small><b>${l.title||''}</b>
+      <div class="th-txt"><small>${u.level?u.level+' · ':''}${l.unit&&l.unit.extra?(pl?'Lekcja dodatkowa':'Extra lesson'):(pl?'Lekcja':'Lesson')+' '+(l.num||'')}</small><b>${l.title||''}</b>
       <span>${pl?'Krok':'Step'} ${current+1} ${pl?'z':'of'} ${n}${stars?` · ⭐ ${stars}`:''}</span></div>
       <div class="th-bar"><i style="width:${pct}%"></i></div>`;
     t.insertBefore(h,t.firstChild);
@@ -19840,6 +20397,173 @@ function bzHomeCard(){
 function bzTbh(){try{const t=document.querySelector('.topbar');if(t)document.body.style.setProperty('--bz-tbh',Math.round(t.getBoundingClientRect().height)+'px');}catch(e){}}
 window.addEventListener('resize',()=>{if(document.body.classList.contains('biz'))bzTbh();});
 try{const _t=document.querySelector('.topbar');if(_t&&window.ResizeObserver)new ResizeObserver(()=>{if(document.body.classList.contains('biz'))bzTbh();}).observe(_t);}catch(e){}
+
+/* =====================================================================
+   Extra step types (from the standalone lessons): dialogue, dictation, townmap, unittest.
+   State is per step index, so it is cleared whenever a lesson opens.
+   ===================================================================== */
+(function(){
+const SX={};                      // state per step
+const st=(i,init)=>SX[i]||(SX[i]=init());
+function rp(){const y=window.scrollY;setPanel(renderZone(current));try{emojify($('panel'));}catch(e){}window.scrollTo(0,y);}
+window.SH_rp=rp;
+const _olx=openLesson;openLesson=function(){for(const k in SX)delete SX[k];try{clearInterval(UT_TICK);}catch(e){}return _olx.apply(this,arguments);};
+function voiceEn(){try{const v=speechSynthesis.getVoices();return v.filter(x=>/^en[-_]GB/i.test(x.lang)).concat(v.filter(x=>/^en/i.test(x.lang)));}catch(e){return [];}}
+function say(text,opt){opt=opt||{};try{
+  if(!opt.queue)speechSynthesis.cancel();
+  if(!opt.slow&&!opt.pitch&&!opt.queue&&typeof speak==='function'){speak(text);return;}
+  const u=new SpeechSynthesisUtterance(text);u.lang='en-GB';u.rate=opt.slow?0.6:0.9;u.pitch=opt.pitch||1;
+  const vs=voiceEn();if(vs.length)u.voice=vs[(opt.voice||0)%Math.min(vs.length,3)];
+  if(opt.onend)u.onend=opt.onend;speechSynthesis.speak(u);}catch(e){}}
+const nrm=s=>norm(String(s||'').replace(/[,;:"“”]/g,'').replace(/[‘’]/g,"'"));
+
+/* ---- dialogue ---- */
+function dlRender(i){const z=zones[i],s=st(i,()=>({show:!z.hide,playing:-1}));const names=Object.keys(z.cast);
+  const rows=z.lines.map(([who,t],k)=>{const side=names.indexOf(who)%2?'r':'l';
+    return `<div class="shd-row ${side}${s.playing===k?' on':''}"><div class="shd-av">${z.cast[who]||'🙂'}</div><div class="shd-bub"><b>${who}</b><span>${s.show?t:'<i class="shd-hid">• • • • • • • •</i>'}</span></div><button class="shd-say" onclick="SH_dlSay(${i},${k})" aria-label="Listen">🔊</button></div>`;}).join('');
+  return `${zoneTag(z.hide?'LISTENING':'DIALOGUE')}<h2 class="title">${z.title}</h2><p class="sub">${z.sub||''}</p>
+  <div class="shd-tools"><button class="btn btn-gold" onclick="SH_dlAll(${i})">▶ Play the whole dialogue</button>${z.hide?`<button class="btn secondary" onclick="SH_dlShow(${i})">${s.show?'🙈 Hide the text':'👀 Show the text'}</button>`:''}</div>
+  <div class="shd">${rows}</div>${navRow(true)}`;}
+window.SH_dlSay=(i,k)=>{const z=zones[i],names=Object.keys(z.cast),[who,t]=z.lines[k];say(t,{voice:names.indexOf(who),pitch:[1,1.15,0.9,1.25,0.8][names.indexOf(who)%5]});};
+window.SH_dlShow=i=>{const s=st(i,()=>({}));s.show=!s.show;rp();};
+window.SH_dlAll=i=>{const z=zones[i],names=Object.keys(z.cast),s=st(i,()=>({}));try{speechSynthesis.cancel();}catch(e){}
+  const mark=k=>{s.playing=k;document.querySelectorAll('.shd-row').forEach((r,j)=>r.classList.toggle('on',j===k));const r=document.querySelectorAll('.shd-row')[k];if(r&&r.scrollIntoView)r.scrollIntoView({block:'nearest',behavior:'smooth'});};
+  z.lines.forEach(([who,t],k)=>{const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=0.9;const n=names.indexOf(who);u.pitch=[1,1.15,0.9,1.25,0.8][n%5];const vs=voiceEn();if(vs.length)u.voice=vs[n%Math.min(vs.length,3)];u.onstart=()=>mark(k);if(k===z.lines.length-1)u.onend=()=>mark(-1);try{speechSynthesis.speak(u);}catch(e){}});};
+
+/* ---- dictation ---- */
+function dcRender(i){const z=zones[i],s=st(i,()=>({v:{},r:{}}));const done=z.items.filter((_,k)=>s.r[k]==='ok'||s.r[k]==='shown').length;
+  return `${zoneTag('DICTATION')}<h2 class="title">${z.title}</h2><p class="sub">${z.sub}</p>`+z.items.map((it,k)=>{const r=s.r[k];
+   return `<div class="gap-card shdc" style="text-align:left;"><div class="shdc-top"><span class="shdc-n">${k+1}</span><button class="shd-say big" onclick="SH_dcSay(${i},${k})">🔊</button><button class="shd-say big" onclick="SH_dcSay(${i},${k},1)" title="slowly">🐢</button></div>
+   <input type="text" class="gap-input ${r==='ok'?'correct':r==='shown'?'shown':r==='bad'?'wrong':''}" id="shdc-${i}-${k}" style="width:100%;box-sizing:border-box;" placeholder="Type what you hear…" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(s.v[k]||'')}" ${r==='ok'||r==='shown'?'disabled':''} onkeydown="if(event.key==='Enter')SH_dcCheck(${i},${k})">
+   <div style="margin-top:6px;"><button class="gap-check" onclick="SH_dcCheck(${i},${k})">Check</button><button class="gap-show-btn" onclick="SH_dcShow(${i},${k})">Show answer</button></div>
+   <div class="gap-msg ${r==='ok'?'ok':r==='bad'?'bad':''}">${r==='ok'?'Perfect! ✅':r==='shown'?'Answer: <b>'+esc(it.en)+'</b>':r==='bad'?'Not quite — listen again 🔄':''}</div></div>`;}).join('')+
+   `<p class="sub" style="text-align:center;">${done} / ${z.items.length} done</p>${navRow(true)}`;}
+window.SH_dcSay=(i,k,slow)=>say(zones[i].items[k].en,{slow:!!slow});
+function dcFinish(i){const z=zones[i],s=SX[i];if(z.items.every((_,k)=>s.r[k]==='ok'||s.r[k]==='shown')&&!s.rec){s.rec=1;recordZoneStars(z.items.filter((_,k)=>s.first[k]).length,z.items.length);}}
+window.SH_dcCheck=(i,k)=>{const z=zones[i],s=st(i,()=>({v:{},r:{}}));s.first=s.first||{};const el=$('shdc-'+i+'-'+k);if(!el||el.disabled)return;s.v[k]=el.value;
+  if(nrm(el.value)===nrm(z.items[k].en)){if(s.r[k]!=='bad'){s.first[k]=1;}s.r[k]='ok';addScore(5);sfxCorrect();}else{s.r[k]='bad';sfxWrong();}
+  rp();dcFinish(i);};
+window.SH_dcShow=(i,k)=>{const s=st(i,()=>({v:{},r:{}}));s.first=s.first||{};const el=$('shdc-'+i+'-'+k);if(el&&!el.disabled){s.v[k]=zones[i].items[k].en;s.r[k]='shown';rp();dcFinish(i);}};
+
+/* ---- town map ---- */
+function tmRender(i){const z=zones[i],s=st(i,()=>({k:0,ok:0,miss:false,wrong:null,right:null}));
+  if(s.k>=z.qs.length){if(!s.rec){s.rec=1;recordZoneStars(s.ok,z.qs.length);}return `${zoneTag('TOWN MAP')}<h2 class="title">Great map reading! 🗺️</h2><p class="sub">Score: <b>${s.ok} / ${z.qs.length}</b></p>${tmMap(z,s,true)}${navRow(true)}`;}
+  const q=z.qs[s.k];
+  return `${zoneTag('TOWN MAP')}<h2 class="title">${z.title}</h2><p class="sub">${z.sub}</p>
+  <div class="shm-q"><span class="shm-qn">${s.k+1} / ${z.qs.length}</span><b>${q.q}</b><button class="shd-say" onclick="SH_tmSay(${i})">🔊</button></div>${tmMap(z,s)}${navRow(true)}`;}
+function tmShop(i,[n,e],s,end){const cls=s.right===n?' ok':s.wrong===n?' bad':'';
+  return `<button class="shm-shop${cls}" ${end?'disabled':''} onclick="SH_tmPick(${i},'${n.replace(/'/g,"\\'")}')"><span class="shm-roof"></span><span class="shm-e">${e}</span><span class="shm-n">${n}</span></button>`;}
+function tmMap(z,s,end){const i=current;
+  return `<div class="shm"><div class="shm-row">${z.top.map(x=>tmShop(i,x,s,end)).join('')}</div><div class="shm-road"><span>Market Street</span></div><div class="shm-row">${z.bottom.map(x=>tmShop(i,x,s,end)).join('')}</div></div>`;}
+window.SH_tmSay=i=>{const s=SX[i];say(zones[i].qs[s.k].q);};
+window.SH_tmPick=(i,n)=>{const z=zones[i],s=SX[i];if(s.lock)return;const q=z.qs[s.k];
+  if(n===q.a){s.right=n;s.wrong=null;if(!s.miss){s.ok++;addScore(5);}sfxCorrect();s.lock=1;rp();setTimeout(()=>{s.k++;s.miss=false;s.right=null;s.lock=0;rp();},850);}
+  else{s.wrong=n;s.miss=true;sfxWrong();rp();}};
+
+/* ---- unit test ---- */
+let UT_TICK=null;
+function utAll(z){const a=[];z.sections.forEach((sec,si)=>sec.qs.forEach((q,qi)=>a.push({q,si,qi,id:si+'-'+qi})));return a;}
+function utRender(i){const z=zones[i],s=st(i,()=>({phase:'intro',a:{},order:{}})),all=utAll(z);
+  if(s.phase==='intro')return `${zoneTag('UNIT TEST')}<h2 class="title">${z.title}</h2><p class="sub">${all.length} questions in ${z.sections.length} parts · ${z.minutes} minutes. You can't check answers until the end — then you see your score for each part.</p>
+   <div class="reading-box"><p>${z.sections.map(x=>`<span class="lesson-chip">${x.name} · ${x.qs.length}</span>`).join(' ')}</p><p style="margin-top:10px;">⏱️ The clock starts when you tap <b>Start the test</b>. When the time is up, the test finishes on its own.</p><p>🎧 In the listening part, tap 🔊 to hear each recording (as many times as you like).</p></div>
+   <div class="nav-row"><button class="btn secondary" onclick="go(current-1)">← Back</button><button class="btn btn-gold" onclick="SH_utStart(${i})">Start the test ⏱️</button></div>`;
+  const done=s.phase==='done';
+  let h=`${zoneTag('UNIT TEST')}<div class="sht-bar"><b>${z.title}</b><span id="shtClock" class="sht-clock">${done?'✔ Finished':utClock(s)}</span></div>`;
+  if(done){const tot=all.length,ok=all.filter(x=>s.res[x.id]).length,p=Math.round(100*ok/tot);
+    h+=`<div class="sht-score"><div class="sht-ring" style="--p:${p}"><b>${p}%</b></div><div><b>${ok} / ${tot} correct</b><span>${p>=90?'Excellent! You know this unit really well. 🏆':p>=70?'Good work! Look again at the red answers. 👍':'Have another look at the grammar boxes, then try again. 💪'}</span></div></div>
+    <div class="sht-parts">${z.sections.map((sec,si)=>{const q=all.filter(x=>x.si===si),o=q.filter(x=>s.res[x.id]).length;return `<div><span>${sec.name}</span><i><em style="width:${Math.round(100*o/q.length)}%"></em></i><b>${o}/${q.length}</b></div>`;}).join('')}</div>`;}
+  let n=0;
+  z.sections.forEach((sec,si)=>{h+=`<h3 class="sht-sec">${sec.name}</h3>`;sec.qs.forEach((q,qi)=>{n++;const id=si+'-'+qi,v=s.a[id],res=done?(s.res[id]?' ok':' bad'):'';
+    h+=`<div class="sht-q${res}"><p><span class="sht-n">${n}</span>${q.say?`<button class="shd-say" onclick="SH_utSay(${i},${si},${qi})">🔊</button> `:''}${q.q}</p>`;
+    if(q.type==='type'){h+=`<input type="text" class="gap-input" style="width:100%;max-width:340px;box-sizing:border-box;" autocomplete="off" autocapitalize="off" spellcheck="false" ${done?'disabled':''} value="${esc(v||'')}" oninput="SH_utType(${i},'${id}',this.value)">${done&&!s.res[id]?`<div class="gap-msg ok">✔ ${esc(q.answers[0])}</div>`:''}`;}
+    else{const ord=s.order[id]||(s.order[id]=shuffle(q.opts.map((_,k)=>k)));
+      h+=`<div class="sht-opts">${ord.map(k=>`<button class="sht-opt${v===k?' on':''}${done&&k===q.correct?' right':''}${done&&v===k&&k!==q.correct?' wrong':''}" ${done?'disabled':''} onclick="SH_utPick(${i},'${id}',${k})">${q.opts[k]}</button>`).join('')}</div>`;}
+    h+=`</div>`;});});
+  const left=all.filter(x=>s.a[x.id]==null||s.a[x.id]==='').length;
+  h+=done?`<div class="nav-row"><button class="btn secondary" onclick="SH_utAgain(${i})">🔁 Take the test again</button><button class="btn btn-gold" onclick="go(current+1)">Finish the lesson →</button></div>`
+   :`<div class="nav-row"><button class="btn secondary" onclick="go(current-1)">← Back</button><button class="btn btn-gold" onclick="SH_utEnd(${i})">✔ Finish the test${left?` (${left} empty)`:''}</button></div>`;
+  return h;}
+function utClock(s){const r=Math.max(0,Math.round((s.end-Date.now())/1000));return '⏱️ '+Math.floor(r/60)+':'+String(r%60).padStart(2,'0');}
+window.SH_utStart=i=>{const z=zones[i],s=SX[i];s.phase='run';s.end=Date.now()+z.minutes*60000;clearInterval(UT_TICK);
+  UT_TICK=setInterval(()=>{const c=$('shtClock');if(s.phase!=='run'){clearInterval(UT_TICK);return;}if(Date.now()>=s.end){if(current===i)SH_utEnd(i);else s.timeUp=1;return;}if(c)c.textContent=utClock(s);},1000);rp();window.scrollTo({top:0});};
+window.SH_utPick=(i,id,k)=>{SX[i].a[id]=k;sfxPop&&sfxPop();rp();};
+window.SH_utType=(i,id,v)=>{SX[i].a[id]=v;};
+window.SH_utSay=(i,si,qi)=>say(zones[i].sections[si].qs[qi].say);
+window.SH_utEnd=i=>{const z=zones[i],s=SX[i];clearInterval(UT_TICK);s.phase='done';s.res={};let ok=0;const all=utAll(z);
+  all.forEach(x=>{const v=s.a[x.id];const r=x.q.type==='type'?(v!=null&&x.q.answers.map(nrm).includes(nrm(v))):v===x.q.correct;s.res[x.id]=r;if(r)ok++;});
+  addScore(ok*3);recordZoneStars(ok,all.length);if(ok/all.length>=0.9){try{burstConfetti();sfxBigWin();}catch(e){}}rp();window.scrollTo({top:0,behavior:'smooth'});};
+window.SH_utAgain=i=>{delete SX[i];rp();};
+
+/* ---- plug the new types into the engine ---- */
+['dictation','townmap','unittest'].forEach(t=>GRADED.add(t));
+const _rz=renderZone;
+renderZone=function(i){const z=zones[i];
+  if(z&&z.type==='dialogue')return dlRender(i);
+  if(z&&z.type==='dictation')return dcRender(i);
+  if(z&&z.type==='townmap')return tmRender(i);
+  if(z&&z.type==='unittest'){const s=SX[i];if(s&&s.phase==='run'&&s.timeUp){SH_utEnd(i);}return utRender(i);}
+  return _rz.apply(this,arguments);};
+const _zt=zoneTasks;
+zoneTasks=function(z){if(z.type==='dialogue')return Math.ceil(z.lines.length/2)+(z.hide?3:0);if(z.type==='townmap')return z.qs.length;if(z.type==='dictation')return z.items.length*2;if(z.type==='unittest')return Math.round(z.minutes*60/11);return _zt(z);};
+
+const css=document.createElement('style');css.textContent=`
+.shd{display:flex;flex-direction:column;gap:10px;margin:12px 0 4px}
+.shd-tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:4px 0 6px}
+.shd-row{display:flex;align-items:flex-end;gap:8px;max-width:92%}
+.shd-row.r{flex-direction:row-reverse;align-self:flex-end}
+.shd-av{font-size:30px;line-height:1;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#fff3d6;border:2px solid #ecb83a;border-radius:50%;flex:none}
+.shd-av img{width:30px;height:30px}
+.shd-bub{background:#fff;border:2px solid #e4e1f0;border-radius:18px 18px 18px 6px;padding:8px 14px;box-shadow:0 2px 0 #e4e1f0;text-align:left}
+.shd-row.r .shd-bub{background:#f1f3ff;border-color:#c9cff5;border-radius:18px 18px 6px 18px}
+.shd-bub b{display:block;font-size:12px;color:#8b6b10;letter-spacing:.3px}
+.shd-bub span{font-size:16px;font-weight:600;color:#050a30}
+.shd-row.on .shd-bub{border-color:#ecb83a;box-shadow:0 0 0 3px #ffd87388}
+.shd-hid{color:#b9b6c9;letter-spacing:2px;font-style:normal}
+.shd-say{border:none;background:#050a30;color:#fff;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;flex:none;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.shd-say.big{width:44px;height:44px;font-size:20px;margin-right:6px}
+.shd-say:active{transform:scale(.93)}
+.shdc-top{display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.shdc-n{font-family:'Baloo 2',sans-serif;font-weight:800;color:#050a30;background:#ffd873;border-radius:10px;padding:2px 10px;margin-right:8px}
+.shm-q{display:flex;align-items:center;gap:10px;background:#050a30;color:#fff;border-radius:16px;padding:12px 14px;margin:10px 0 12px;font-size:17px}
+.shm-q b{flex:1}.shm-q .shd-say{background:#ecb83a;color:#050a30}
+.shm-qn{font-size:12px;font-weight:800;color:#ecb83a;white-space:nowrap}
+.shm{background:#e9f4e4;border-radius:20px;padding:12px 10px;border:2px solid #cfe3c6}
+.shm-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.shm-road{background:#4a4f63;border-radius:10px;margin:12px 0;height:46px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.shm-road::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:4px dashed #ffd873;opacity:.8}
+.shm-road span{position:relative;background:#4a4f63;color:#fff;font-weight:800;font-size:12px;padding:2px 10px;border-radius:8px;letter-spacing:.5px}
+.shm-shop{position:relative;border:2px solid #d8d4e6;background:#fffdf8;border-radius:10px 10px 8px 8px;padding:20px 4px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;min-height:96px;transition:transform .12s}
+.shm-shop:hover{transform:translateY(-2px)}
+.shm-roof{position:absolute;top:0;left:0;right:0;height:14px;border-radius:8px 8px 0 0;background:repeating-linear-gradient(90deg,#ecb83a 0 12px,#fff3d6 12px 24px)}
+.shm-row:last-child .shm-roof{background:repeating-linear-gradient(90deg,#050a30 0 12px,#c9cff5 12px 24px)}
+.shm-e{font-size:30px;line-height:1}.shm-e img{width:34px;height:34px}
+.shm-n{font-size:12px;font-weight:800;color:#050a30;line-height:1.15;text-align:center}
+.shm-shop.ok{background:#dff6e3;border-color:#2fa84f;transform:scale(1.05)}
+.shm-shop.bad{background:#ffe3e3;border-color:#e0475b;animation:shmShake .35s}
+@keyframes shmShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media(max-width:560px){.shm-row{gap:4px}.shm-shop{padding:18px 2px 6px;min-height:84px}.shm-e{font-size:24px}.shm-e img{width:26px;height:26px}.shm-n{font-size:10px}}
+.sht-bar{position:sticky;top:64px;z-index:5;display:flex;justify-content:space-between;align-items:center;background:#050a30;color:#fff;border-radius:14px;padding:10px 14px;margin:6px 0 12px}
+.sht-clock{font-weight:800;color:#ffd873;font-variant-numeric:tabular-nums}
+.sht-sec{font-family:'Baloo 2',sans-serif;color:#050a30;margin:18px 0 6px;border-bottom:3px solid #ecb83a;display:inline-block}
+.sht-q{background:#fff;border:2px solid #e4e1f0;border-radius:14px;padding:10px 12px;margin:8px 0;text-align:left}
+.sht-q p{margin:0 0 8px;font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sht-q.ok{border-color:#2fa84f;background:#f3fbf4}.sht-q.bad{border-color:#e0475b;background:#fff6f6}
+.sht-n{background:#fff3d6;border:2px solid #ecb83a;border-radius:8px;font-size:12px;font-weight:800;padding:0 7px;color:#050a30}
+.sht-opts{display:flex;flex-wrap:wrap;gap:8px}
+.sht-opt{border:2px solid #d8d4e6;background:#fbf9f4;border-radius:12px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer;color:#050a30}
+.sht-opt.on{border-color:#050a30;background:#050a30;color:#fff}
+.sht-opt.right{border-color:#2fa84f;background:#dff6e3;color:#14532d}
+.sht-opt.wrong{border-color:#e0475b;background:#ffe3e3;color:#7f1d1d;text-decoration:line-through}
+.sht-score{display:flex;align-items:center;gap:16px;background:#fff3d6;border:2px solid #ecb83a;border-radius:18px;padding:14px;margin-bottom:10px;text-align:left}
+.sht-score span{display:block;font-size:14px;margin-top:4px}
+.sht-ring{--p:0;width:84px;height:84px;border-radius:50%;flex:none;background:conic-gradient(#ecb83a calc(var(--p)*1%),#e4e1f0 0);display:flex;align-items:center;justify-content:center}
+.sht-ring b{background:#fff;width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#050a30}
+.sht-parts{display:grid;gap:6px;margin:6px 0 8px}
+.sht-parts div{display:grid;grid-template-columns:130px 1fr 44px;align-items:center;gap:8px;font-weight:700;font-size:14px;text-align:left}
+.sht-parts i{height:10px;background:#e4e1f0;border-radius:6px;overflow:hidden}.sht-parts em{display:block;height:100%;background:#ecb83a}
+`;document.head.appendChild(css);
+})();
+
 
 document.getElementById('lemurCornerSlot').innerHTML=renderLemur('corner',lemurCornerMsgs,118);
 (function initSparkleField(){
