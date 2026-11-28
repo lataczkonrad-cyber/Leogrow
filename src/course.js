@@ -2472,7 +2472,7 @@ let TESTER=TESTER_ALLOWED; try{ const t=localStorage.getItem('lingrowTester'); i
 function setTester(on){TESTER=on;try{localStorage.setItem('lingrowTester',on?'1':'0');}catch(e){}document.body.classList.toggle('tester',TESTER);renderCourse();}
 function skipLesson(){ if(!activeLesson) return; sfxWhoosh(); go(zones.length-1); }
 function nextLessonToDo(tid){
-  const ls=tid?trackLessons(tid):ALL_LESSONS, pl=tid&&C.placed&&C.placed[tid];
+  const ls=(tid?trackLessons(tid):ALL_LESSONS).filter(l=>!l.unit.extra), pl=tid&&C.placed&&C.placed[tid];
   if(pl){const f=ls.find(l=>!lessonDone(l.id)&&PL_LV.indexOf(l.unit.level)>=PL_LV.indexOf(pl));if(f)return f;}
   return ls.find(l=>!lessonDone(l.id));
 }
@@ -2515,7 +2515,7 @@ function zoneMinutes(l){const t=l.zones.reduce((s,z)=>s+zoneTasks(z),0);return M
 function rLessonWelcome(){
   const l=activeLesson;
   const chips=l.zones.map(z=>`<span class="lesson-chip">${z.label}</span>`).join('');
-  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
+  return `${zoneTag((l.unit.level?l.unit.level+' · ':'')+(l.test?'UNIT TEST':l.unit.extra?'EXTRA LESSON':'LESSON '+l.num))}<h2 class="title">${l.title} ${l.emoji}</h2><p class="sub">${l.intro}</p>
   <div style="text-align:center;">${renderLemur('big',isAdult()?['Welcome back.','Let\'s get to work.','Focus — you\'ve got this.','Short, sharp, effective.']:lemurWelcomeMsgs,isAdult()?110:200)}</div>
   <div class="lesson-chips" style="justify-content:center;margin:6px 0 4px;">${chips}</div>
   <p style="text-align:center;color:#8b8ba0;font-size:13px;font-weight:700;">${l.zones.length} activities · about ${zoneMinutes(l)} minutes</p>
@@ -2595,7 +2595,7 @@ function openLesson(id){
   CONFETTI.splice(0,CONFETTI.length,...(isAdult(l)?['✦','·','✧']:['⏰','🥣','🚌','⚽','🌙','✨']));
   $('courseView').style.display='none';
   $('lessonView').style.display='';
-  $('timerPill').textContent='Lesson '+l.num;
+  $('timerPill').textContent=l.unit&&l.unit.extra?'⭐ Extra':'Lesson '+l.num;
   go(resume?Math.min(C.active.current,zones.length-1):0);
   if(resume) setTimeout(()=>_comboToastText('💾 Welcome back — you were here!'),300);
 }
@@ -2630,12 +2630,16 @@ const TRACKS=[
 ];
 const trackOfLevel=lv=>TRACKS.find(t=>t.levels.includes(lv))||TRACKS[0];
 COURSE.units.forEach(u=>{u.track=u.track||trackOfLevel(u.level).id;});
-TRACKS.forEach(t=>{COURSE.units.filter(u=>u.track===t.id).forEach((u,i)=>{u.n=i+1;u.lessons.forEach((l,li)=>{l.num=`${i+1}.${li+1}`;});});});
+TRACKS.forEach(t=>{COURSE.units.filter(u=>u.track===t.id&&!u.extra).forEach((u,i)=>{u.n=i+1;u.lessons.forEach((l,li)=>{l.num=`${i+1}.${li+1}`;});});});
 const trackLessons=tid=>ALL_LESSONS.filter(l=>l.unit.track===tid);
+/* extra lessons (unit.extra, e.g. Football Fever): always open, outside the lesson chain and level progress */
+COURSE.units.filter(u=>u.extra).forEach(u=>{u.n='⭐';u.lessons.forEach(l=>{l.num='Extra';});});
+const chainLessons=tid=>trackLessons(tid).filter(l=>!l.unit.extra);
 function lessonUnlocked(id){
   if(TESTER) return true;
   const l=ALL_LESSONS.find(x=>x.id===id); if(!l) return false;
-  const tl=trackLessons(l.unit.track); const i=tl.indexOf(l);
+  if(l.unit.extra) return true;
+  const tl=chainLessons(l.unit.track); const i=tl.indexOf(l);
   if(i===0||lessonDone(tl[i-1].id)||lessonDone(id)) return true;
   // placement test: the first lesson of every level up to the placed level is open
   const pl=C.placed&&C.placed[l.unit.track];
@@ -2661,11 +2665,11 @@ function unitHtml(u){
   const nxt=nextLessonToDo(u.track);
   const ud=u.lessons.filter(l=>lessonDone(l.id)).length, unitDone=ud===u.lessons.length;
   let h=`<section class="unit-block">
-    <div class="unit-head"><div class="unit-num">${u.n}</div><div class="unit-title"><span><b class="lvl-pill">${u.level}</b> UNIT ${u.n} · ${u.topic.toUpperCase()}</span><h3>${u.title} ${u.emoji}</h3><p>${u.sub}</p></div>
+    <div class="unit-head"><div class="unit-num">${u.n}</div><div class="unit-title"><span><b class="lvl-pill">${u.level}</b> ${u.extra?'⭐ EXTRA LESSON':'UNIT '+u.n+' · '+u.topic.toUpperCase()}</span><h3>${u.title} ${u.emoji}</h3><p>${u.sub}</p></div>
     <div class="unit-badge ${unitDone?'won':''}" title="Finish the unit to win this badge">🏅 ${u.badge}</div></div>
     <div class="unit-progress"><div style="width:${ud/u.lessons.length*100}%"></div></div>
     <div class="lesson-grid">`;
-  const tl=trackLessons(u.track);
+  const tl=chainLessons(u.track);
   u.lessons.forEach(l=>{
     const rec=C.lessons[l.id], unlocked=lessonUnlocked(l.id), isDone=lessonDone(l.id);
     const resuming=C.active&&C.active.id===l.id, isNext=nxt&&nxt.id===l.id;
@@ -2677,7 +2681,7 @@ function unitHtml(u){
     else if(isDone) action=`<button class="btn secondary lesson-btn" onclick="openLesson('${l.id}')">↻ Play again</button>`;
     else action=`<button class="btn btn-gold lesson-btn" onclick="openLesson('${l.id}')">Start →</button>`;
     h+=`<div class="lesson-card ${l.test?'test':''} ${unlocked?'':'locked'} ${isDone?'done':''} ${isNext?'next':''}" id="card-${l.id}" ${unlocked?`onclick="if(event.target.tagName!=='BUTTON')openLesson('${l.id}')"`:''}>
-      <div class="lc-top"><div class="lc-emoji">${l.emoji}</div><div class="lc-title"><span>${l.test?l.unit.level+' UNIT TEST · FINAL QUIZ':'LESSON '+l.num}</span><h4>${l.title}</h4></div><div class="lc-coins">${coinRow(rec?rec.stars:0,22)}</div></div>
+      <div class="lc-top"><div class="lc-emoji">${l.emoji}</div><div class="lc-title"><span>${l.test?l.unit.level+' UNIT TEST · FINAL QUIZ':l.unit.extra?'⭐ EXTRA LESSON':'LESSON '+l.num}</span><h4>${l.title}</h4></div><div class="lc-coins">${coinRow(rec?rec.stars:0,22)}</div></div>
       <div class="lesson-chips">${chips}</div>
       <div class="lc-bottom"><span class="lc-meta">⏱ ~${zoneMinutes(l)} min${rec&&rec.points?` · best ${rec.points} pts`:''}</span>${action}</div>
     </div>`;
@@ -3206,7 +3210,7 @@ const PL_RX=[
  [/^(\d+) activities · about (\d+) minutes$/,"Zadań: $1 · ok. $2 min"],
  [/^(\d+)\/(\d+) lessons · (\d+) coins$/,"$1/$2 lekcji · $3 monet"],
  [/^(\d+)\/(\d+) lessons · (\d+)\/(\d+) coins(.*)$/,(m,a,b,c,d,e)=>`${a}/${b} lekcji · ${c}/${d} monet${e.replace('· 🔒 finish the level before','· 🔒 najpierw skończ poprzedni poziom')}`],
- [/^LESSON (\S+)$/,"LEKCJA $1"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
+ [/^LESSON (\S+)$/,"LEKCJA $1"],[/^⭐ EXTRA LESSON$/,"⭐ LEKCJA DODATKOWA"],[/^(\S+) · EXTRA LESSON$/,"$1 · LEKCJA DODATKOWA"],[/^(\S+) · LESSON (\S+)$/,"$1 · LEKCJA $2"],[/^UNIT (\d+) · (.+)$/,"DZIAŁ $1 · $2"],
  [/^(\S+) UNIT TEST · FINAL QUIZ$/,"$1 TEST KOŃCOWY DZIAŁU"],[/^(.+) — Unit Test$/,"$1 — test działu"],
  [/^Next up: (.+) →$/,"Następna: $1 →"],[/^Continue: (.+) →$/,"Kontynuuj: $1 →"],[/^Points earned: (\d+) 🪙$/,"Zdobyte punkty: $1 🪙"],
  [/^Wordle (.+)$/,"Wordle $1"],[/^🔒 Finish (\S*) first$/,"🔒 Najpierw ukończ $1"],[/^⏱ ~(\d+) min(.*)$/,(m,a,b)=>`⏱ ~${a} min${b.replace('best','najlepiej').replace('pts','pkt')}`],
@@ -3456,7 +3460,7 @@ nav=function(track,level){
   if(level&&TRACKS.some(t=>t.id===track)){ setProfile(track,level,PROF()&&PROF().track===track&&PROF().level===level); return _navOld(); }
   return _navOld(track,level);
 };
-function levelUnitsLessons(tid,lv){return COURSE.units.filter(u=>u.level===lv&&u.track===tid).flatMap(u=>u.lessons);}
+function levelUnitsLessons(tid,lv){return COURSE.units.filter(u=>u.level===lv&&u.track===tid&&!u.extra).flatMap(u=>u.lessons);}
 function nextInLevel(tid,lv){const ls=levelUnitsLessons(tid,lv);return ls.find(l=>!lessonDone(l.id))||null;}
 /* home for a learner who already has a course: only their level */
 function myHomeHtml(p){

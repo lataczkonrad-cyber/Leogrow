@@ -10,7 +10,7 @@
     const n=zones.length, pct=Math.round(100*Math.max(0,current)/Math.max(1,n-1));
     const h=document.createElement('div'); h.className='trail-head';
     h.innerHTML=`<div class="th-leo">${st?`<img src="${st.rig.h}" alt="">`:''}</div>
-      <div class="th-txt"><small>${u.level?u.level+' · ':''}${pl?'Lekcja':'Lesson'} ${l.num||''}</small><b>${l.title||''}</b>
+      <div class="th-txt"><small>${u.level?u.level+' · ':''}${l.unit&&l.unit.extra?(pl?'Lekcja dodatkowa':'Extra lesson'):(pl?'Lekcja':'Lesson')+' '+(l.num||'')}</small><b>${l.title||''}</b>
       <span>${pl?'Krok':'Step'} ${current+1} ${pl?'z':'of'} ${n}${stars?` · ⭐ ${stars}`:''}</span></div>
       <div class="th-bar"><i style="width:${pct}%"></i></div>`;
     t.insertBefore(h,t.firstChild);
