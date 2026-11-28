@@ -41,7 +41,7 @@ const SHOP_ITEMS=[
  {id:'b_idioms',cat:'lesson',icon:'🦜',price:120,en:'Everyday idioms',pl:'Codzienne idiomy',d:'“Piece of cake”, “break the ice” and 8 more.',dp:'„Piece of cake”, „break the ice” i 8 innych.'},
  {id:'b_slang',cat:'lesson',icon:'🇬🇧',price:120,en:'British slang',pl:'Brytyjski slang',d:'Cheers, mate! Words people really say in the UK.',dp:'Cheers, mate! Słowa, których naprawdę używa się w UK.'},
  {id:'b_phrasal',cat:'lesson',icon:'🎉',price:120,en:'Phrasal verb party',pl:'Impreza czasowników frazowych',d:'Get up, give up, find out and more.',dp:'Get up, give up, find out i inne.'},
- {id:'b_football',cat:'lesson',icon:'⚽',price:200,en:'Football Fever',pl:'Gorączka futbolu',d:'A big 80-minute lesson: offside, penalties, rules, a cup final and fan talk.',dp:'Duża lekcja na 80 minut: spalony, karne, zasady, finał pucharu i język kibiców.'},
+ {id:'b_football',cat:'lesson',icon:'⚽',price:200,en:'Football Fever',pl:'Gorączka futbolu',d:'A big 80-minute lesson on 3 levels (Kids A2, Teens & Adults A2, B1): offside, penalties, rules, a cup final and fan talk.',dp:'Duża lekcja na 80 minut na 3 poziomach (Kids A2, Teens & Adults A2, B1): spalony, karne, zasady, finał pucharu i język kibiców.'},
  {id:'b_rhymes',cat:'lesson',icon:'🎶',price:120,en:'Songs, rhymes & tongue twisters',pl:'Piosenki, rymy i łamańce językowe',d:'Sing a chant, find rhymes and twist your tongue.',dp:'Zaśpiewaj rymowankę, znajdź rymy i połam język.'},
  // profile frames
  {id:'f_gold',cat:'frame',icon:'🟡',price:60,en:'Gold ring',pl:'Złota obwódka'},
@@ -311,7 +311,9 @@ function shopItemCard(it){
   if(it.cat==='theme')pic=`<div class="rw-pic rw-swatch" style="background:linear-gradient(135deg,${it.sw[0]} 55%,${it.sw[1]} 55%)">${it.icon}</div>`;
   if(it.cat==='frame')pic=`<div class="rw-pic plain"><span class="rw-ava fr-${it.id.slice(2)}" style="--s:52px"><img src="${LEMUR_COIN}" alt=""></span></div>`;
   let btn;
-  if(it.cat==='lesson'&&own){const l=BONUS_LESSONS.find(x=>x.shop===it.id),done=l&&lessonDone(l.id);btn=`<button class="btn btn-gold" onclick="openLesson('${l.id}')">${done?'↻ '+T2('Play again','Zagraj znowu'):'▶ '+T2('Start','Start')}</button>`;}
+  if(it.cat==='lesson'&&own){const ls=BONUS_LESSONS.filter(x=>x.shop===it.id);
+    if(ls.length>1)btn=`<div class="rw-lvls"><small>${T2('Choose your level','Wybierz poziom')}</small>${ls.map(l=>`<button class="btn ${lessonDone(l.id)?'secondary':'btn-gold'}" onclick="openLesson('${l.id}')">${lessonDone(l.id)?'↻':'▶'} ${l.fb?l.fb.tag:l.title}</button>`).join('')}</div>`;
+    else{const l=ls[0],done=l&&lessonDone(l.id);btn=`<button class="btn btn-gold" onclick="openLesson('${l.id}')">${done?'↻ '+T2('Play again','Zagraj znowu'):'▶ '+T2('Start','Start')}</button>`;}}
   else if(slot&&own)btn=`<button class="btn ${wearing?'btn-navy':'secondary'}" onclick="wearItem('${it.id}')">${wearing?(it.cat==='theme'?'✓ '+T2('In use','Używany'):'✓ '+T2('Wearing · take off','Założone · zdejmij')):(it.cat==='theme'?T2('Use','Użyj'):T2('Wear','Załóż'))}</button>`;
   else btn=`<button class="btn btn-gold" ${coins()<it.price?'data-short="1"':''} onclick="buyItem('${it.id}')">🪙 ${it.price}</button>`;
   const have=it.give?`<span class="rw-have">${T2('You have','Masz')}: <b>${shopCount(it.give[0])}</b></span>`:'';
@@ -415,10 +417,10 @@ const BONUS_LESSONS=[
    {type:'quiz',label:'Rhyme time',tag:'RHYME TIME',done:'You’ve got rhythm! 🎶',qs:[{q:"What rhymes with 'tree'?",opts:['bee','tray','true'],correct:0},{q:"What rhymes with 'rain'?",opts:['train','run','ring'],correct:0},{q:"What rhymes with 'house'?",opts:['mouse','horse','hose'],correct:0},{q:"What rhymes with 'fish'?",opts:['dish','fast','fresh'],correct:0},{q:"What rhymes with 'star'?",opts:['car','stay','stir'],correct:0}]},
    {type:'build',label:'Tongue twisters',items:[{s:'She sells seashells by the seashore',pl:'Łamaniec: ona sprzedaje muszelki nad morzem'},{s:'Red lorry yellow lorry',pl:'Łamaniec: czerwona ciężarówka, żółta ciężarówka'},{s:'Peter Piper picked a peck of pickled peppers',pl:'Łamaniec: Peter Piper zebrał garść marynowanych papryczek'}]},
    {type:'listen',label:'Listen',items:[{word:'She sells seashells',options:['She sells seashells','She smells sea shells','See shells sell'],correct:0},{word:'Red lorry, yellow lorry',options:['Red lorry, yellow lorry','Red lolly, yellow lolly','Read Laura, hello Laura'],correct:0},{word:'Clap your hands',options:['Clap your hands','Clean your hands','Cut your hands'],correct:0}]}]},
- {id:'bonus-football',shop:'b_football',title:'Football Fever',emoji:'⚽',intro:FB_LESSON.intro,zones:FB_SHOP_ZONES},
+ ...FB_VERSIONS.map(v=>({id:v.id,shop:'b_football',title:'Football Fever',emoji:'⚽',intro:v.intro,zones:v.zones,fb:v})),
 ];
 BONUS_LESSONS.forEach(l=>{l.bonus_lesson=true;l.num='Bonus';l.bonus=l.zones[0].cards||U1A;l.unit={track:'kids',level:'A1',lessons:[{id:'__bonus'}],badge:'',title:'Bonus'};});
-BONUS_LESSONS.find(l=>l.id==='bonus-football').unit.level='A2';
+BONUS_LESSONS.filter(l=>l.fb).forEach(l=>{l.unit.track=l.fb.track;l.unit.level=l.fb.level;});
 
 /* ---------- start ---------- */
 (function(){const _lp=loadProgress;loadProgress=function(){_lp();applyTheme();shopEarn(30,'welcome');setTimeout(renderWallet,0);};})();
